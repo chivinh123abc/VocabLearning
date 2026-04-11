@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dc471fedd2a2443be3d252ecdb5897, type: 3}
+  m_Name: AnimalsSet
+  m_EditorClassIdentifier: Assembly-CSharp::VocabLearning.Data.VocabSetData
+  id: VC01
+  title: Animals
+  description: Animal Vocabulary
+  wordCount: 7
+  category: Beginner
+  difficulty: Easy
+  image: {fileID: 0}
+  words:
+  - id: W01
+    word: Cat
+    meaning: "Con m\xE8o"
+    example: The cat is sleeping
+    image: {fileID: 0}
+  - id: W02
+    word: Dog
+    meaning: "Con ch\xF3"
+    example: The dog is barking
+    image: {fileID: 0}
+  - id: W03
+    word: Bird
+    meaning: Con Chim
+    example: The bird can fly
+    image: {fileID: 0}
+  - id: W04
+    word: Fish
+    meaning: "Con c\xE1"
+    example: The fish swims in water
+    image: {fileID: 0}
