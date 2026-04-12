@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        
+            <!-- Header Section -->
+            <ui:VisualElement style="background-color: #EF4444; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+                <ui:Button name="BtnBack" text="&lt; Back" style="background-color: transparent; border-width: 0; color: rgba(255,255,255,0.9); font-size: 16px; padding: 0; margin-bottom: 16px; align-self: flex-start; -unity-font-style: bold;" />
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+                    <ui:VisualElement>
+                        <ui:Label text="Battle Hub" class="font-bold" style="font-size: 28px; color: white; margin-bottom: 4px;" />
+                        <ui:Label text="Challenge players worldwide" style="color: rgba(255, 255, 255, 0.9); font-size: 16px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="⚔" style="font-size: 40px; color: rgba(255,255,255,0.8);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Rank Info -->
+            <ui:VisualElement style="padding: 24px 24px 0 24px;">
+                <ui:VisualElement class="card" style="border-color: rgba(245, 158, 11, 0.3); border-width: 2px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center;">
+                            <ui:VisualElement style="width: 56px; height: 56px; background-color: #94A3B8; border-radius: 12px; border-color: #F59E0B; border-width: 2px;" />
+                            <ui:VisualElement style="margin-left: 12px;">
+                                <ui:Label text="Player_Name" class="font-bold text-lg" style="color: white; margin-bottom: 2px;" />
+                                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                    <ui:Label text="★ Gold III" style="color: #F59E0B; font-weight: bold; font-size: 14px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="align-items: flex-end;">
+                            <ui:Label text="1,250" class="font-bold text-2xl" style="color: #F59E0B;" />
+                            <ui:Label text="Rank Points" class="text-muted" style="font-size: 12px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Battle Modes -->
+            <ui:VisualElement style="padding: 24px; padding-bottom: 12px;">
+                <!-- Ranked Mode -->
+                <ui:Button name="BtnRankedMode" class="card" style="background-color: #F59E0B; border-width: 0; padding: 24px; margin-bottom: 16px; align-items: flex-start;">
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 8px;">
+                        <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(255,255,255,0.2); border-radius: 12px; justify-content: center; align-items: center; margin-right: 12px;">
+                            <ui:Label text="🏆" style="font-size: 24px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement>
+                            <ui:Label text="Ranked Mode" class="font-bold text-xl" style="color: white;" />
+                            <ui:Label text="Climb the ladder" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:Button>
+
+                <!-- Casual Match -->
+                <ui:Button name="BtnCasualMode" class="card" style="background-color: #8B5CF6; border-width: 0; padding: 24px; margin-bottom: 16px; align-items: flex-start;">
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 8px;">
+                        <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(255,255,255,0.2); border-radius: 12px; justify-content: center; align-items: center; margin-right: 12px;">
+                            <ui:Label text="👥" style="font-size: 24px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement>
+                            <ui:Label text="Casual Match" class="font-bold text-xl" style="color: white;" />
+                            <ui:Label text="Practice &amp; have fun" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:Button>
+
+                <!-- Grid Buttons -->
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:Button name="BtnJoinRoom" class="card stat-item" style="border-width: 2px;">
+                        <ui:Label text="🚪" style="font-size: 32px; color: #3B82F6; margin-bottom: 8px;" />
+                        <ui:Label text="Join Room" class="font-bold" style="color: white; margin-bottom: 4px;" />
+                        <ui:Label text="Enter room code" class="text-muted" style="font-size: 12px;" />
+                    </ui:Button>
+                    <ui:Button name="BtnCreateRoom" class="card stat-item" style="border-width: 2px;">
+                        <ui:Label text="➕" style="font-size: 32px; color: #3B82F6; margin-bottom: 8px;" />
+                        <ui:Label text="Create Room" class="font-bold" style="color: white; margin-bottom: 4px;" />
+                        <ui:Label text="Host a game" class="text-muted" style="font-size: 12px;" />
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Stats Section -->
+            <ui:Label text="Your Stats" class="section-title" />
+            <ui:VisualElement class="stats-container" style="margin-top: 16px; margin-bottom: 24px;">
+                <ui:VisualElement class="card stat-item">
+                    <ui:Label text="42" class="stat-value color-success" />
+                    <ui:Label text="Wins" class="text-muted" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card stat-item">
+                    <ui:Label text="65" class="stat-value color-primary" />
+                    <ui:Label text="Games" class="text-muted" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card stat-item">
+                    <ui:Label text="65%" class="stat-value color-gold" />
+                    <ui:Label text="Win Rate" class="text-muted" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:ScrollView>
+
+    </ui:VisualElement>
+</ui:UXML>

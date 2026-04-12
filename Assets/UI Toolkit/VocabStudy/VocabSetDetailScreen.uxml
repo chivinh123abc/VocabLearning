@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <!-- Main ScrollView without visible scrollbars -->
+    <ui:ScrollView class="screen-container" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        <!-- Header Banner (Simulating Image background + Text) -->
+        <ui:VisualElement style="height: 200px; background-color: #334155; justify-content: flex-end; padding: 24px;">
+            <!-- Dummy Back Button Placeholder -->
+            <ui:Button name="BtnBack" text="&lt; Back" style="position: absolute; top: 16px; left: 16px; background-color: rgba(255,255,255,0.2); color: white; border-radius: 8px; border-width: 0px;" />
+            <ui:Label name="LblVocabTitle" text="Animals (Động vật)" class="text-3xl font-bold" style="color: white;" />
+            <ui:Label name="LblVocabDesc" text="Learn basic animal words with fun exercises!" class="text-muted" style="color: rgba(255,255,255,0.8);" />
+        </ui:VisualElement>
+
+        <!-- Stats Section -->
+        <ui:VisualElement class="stats-container">
+            <ui:VisualElement class="card stat-item">
+                <ui:Label name="LblVocabCount" text="15" class="stat-value color-primary" />
+                <ui:Label text="Words" class="text-muted" />
+            </ui:VisualElement>
+            <ui:VisualElement class="card stat-item">
+                <ui:Label name="LblVocabLevel" text="Beginner" class="stat-value color-secondary" style="font-size: 16px;" />
+                <ui:Label text="Level" class="text-muted" />
+            </ui:VisualElement>
+            <ui:VisualElement class="card stat-item">
+                <ui:Label text="★ 4.8" class="stat-value color-gold" />
+                <ui:Label text="Rating" class="text-muted" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Learning Modes -->
+        <ui:Label text="Choose Learning Mode" class="section-title" />
+        <ui:VisualElement style="padding-left: 24px; padding-right: 24px;">
+            <ui:Button class="mode-btn mode-btn-practice">
+                <ui:VisualElement class="mode-icon-container">
+                    <ui:Label text="P" style="color: white; font-size: 24px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1; align-items: flex-start; justify-content: flex-start;">
+                    <ui:Label text="Practice" class="text-xl font-bold" style="color: white; margin-bottom: 4px;" />
+                    <ui:Label text="Review flashcards at your pace" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+                </ui:VisualElement>
+            </ui:Button>
+
+            <ui:Button class="mode-btn mode-btn-quiz">
+                <ui:VisualElement class="mode-icon-container">
+                    <ui:Label text="Q" style="color: white; font-size: 24px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1; align-items: flex-start; justify-content: flex-start;">
+                    <ui:Label text="Solo Quiz" class="text-xl font-bold" style="color: white; margin-bottom: 4px;" />
+                    <ui:Label text="Test your knowledge" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+                </ui:VisualElement>
+            </ui:Button>
+
+            <ui:Button class="mode-btn mode-btn-minigame">
+                <ui:VisualElement class="mode-icon-container">
+                    <ui:Label text="M" style="color: white; font-size: 24px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1; align-items: flex-start; justify-content: flex-start;">
+                    <ui:Label text="Minigames" class="text-xl font-bold" style="color: white; margin-bottom: 4px;" />
+                    <ui:Label text="Fun and interactive games" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+                </ui:VisualElement>
+            </ui:Button>
+        </ui:VisualElement>
+
+        <!-- Word Preview -->
+        <!-- Word Preview Container -->
+        <ui:Label text="Word Preview" class="section-title" />
+        
+        <ui:VisualElement name="WordsContainer" style="margin-bottom: 24px;" />
+
+    </ui:ScrollView>
+</ui:UXML>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Gắn mác Style chung -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="flex-direction: column;">
+
+        <!-- Header -->
+        <ui:VisualElement style="padding: 24px 24px 16px;">
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <!-- Nút Đóng (X) -->
+                <ui:Button name="BtnPracticeClose" style="width: 40px; height: 40px; border-radius: 20px; background-color: #1E293B; border-color: #334155; border-width: 1px; justify-content: center; align-items: center; padding: 0; margin: 0;">
+                    <ui:Label text="X" style="color: white; -unity-font-style: bold; font-size: 16px;" />
+                </ui:Button>
+
+                <!-- Số đếm -->
+                <ui:Label name="LblPracticeCounter" text="1 / 15" class="text-muted font-bold" />
+            </ui:VisualElement>
+
+            <!-- Progress Bar -->
+            <ui:VisualElement class="progress-bar-container">
+                <ui:VisualElement name="PracticeProgressBar" class="bg-primary" style="height: 100%; width: 10%; transition-duration: 0.3s;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Main Card Area -->
+        <ui:VisualElement style="flex-grow: 1; padding: 0 24px; padding-bottom: 24px; justify-content: center;">
+            <ui:VisualElement name="FlashcardContainer" class="card" style="min-height: 400px; flex-direction: column; align-items: center; justify-content: center; padding: 32px;">
+                
+                <!-- Ảnh minh họa (ẩn nếu không có) -->
+                <ui:VisualElement name="FlashcardImgBox" style="width: 150px; height: 150px; background-color: #334155; border-radius: 16px; margin-bottom: 24px;" />
+
+                <!-- Từ Tiếng Anh -->
+                <ui:Label name="LblEnglishWord" text="English Word" class="text-4xl font-bold" style="color: white; text-align: center; margin-bottom: 16px; white-space: normal;" />
+
+                <!-- Nút Nghe (Audio - Mock) -->
+                <ui:Button class="bg-primary" style="width: 56px; height: 56px; border-radius: 28px; justify-content: center; align-items: center; margin-bottom: 24px; border-width: 0;">
+                    <ui:Label text="O" class="font-bold" style="color: white; font-size: 20px;" />
+                </ui:Button>
+
+                <!-- Box hiển thị Nghĩa Tiếng Việt (Ẩn/Hiện) -->
+                <ui:VisualElement name="MeaningBox" style="align-items: center; justify-content: center; width: 100%; display: none;">
+                    <ui:Label name="LblVietnamese" text="Nghĩa tiếng Việt" class="text-xl text-muted" style="margin-bottom: 16px; text-align: center; white-space: normal;" />
+                    <ui:VisualElement style="background-color: rgba(148, 163, 184, 0.1); border-radius: 12px; padding: 16px; width: 100%; flex-direction: column;">
+                        <ui:Label name="LblExample" text="Example sentence goes here." style="color: #94A3B8; -unity-font-style: italic; white-space: normal; -unity-text-align: middle-center; margin: 0; padding: 0;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Dòng gợi ý -->
+                <ui:Label name="LblTapHint" text="Tap to reveal meaning" class="text-muted" style="margin-top: 16px;" />
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Navigation Footer -->
+        <ui:VisualElement style="flex-direction: row; padding: 0 24px; margin-bottom: 12px;">
+            <ui:Button name="BtnPracticePrev" text="Previous" class="btn-secondary" style="margin-right: 8px;" />
+            <ui:Button name="BtnPracticeNext" text="Next" class="btn-primary" style="margin-left: 8px;" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        
+            <!-- Header Section -->
+            <ui:VisualElement style="background-color: #F59E0B; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <ui:VisualElement>
+                        <ui:Label text="Leaderboard" class="font-bold" style="font-size: 28px; color: white; margin-bottom: 4px;" />
+                        <ui:Label text="Top players this week" style="color: rgba(255, 255, 255, 0.9); font-size: 16px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="🏆" style="font-size: 40px; color: rgba(255,255,255,0.8);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Filter Tabs -->
+            <ui:VisualElement style="padding: 24px 24px 0 24px;">
+                <ui:VisualElement style="background-color: #1E293B; border-radius: 16px; flex-direction: row; padding: 4px; border-color: #334155; border-width: 1px;">
+                    <ui:Button name="TabGlobal" text="Global" class="tab-btn tab-btn-active" style="margin: 0; background-color: #F59E0B;" />
+                    <ui:Button name="TabWeekly" text="Weekly" class="tab-btn" style="margin: 0;" />
+                    <ui:Button name="TabFriends" text="Friends" class="tab-btn" style="margin: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Top 3 Podium (Flex Layout) -->
+            <ui:VisualElement style="padding: 24px; flex-direction: row; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+                
+                <!-- 2nd Place -->
+                <ui:VisualElement style="width: 30%; align-items: center;">
+                    <ui:VisualElement style="position: relative; margin-bottom: 8px;">
+                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #94A3B8; border-radius: 16px; border-width: 4px; border-color: #94A3B8;" />
+                        <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background-color: #94A3B8; border-radius: 14px; justify-content: center; align-items: center;">
+                            <ui:Label text="2" style="color: white; font-weight: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(148, 163, 184, 0.2); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 12px; width: 100%; align-items: center; border-bottom-width: 0;">
+                        <ui:Label text="Player_2" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
+                        <ui:Label text="2,100" class="text-muted" style="font-size: 10px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- 1st Place (Center, higher) -->
+                <ui:VisualElement style="width: 35%; align-items: center; margin-bottom: 16px;">
+                    <ui:Label text="👑" style="font-size: 24px; margin-bottom: 8px;" />
+                    <ui:VisualElement style="position: relative; margin-bottom: 8px;">
+                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #F59E0B; border-radius: 16px; border-width: 4px; border-color: #F59E0B;" />
+                        <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 32px; height: 32px; background-color: #F59E0B; border-radius: 16px; justify-content: center; align-items: center;">
+                            <ui:Label text="1" style="color: white; font-weight: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(245, 158, 11, 0.3); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 16px; width: 100%; align-items: center;">
+                        <ui:Label text="Champion" class="font-bold" style="color: white; font-size: 14px; margin-bottom: 4px;" />
+                        <ui:Label text="2,500" style="color: #F59E0B; font-weight: bold; font-size: 12px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- 3rd Place -->
+                <ui:VisualElement style="width: 30%; align-items: center;">
+                    <ui:VisualElement style="position: relative; margin-bottom: 8px;">
+                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #B45309; border-radius: 16px; border-width: 4px; border-color: #B45309;" />
+                        <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background-color: #B45309; border-radius: 14px; justify-content: center; align-items: center;">
+                            <ui:Label text="3" style="color: white; font-weight: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(180, 83, 9, 0.2); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 12px; width: 100%; align-items: center;">
+                        <ui:Label text="Player_3" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
+                        <ui:Label text="1,950" class="text-muted" style="font-size: 10px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+
+            <!-- Other Rankings List -->
+            <ui:VisualElement style="padding: 0 24px 24px 24px;">
+                
+                <!-- Current Player (Highlighted) -->
+                <ui:VisualElement class="card" style="flex-direction: row; align-items: center; justify-content: space-between; border-color: #3B82F6; background-color: rgba(59, 130, 246, 0.1); margin-bottom: 8px;">
+                    <ui:VisualElement style="flex-direction: row; align-items: center;">
+                        <ui:VisualElement style="width: 40px; height: 40px; background-color: #1E293B; border-radius: 8px; justify-content: center; align-items: center; margin-right: 12px;">
+                            <ui:Label text="42" class="font-bold" style="color: #94A3B8;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 48px; height: 48px; background-color: #3B82F6; border-radius: 12px; margin-right: 12px;" />
+                        <ui:VisualElement>
+                            <ui:Label text="You" class="font-bold" style="color: white; font-size: 16px; margin-bottom: 2px;" />
+                            <ui:Label text="Level 15" class="text-muted" style="font-size: 12px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="align-items: flex-end;">
+                        <ui:Label text="1,250" class="font-bold" style="color: white; font-size: 18px;" />
+                        <ui:Label text="points" class="text-muted" style="font-size: 12px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Player Rank 4 -->
+                <ui:VisualElement class="card" style="flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                    <ui:VisualElement style="flex-direction: row; align-items: center;">
+                        <ui:VisualElement style="width: 40px; height: 40px; background-color: #1E293B; border-radius: 8px; justify-content: center; align-items: center; margin-right: 12px;">
+                            <ui:Label text="4" class="font-bold" style="color: #94A3B8;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 48px; height: 48px; background-color: #64748b; border-radius: 12px; margin-right: 12px;" />
+                        <ui:VisualElement>
+                            <ui:Label text="Rival_1" class="font-bold" style="color: white; font-size: 16px; margin-bottom: 2px;" />
+                            <ui:Label text="Level 22" class="text-muted" style="font-size: 12px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="align-items: flex-end;">
+                        <ui:Label text="1,800" class="font-bold" style="color: white; font-size: 18px;" />
+                        <ui:Label text="points" class="text-muted" style="font-size: 12px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:ScrollView>
+
+        <!-- Bottom Navigation -->
+        <ui:VisualElement class="bottom-nav-container">
+            <ui:Button class="bottom-nav-item" name="NavHome">
+                <ui:Label text="H" class="nav-icon" />
+                <ui:Label text="Home" class="nav-label" />
+            </ui:Button>
+            <ui:Button class="bottom-nav-item" name="NavQuest">
+                <ui:Label text="Q" class="nav-icon" />
+                <ui:Label text="Quest" class="nav-label" />
+            </ui:Button>
+            <ui:Button class="bottom-nav-item" name="NavShop">
+                <ui:Label text="S" class="nav-icon" />
+                <ui:Label text="Shop" class="nav-label" />
+            </ui:Button>
+            <ui:Button class="bottom-nav-item bottom-nav-item-active" name="NavRank">
+                <ui:Label text="R" class="nav-icon" />
+                <ui:Label text="Ranking" class="nav-label" />
+            </ui:Button>
+            <ui:Button class="bottom-nav-item" name="NavProfile">
+                <ui:Label text="P" class="nav-icon" />
+                <ui:Label text="Profile" class="nav-label" />
+            </ui:Button>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,60 @@
+{
+  "currentUser": {
+    "id": "1",
+    "username": "LearningHero",
+    "email": "hero@vocab.com",
+    "level": 12,
+    "exp": 750,
+    "expNeeded": 1000,
+    "coins": 2450,
+    "rank": "Gold III",
+    "rankPoints": 1850
+  },
+  "vocabSets": [
+    {
+      "id": "1",
+      "title": "Basic English",
+      "description": "Essential words for beginners",
+      "wordCount": 50,
+      "category": "English",
+      "difficulty": "Easy",
+      "words": [
+        { "id": "1", "word": "Hello", "meaning": "Xin chào" },
+        { "id": "2", "word": "Thank you", "meaning": "Cảm ơn" },
+        { "id": "3", "word": "Sorry", "meaning": "Xin lỗi" },
+        { "id": "4", "word": "Please", "meaning": "Làm ơn" },
+        { "id": "5", "word": "Yes / No", "meaning": "Có / Không" }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Animals",
+      "description": "Learn animal names in English",
+      "wordCount": 30,
+      "category": "English",
+      "difficulty": "Easy",
+      "words": [
+        { "id": "1", "word": "Dog", "meaning": "Con chó" },
+        { "id": "2", "word": "Cat", "meaning": "Con mèo" },
+        { "id": "3", "word": "Bird", "meaning": "Con chim" },
+        { "id": "4", "word": "Elephant", "meaning": "Con voi" },
+        { "id": "5", "word": "Tiger", "meaning": "Con hổ" }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Food",
+      "description": "Discover common food names",
+      "wordCount": 40,
+      "category": "English",
+      "difficulty": "Medium",
+      "words": [
+        { "id": "1", "word": "Apple", "meaning": "Quả táo" },
+        { "id": "2", "word": "Bread", "meaning": "Bánh mì" },
+        { "id": "3", "word": "Chicken", "meaning": "Thịt gà" },
+        { "id": "4", "word": "Rice", "meaning": "Cơm" },
+        { "id": "5", "word": "Water", "meaning": "Nước" }
+      ]
+    }
+  ]
+}
