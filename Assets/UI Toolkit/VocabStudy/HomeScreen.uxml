@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        
+        <!-- Header Section -->
+        <ui:VisualElement style="background-color: #3B82F6; padding: 24px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <!-- Avatar & Name -->
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:VisualElement style="width: 50px; height: 50px; background-color: #1E293B; border-radius: 16px; border-color: white; border-width: 2px;" />
+                    <ui:VisualElement style="margin-left: 12px;">
+                        <ui:Label name="LblUserName" text="Player_Name" class="text-xl font-bold" style="color: white; margin-bottom: 2px;" />
+                        <ui:Label name="LblUserLevel" text="★ Level 12" style="color: rgba(255, 255, 255, 0.9); font-size: 14px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <!-- Coins -->
+                <ui:VisualElement style="background-color: rgba(255, 255, 255, 0.2); padding: 8px 12px; border-radius: 12px; flex-direction: row; align-items: center;">
+                    <ui:Label text="O" style="color: #F59E0B; font-weight: bold; margin-right: 8px;" />
+                    <ui:Label name="LblUserCoins" text="1,250" class="font-bold" style="color: white;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- EXP Bar -->
+            <ui:VisualElement style="background-color: rgba(255, 255, 255, 0.2); height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px;">
+                <ui:VisualElement style="background-color: #F59E0B; width: 65%; height: 100%; border-radius: 6px;" />
+            </ui:VisualElement>
+            <ui:Label text="650 / 1000 EXP" style="color: rgba(255, 255, 255, 0.9); font-size: 12px; -unity-text-align: middle-center; margin-top: 4px;" />
+        </ui:VisualElement>
+
+        <!-- Search Bar -->
+        <ui:VisualElement style="padding: 24px 24px 0 24px;">
+            <ui:TextField text="" class="search-input" />
+        </ui:VisualElement>
+
+        <!-- Quick Actions Grid -->
+        <ui:VisualElement class="stats-container" style="margin-top: 16px;">
+            <!-- Quest -->
+            <ui:Button class="card stat-item" name="ActionQuest" style="padding: 16px; align-items: center; border-width: 1px;">
+                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(59, 130, 246, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
+                    <ui:Label text="Tr" style="color: #3B82F6; font-size: 20px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Label text="Quest" style="font-weight: bold; color: white;" />
+            </ui:Button>
+            
+            <!-- Battle -->
+            <ui:Button class="card stat-item" name="ActionBattle" style="padding: 16px; align-items: center; border-width: 1px;">
+                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(239, 68, 68, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
+                    <ui:Label text="B" style="color: #EF4444; font-size: 20px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Label text="Battle" style="font-weight: bold; color: white;" />
+            </ui:Button>
+
+            <!-- Friends -->
+            <ui:Button class="card stat-item" name="ActionFriends" style="padding: 16px; align-items: center; border-width: 1px;">
+                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(139, 92, 246, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
+                    <ui:Label text="Fr" style="color: #8B5CF6; font-size: 20px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Label text="Friends" style="font-weight: bold; color: white;" />
+            </ui:Button>
+        </ui:VisualElement>
+
+        <!-- Featured Section -->
+        <ui:Label text="Featured" class="section-title" />
+        <ui:VisualElement name="VocabSetFeaturedCard" class="card" style="margin: 0 24px; border-color: rgba(245, 158, 11, 0.5); border-width: 2px; padding: 16px;">
+            <ui:VisualElement style="flex-direction: row; width: 100%;">
+                <ui:VisualElement style="width: 80px; height: 80px; background-color: #3B82F6; border-radius: 12px; margin-right: 16px;" />
+                <ui:VisualElement style="flex-grow: 1; justify-content: center; align-items: flex-start;">
+                    <ui:Label name="LblFeaturedTitle" text="Animals (Động vật)" class="font-bold text-lg" style="color: white; margin-bottom: 4px;" />
+                    <ui:Label name="LblFeaturedCount" text="15 words" class="text-muted" style="margin-bottom: 12px;" />
+                    <ui:Button name="BtnStartFeatured" text="Start Learning" class="btn-primary" style="padding: 8px 16px; margin: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Vocabulary Sets List -->
+        <ui:Label text="All Vocabulary Sets" class="section-title" style="margin-top: 32px;" />
+        <ui:VisualElement name="VocabListContainer" />
+
+        </ui:ScrollView>
+
+        <!-- Bottom Navigation -->
+        <ui:VisualElement class="bottom-nav-container">
+            <!-- Home -->
+            <ui:Button class="bottom-nav-item bottom-nav-item-active" name="NavHome">
+                <ui:Label text="H" class="nav-icon" />
+                <ui:Label text="Home" class="nav-label" />
+            </ui:Button>
+
+            <!-- Quest -->
+            <ui:Button class="bottom-nav-item" name="NavQuest">
+                <ui:Label text="Q" class="nav-icon" />
+                <ui:Label text="Quest" class="nav-label" />
+            </ui:Button>
+
+            <!-- Shop -->
+            <ui:Button class="bottom-nav-item" name="NavShop">
+                <ui:Label text="S" class="nav-icon" />
+                <ui:Label text="Shop" class="nav-label" />
+            </ui:Button>
+
+            <!-- Ranking -->
+            <ui:Button class="bottom-nav-item" name="NavRank">
+                <ui:Label text="R" class="nav-icon" />
+                <ui:Label text="Ranking" class="nav-label" />
+            </ui:Button>
+
+            <!-- Profile -->
+            <ui:Button class="bottom-nav-item" name="NavProfile">
+                <ui:Label text="P" class="nav-icon" />
+                <ui:Label text="Profile" class="nav-label" />
+            </ui:Button>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

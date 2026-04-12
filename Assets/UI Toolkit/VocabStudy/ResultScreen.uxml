@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Gắn mác Style chung -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <!-- Dùng background tối màu đồng nhất với app -->
+    <ui:VisualElement class="screen-container" style="flex-direction: column; align-items: stretch; justify-content: center; padding: 24px;">
+        
+        <!-- Khung bao bọc nội dung -->
+        <ui:VisualElement style="flex-direction: column; align-self: stretch;">
+
+            <!-- Trophy Icon -->
+            <ui:VisualElement style="margin-bottom: 32px; align-self: center; align-items: center;">
+            <ui:VisualElement style="width: 120px; height: 120px; background-color: #1E293B; border-color: #334155; border-width: 2px; border-radius: 60px; justify-content: center; align-items: center;">
+                <ui:Label text="🏆" style="font-size: 64px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Tiêu đề -->
+        <ui:Label name="LblResultTitle" text="Excellent!" style="font-size: 32px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-bottom: 8px; align-self: center;" />
+        <ui:Label name="LblResultSubtitle" text="You've completed the Practice mode!" style="font-size: 16px; color: #94A3B8; -unity-text-align: middle-center; margin-bottom: 32px; align-self: center;" />
+
+        <!-- Card Điểm thưởng -->
+        <ui:VisualElement class="card" style="padding-left: 24px; padding-right: 24px; padding-top: 24px; padding-bottom: 24px; margin-bottom: 32px; overflow: hidden; flex-shrink: 1;">
+            <ui:Label text="Rewards Earned" style="font-size: 18px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-bottom: 16px;" />
+            
+            <!-- Hàng Vàng -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; background-color: rgba(245, 158, 11, 0.1); border-radius: 16px; padding: 12px 16px; margin-bottom: 12px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:VisualElement style="width: 40px; height: 40px; border-radius: 12px; background-color: rgba(245, 158, 11, 0.2); justify-content: center; align-items: center; margin-right: 12px;">
+                        <ui:Label text="O" style="color: #F59E0B; -unity-font-style: bold; font-size: 18px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Coins" style="font-size: 16px; -unity-font-style: bold; color: white;" />
+                </ui:VisualElement>
+                <ui:Label name="LblRewardCoins" text="+50" style="font-size: 24px; -unity-font-style: bold; color: #F59E0B;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; background-color: rgba(59, 130, 246, 0.1); border-radius: 16px; padding: 12px 16px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:VisualElement style="width: 40px; height: 40px; border-radius: 12px; background-color: rgba(59, 130, 246, 0.2); justify-content: center; align-items: center; margin-right: 12px;">
+                        <ui:Label text="⚡" style="font-size: 18px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Experience" style="font-size: 16px; -unity-font-style: bold; color: white;" />
+                </ui:VisualElement>
+                <ui:Label name="LblRewardExp" text="+100" style="font-size: 24px; -unity-font-style: bold; color: #3B82F6;" />
+            </ui:VisualElement>
+        </ui:VisualElement> <!-- Đóng card Điểm thưởng -->
+        
+        <!-- Footer Nút Bấm -->
+        <ui:VisualElement style="flex-direction: column;">
+            <ui:Button name="BtnResultHome" text="Back to Home" class="btn-primary" style="margin-bottom: 12px; margin-left: 0; margin-right: 0;" />
+            <ui:Button name="BtnResultReplay" text="Play Again" class="btn-secondary" style="margin-left: 0; margin-right: 0;" />
+        </ui:VisualElement>
+
+        </ui:VisualElement> <!-- Đóng Khung bao bọc -->
+    </ui:VisualElement>
+</ui:UXML>
