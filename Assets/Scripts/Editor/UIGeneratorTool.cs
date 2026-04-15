@@ -49,7 +49,7 @@ namespace VocabLearning.Editor
             controller.OverrideJsonDb = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/Mockdata/db.json");
 
             // Tự động khởi tạo EventSystem nếu Scene chưa có (tránh lỗi không click được button)
-            if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            if ( Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
             {
                 GameObject esObj = new GameObject("EventSystem");
                 esObj.AddComponent<UnityEngine.EventSystems.EventSystem>();

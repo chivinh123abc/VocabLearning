@@ -1,2 +1,23 @@
 fileFormatVersion: 2
 guid: 8b7e4f0815719fd40abe0d7310d65e46
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - HomeScreenAsset: {instanceID: 0}
+  - VocabDetailScreenAsset: {instanceID: 0}
+  - PracticeModeScreenAsset: {instanceID: 0}
+  - QuestScreenAsset: {instanceID: 0}
+  - BattleScreenAsset: {instanceID: 0}
+  - FriendScreenAsset: {instanceID: 0}
+  - ShopScreenAsset: {instanceID: 0}
+  - RankingScreenAsset: {instanceID: 0}
+  - ProfileScreenAsset: {instanceID: 0}
+  - AchievementScreenAsset: {instanceID: 0}
+  - ResultScreenAsset: {instanceID: 0}
+  - OverrideJsonDb: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

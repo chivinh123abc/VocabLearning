@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,10 +21,13 @@ namespace VocabLearning.UI
         public VisualTreeAsset ShopScreenAsset;
         public VisualTreeAsset RankingScreenAsset;
         public VisualTreeAsset ProfileScreenAsset;
+        public VisualTreeAsset AchievementScreenAsset;
         public VisualTreeAsset ResultScreenAsset;
+        public VisualTreeAsset SettingScreenAsset;
+        public VisualTreeAsset InventoryScreenAsset;
 
         [Header("Databases (JSON)")]
-        public TextAsset OverrideJsonDb; // Cửa hậu nếu muốn kéo thủ công từ Inspector (tùy chọn)
+        public TextAsset OverrideJsonDb; 
 
         private UIDocument _doc;
         private VisualElement _root;
@@ -58,7 +63,12 @@ namespace VocabLearning.UI
 
         // --- Hàm Quản Lý Chuyển Màn Hình ---
         private void LoadScreen(VisualTreeAsset newScreenAsset)
-        {
+        {   
+            if (newScreenAsset == null) {
+                  Debug.LogError("Màn hình này bị rỗng (Null)! Hãy kéo file vào Inspector.");
+              return;
+             }
+
             if (newScreenAsset == null) return;
 
             _root.Clear();
@@ -81,8 +91,27 @@ namespace VocabLearning.UI
             else if (targetAsset == FriendScreenAsset) BindFriendEvents();
             else if (targetAsset == ShopScreenAsset) BindShopEvents();
             else if (targetAsset == RankingScreenAsset) BindRankingEvents();
-            else if (targetAsset == ProfileScreenAsset) BindProfileEvents();
+            else if (targetAsset == ProfileScreenAsset)
+            {
+                ProfileController profileCtrl = new ProfileController(_root,_jsonDb ,LoadScreen);
+                 profileCtrl.Bind(AchievementScreenAsset, SettingScreenAsset ,InventoryScreenAsset);
+                BindBottomNav();
+            }
+            else if (targetAsset == SettingScreenAsset)
+            {
+              var settingCtrl = new SettingController(_root, _jsonDb, LoadScreen);
+               settingCtrl.Bind(ProfileScreenAsset);
+            }
             else if (targetAsset == ResultScreenAsset) BindResultEvents();
+            else if (targetAsset == AchievementScreenAsset) {
+                AchievementController achievement = new AchievementController(_root,_jsonDb ,LoadScreen);
+                achievement.Bind(ProfileScreenAsset);
+            }
+            else if (targetAsset == InventoryScreenAsset)
+            {
+                 var inventoryController = new InventoryController(_root,_jsonDb ,LoadScreen);
+                 inventoryController.Bind(ProfileScreenAsset);
+            }
             else BindOtherScreens();
         }
 
@@ -602,10 +631,9 @@ namespace VocabLearning.UI
             BindBottomNav();
         }
 
-        private void BindProfileEvents()
-        {
-            BindBottomNav();
-        }
+    
+
+
 
         private void BindBottomNav()
         {

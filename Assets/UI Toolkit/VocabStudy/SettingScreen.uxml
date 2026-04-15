@@ -1,0 +1,43 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/VocabStudy.uss?fileID=7433441132597879392&amp;guid=9f4677d07b128d54baa41fbf8d8d6564&amp;type=3#VocabStudy"/>
+    <ui:VisualElement class="screen-container" style="flex-grow: 1; background-color: rgb(15, 20, 35); padding-bottom: 0;">
+        <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" style="flex-grow: 1;">
+            <ui:VisualElement style="height: 253px; background-color: rgb(59, 157, 246); border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; padding: 25px; margin-bottom: 8px;">
+                <ui:Button name="btnBackProFile" style="background-color: rgb(253, 176, 34); width: 45px; height: 45px; border-radius: 15px; border-width: 0; align-items: center; justify-content: center;">
+                    <ui:Label text="←" picking-mode="Ignore" style="color: rgb(15, 20, 35); font-size: 20px; -unity-font-style: bold; padding-left: 0; padding-bottom: 0; padding-top: 0; padding-right: 0; height: 10px; width: 25px;"/>
+                </ui:Button>
+                <ui:Label text="Edit Profile" style="color: white; font-size: 34px; -unity-font-style: bold; margin-top: 4px; margin-bottom: 4px; margin-left: 4px; padding-left: 2px; height: 65px; width: 419px;"/>
+                <ui:Label text="Account Settings" style="color: rgba(255, 255, 255, 0.6); font-size: 16px; margin-right: 2px; margin-left: 2px; padding-left: 2px; padding-bottom: 2px; padding-top: 2px;"/>
+            </ui:VisualElement>
+            <ui:VisualElement style="margin-left: 20px; margin-right: 20px; margin-top: 20px; background-color: rgb(28, 36, 66); border-radius: 30px; padding: 25px; padding-top: 70px; border-width: 1px; border-color: rgba(255, 255, 255, 0.05); margin-bottom: 20px; width: auto; height: 611px;">
+                <ui:VisualElement name="avatar" style="position: absolute; top: -55px; left: 50%; translate: -50% 0; width: 126px; height: 113px; background-image: none;">
+                    <ui:VisualElement name="AvatarFrame" style="width: auto; height: 114px; border-radius: 55px; border-width: 5px; border-color: rgb(28, 36, 66); background-color: rgb(45, 58, 106); overflow: hidden; margin-top: 0; border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; background-image: url(&quot;project://database/Assets/Sprites/User/BackgroundUser.png?fileID=2800000&amp;guid=95335b2dd7f306141a1cf590cf9a83ec&amp;type=3#BackgroundUser&quot;); background-position-x: left 0;"/>
+                    <ui:VisualElement name="BtnChangePhoto" style="width: 43px; height: 36px; background-color: rgb(253, 176, 34); border-radius: 10px; position: absolute; bottom: 4px; right: 2px; justify-content: center; align-items: center; border-width: 3px; border-color: rgb(28, 36, 66);">
+                        <ui:Label text="+" picking-mode="Ignore" style="color: rgb(15, 20, 35); -unity-font-style: bold; margin-right: 2px; margin-top: 2px; padding-left: 0; padding-top: 0; padding-bottom: 0; padding-right: 0;"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label text="Change Avatar&#10;" style="align-items: center; justify-content: center; align-self: center; align-content: center; padding-left: 2px; padding-bottom: 2px; padding-top: 0; margin-bottom: 8px; -unity-text-align: upper-left; margin-top: 0; margin-right: 2px;"/>
+                <ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(74, 129, 233, 0.1); border-radius: 20px; padding: 15px; border-width: 1px; border-color: rgba(74, 129, 233, 0.2); margin-bottom: 16px; height: 134px; width: auto;">
+                        <ui:Label text="USERNAME" style="color: rgb(74, 129, 233); font-size: 11px; -unity-font-style: bold; letter-spacing: 1px; margin-bottom: 5px;"/>
+                        <ui:TextField name="InputUsername" value="Player_Name" focusable="true" style="background-color: rgb(210, 180, 24); border-width: 0; color: rgb(26, 26, 26); padding: 0; font-size: 16px; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(74, 129, 233, 0.1); border-radius: 20px; padding: 15px; border-width: 1px; border-color: rgba(74, 129, 233, 0.2); margin-bottom: 15px; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; height: 134px; width: auto;">
+                        <ui:Label text="EMAIL ADDRESS" style="color: rgb(74, 129, 233); font-size: 11px; -unity-font-style: bold; letter-spacing: 1px; margin-bottom: 5px;"/>
+                        <ui:TextField name="InputEmail" value="hero@vocab.com" readonly="false" password="false" style="background-color: rgba(0, 0, 0, 0); border-width: 0; color: rgb(26, 26, 26); padding: 0; font-size: 14px; border-top-left-radius: 16px; border-bottom-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="background-color: rgba(74, 129, 233, 0.1); border-radius: 20px; padding: 15px; border-width: 1px; border-color: rgba(74, 129, 233, 0.2); margin-bottom: 10px; padding-top: 16px; padding-right: 16px; padding-bottom: 16px; padding-left: 16px; height: 120px; width: auto;">
+                        <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 10px;">
+                            <ui:Label text="Level 12" name="Lbl_level" style="color: rgb(74, 129, 233); -unity-font-style: bold;"/>
+                            <ui:Label text="75% to Lv.13" style="color: rgb(148, 163, 184); font-size: 11px;"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="height: 8px; background-color: rgb(15, 20, 35); border-radius: 4px; overflow: hidden;">
+                            <ui:VisualElement name="LevelProgressBarFill" style="height: 100%; width: 75%; background-color: rgb(253, 176, 34);"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Button name="BtnSaveChanges" text="SAVE CHANGES" style="background-color: rgb(253, 176, 34); color: rgb(15, 20, 35); -unity-font-style: bold; padding: 18px; border-radius: 20px; margin-top: 15px; border-width: 0; letter-spacing: 1px; height: 63px; width: auto;"/>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,16 +1,14 @@
-/* Main Container - Dark Background */
 .screen-container {
     flex-grow: 1;
-    background-color: #0F172A; /* Tailwind's Slate-900 */
-    color: #F8FAFC;
+    background-color: rgb(15, 23, 42);
+    color: rgb(248, 250, 252);
     padding-bottom: 24px;
     font-size: 16px;
 }
 
-/* Base Card Style */
 .card {
-    background-color: #1E293B; /* Slate-800 */
-    border-color: #334155; /* Slate-700 */
+    background-color: rgb(30, 41, 59);
+    border-color: rgb(51, 65, 85);
     border-width: 1px;
     border-radius: 16px;
     padding: 12px;
@@ -19,29 +17,49 @@
 }
 
 .card:hover {
-    background-color: #273447; /* Sáng hơn 1 chút khi lướt qua */
-    scale: 1.02; /* Phóng to 2% */
+    background-color: rgb(39, 52, 71);
+    scale: 1.02;
 }
 
 .card:active {
-    scale: 0.96; /* Lún xuống khi click */
+    scale: 0.96;
 }
 
-/* Typography Utilities */
-.text-lg { font-size: 16px; }
-.text-xl { font-size: 18px; }
-.text-2xl { font-size: 20px; }
-.text-3xl { font-size: 24px; line-height: 28px; }
-.text-4xl { font-size: 30px; line-height: 34px; }
-.font-bold { -unity-font-style: bold; }
-.text-center { -unity-text-align: middle-center; }
+.text-lg {
+    font-size: 16px;
+}
+
+.text-xl {
+    font-size: 18px;
+}
+
+.text-2xl {
+    font-size: 20px;
+}
+
+.text-3xl {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.text-4xl {
+    font-size: 30px;
+    line-height: 34px;
+}
+
+.font-bold {
+    -unity-font-style: bold;
+}
+
+.text-center {
+    -unity-text-align: middle-center;
+}
 
 .text-muted {
-    color: #94A3B8; /* Slate-400 */
+    color: rgb(148, 163, 184);
     font-size: 14px;
 }
 
-/* Stats Section Grid/Flex */
 .stats-container {
     flex-direction: row;
     justify-content: space-between;
@@ -65,19 +83,25 @@
     -unity-font-style: bold;
 }
 
-/* Custom Colors for Stats */
-.color-primary { color: #3B82F6; } /* Blue */
-.color-secondary { color: #8B5CF6; } /* Purple */
-.color-gold { color: #F59E0B; } /* Amber */
+.color-primary {
+    color: rgb(59, 130, 246);
+}
 
-/* Mode Buttons */
+.color-secondary {
+    color: rgb(139, 92, 246);
+}
+
+.color-gold {
+    color: rgb(245, 158, 11);
+}
+
 .mode-btn {
     flex-direction: row;
     align-items: center;
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 12px;
-    background-color: #475569; /* Fallback Slate-600 */
+    background-color: rgb(71, 85, 105);
     background-image: none;
     border-width: 0;
     transition-duration: 0.15s;
@@ -86,21 +110,35 @@
 
 .mode-btn:hover {
     scale: 1.03;
-    /* Dùng filter hoặc overlay thì Unity UI Toolkit không có, nên ta định nghĩa hover riêng cho từng nút bên dưới */
 }
 
 .mode-btn:active {
     scale: 0.95;
 }
 
-.mode-btn-practice { background-color: #3B82F6; }
-.mode-btn-practice:hover { background-color: #2563EB; } /* Blue đậm hơn */
+.mode-btn-practice {
+    background-color: rgb(59, 130, 246);
+}
 
-.mode-btn-quiz { background-color: #8B5CF6; }
-.mode-btn-quiz:hover { background-color: #7C3AED; } /* Tím đậm hơn */
+.mode-btn-practice:hover {
+    background-color: rgb(37, 99, 235);
+}
 
-.mode-btn-minigame { background-color: #EF4444; }
-.mode-btn-minigame:hover { background-color: #DC2626; } /* Đỏ đậm hơn */
+.mode-btn-quiz {
+    background-color: rgb(139, 92, 246);
+}
+
+.mode-btn-quiz:hover {
+    background-color: rgb(124, 58, 237);
+}
+
+.mode-btn-minigame {
+    background-color: rgb(239, 68, 68);
+}
+
+.mode-btn-minigame:hover {
+    background-color: rgb(220, 38, 38);
+}
 
 .mode-icon-container {
     width: 50px;
@@ -112,7 +150,6 @@
     align-items: center;
 }
 
-/* Headers */
 .section-title {
     font-size: 18px;
     -unity-font-style: bold;
@@ -123,7 +160,6 @@
     color: white;
 }
 
-/* Word List Item */
 .word-item {
     flex-direction: row;
     align-items: center;
@@ -134,17 +170,16 @@
     border-radius: 12px;
 }
 
-/* Flashcard Container */
 .flashcard {
     flex-grow: 1;
     margin: 24px;
     min-height: 400px;
     align-items: center;
     justify-content: center;
-    background-color: #1E293B;
+    background-color: rgb(30, 41, 59);
     border-radius: 24px;
     border-width: 2px;
-    border-color: #334155;
+    border-color: rgb(51, 65, 85);
 }
 
 .flashcard-image {
@@ -152,10 +187,9 @@
     height: 150px;
     border-radius: 16px;
     margin-bottom: 24px;
-    background-color: #334155;
+    background-color: rgb(51, 65, 85);
 }
 
-/* Navigation Buttons (Bottom) */
 .nav-bottom-container {
     flex-direction: row;
     padding: 24px;
@@ -164,9 +198,9 @@
 
 .btn-secondary {
     flex-grow: 1;
-    background-color: #1E293B;
+    background-color: rgb(30, 41, 59);
     background-image: none;
-    border-color: #334155;
+    border-color: rgb(51, 65, 85);
     border-width: 1px;
     border-radius: 16px;
     padding: 16px;
@@ -178,10 +212,10 @@
 
 .btn-primary {
     flex-grow: 1;
-    background-color: #10B981; /* Emerald-500 */
+    background-color: rgb(16, 185, 129);
     background-image: none;
     border-radius: 16px;
-    border-width: 0px;
+    border-width: 0;
     padding: 16px;
     margin-left: 8px;
     color: white;
@@ -189,25 +223,34 @@
     transition-duration: 0.1s;
 }
 
-.btn-primary:active { scale: 0.95; }
-.btn-secondary:active { scale: 0.95; }
+.btn-primary:active {
+    scale: 0.95;
+}
 
-.btn-primary:hover { background-color: #059669; }
-.btn-secondary:hover { background-color: #334155; }
+.btn-secondary:active {
+    scale: 0.95;
+}
 
-/* Bottom Navigation */
+.btn-primary:hover {
+    background-color: rgb(5, 150, 105);
+}
+
+.btn-secondary:hover {
+    background-color: rgb(51, 65, 85);
+}
+
 .bottom-nav-container {
     flex-direction: row;
     min-height: 70px;
-    flex-shrink: 0; /* Prevents squishing from ScrollView */
-    background-color: #1E293B; /* Card bg */
+    flex-shrink: 0;
+    background-color: rgb(30, 41, 59);
     border-top-width: 1px;
-    border-color: #334155;
+    border-color: rgb(51, 65, 85);
     justify-content: space-around;
     align-items: center;
     padding-left: 12px;
     padding-right: 12px;
-    padding-bottom: 8px; /* Safe area padding */
+    padding-bottom: 8px;
 }
 
 .bottom-nav-item {
@@ -229,64 +272,74 @@
 }
 
 .bottom-nav-item-active {
-    background-color: rgba(59, 130, 246, 0.15); /* Primary tint */
+    background-color: rgba(59, 130, 246, 0.15);
 }
 
 .nav-icon {
     font-size: 20px;
     -unity-font-style: bold;
-    color: #94A3B8;
+    color: rgb(148, 163, 184);
     margin-bottom: 2px;
 }
 
 .nav-label {
     font-size: 11px;
-    color: #94A3B8;
-    margin-top: 0px;
+    color: rgb(148, 163, 184);
+    margin-top: 0;
 }
 
 .bottom-nav-item-active > .nav-icon {
-    color: #3B82F6;
+    color: rgb(59, 130, 246);
 }
 
 .bottom-nav-item-active > .nav-label {
-    color: #3B82F6;
+    color: rgb(59, 130, 246);
 }
 
-/* Custom TextField Fix for Unity */
 .search-input {
     margin: 0;
     padding: 0;
 }
+
 .search-input > .unity-text-field__input {
-    background-color: #1E293B;
-    border-color: #334155;
+    background-color: rgb(30, 41, 59);
+    border-color: rgb(51, 65, 85);
     border-width: 1px;
     border-radius: 16px;
     padding: 12px 16px;
     font-size: 16px;
-    color: #94A3B8;
+    color: rgb(148, 163, 184);
 }
 
-/* Extended Colors & Utils for Quest/Battle/Friend Screens */
-.bg-destructive { background-color: #EF4444; }
-.bg-success { background-color: #10B981; }
-.bg-secondary { background-color: #8B5CF6; }
+.bg-destructive {
+    background-color: rgb(239, 68, 68);
+}
 
-.color-success { color: #10B981; }
-.color-destructive { color: #EF4444; }
+.bg-success {
+    background-color: rgb(16, 185, 129);
+}
 
-/* Horizontal progress Bar outer box styling */
+.bg-secondary {
+    background-color: rgb(139, 92, 246);
+}
+
+.color-success {
+    color: rgb(16, 185, 129);
+}
+
+.color-destructive {
+    color: rgb(239, 68, 68);
+}
+
 .progress-bar-container {
     height: 8px;
-    background-color: #334155;
+    background-color: rgb(51, 65, 85);
     border-radius: 4px;
     overflow: hidden;
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-/* Base generic avatar for lists */
 .avatar-md {
     width: 60px;
     height: 60px;
@@ -294,14 +347,13 @@
     flex-shrink: 0;
 }
 
-/* Tab button generic style */
 .tab-btn {
     flex-grow: 1;
     padding: 12px;
     border-radius: 12px;
     background-color: transparent;
     border-width: 0;
-    color: #94A3B8;
+    color: rgb(148, 163, 184);
     -unity-font-style: bold;
     font-size: 14px;
     transition-duration: 0.2s;
@@ -309,6 +361,82 @@
 }
 
 .tab-btn-active {
-    background-color: #3B82F6;
+    background-color: rgb(59, 130, 246);
     color: white;
+}
+
+.achievement-header {
+    background-color: rgb(245, 158, 11);
+    padding: 24px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.achievement-title {
+    font-size: 26px;
+    -unity-font-style: bold;
+    color: white;
+}
+
+.achievement-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+.achievement-back {
+    color: white;
+    margin-bottom: 8px;
+}
+
+.achievement-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.achievement-card {
+    width: 48%;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.achievement-unlocked {
+    border-width: 2px;
+    border-color: rgb(250, 204, 21);
+}
+
+.achievement-locked {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.achievement-locked .achievement-name {
+    color: rgb(100, 116, 139);
+}
+
+.achievement-locked .achievement-desc {
+    color: rgb(71, 85, 105);
+}
+
+.achievement-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.achievement-name {
+    -unity-font-style: bold;
+    margin-bottom: 4px;
+}
+
+.achievement-desc {
+    font-size: 12px;
+    color: rgb(148, 163, 184);
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+}
+
+.achievement-reward {
+    color: rgb(245, 158, 11);
+    -unity-font-style: bold;
 }

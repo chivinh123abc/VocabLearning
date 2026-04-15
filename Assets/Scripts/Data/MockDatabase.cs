@@ -8,6 +8,8 @@ namespace VocabLearning.Data
     {
         public UserJson currentUser;
         public List<VocabSetJson> vocabSets;
+        public List<AchievementData> achievements; 
+        public List<UserAchievementData> userAchievements;
     }
 
     [System.Serializable]
@@ -43,5 +45,21 @@ namespace VocabLearning.Data
         public string id;
         public string word;
         public string meaning;
+    }
+    [System.Serializable]
+    public class AchievementData 
+    {
+       public int achievementId;
+       public string name;
+       public string description;
+       public int rewardCoins;
+    }
+
+    [System.Serializable]
+    public class UserAchievementData
+    {
+       public int userId;
+       public int achievementId;
+       public string achievedAt;
     }
 }

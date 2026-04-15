@@ -10,6 +10,37 @@
     "rank": "Gold III",
     "rankPoints": 1850
   },
+  "achievements": [
+    {
+      "achievementId": 1,
+      "name": "First Steps",
+      "description": "Complete your first practice session",
+      "rewardCoins": 50
+    },
+    {
+      "achievementId": "2",
+      "name": "Quiz Champion",
+      "description": "Win 10 quizzes",
+      "rewardCoins": 100
+    },
+    {
+      "achievementId": "3",
+      "name": "Battle Master",
+      "description": "Win 50 ranked matches",
+      "rewardCoins": 200
+    },
+    {
+      "achievementId": "4",
+      "name": "Word Wizard",
+      "description": "Learn 100 words",
+      "rewardCoins": 80
+    }
+  ],
+  "userAchievements": [
+    { "userId": "1", "achievementId": "1", "unlockedAt": "2026-15-04" },
+    { "userId": "1", "achievementId": "2", "unlockedAt": "2026-15-04" }
+  ],
+  
   "vocabSets": [
     {
       "id": "1",

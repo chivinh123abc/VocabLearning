@@ -1,0 +1,51 @@
+.grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* CARD */
+.item-card {
+    width: 48%;
+    height: 220px;
+
+    background-color: rgb(245, 245, 220); /* màu vàng nhạt */
+
+    border-width: 2px;
+    border-color: rgb(255, 215, 0);
+
+    margin-bottom: 10px;
+    padding: 10px;
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* IMAGE */
+.item-image {
+    width: 100px;
+    height: 100px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* TEXT */
+.item-name {
+    font-size: 14px;
+    unity-text-align: middle-center;
+    color: rgb(26, 26, 26);
+}
+
+/* BUTTON */
+.btn-equip {
+    width: 140px;
+    height: 40px;
+
+    background-color: rgb(244, 190, 96);
+
+    border-radius: 10px;
+}
