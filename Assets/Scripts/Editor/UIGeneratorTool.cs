@@ -44,6 +44,9 @@ namespace VocabLearning.Editor
             controller.RankingScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/RankingScreen.uxml");
             controller.ProfileScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ProfileScreen.uxml");
             controller.ResultScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ResultScreen.uxml");
+            controller.AchievementScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AchievementScreen.uxml");
+            controller.InventoryScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/InventoryScreen.uxml");
+
 
             // Cập nhật db.json (Nếu cấu trúc dùng thẻ OverrideJsonDb thì gán, nếu dùng Resources thì bỏ qua bước này hoặc gán)
             controller.OverrideJsonDb = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/Mockdata/db.json");

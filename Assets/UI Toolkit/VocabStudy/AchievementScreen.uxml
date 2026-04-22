@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        
+            <!-- Header Section -->
+            <ui:VisualElement style="background-color: #F59E0B; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 16px;">
+                    <ui:Button name="BtnBack" text="←" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(255,255,255,0.2); color: white; border-width: 0; font-size: 18px; margin-right: 16px;" />
+                    <ui:Label text="Achievements" class="font-bold" style="font-size: 24px; color: white;" />
+                </ui:VisualElement>
+                <ui:Label text="Unlock achievements to show off your progress!" style="color: rgba(255, 255, 255, 0.9); font-size: 14px;" />
+            </ui:VisualElement>
+
+            <!-- Stats or Overall Progress -->
+            <ui:VisualElement style="padding: 24px 24px 0 24px;">
+                <ui:VisualElement class="card" style="flex-direction: row; justify-content: space-between; align-items: center; border-color: #F59E0B; border-width: 1px;">
+                    <ui:VisualElement style="flex-grow: 1; margin-right: 16px;">
+                        <ui:Label text="Completion" class="font-bold" style="color: white; margin-bottom: 4px;" />
+                        <ui:VisualElement class="progress-bar-container" style="height: 8px;">
+                            <ui:VisualElement name="ProgressBarCompletionFill" style="width: 0%; height: 100%; background-color: #F59E0B;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:Label name="LblCompletionCount" text="0/0" class="font-bold" style="font-size: 20px; color: #F59E0B;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- List of Achievements -->
+            <ui:VisualElement name="AchievementListContainer" style="padding: 24px;">
+            </ui:VisualElement>
+
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

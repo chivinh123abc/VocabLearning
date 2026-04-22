@@ -37,14 +37,16 @@
                 <!-- 2nd Place -->
                 <ui:VisualElement style="width: 30%; align-items: center;">
                     <ui:VisualElement style="position: relative; margin-bottom: 8px;">
-                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #94A3B8; border-radius: 16px; border-width: 4px; border-color: #94A3B8;" />
+                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #94A3B8; border-radius: 16px; border-width: 4px; border-color: #94A3B8; justify-content: center; align-items: center;">
+                            <ui:Label name="Podium2Avatar" text="👤" style="font-size: 32px;" />
+                        </ui:VisualElement>
                         <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background-color: #94A3B8; border-radius: 14px; justify-content: center; align-items: center;">
                             <ui:Label text="2" style="color: white; font-weight: bold;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement style="background-color: rgba(148, 163, 184, 0.2); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 12px; width: 100%; align-items: center; border-bottom-width: 0;">
-                        <ui:Label text="Player_2" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
-                        <ui:Label text="2,100" class="text-muted" style="font-size: 10px;" />
+                        <ui:Label name="Podium2Name" text="Player_2" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
+                        <ui:Label name="Podium2Score" text="2,100" class="text-muted" style="font-size: 10px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
@@ -52,28 +54,32 @@
                 <ui:VisualElement style="width: 35%; align-items: center; margin-bottom: 16px;">
                     <ui:Label text="👑" style="font-size: 24px; margin-bottom: 8px;" />
                     <ui:VisualElement style="position: relative; margin-bottom: 8px;">
-                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #F59E0B; border-radius: 16px; border-width: 4px; border-color: #F59E0B;" />
+                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #F59E0B; border-radius: 16px; border-width: 4px; border-color: #F59E0B; justify-content: center; align-items: center;">
+                            <ui:Label name="Podium1Avatar" text="👤" style="font-size: 40px;" />
+                        </ui:VisualElement>
                         <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 32px; height: 32px; background-color: #F59E0B; border-radius: 16px; justify-content: center; align-items: center;">
                             <ui:Label text="1" style="color: white; font-weight: bold;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement style="background-color: rgba(245, 158, 11, 0.3); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 16px; width: 100%; align-items: center;">
-                        <ui:Label text="Champion" class="font-bold" style="color: white; font-size: 14px; margin-bottom: 4px;" />
-                        <ui:Label text="2,500" style="color: #F59E0B; font-weight: bold; font-size: 12px;" />
+                        <ui:Label name="Podium1Name" text="Champion" class="font-bold" style="color: white; font-size: 14px; margin-bottom: 4px;" />
+                        <ui:Label name="Podium1Score" text="2,500" style="color: #F59E0B; font-weight: bold; font-size: 12px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
                 <!-- 3rd Place -->
                 <ui:VisualElement style="width: 30%; align-items: center;">
                     <ui:VisualElement style="position: relative; margin-bottom: 8px;">
-                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #B45309; border-radius: 16px; border-width: 4px; border-color: #B45309;" />
+                        <ui:VisualElement style="width: 64px; height: 64px; background-color: #B45309; border-radius: 16px; border-width: 4px; border-color: #B45309; justify-content: center; align-items: center;">
+                            <ui:Label name="Podium3Avatar" text="👤" style="font-size: 32px;" />
+                        </ui:VisualElement>
                         <ui:VisualElement style="position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; background-color: #B45309; border-radius: 14px; justify-content: center; align-items: center;">
                             <ui:Label text="3" style="color: white; font-weight: bold;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement style="background-color: rgba(180, 83, 9, 0.2); border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 12px; width: 100%; align-items: center;">
-                        <ui:Label text="Player_3" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
-                        <ui:Label text="1,950" class="text-muted" style="font-size: 10px;" />
+                        <ui:Label name="Podium3Name" text="Player_3" class="font-bold" style="color: white; font-size: 12px; margin-bottom: 4px;" />
+                        <ui:Label name="Podium3Score" text="1,950" class="text-muted" style="font-size: 10px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
@@ -83,39 +89,27 @@
             <ui:VisualElement style="padding: 0 24px 24px 24px;">
                 
                 <!-- Current Player (Highlighted) -->
-                <ui:VisualElement class="card" style="flex-direction: row; align-items: center; justify-content: space-between; border-color: #3B82F6; background-color: rgba(59, 130, 246, 0.1); margin-bottom: 8px;">
+                <ui:VisualElement name="MyRankContainer" class="card" style="flex-direction: row; align-items: center; justify-content: space-between; border-color: #3B82F6; background-color: rgba(59, 130, 246, 0.1); margin-bottom: 8px;">
                     <ui:VisualElement style="flex-direction: row; align-items: center;">
                         <ui:VisualElement style="width: 40px; height: 40px; background-color: #1E293B; border-radius: 8px; justify-content: center; align-items: center; margin-right: 12px;">
-                            <ui:Label text="42" class="font-bold" style="color: #94A3B8;" />
+                            <ui:Label name="MyRankValue" text="-" class="font-bold" style="color: #94A3B8;" />
                         </ui:VisualElement>
-                        <ui:VisualElement style="width: 48px; height: 48px; background-color: #3B82F6; border-radius: 12px; margin-right: 12px;" />
+                        <ui:VisualElement name="MyRankAvatarContainer" style="width: 48px; height: 48px; background-color: #3B82F6; border-radius: 12px; margin-right: 12px; justify-content: center; align-items: center;">
+                            <ui:Label name="MyRankAvatar" text="👤" style="font-size: 24px;" />
+                        </ui:VisualElement>
                         <ui:VisualElement>
-                            <ui:Label text="You" class="font-bold" style="color: white; font-size: 16px; margin-bottom: 2px;" />
-                            <ui:Label text="Level 15" class="text-muted" style="font-size: 12px;" />
+                            <ui:Label name="MyRankName" text="You" class="font-bold" style="color: white; font-size: 16px; margin-bottom: 2px;" />
+                            <ui:Label name="MyRankLevel" text="-" class="text-muted" style="font-size: 12px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement style="align-items: flex-end;">
-                        <ui:Label text="1,250" class="font-bold" style="color: white; font-size: 18px;" />
-                        <ui:Label text="points" class="text-muted" style="font-size: 12px;" />
+                        <ui:Label name="MyRankScore" text="-" class="font-bold" style="color: white; font-size: 18px;" />
+                        <ui:Label text="EXP" class="text-muted" style="font-size: 12px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
 
-                <!-- Player Rank 4 -->
-                <ui:VisualElement class="card" style="flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                    <ui:VisualElement style="flex-direction: row; align-items: center;">
-                        <ui:VisualElement style="width: 40px; height: 40px; background-color: #1E293B; border-radius: 8px; justify-content: center; align-items: center; margin-right: 12px;">
-                            <ui:Label text="4" class="font-bold" style="color: #94A3B8;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement style="width: 48px; height: 48px; background-color: #64748b; border-radius: 12px; margin-right: 12px;" />
-                        <ui:VisualElement>
-                            <ui:Label text="Rival_1" class="font-bold" style="color: white; font-size: 16px; margin-bottom: 2px;" />
-                            <ui:Label text="Level 22" class="text-muted" style="font-size: 12px;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="align-items: flex-end;">
-                        <ui:Label text="1,800" class="font-bold" style="color: white; font-size: 18px;" />
-                        <ui:Label text="points" class="text-muted" style="font-size: 12px;" />
-                    </ui:VisualElement>
+                <!-- Rest of players -->
+                <ui:VisualElement name="OtherRankingsContainer">
                 </ui:VisualElement>
 
             </ui:VisualElement>

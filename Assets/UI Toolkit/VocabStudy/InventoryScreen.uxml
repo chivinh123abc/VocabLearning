@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+        
+            <!-- Header Section -->
+            <ui:VisualElement style="background-color: #8B5CF6; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 16px;">
+                    <ui:Button name="BtnBack" text="←" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(255,255,255,0.2); color: white; border-width: 0; font-size: 18px; margin-right: 16px;" />
+                    <ui:Label text="My Inventory" class="font-bold" style="font-size: 24px; color: white;" />
+                </ui:VisualElement>
+                <ui:Label text="View and use your items here." style="color: rgba(255, 255, 255, 0.9); font-size: 14px;" />
+            </ui:VisualElement>
+
+            <!-- Tabs Section -->
+            <ui:VisualElement style="padding: 24px 24px 0 24px;">
+                <ui:VisualElement style="background-color: #1E293B; border-radius: 16px; flex-direction: row; padding: 4px; border-color: #334155; border-width: 1px;">
+                    <ui:Button name="TabConsumables" text="Consumables" class="tab-btn tab-btn-active" style="margin: 0;" />
+                    <ui:Button name="TabCosmetics" text="Cosmetics" class="tab-btn" style="margin: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Grid of Items -->
+            <ui:VisualElement name="InventoryListContainer" style="padding: 24px; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
+            </ui:VisualElement>
+
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

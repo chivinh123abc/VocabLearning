@@ -16,7 +16,10 @@
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <!-- Avatar & Name -->
                 <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:VisualElement style="width: 50px; height: 50px; background-color: #1E293B; border-radius: 16px; border-color: white; border-width: 2px;" />
+                    <ui:VisualElement name="HomeBorderContainer" style="width: 50px; height: 50px; background-color: #1E293B; border-radius: 16px; border-color: white; border-width: 2px; justify-content: center; align-items: center; overflow: hidden;">
+                        <ui:Label name="HomeAvatarEffect" text="" style="position: absolute; font-size: 40px; opacity: 0.4;" />
+                        <ui:Label name="HomeAvatarIcon" text="👤" style="font-size: 24px;" />
+                    </ui:VisualElement>
                     <ui:VisualElement style="margin-left: 12px;">
                         <ui:Label name="LblUserName" text="Player_Name" class="text-xl font-bold" style="color: white; margin-bottom: 2px;" />
                         <ui:Label name="LblUserLevel" text="★ Level 12" style="color: rgba(255, 255, 255, 0.9); font-size: 14px;" />

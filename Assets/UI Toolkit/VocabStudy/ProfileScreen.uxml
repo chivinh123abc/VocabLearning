@@ -21,12 +21,15 @@
 
                 <!-- Avatar & Info -->
                 <ui:VisualElement style="align-items: center; margin-bottom: 24px;">
-                    <ui:VisualElement style="width: 100px; height: 100px; background-color: #3B82F6; border-radius: 32px; border-width: 4px; border-color: white; margin-bottom: 16px;" />
-                    <ui:Label text="Player Name" class="font-bold" style="font-size: 24px; color: white; margin-bottom: 8px;" />
+                    <ui:VisualElement name="ProfileBorderContainer" style="width: 100px; height: 100px; background-color: #3B82F6; border-radius: 32px; border-width: 4px; border-color: white; margin-bottom: 16px; justify-content: center; align-items: center; overflow: hidden;">
+                        <ui:Label name="ProfileAvatarEffect" text="" style="position: absolute; font-size: 80px; opacity: 0.4;" />
+                        <ui:Label name="ProfileAvatarIcon" text="👤" style="font-size: 50px;" />
+                    </ui:VisualElement>
+                    <ui:Label name="LblProfileName" text="Player Name" class="font-bold" style="font-size: 24px; color: white; margin-bottom: 8px;" />
                     
                     <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 12px; margin-bottom: 16px;">
                         <ui:Label text="★" style="color: #F59E0B; margin-right: 8px;" />
-                        <ui:Label text="Level 15" class="font-bold" style="color: white;" />
+                        <ui:Label name="LblProfileLevel" text="Level 15" class="font-bold" style="color: white;" />
                     </ui:VisualElement>
 
                     <!-- Exp Bar -->
@@ -35,14 +38,14 @@
                             <ui:VisualElement style="width: 75%; height: 100%; background-color: #F59E0B;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:Label text="1,500 / 2,000 EXP" style="color: rgba(255,255,255,0.9); font-size: 12px;" />
+                    <ui:Label name="LblProfileExp" text="1,500 / 2,000 EXP" style="color: rgba(255,255,255,0.9); font-size: 12px;" />
                 </ui:VisualElement>
 
                 <!-- Coins & Rank -->
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
                     <ui:VisualElement style="flex-grow: 1; background-color: rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; align-items: center; margin-right: 6px;">
                         <ui:Label text="O" style="color: #F59E0B; font-size: 24px; margin-bottom: 4px; font-weight: bold;" />
-                        <ui:Label text="1,250" class="font-bold" style="color: white; font-size: 18px;" />
+                        <ui:Label name="LblProfileCoins" text="1,250" class="font-bold" style="color: white; font-size: 18px;" />
                         <ui:Label text="Coins" style="color: rgba(255,255,255,0.8); font-size: 12px;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-grow: 1; background-color: rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; align-items: center; margin-left: 6px;">

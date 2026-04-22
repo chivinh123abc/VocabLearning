@@ -119,6 +119,89 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &435997671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 435997674}
+  - component: {fileID: 435997673}
+  - component: {fileID: 435997672}
+  m_Layer: 0
+  m_Name: VocabStudy_UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &435997672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435997671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b7e4f0815719fd40abe0d7310d65e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VocabLearning.UI.VocabStudyController
+  HomeScreenAsset: {fileID: 9197481963319205126, guid: 722f8b40a93b7c648a8482a317feb570, type: 3}
+  VocabDetailScreenAsset: {fileID: 9197481963319205126, guid: 18e818a305b31764eb6eedef8c95f093, type: 3}
+  PracticeModeScreenAsset: {fileID: 9197481963319205126, guid: 60fbbfce7db5b674090bc397e4104332, type: 3}
+  QuestScreenAsset: {fileID: 9197481963319205126, guid: 050f0f6c151b09c4abfff5d6b2e37c3f, type: 3}
+  BattleScreenAsset: {fileID: 9197481963319205126, guid: 71d476d6823954c4aa3adafac0eac3c3, type: 3}
+  BattleLoadoutScreenAsset: {fileID: 9197481963319205126, guid: 448bb0541e321154cb5f7764ebf08a29, type: 3}
+  BattleGameplayScreenAsset: {fileID: 9197481963319205126, guid: a51c6294c8931c446b390b7b5bc19431, type: 3}
+  FriendScreenAsset: {fileID: 9197481963319205126, guid: 0c0bc65c7bad91d429ccd47e4012d850, type: 3}
+  ShopScreenAsset: {fileID: 9197481963319205126, guid: 09c9a4c8865d7ff4195e58f57e4cd625, type: 3}
+  RankingScreenAsset: {fileID: 9197481963319205126, guid: 5d3923df1ad46be4e9b1df1dc68d5473, type: 3}
+  ProfileScreenAsset: {fileID: 9197481963319205126, guid: ac09a2c085a890842b60898e8e5ce51f, type: 3}
+  ResultScreenAsset: {fileID: 9197481963319205126, guid: 459d79dbe938cff4d922d4f7f1ceca6b, type: 3}
+  AchievementScreenAsset: {fileID: 9197481963319205126, guid: 8bb86adb15e68674da29b1fab2ec2708, type: 3}
+  InventoryScreenAsset: {fileID: 9197481963319205126, guid: 0e16b2cc740dc074e9114d668c7687ff, type: 3}
+  OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
+--- !u!114 &435997673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435997671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: b12fae6f59a86a24faa3be89a6d39d3b, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 722f8b40a93b7c648a8482a317feb570, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!4 &435997674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435997671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093621130
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,85 +339,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1281477820
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1281477823}
-  - component: {fileID: 1281477822}
-  - component: {fileID: 1281477821}
-  m_Layer: 0
-  m_Name: VocabStudyApp
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1281477821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281477820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b7e4f0815719fd40abe0d7310d65e46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VocabLearning.UI.VocabStudyController
-  HomeScreenAsset: {fileID: 9197481963319205126, guid: 722f8b40a93b7c648a8482a317feb570, type: 3}
-  VocabDetailScreenAsset: {fileID: 9197481963319205126, guid: 18e818a305b31764eb6eedef8c95f093, type: 3}
-  PracticeModeScreenAsset: {fileID: 9197481963319205126, guid: 60fbbfce7db5b674090bc397e4104332, type: 3}
-  QuestScreenAsset: {fileID: 9197481963319205126, guid: 050f0f6c151b09c4abfff5d6b2e37c3f, type: 3}
-  BattleScreenAsset: {fileID: 9197481963319205126, guid: 71d476d6823954c4aa3adafac0eac3c3, type: 3}
-  FriendScreenAsset: {fileID: 9197481963319205126, guid: 0c0bc65c7bad91d429ccd47e4012d850, type: 3}
-  ShopScreenAsset: {fileID: 9197481963319205126, guid: 09c9a4c8865d7ff4195e58f57e4cd625, type: 3}
-  RankingScreenAsset: {fileID: 9197481963319205126, guid: 5d3923df1ad46be4e9b1df1dc68d5473, type: 3}
-  ProfileScreenAsset: {fileID: 9197481963319205126, guid: ac09a2c085a890842b60898e8e5ce51f, type: 3}
-  ResultScreenAsset: {fileID: 9197481963319205126, guid: 459d79dbe938cff4d922d4f7f1ceca6b, type: 3}
-  OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
---- !u!114 &1281477822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281477820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
-  m_PanelSettings: {fileID: 11400000, guid: b12fae6f59a86a24faa3be89a6d39d3b, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 722f8b40a93b7c648a8482a317feb570, type: 3}
-  m_SortingOrder: 0
-  m_Position: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
-  m_PivotReferenceSize: 0
-  m_Pivot: 0
-  m_WorldSpaceCollider: {fileID: 0}
---- !u!4 &1281477823
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281477820}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440472078
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,4 +424,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1093621133}
   - {fileID: 1440472081}
-  - {fileID: 1281477823}
+  - {fileID: 435997674}

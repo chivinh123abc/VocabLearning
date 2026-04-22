@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding-bottom: 0;">
+        
+        <!-- Header -->
+        <ui:VisualElement style="background-color: #3B82F6; padding: 20px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+            <ui:Button name="BtnBack" text="&lt; Back" style="background-color: transparent; border-width: 0; color: white; font-size: 15px; padding: 0; margin-bottom: 8px; align-self: flex-start; -unity-font-style: bold;" />
+            <ui:Label text="Battle Loadout" class="font-bold" style="font-size: 24px; color: white; margin-bottom: 4px;" />
+            <ui:Label text="Select 3 items to take into battle" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
+        </ui:VisualElement>
+
+        <!-- Selection Status -->
+        <ui:VisualElement style="padding: 16px; flex-direction: row; justify-content: center; align-items: center;">
+            <ui:Label name="SelectionCount" text="Selected: 0/3" class="font-bold" style="color: #3B82F6; font-size: 16px;" />
+        </ui:VisualElement>
+
+        <!-- Item List -->
+        <ui:ScrollView name="LoadoutItemsList" style="flex-grow: 1; padding: 0 16px;" vertical-scroller-visibility="Hidden">
+            <!-- Dynamically populated -->
+        </ui:ScrollView>
+
+        <!-- Footer -->
+        <ui:VisualElement style="padding: 24px; background-color: #0F172A; border-top-width: 1px; border-color: rgba(255,255,255,0.05);">
+            <ui:Button name="BtnConfirmStart" text="START BATTLE" class="btn-primary" style="padding: 16px; font-size: 18px; -unity-font-style: bold; border-radius: 12px; background-color: #334155; color: rgba(255,255,255,0.3);" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
