@@ -28,16 +28,18 @@
                 <ui:VisualElement class="card" style="border-color: rgba(245, 158, 11, 0.3); border-width: 2px;">
                     <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
                         <ui:VisualElement style="flex-direction: row; align-items: center;">
-                            <ui:VisualElement style="width: 56px; height: 56px; background-color: #94A3B8; border-radius: 12px; border-color: #F59E0B; border-width: 2px;" />
+                            <ui:VisualElement name="BattleAvatarContainer" style="width: 56px; height: 56px; background-color: #94A3B8; border-radius: 12px; border-color: #F59E0B; border-width: 2px; justify-content: center; align-items: center;">
+                                <ui:Label name="BattleAvatar" text="👤" style="font-size: 32px;" />
+                            </ui:VisualElement>
                             <ui:VisualElement style="margin-left: 12px;">
-                                <ui:Label text="Player_Name" class="font-bold text-lg" style="color: white; margin-bottom: 2px;" />
+                                <ui:Label name="BattleName" text="Player_Name" class="font-bold text-lg" style="color: white; margin-bottom: 2px;" />
                                 <ui:VisualElement style="flex-direction: row; align-items: center;">
-                                    <ui:Label text="★ Gold III" style="color: #F59E0B; font-weight: bold; font-size: 14px;" />
+                                    <ui:Label name="BattleRank" text="★ Gold III" style="color: #F59E0B; font-weight: bold; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement style="align-items: flex-end;">
-                            <ui:Label text="1,250" class="font-bold text-2xl" style="color: #F59E0B;" />
+                            <ui:Label name="BattlePoints" text="1,250" class="font-bold text-2xl" style="color: #F59E0B;" />
                             <ui:Label text="Rank Points" class="text-muted" style="font-size: 12px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
@@ -91,15 +93,15 @@
             <ui:Label text="Your Stats" class="section-title" />
             <ui:VisualElement class="stats-container" style="margin-top: 16px; margin-bottom: 24px;">
                 <ui:VisualElement class="card stat-item">
-                    <ui:Label text="42" class="stat-value color-success" />
+                    <ui:Label name="BattleWins" text="42" class="stat-value color-success" />
                     <ui:Label text="Wins" class="text-muted" />
                 </ui:VisualElement>
                 <ui:VisualElement class="card stat-item">
-                    <ui:Label text="65" class="stat-value color-primary" />
+                    <ui:Label name="BattleGames" text="65" class="stat-value color-primary" />
                     <ui:Label text="Games" class="text-muted" />
                 </ui:VisualElement>
                 <ui:VisualElement class="card stat-item">
-                    <ui:Label text="65%" class="stat-value color-gold" />
+                    <ui:Label name="BattleWinRate" text="65%" class="stat-value color-gold" />
                     <ui:Label text="Win Rate" class="text-muted" />
                 </ui:VisualElement>
             </ui:VisualElement>

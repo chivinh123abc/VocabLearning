@@ -26,7 +26,7 @@
                     <ui:Label text="Your Balance" style="color: white; font-weight: bold;" />
                     <ui:VisualElement style="background-color: rgba(255,255,255,0.3); padding: 8px 16px; border-radius: 12px; flex-direction: row; align-items: center;">
                         <ui:Label text="O" style="color: #F59E0B; font-weight: bold; margin-right: 8px;" />
-                        <ui:Label text="1,500" style="color: white; font-weight: bold; font-size: 16px;" />
+                        <ui:Label name="LblShopCoinBalance" text="0" style="color: white; font-weight: bold; font-size: 16px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -34,67 +34,18 @@
             <!-- Category Tabs -->
             <ui:VisualElement style="padding: 24px 24px 0 24px;">
                 <ui:VisualElement style="background-color: #1E293B; border-radius: 16px; flex-direction: row; padding: 4px; border-color: #334155; border-width: 1px;">
-                    <ui:Button name="TabAvatar" text="Avatar" class="tab-btn tab-btn-active" style="margin: 0;" />
-                    <ui:Button name="TabEffect" text="Effect" class="tab-btn" style="margin: 0;" />
-                    <ui:Button name="TabTheme" text="Theme" class="tab-btn" style="margin: 0;" />
+                    <ui:Button name="TabShopCosmetics" text="Cosmetics" class="tab-btn tab-btn-active" style="margin: 0;" />
+                    <ui:Button name="TabShopConsumables" text="Consumables" class="tab-btn" style="margin: 0;" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
             <!-- Items Grid -->
-            <ui:VisualElement style="padding: 24px; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
-                
-                <!-- Item 1 (Owned) -->
-                <ui:VisualElement class="card" style="width: 48%; padding: 0; overflow: hidden; margin-bottom: 16px; border-color: #10B981;">
-                    <!-- Image Box -->
-                    <ui:VisualElement style="height: 120px; background-color: rgba(59, 130, 246, 0.2); justify-content: center; align-items: center;">
-                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #3B82F6; border-radius: 16px;" />
-                    </ui:VisualElement>
-                    <!-- Info -->
-                    <ui:VisualElement style="padding: 12px;">
-                        <ui:Label text="Basic Blue" class="font-bold" style="color: white; margin-bottom: 8px;" />
-                        <ui:VisualElement style="background-color: rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 8px; align-items: center;">
-                            <ui:Label text="Owned ✓" style="color: #10B981; font-weight: bold; font-size: 12px;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-
-                <!-- Item 2 (Purchase) -->
-                <ui:VisualElement class="card" style="width: 48%; padding: 0; overflow: hidden; margin-bottom: 16px;">
-                    <!-- Image Box -->
-                    <ui:VisualElement style="height: 120px; background-color: rgba(139, 92, 246, 0.2); justify-content: center; align-items: center;">
-                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #8B5CF6; border-radius: 16px;" />
-                    </ui:VisualElement>
-                    <!-- Info -->
-                    <ui:VisualElement style="padding: 12px;">
-                        <ui:Label text="Magic Purple" class="font-bold" style="color: white; margin-bottom: 8px;" />
-                        <ui:Button class="btn-primary" style="margin: 0; padding: 8px; flex-direction: row; justify-content: center; background-color: #3B82F6; border-radius: 12px; min-height: 30px;">
-                            <ui:Label text="O" style="color: #F59E0B; margin-right: 4px;" />
-                            <ui:Label text="500" style="color: white; font-weight: bold;" />
-                        </ui:Button>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-
-                 <!-- Item 3 (Purchase) -->
-                 <ui:VisualElement class="card" style="width: 48%; padding: 0; overflow: hidden; margin-bottom: 16px;">
-                    <!-- Image Box -->
-                    <ui:VisualElement style="height: 120px; background-color: rgba(245, 158, 11, 0.2); justify-content: center; align-items: center;">
-                        <ui:VisualElement style="width: 80px; height: 80px; background-color: #F59E0B; border-radius: 16px;" />
-                    </ui:VisualElement>
-                    <!-- Info -->
-                    <ui:VisualElement style="padding: 12px;">
-                        <ui:Label text="Golden Crown" class="font-bold" style="color: white; margin-bottom: 8px;" />
-                        <ui:Button class="btn-primary" style="margin: 0; padding: 8px; flex-direction: row; justify-content: center; background-color: #3B82F6; border-radius: 12px; min-height: 30px;">
-                            <ui:Label text="O" style="color: #F59E0B; margin-right: 4px;" />
-                            <ui:Label text="1000" style="color: white; font-weight: bold;" />
-                        </ui:Button>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-
+            <ui:VisualElement name="ShopListContainer" style="padding: 24px; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
             </ui:VisualElement>
 
             <!-- Inventory Link -->
             <ui:VisualElement style="padding: 0 24px 24px 24px;">
-                <ui:Button class="card" style="border-radius: 16px; padding: 16px; flex-direction: row; justify-content: space-between;">
+                <ui:Button name="BtnShopToInventory" class="card" style="border-radius: 16px; padding: 16px; flex-direction: row; justify-content: space-between;">
                     <ui:Label text="View My Inventory" class="font-bold" style="color: white;" />
                     <ui:Label text="→" style="color: white;" />
                 </ui:Button>

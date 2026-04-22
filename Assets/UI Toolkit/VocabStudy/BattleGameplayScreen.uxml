@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="padding: 0; padding-bottom: 0;">
+
+        <!-- Header -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: #0F172A;">
+            <ui:Button name="BtnFlee" text="&lt; Flee" style="background-color: transparent; border-width: 0; color: rgba(255,255,255,0.8); font-size: 15px; padding: 0; -unity-font-style: bold;" />
+            <ui:Label name="LblBattleMode" text="RANKED MATCH" class="font-bold" style="color: #F59E0B; font-size: 15px;" />
+            <ui:VisualElement style="width: 60px;" />
+        </ui:VisualElement>
+
+        <!-- Enemy Area -->
+        <ui:VisualElement style="align-items: center; background-color: rgba(239,68,68,0.12); padding: 8px 0 6px 0;">
+            <ui:Label name="EnemyAvatar" text="🦖" style="font-size: 48px;" />
+            <ui:Label name="EnemyName" text="Faker" class="font-bold" style="color: white; font-size: 15px; margin-top: 2px;" />
+            <ui:Label name="EnemyTier" text="👑 Siêu Cấp" style="color: #F59E0B; font-size: 12px; margin-bottom: 4px;" />
+            
+            <ui:VisualElement class="battle-hp-bar" style="margin-bottom: 4px;">
+                <ui:VisualElement name="EnemyHPFill" class="battle-hp-fill-enemy" />
+            </ui:VisualElement>
+            <ui:Label name="EnemyHPLbl" text="100 / 100 HP" style="color: #94A3B8; font-size: 12px;" />
+        </ui:VisualElement>
+
+        <!-- VS Divider -->
+        <ui:VisualElement style="align-items: center; padding: 2px 0; background-color: #0F172A; border-top-width: 1px; border-bottom-width: 1px; border-color: rgba(255,255,255,0.1);">
+            <ui:Label text="⚔ VS ⚔" class="font-bold" style="font-size: 14px; color: #F59E0B;" />
+        </ui:VisualElement>
+
+        <!-- Question area -->
+        <ui:VisualElement style="padding: 6px 12px; flex-grow: 1; justify-content: center;">
+            <ui:VisualElement style="background-color: #1E293B; border-radius: 12px; border-width: 2px; border-color: #3B82F6; padding: 12px; align-items: center;">
+                
+                <!-- Timer Bar -->
+                <ui:VisualElement class="timer-container">
+                    <ui:VisualElement name="TimerFill" class="timer-fill" />
+                </ui:VisualElement>
+
+                <ui:Label text="Translate this word:" style="color: #94A3B8; font-size: 13px; margin-bottom: 6px;" />
+                <ui:Label name="BattleQuestionText" text="Loading..." class="font-bold" style="color: white; font-size: 24px; margin-bottom: 12px;" />
+
+                <!-- Answer Grid -->
+                <ui:VisualElement name="BattleAnswerGrid" class="battle-answer-grid">
+                    <ui:Button name="BtnAns0" text="Ans 1" class="battle-answer-btn" />
+                    <ui:Button name="BtnAns1" text="Ans 2" class="battle-answer-btn" />
+                    <ui:Button name="BtnAns2" text="Ans 3" class="battle-answer-btn" />
+                    <ui:Button name="BtnAns3" text="Ans 4" class="battle-answer-btn" />
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Player Area -->
+        <ui:VisualElement style="align-items: center; background-color: rgba(16,185,129,0.12); padding: 8px 0 12px 0;">
+            <ui:Label name="PlayerHPLbl" text="100 / 100 HP" style="color: #94A3B8; font-size: 11px;" />
+            <ui:VisualElement class="battle-hp-bar" style="margin-bottom: 4px; margin-top: 2px;">
+                <ui:VisualElement name="PlayerHPFill" class="battle-hp-fill-player" />
+            </ui:VisualElement>
+            
+            <ui:Label name="PlayerName" text="You" class="font-bold" style="color: white; font-size: 15px;" />
+            <ui:Label name="PlayerTier" text="Bạc" style="color: #60A5FA; font-size: 12px; margin-bottom: 2px;" />
+            <ui:Label name="PlayerAvatar" text="👤" style="font-size: 48px;" />
+            
+            <!-- Skill Bar -->
+            <ui:VisualElement name="BattleItemContainer" style="flex-direction: row; justify-content: center; margin-top: 8px;">
+                <!-- Items here -->
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Result Overlay -->
+        <ui:VisualElement name="ResultOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15,23,42,0.98); justify-content: center; align-items: center; display: none;">
+            <ui:VisualElement style="align-items: center; width: 80%;">
+                <ui:Label name="ResultTitle" text="VICTORY!" class="font-bold" style="font-size: 48px; color: #10B981; margin-bottom: 12px;" />
+                <ui:Label name="ResultSubtext" text="..." style="color: white; font-size: 20px; margin-bottom: 6px;" />
+                <ui:Label name="ResultExp" text="..." style="color: #60A5FA; font-size: 16px; margin-bottom: 20px;" />
+                
+                <!-- Special Item Reward Visual -->
+                <ui:VisualElement name="ItemRewardBox" style="flex-direction: row; align-items: center; background-color: rgba(245,158,11,0.2); padding: 8px 16px; border-radius: 12px; border-width: 1px; border-color: #F59E0B; margin-bottom: 24px; display: none;">
+                    <ui:Label name="ItemRewardIcon" text="🎁" style="font-size: 32px; margin-right: 12px;" />
+                    <ui:VisualElement>
+                        <ui:Label text="New Item Found!" style="color: #F59E0B; font-size: 11px; -unity-font-style: bold;" />
+                        <ui:Label name="ItemRewardName" text="Mystery Box" style="color: white; font-size: 15px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Button name="BtnLeaveBattle" text="Return to Hub" class="btn-primary" style="padding: 14px 0; font-size: 16px; width: 220px; align-self: center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

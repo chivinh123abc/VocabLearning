@@ -7,54 +7,1043 @@
     "exp": 750,
     "expNeeded": 1000,
     "coins": 2450,
-    "rank": "Gold III",
-    "rankPoints": 1850
+    "rank": "SieuCap",
+    "rankPoints": 24500,
+    "wins": 34,
+    "totalGames": 50,
+    "lastQuestRefreshDate": "2023-10-12",
+    "weeklyLogin": {
+      "weekStartDate": "2023-10-09",
+      "loginDates": [
+        "2023-10-09",
+        "2023-10-10",
+        "2023-10-11",
+        "2023-10-12"
+      ],
+      "isRewardClaimed": false
+    },
+    "learnedSets": [
+      "1"
+    ]
   },
+  "words": [
+    {
+      "id": "w1",
+      "word": "Hello",
+      "meaning": "Xin chào",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w2",
+      "word": "Thank you",
+      "meaning": "Cảm ơn",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w3",
+      "word": "Sorry",
+      "meaning": "Xin lỗi",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w4",
+      "word": "Please",
+      "meaning": "Làm ơn",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w5",
+      "word": "Yes / No",
+      "meaning": "Có / Không",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w6",
+      "word": "Good morning",
+      "meaning": "Chào buổi sáng",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w7",
+      "word": "Good night",
+      "meaning": "Chúc ngủ ngon",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w8",
+      "word": "Goodbye",
+      "meaning": "Tạm biệt",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w9",
+      "word": "Dog",
+      "meaning": "Con chó",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w10",
+      "word": "Cat",
+      "meaning": "Con mèo",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w11",
+      "word": "Bird",
+      "meaning": "Con chim",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w12",
+      "word": "Elephant",
+      "meaning": "Con voi",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w13",
+      "word": "Tiger",
+      "meaning": "Con hổ",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w14",
+      "word": "Rabbit",
+      "meaning": "Con thỏ",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w15",
+      "word": "Fish",
+      "meaning": "Con cá",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w16",
+      "word": "Horse",
+      "meaning": "Con ngựa",
+      "rankRequired": "Dong"
+    },
+    {
+      "id": "w17",
+      "word": "Apple",
+      "meaning": "Quả táo",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w18",
+      "word": "Bread",
+      "meaning": "Bánh mì",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w19",
+      "word": "Chicken",
+      "meaning": "Thịt gà",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w20",
+      "word": "Rice",
+      "meaning": "Cơm",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w21",
+      "word": "Water",
+      "meaning": "Nước",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w22",
+      "word": "Orange",
+      "meaning": "Quả cam",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w23",
+      "word": "Milk",
+      "meaning": "Sữa",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w24",
+      "word": "Coffee",
+      "meaning": "Cà phê",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w25",
+      "word": "Red",
+      "meaning": "Màu đỏ",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w26",
+      "word": "Blue",
+      "meaning": "Màu xanh dương",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w27",
+      "word": "Green",
+      "meaning": "Màu xanh lá",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w28",
+      "word": "Yellow",
+      "meaning": "Màu vàng",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w29",
+      "word": "Purple",
+      "meaning": "Màu tím",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w30",
+      "word": "Hundred",
+      "meaning": "Một trăm",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w31",
+      "word": "Thousand",
+      "meaning": "Một nghìn",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w32",
+      "word": "Million",
+      "meaning": "Một triệu",
+      "rankRequired": "Bac"
+    },
+    {
+      "id": "w33",
+      "word": "Airport",
+      "meaning": "Sân bay",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w34",
+      "word": "Passport",
+      "meaning": "Hộ chiếu",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w35",
+      "word": "Hotel",
+      "meaning": "Khách sạn",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w36",
+      "word": "Destination",
+      "meaning": "Điểm đến",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w37",
+      "word": "Luggage",
+      "meaning": "Hành lý",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w38",
+      "word": "Reservation",
+      "meaning": "Đặt chỗ trước",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w39",
+      "word": "Customs",
+      "meaning": "Hải quan",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w40",
+      "word": "Departure",
+      "meaning": "Khởi hành",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w41",
+      "word": "Shoulder",
+      "meaning": "Vai",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w42",
+      "word": "Elbow",
+      "meaning": "Khuỷu tay",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w43",
+      "word": "Forehead",
+      "meaning": "Trán",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w44",
+      "word": "Eyebrow",
+      "meaning": "Lông mày",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w45",
+      "word": "Eyelid",
+      "meaning": "Mí mắt",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w46",
+      "word": "Cheekbone",
+      "meaning": "Xương gò má",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w47",
+      "word": "Spine",
+      "meaning": "Cột sống",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w48",
+      "word": "Calf",
+      "meaning": "Bắp chân",
+      "rankRequired": "Vang"
+    },
+    {
+      "id": "w49",
+      "word": "Algorithm",
+      "meaning": "Thuật toán",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w50",
+      "word": "Bandwidth",
+      "meaning": "Băng thông",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w51",
+      "word": "Encryption",
+      "meaning": "Mã hóa",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w52",
+      "word": "Artificial Intelligence",
+      "meaning": "Trí tuệ nhân tạo",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w53",
+      "word": "Database",
+      "meaning": "Cơ sở dữ liệu",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w54",
+      "word": "Framework",
+      "meaning": "Khung phát triển",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w55",
+      "word": "Repository",
+      "meaning": "Kho lưu trữ code",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w56",
+      "word": "Debugging",
+      "meaning": "Gỡ lỗi chương trình",
+      "rankRequired": "BachKim"
+    },
+    {
+      "id": "w57",
+      "word": "Acquisition",
+      "meaning": "Sự mua lại (công ty)",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w58",
+      "word": "Depreciation",
+      "meaning": "Khấu hao tài sản",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w59",
+      "word": "Diversification",
+      "meaning": "Đa dạng hóa đầu tư",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w60",
+      "word": "Fiscal",
+      "meaning": "Thuộc về tài chính nhà nước",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w61",
+      "word": "Liquidity",
+      "meaning": "Tính thanh khoản",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w62",
+      "word": "Monopoly",
+      "meaning": "Độc quyền",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w63",
+      "word": "Procurement",
+      "meaning": "Mua sắm / Thu mua",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w64",
+      "word": "Stakeholder",
+      "meaning": "Các bên liên quan",
+      "rankRequired": "KimCuong"
+    },
+    {
+      "id": "w65",
+      "word": "Ambiguous",
+      "meaning": "Mơ hồ, không rõ ràng",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w66",
+      "word": "Exacerbate",
+      "meaning": "Làm trầm trọng thêm",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w67",
+      "word": "Juxtaposition",
+      "meaning": "Sự đặt cạnh nhau để so sánh",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w68",
+      "word": "Ubiquitous",
+      "meaning": "Có mặt khắp nơi, phổ biến",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w69",
+      "word": "Paradox",
+      "meaning": "Nghịch lý",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w70",
+      "word": "Ephemeral",
+      "meaning": "Phù du, thoáng qua",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w71",
+      "word": "Pragmatic",
+      "meaning": "Thực dụng, thực tế",
+      "rankRequired": "SieuCap"
+    },
+    {
+      "id": "w72",
+      "word": "Unprecedented",
+      "meaning": "Chưa từng có tiền lệ",
+      "rankRequired": "SieuCap"
+    }
+  ],
   "vocabSets": [
     {
       "id": "1",
       "title": "Basic English",
       "description": "Essential words for beginners",
-      "wordCount": 50,
+      "wordCount": 8,
       "category": "English",
       "difficulty": "Easy",
-      "words": [
-        { "id": "1", "word": "Hello", "meaning": "Xin chào" },
-        { "id": "2", "word": "Thank you", "meaning": "Cảm ơn" },
-        { "id": "3", "word": "Sorry", "meaning": "Xin lỗi" },
-        { "id": "4", "word": "Please", "meaning": "Làm ơn" },
-        { "id": "5", "word": "Yes / No", "meaning": "Có / Không" }
+      "rankRequired": "Dong",
+      "wordIds": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6",
+        "w7",
+        "w8"
       ]
     },
     {
       "id": "2",
       "title": "Animals",
       "description": "Learn animal names in English",
-      "wordCount": 30,
+      "wordCount": 8,
       "category": "English",
       "difficulty": "Easy",
-      "words": [
-        { "id": "1", "word": "Dog", "meaning": "Con chó" },
-        { "id": "2", "word": "Cat", "meaning": "Con mèo" },
-        { "id": "3", "word": "Bird", "meaning": "Con chim" },
-        { "id": "4", "word": "Elephant", "meaning": "Con voi" },
-        { "id": "5", "word": "Tiger", "meaning": "Con hổ" }
+      "rankRequired": "Dong",
+      "wordIds": [
+        "w9",
+        "w10",
+        "w11",
+        "w12",
+        "w13",
+        "w14",
+        "w15",
+        "w16"
       ]
     },
     {
       "id": "3",
-      "title": "Food",
-      "description": "Discover common food names",
-      "wordCount": 40,
+      "title": "Food & Drinks",
+      "description": "Discover common food and drink names",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Easy",
+      "rankRequired": "Bac",
+      "wordIds": [
+        "w17",
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23",
+        "w24"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Colors & Numbers",
+      "description": "Master colors and numbers in English",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Easy",
+      "rankRequired": "Bac",
+      "wordIds": [
+        "w25",
+        "w26",
+        "w27",
+        "w28",
+        "w29",
+        "w30",
+        "w31",
+        "w32"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Travel & Places",
+      "description": "Vocabulary for traveling and locations",
+      "wordCount": 8,
       "category": "English",
       "difficulty": "Medium",
-      "words": [
-        { "id": "1", "word": "Apple", "meaning": "Quả táo" },
-        { "id": "2", "word": "Bread", "meaning": "Bánh mì" },
-        { "id": "3", "word": "Chicken", "meaning": "Thịt gà" },
-        { "id": "4", "word": "Rice", "meaning": "Cơm" },
-        { "id": "5", "word": "Water", "meaning": "Nước" }
+      "rankRequired": "Vang",
+      "wordIds": [
+        "w33",
+        "w34",
+        "w35",
+        "w36",
+        "w37",
+        "w38",
+        "w39",
+        "w40"
       ]
+    },
+    {
+      "id": "6",
+      "title": "Human Body",
+      "description": "Learn body parts and health vocabulary",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Medium",
+      "rankRequired": "Vang",
+      "wordIds": [
+        "w41",
+        "w42",
+        "w43",
+        "w44",
+        "w45",
+        "w46",
+        "w47",
+        "w48"
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Technology",
+      "description": "Modern tech vocabulary and digital terms",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Hard",
+      "rankRequired": "BachKim",
+      "wordIds": [
+        "w49",
+        "w50",
+        "w51",
+        "w52",
+        "w53",
+        "w54",
+        "w55",
+        "w56"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Business & Economics",
+      "description": "Professional business and economic terms",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Hard",
+      "rankRequired": "KimCuong",
+      "wordIds": [
+        "w57",
+        "w58",
+        "w59",
+        "w60",
+        "w61",
+        "w62",
+        "w63",
+        "w64"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Advanced Academic",
+      "description": "IELTS-level academic vocabulary",
+      "wordCount": 8,
+      "category": "English",
+      "difficulty": "Expert",
+      "rankRequired": "SieuCap",
+      "wordIds": [
+        "w65",
+        "w66",
+        "w67",
+        "w68",
+        "w69",
+        "w70",
+        "w71",
+        "w72"
+      ]
+    }
+  ],
+  "achievements": [
+    {
+      "id": "1",
+      "icon": "🏆",
+      "title": "First Blood",
+      "description": "Complete your first vocabulary set.",
+      "maxProgress": 1,
+      "currentProgress": 1,
+      "isUnlocked": true,
+      "unlockDate": "Oct 12, 2023"
+    },
+    {
+      "id": "2",
+      "icon": "🔥",
+      "title": "On Fire",
+      "description": "Maintain a 7-day study streak.",
+      "maxProgress": 7,
+      "currentProgress": 7,
+      "isUnlocked": true,
+      "unlockDate": "Yesterday"
+    },
+    {
+      "id": "3",
+      "icon": "📚",
+      "title": "Vocabulary Master",
+      "description": "Learn 1,000 words.",
+      "maxProgress": 1000,
+      "currentProgress": 250,
+      "isUnlocked": false,
+      "unlockDate": ""
+    },
+    {
+      "id": "4",
+      "icon": "⚔️",
+      "title": "King of the Arena",
+      "description": "Win 50 battles in PvP.",
+      "maxProgress": 50,
+      "currentProgress": 5,
+      "isUnlocked": false,
+      "unlockDate": ""
+    }
+  ],
+  "inventory": [
+    {
+      "id": "1",
+      "icon": "🧪",
+      "name": "Freeze Potion",
+      "description": "Freezes the enemy, dealing 15 damage.",
+      "quantity": 5,
+      "rarity": "Common",
+      "category": "Consumable",
+      "equipType": "",
+      "isEquipped": false,
+      "isCombatItem": true
+    },
+    {
+      "id": "1-2",
+      "icon": "🔥",
+      "name": "Fire Potion",
+      "description": "Explosive damage! Deals 25 HP to enemy.",
+      "quantity": 2,
+      "rarity": "Rare",
+      "category": "Consumable",
+      "equipType": "",
+      "isEquipped": false,
+      "isCombatItem": true
+    },
+    {
+      "id": "1-3",
+      "icon": "❤️",
+      "name": "Health Potion",
+      "description": "Restores 40 HP to your character.",
+      "quantity": 3,
+      "rarity": "Common",
+      "category": "Consumable",
+      "equipType": "",
+      "isEquipped": false,
+      "isCombatItem": true
+    },
+    {
+      "id": "4",
+      "icon": "🎁",
+      "name": "Mystery Box",
+      "description": "Contains random amount of coins or items.",
+      "quantity": 3,
+      "rarity": "Rare",
+      "category": "Consumable",
+      "equipType": "",
+      "isEquipped": false,
+      "isCombatItem": false
+    },
+    {
+      "id": "5",
+      "icon": "🦊",
+      "name": "Foxy Avatar",
+      "description": "A cute fox avatar.",
+      "quantity": 1,
+      "rarity": "Epic",
+      "category": "Cosmetic",
+      "equipType": "Avatar",
+      "isEquipped": true
+    },
+    {
+      "id": "6",
+      "icon": "🔲",
+      "name": "Neon Border",
+      "description": "Cool glowing neon profile border.",
+      "quantity": 1,
+      "rarity": "Legendary",
+      "category": "Cosmetic",
+      "equipType": "Border",
+      "isEquipped": false
+    },
+    {
+      "id": "7",
+      "icon": "🐻",
+      "name": "Bear Avatar",
+      "description": "A fierce but cuddly bear avatar.",
+      "quantity": 1,
+      "rarity": "Common",
+      "category": "Cosmetic",
+      "equipType": "Avatar",
+      "isEquipped": false
+    },
+    {
+      "id": "8",
+      "icon": "🐉",
+      "name": "Dragon Avatar",
+      "description": "A legendary golden dragon.",
+      "quantity": 1,
+      "rarity": "Legendary",
+      "category": "Cosmetic",
+      "equipType": "Avatar",
+      "isEquipped": false
+    },
+    {
+      "id": "9",
+      "icon": "✨",
+      "name": "Starry Trail",
+      "description": "Leaves a trail of stars when you win a battle.",
+      "quantity": 1,
+      "rarity": "Epic",
+      "category": "Cosmetic",
+      "equipType": "Effect",
+      "isEquipped": true
+    },
+    {
+      "id": "10",
+      "icon": "🔥",
+      "name": "Flame Aura",
+      "description": "A burning aura surrounding your portrait.",
+      "quantity": 1,
+      "rarity": "Legendary",
+      "category": "Cosmetic",
+      "equipType": "Effect",
+      "isEquipped": false
+    },
+    {
+      "id": "11",
+      "icon": "🏵️",
+      "name": "Golden Frame",
+      "description": "A pure gold classic profile frame.",
+      "quantity": 1,
+      "rarity": "Rare",
+      "category": "Cosmetic",
+      "equipType": "Border",
+      "isEquipped": true
+    },
+    {
+      "id": "12",
+      "icon": "💎",
+      "name": "Diamond Frame",
+      "description": "Shining diamond-encrusted frame.",
+      "quantity": 1,
+      "rarity": "Epic",
+      "category": "Cosmetic",
+      "equipType": "Border",
+      "isEquipped": false
+    }
+  ],
+  "quests": [],
+  "questPool": [
+    {
+      "id": "q1",
+      "title": "Learn 10 new words",
+      "description": "Study any vocabulary set",
+      "currentProgress": 0,
+      "maxProgress": 10,
+      "rewardCoins": 50,
+      "rewardExp": 100,
+      "isClaimed": false,
+      "questType": "LearnWord"
+    },
+    {
+      "id": "q2",
+      "title": "Score 100% in Practice",
+      "description": "Get all answers correct in a practice session",
+      "currentProgress": 0,
+      "maxProgress": 1,
+      "rewardCoins": 150,
+      "rewardExp": 300,
+      "isClaimed": false,
+      "questType": "PerfectPractice"
+    },
+    {
+      "id": "q3",
+      "title": "Win 3 Battles",
+      "description": "Play ranked or casual matches",
+      "currentProgress": 0,
+      "maxProgress": 3,
+      "rewardCoins": 100,
+      "rewardExp": 200,
+      "isClaimed": false,
+      "questType": "WinBattle"
+    },
+    {
+      "id": "q5",
+      "title": "Win 5 Ranked Battles",
+      "description": "Show your skill in ranked matches",
+      "currentProgress": 0,
+      "maxProgress": 5,
+      "rewardCoins": 300,
+      "rewardExp": 600,
+      "isClaimed": false,
+      "questType": "WinRankedBattle"
+    },
+    {
+      "id": "q6",
+      "title": "Learn 20 words",
+      "description": "Dedication is key",
+      "currentProgress": 0,
+      "maxProgress": 20,
+      "rewardCoins": 100,
+      "rewardExp": 200,
+      "isClaimed": false,
+      "questType": "LearnWord"
+    },
+    {
+      "id": "q7",
+      "title": "Win 10 Battles",
+      "description": "You are unstoppable!",
+      "currentProgress": 0,
+      "maxProgress": 10,
+      "rewardCoins": 400,
+      "rewardExp": 800,
+      "isClaimed": false,
+      "questType": "WinBattle"
+    },
+    {
+      "id": "q8",
+      "title": "Win 3 Ranked in a Row",
+      "description": "Arena master",
+      "currentProgress": 0,
+      "maxProgress": 3,
+      "rewardCoins": 500,
+      "rewardExp": 1000,
+      "isClaimed": false,
+      "questType": "WinRankedBattle"
+    },
+    {
+      "id": "q9",
+      "title": "Collect 500 Coins",
+      "description": "Greed is good... sometimes",
+      "currentProgress": 0,
+      "maxProgress": 500,
+      "rewardCoins": 50,
+      "rewardExp": 100,
+      "isClaimed": false,
+      "questType": "CollectCoin"
+    },
+    {
+      "id": "q10",
+      "title": "Complete 5 Sets",
+      "description": "Broaden your knowledge",
+      "currentProgress": 0,
+      "maxProgress": 5,
+      "rewardCoins": 200,
+      "rewardExp": 400,
+      "isClaimed": false,
+      "questType": "CompleteSet"
+    }
+  ],
+  "shopItems": [
+    {
+      "id": "s1",
+      "name": "Ninja Avatar",
+      "description": "Silent but deadly vocabulary ninja.",
+      "icon": "🥷",
+      "price": 1000,
+      "rarity": "Epic",
+      "category": "Cosmetic",
+      "equipType": "Avatar"
+    },
+    {
+      "id": "s2",
+      "name": "Basic Blue",
+      "description": "A simple blue frame.",
+      "icon": "🟦",
+      "price": 500,
+      "rarity": "Common",
+      "category": "Cosmetic",
+      "equipType": "Border"
+    },
+    {
+      "id": "s3",
+      "name": "Fire Aura",
+      "description": "Blazing hot effect for your profile.",
+      "icon": "🔥",
+      "price": 1500,
+      "rarity": "Legendary",
+      "category": "Cosmetic",
+      "equipType": "Effect"
+    },
+    {
+      "id": "s4",
+      "name": "Double XP Boost",
+      "description": "Doubles the experience gained for 1 hour.",
+      "icon": "⭐",
+      "price": 300,
+      "rarity": "Epic",
+      "category": "Consumable",
+      "equipType": ""
+    },
+    {
+      "id": "s5",
+      "name": "Gacha Ticket",
+      "description": "Use this to spin the lucky wheel.",
+      "icon": "🎫",
+      "price": 100,
+      "rarity": "Rare",
+      "category": "Consumable",
+      "equipType": ""
+    }
+  ],
+  "leaderboardUsers": [
+    {
+      "id": "u2",
+      "username": "Faker",
+      "email": "faker@skt.com",
+      "level": 25,
+      "exp": 24500,
+      "coins": 9999,
+      "rankPoints": 24500,
+      "wins": 150,
+      "totalGames": 160
+    },
+    {
+      "id": "u3",
+      "username": "Sophia",
+      "email": "s@s.com",
+      "level": 18,
+      "exp": 17200,
+      "coins": 500,
+      "rankPoints": 17200,
+      "wins": 78,
+      "totalGames": 100
+    },
+    {
+      "id": "u4",
+      "username": "Oliver_Bot",
+      "email": "o@o.com",
+      "level": 12,
+      "exp": 11500,
+      "coins": 100,
+      "rankPoints": 11500,
+      "wins": 45,
+      "totalGames": 55
+    },
+    {
+      "id": "u5",
+      "username": "Emma_Read",
+      "email": "e@e.com",
+      "level": 9,
+      "exp": 8100,
+      "coins": 300,
+      "rankPoints": 8100,
+      "wins": 30,
+      "totalGames": 40
+    },
+    {
+      "id": "u6",
+      "username": "NoobMaster69",
+      "email": "n@n.com",
+      "level": 5,
+      "exp": 4200,
+      "coins": 0,
+      "rankPoints": 4200,
+      "wins": 12,
+      "totalGames": 25
+    },
+    {
+      "id": "u7",
+      "username": "ProGamer",
+      "email": "p@p.com",
+      "level": 3,
+      "exp": 2100,
+      "coins": 0,
+      "rankPoints": 2100,
+      "wins": 5,
+      "totalGames": 10
+    },
+    {
+      "id": "u8",
+      "username": "SleepyCat",
+      "email": "sc@sc.com",
+      "level": 1,
+      "exp": 500,
+      "coins": 0,
+      "rankPoints": 500,
+      "wins": 1,
+      "totalGames": 2
     }
   ]
 }
