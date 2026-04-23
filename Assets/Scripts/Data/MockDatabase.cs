@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace VocabLearning.Data
@@ -10,6 +11,8 @@ namespace VocabLearning.Data
         public List<VocabSetJson> vocabSets;
         public List<AchievementData> achievements; 
         public List<UserAchievementData> userAchievements;
+        public List<ItemData> items;
+        public List<UserItemData> userItems;
     }
 
     [System.Serializable]
@@ -17,6 +20,7 @@ namespace VocabLearning.Data
     {
         public string id;
         public string username;
+        public string avatar;
         public string email;
         public int level;
         public int exp;
@@ -25,6 +29,7 @@ namespace VocabLearning.Data
         public string rank;
         public int rankPoints;
         public List<string> learnedSets = new List<string>();
+        public List<UserItemData> userItems; 
     }
 
     [System.Serializable]
@@ -58,8 +63,27 @@ namespace VocabLearning.Data
     [System.Serializable]
     public class UserAchievementData
     {
-       public int userId;
+       public string userId;
        public int achievementId;
        public string achievedAt;
+    }
+
+    [System.Serializable]
+    public class ItemData
+    {
+      public int itemId;
+      public string name;
+      public int price;
+      public string itemType; // e.g., "Avatar", "Background", "theme"
+      public string imageUrl; 
+      public string description;
+    }
+
+    [System.Serializable]
+    public class UserItemData
+    {
+      public string userId;
+      public int itemId;
+      public int quantity;
     }
 }

@@ -17,7 +17,7 @@ namespace VocabLearning.UI
             _onNavigate = onNavigate;
         }
 
-        public void Bind(VisualTreeAsset profileAsset)
+        public void Bind(VisualTreeAsset profileAsset, VisualTreeAsset InventoryAsset)
         {
             if (_db == null || _db.currentUser == null) return;
             var user = _db.currentUser;
@@ -29,6 +29,27 @@ namespace VocabLearning.UI
                 btnBack.RegisterCallback<ClickEvent>(evt => _onNavigate?.Invoke(profileAsset));
 
             }
+            var btnInventory = _root.Q<VisualElement>("BtnInventory");
+            if(btnInventory != null)
+            {
+                btnInventory.RegisterCallback<ClickEvent>(evt => _onNavigate?.Invoke(InventoryAsset));
+            }
+            
+            //Avatar
+            var avatarElement = _root.Q<VisualElement>("UserAvatar");
+            if (avatarElement != null && !string.IsNullOrEmpty(user.avatar))
+            {
+                var avatarSprite = Resources.Load<Sprite>($"Sprites/Icon/{user.avatar.Replace(".png","")}");
+                if (avatarSprite != null)
+                {
+                    avatarElement.style.backgroundImage = new StyleBackground(avatarSprite);
+                }
+                else
+                {
+                   Debug.LogWarning($"Không tìm thấy ảnh đại diện tại: Avatars/{user.avatar.Replace(".png","")}");
+                }
+            }
+
 
             // Username: Cho phép sửa
             var inputUser = _root.Q<TextField>("InputUsername");

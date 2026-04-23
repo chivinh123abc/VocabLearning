@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/InventoryScreen.uss?fileID=7433441132597879392&amp;guid=b0c394d4dd19ef84fba3da5c3dc31d9d&amp;type=3#InventoryScreen"/>
+    <ui:VisualElement name="Inventory1" class="item-card inventory-card card" style="width: 320px; background-color: rgb(245, 245, 220); border-width: 2px; border-color: rgb(255, 215, 0); border-radius: 12px; margin-bottom: 15px; padding: 12px; align-items: center; height: 320px; position: relative; flex-shrink: 0;">
+        <ui:VisualElement name="Img_logo" class="item-image" style="height: 180px; width: 180px; background-image: url(&quot;project://database/Assets/Resources/Sprites/Icon/panda.png?fileID=2800000&amp;guid=2253cdea388abe643b13ebbcc3a7b513&amp;type=3#panda&quot;); border-radius: 8px;"/>
+        <ui:Label text="Panda Avatar" name="Lbl_name" class="item-name" style="margin-vertical: 10px; -unity-text-align: middle-center; color: rgb(26, 26, 26); -unity-font-style: bold; height: 50px; width: 150px; font-size: 18px;"/>
+        <ui:Button text="Equip" name="btnEquip" class="btn-equip" style="width: 100%; height: 20%; background-color: rgb(244, 190, 96); border-radius: 15px; border-width: 0; font-size: 20px; -unity-font-style: bold; transition-property: all, ignored, ignored; transition-duration: 0s, 0s, 0s; transition-timing-function: ease, ease, ease; transition-delay: 0s, 0s, 0s;"/>
+    </ui:VisualElement>
+</ui:UXML>

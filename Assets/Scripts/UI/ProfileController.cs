@@ -26,6 +26,21 @@ namespace VocabLearning.UI
             SetText("Lbl_PlayerName", user.username);
             SetText("Lbl_PlayerLevel", $"Level {user.level}");
             
+            // Avatar
+            var avatarElement = _root.Q<VisualElement>("UserAvatar");
+            if (avatarElement != null && !string.IsNullOrEmpty(user.avatar))
+            {
+                var avatarSprite = Resources.Load<Sprite>($"Sprites/Icon/{user.avatar.Replace(".png","")}");
+                if (avatarSprite != null)
+                {
+                    avatarElement.style.backgroundImage = new StyleBackground(avatarSprite);
+                }
+                else
+                {
+                   Debug.LogWarning($"Không tìm thấy ảnh đại diện tại: Avatars/{user.avatar.Replace(".png","")}");
+                }
+            }
+
             // Kinh nghiệm (EXP)
             SetText("Lbl_ExpStatus", $"{user.exp} / {user.expNeeded} EXP");
             var expBar = _root.Q<VisualElement>("ExpBarFill");

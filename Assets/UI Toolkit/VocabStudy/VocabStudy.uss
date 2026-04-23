@@ -440,3 +440,16 @@
     color: rgb(245, 158, 11);
     -unity-font-style: bold;
 }
+
+.inventory-card{
+    transition-duration: 0.2s;
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+}
+
+.inventory-card:hover{
+   transform-usage: is-scaled;
+   scale: 1.05 1.05;
+   border-color: rgb(255, 215, 0);
+   background-color: rgba(255, 255, 255, 0.1);
+}

@@ -42,10 +42,21 @@
 
 /* BUTTON */
 .btn-equip {
-    width: 140px;
-    height: 40px;
+    transition-duration: 0.1s;
+    transition-property: all;
+}
 
-    background-color: rgb(244, 190, 96);
+.btn-equip:hover {
+    background-color: rgb(255, 200, 100); 
+    scale: 1.05 1.05;
+}
+.btn-equip:active {
+    scale: 0.95 0.95;
+    background-color: rgb(200, 150, 50);
+}
 
-    border-radius: 10px;
+.btn-equipped-active {
+    background-color: #2ecc71; /* Màu xanh lá cho nó rực rỡ */
+    border-color: #27ae60;
+    opacity: 0.8;
 }

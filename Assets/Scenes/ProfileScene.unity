@@ -162,6 +162,7 @@ MonoBehaviour:
   ResultScreenAsset: {fileID: 9197481963319205126, guid: 459d79dbe938cff4d922d4f7f1ceca6b, type: 3}
   SettingScreenAsset: {fileID: 9197481963319205126, guid: 9cb0e041163f0ee4b9b841b15f8d6951, type: 3}
   InventoryScreenAsset: {fileID: 9197481963319205126, guid: 03dc391fce07cc24dba2c7f9ba02d392, type: 3}
+  InventoryItemTemplate: {fileID: 9197481963319205126, guid: ce46fab6861d053458670d0478e85726, type: 3}
   OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
 --- !u!114 &80216689
 MonoBehaviour:
@@ -244,6 +245,7 @@ MonoBehaviour:
   ResultScreenAsset: {fileID: 9197481963319205126, guid: 459d79dbe938cff4d922d4f7f1ceca6b, type: 3}
   SettingScreenAsset: {fileID: 9197481963319205126, guid: 9cb0e041163f0ee4b9b841b15f8d6951, type: 3}
   InventoryScreenAsset: {fileID: 9197481963319205126, guid: 03dc391fce07cc24dba2c7f9ba02d392, type: 3}
+  InventoryItemTemplate: {fileID: 9197481963319205126, guid: ce46fab6861d053458670d0478e85726, type: 3}
   OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
 --- !u!114 &740720936
 MonoBehaviour:

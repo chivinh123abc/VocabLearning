@@ -3,6 +3,7 @@
     "id": "1",
     "username": "LearningHero",
     "email": "hero@vocab.com",
+    "avatar": "panda.png",
     "level": 12,
     "exp": 750,
     "expNeeded": 1000,
@@ -40,7 +41,45 @@
     { "userId": "1", "achievementId": "1", "unlockedAt": "2026-15-04" },
     { "userId": "1", "achievementId": "2", "unlockedAt": "2026-15-04" }
   ],
-  
+  "items": [
+    { 
+      "itemId": 1,
+     "name": "Panda Avatar",
+     "price": 100,
+     "itemType": "avatar",
+     "imageUrl": "panda.png",
+     "description": "Avatar gấu trúc"
+    },
+    {
+    "itemId": 2,
+    "name": "meerkat Avatar",
+    "price": 200,
+    "itemType": "avatar",
+    "imageUrl": "meerkat.png",
+    "description": "Avatar meerkat"
+    },
+    {
+      "itemId": 3,
+      "name": "chicken Avatar",
+      "price": 500,
+      "itemType": "avatar",
+      "imageUrl": "chicken.png",
+      "description": "Avatar chicken"
+    },{
+      "itemId": 4,
+      "name": "Rabbit Avatar",
+      "price": 1000,
+      "itemType": "avatar",
+      "imageUrl": "rabbit.png",
+      "description": "Avatar rabbit"
+    }
+  ],
+  "userItems": [
+    { "userId": "1", "itemId": 1, "quantity": 1 },
+    { "userId": "1", "itemId": 2, "quantity": 1 },
+    { "userId": "1", "itemId": 3, "quantity": 1 },
+    { "userId": "1", "itemId": 4, "quantity": 1 }
+  ],
   "vocabSets": [
     {
       "id": "1",

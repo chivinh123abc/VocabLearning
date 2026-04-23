@@ -25,6 +25,9 @@ namespace VocabLearning.UI
         public VisualTreeAsset ResultScreenAsset;
         public VisualTreeAsset SettingScreenAsset;
         public VisualTreeAsset InventoryScreenAsset;
+        
+        [Header("Templates (Không điều hướng)")]
+        public VisualTreeAsset InventoryItemTemplate;
 
         [Header("Databases (JSON)")]
         public TextAsset OverrideJsonDb; 
@@ -100,7 +103,8 @@ namespace VocabLearning.UI
             else if (targetAsset == SettingScreenAsset)
             {
               var settingCtrl = new SettingController(_root, _jsonDb, LoadScreen);
-               settingCtrl.Bind(ProfileScreenAsset);
+               settingCtrl.Bind(ProfileScreenAsset, InventoryScreenAsset);
+                BindBottomNav();
             }
             else if (targetAsset == ResultScreenAsset) BindResultEvents();
             else if (targetAsset == AchievementScreenAsset) {
@@ -111,6 +115,7 @@ namespace VocabLearning.UI
             {
                  var inventoryController = new InventoryController(_root,_jsonDb ,LoadScreen);
                  inventoryController.Bind(ProfileScreenAsset);
+                 inventoryController.LoadInventory(InventoryItemTemplate);
             }
             else BindOtherScreens();
         }
