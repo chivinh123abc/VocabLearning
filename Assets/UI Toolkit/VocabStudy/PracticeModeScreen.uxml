@@ -32,35 +32,39 @@
         <ui:VisualElement style="flex-grow: 1; padding: 0 24px; padding-bottom: 24px; justify-content: center;">
             <ui:VisualElement name="FlashcardContainer" class="card" style="min-height: 400px; flex-direction: column; align-items: center; justify-content: center; padding: 32px;">
                 
-                <!-- Ảnh minh họa (ẩn nếu không có) -->
-                <ui:VisualElement name="FlashcardImgBox" style="width: 150px; height: 150px; background-color: #334155; border-radius: 16px; margin-bottom: 24px;" />
+                <!-- Trạng thái từ vựng -->
+                <ui:Label name="LblWordStatus" text="Not Learned" class="text-xs" style="position: absolute; top: 16px; right: 16px; color: #94A3B8; background-color: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 8px;" />
 
-                <!-- Từ Tiếng Anh -->
-                <ui:Label name="LblEnglishWord" text="English Word" class="text-4xl font-bold" style="color: white; text-align: center; margin-bottom: 16px; white-space: normal;" />
+                <!-- MẶT TRƯỚC (Front) -->
+                <ui:VisualElement name="FlashcardFront" style="width: 100%; height: 100%; align-items: center; justify-content: center; flex-grow: 1;">
+                    <!-- Ảnh minh họa (ẩn nếu không có) -->
+                    <ui:VisualElement name="FlashcardImgBox" style="width: 150px; height: 150px; background-color: #334155; border-radius: 16px; margin-bottom: 24px; -unity-background-scale-mode: scale-to-fit;" />
 
-                <!-- Nút Nghe (Audio - Mock) -->
-                <ui:Button class="bg-primary" style="width: 56px; height: 56px; border-radius: 28px; justify-content: center; align-items: center; margin-bottom: 24px; border-width: 0;">
-                    <ui:Label text="O" class="font-bold" style="color: white; font-size: 20px;" />
-                </ui:Button>
+                    <!-- Từ Tiếng Anh -->
+                    <ui:Label name="LblEnglishWord" text="English Word" class="text-4xl font-bold" style="color: white; text-align: center; margin-bottom: 16px; white-space: normal;" />
 
-                <!-- Box hiển thị Nghĩa Tiếng Việt (Ẩn/Hiện) -->
-                <ui:VisualElement name="MeaningBox" style="align-items: center; justify-content: center; width: 100%; display: none;">
-                    <ui:Label name="LblVietnamese" text="Nghĩa tiếng Việt" class="text-xl text-muted" style="margin-bottom: 16px; text-align: center; white-space: normal;" />
-                    <ui:VisualElement style="background-color: rgba(148, 163, 184, 0.1); border-radius: 12px; padding: 16px; width: 100%; flex-direction: column;">
-                        <ui:Label name="LblExample" text="Example sentence goes here." style="color: #94A3B8; -unity-font-style: italic; white-space: normal; -unity-text-align: middle-center; margin: 0; padding: 0;" />
-                    </ui:VisualElement>
+                    <!-- Nút Nghe (Audio - Mock) -->
+                    <ui:Button class="bg-primary" style="width: 56px; height: 56px; border-radius: 28px; justify-content: center; align-items: center; margin-bottom: 24px; border-width: 0;">
+                        <ui:Label text="O" class="font-bold" style="color: white; font-size: 20px;" />
+                    </ui:Button>
+
+                    <ui:Label name="LblTapHintFront" text="Tap to flip" class="text-muted" style="margin-top: 16px; position: absolute; bottom: 0;" />
                 </ui:VisualElement>
 
-                <!-- Dòng gợi ý -->
-                <ui:Label name="LblTapHint" text="Tap to reveal meaning" class="text-muted" style="margin-top: 16px;" />
-
+                <!-- MẶT SAU (Back) -->
+                <ui:VisualElement name="FlashcardBack" style="width: 100%; height: 100%; align-items: center; justify-content: center; flex-grow: 1; display: none;">
+                    <ui:Label name="LblVietnamese" text="Nghĩa tiếng Việt" class="text-4xl font-bold" style="color: #F59E0B; margin-bottom: 16px; text-align: center; white-space: normal;" />
+                    
+                    <ui:Label name="LblTapHintBack" text="Tap to flip back" class="text-muted" style="margin-top: 16px; position: absolute; bottom: 0;" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- Navigation Footer -->
         <ui:VisualElement style="flex-direction: row; padding: 0 24px; margin-bottom: 12px;">
-            <ui:Button name="BtnPracticePrev" text="Previous" class="btn-secondary" style="margin-right: 8px;" />
-            <ui:Button name="BtnPracticeNext" text="Next" class="btn-primary" style="margin-left: 8px;" />
+            <ui:Button name="BtnPracticePrev" text="Prev" class="btn-secondary" style="flex-grow: 1; margin-right: 4px;" />
+            <ui:Button name="BtnPracticeMastered" text="Got it! ✔" class="btn-primary" style="flex-grow: 2; margin-left: 4px; margin-right: 4px; background-color: #10B981;" />
+            <ui:Button name="BtnPracticeNext" text="Next" class="btn-secondary" style="flex-grow: 1; margin-left: 4px;" />
         </ui:VisualElement>
 
     </ui:VisualElement>

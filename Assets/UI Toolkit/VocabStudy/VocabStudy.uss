@@ -343,7 +343,7 @@
 
 .battle-answer-btn {
     width: 46%;
-    padding: 16px 8px;
+    padding: 8px 4px;
     font-size: 14px;
     -unity-font-style: bold;
     background-color: #334155;
@@ -352,7 +352,8 @@
     border-width: 1px;
     border-color: rgba(255,255,255,0.1);
     margin: 4px;
-    min-height: 54px;
+    min-height: 48px;
+    white-space: normal;
     transition-duration: 0.1s;
 }
 

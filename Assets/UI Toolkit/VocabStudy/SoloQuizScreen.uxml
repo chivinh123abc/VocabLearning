@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="background-color: #0F172A;">
+        
+        <!-- Header -->
+        <ui:VisualElement style="background-color: #6366F1; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+            <ui:Button name="BtnBack" text="&lt; Back" style="background-color: transparent; border-width: 0; color: white; font-size: 16px; align-self: flex-start; padding: 0; margin-bottom: 16px;" />
+            <ui:Label text="Solo Quiz" class="font-bold" style="font-size: 32px; color: white; margin-bottom: 4px;" />
+            <ui:Label text="Train your brain every day" style="color: rgba(255,255,255,0.8); font-size: 16px;" />
+        </ui:VisualElement>
+
+        <ui:ScrollView style="flex-grow: 1; padding: 20px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+            
+            <!-- Mode 1: Survivor -->
+            <ui:Button name="BtnModeSurvivor" class="card" style="background-color: #1E293B; border-width: 0; padding: 20px; margin-bottom: 16px; flex-direction: row; align-items: center; border-left-width: 4px; border-left-color: #EF4444;">
+                <ui:Label text="❤️" style="font-size: 36px; margin-right: 16px;" />
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Label text="Survivor" class="font-bold" style="color: white; font-size: 20px; margin-bottom: 4px;" />
+                    <ui:Label text="3 Hearts. How far can you go?" style="color: #94A3B8; font-size: 13px;" />
+                </ui:VisualElement>
+                <ui:Label text="→" style="color: #6366F1; font-size: 24px;" />
+            </ui:Button>
+
+            <!-- Mode 2: Quick 10 -->
+            <ui:Button name="BtnModeQuick10" class="card" style="background-color: #1E293B; border-width: 0; padding: 20px; margin-bottom: 16px; flex-direction: row; align-items: center; border-left-width: 4px; border-left-color: #10B981;">
+                <ui:Label text="⚡" style="font-size: 36px; margin-right: 16px;" />
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Label text="Quick 10" class="font-bold" style="color: white; font-size: 20px; margin-bottom: 4px;" />
+                    <ui:Label text="A fast set of 10 random questions" style="color: #94A3B8; font-size: 13px;" />
+                </ui:VisualElement>
+                <ui:Label text="→" style="color: #6366F1; font-size: 24px;" />
+            </ui:Button>
+
+            <!-- Mode 3: Time Rush -->
+            <ui:Button name="BtnModeTimeRush" class="card" style="background-color: #1E293B; border-width: 0; padding: 20px; margin-bottom: 32px; flex-direction: row; align-items: center; border-left-width: 4px; border-left-color: #3B82F6;">
+                <ui:Label text="⏱" style="font-size: 36px; margin-right: 16px;" />
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Label text="Time Rush" class="font-bold" style="color: white; font-size: 20px; margin-bottom: 4px;" />
+                    <ui:Label text="60 seconds. Speed is everything!" style="color: #94A3B8; font-size: 13px;" />
+                </ui:VisualElement>
+                <ui:Label text="→" style="color: #6366F1; font-size: 24px;" />
+            </ui:Button>
+
+            <ui:Label text="Your Bests" class="section-title" style="margin-left: 4px; margin-bottom: 12px;" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                <ui:VisualElement class="card" style="width: 31%; align-items: center; padding: 12px 0;">
+                    <ui:Label text="Survivor" style="color: #94A3B8; font-size: 10px;" />
+                    <ui:Label name="BestSurvivor" text="24" style="color: #EF4444; font-size: 18px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card" style="width: 31%; align-items: center; padding: 12px 0;">
+                    <ui:Label text="Quick 10" style="color: #94A3B8; font-size: 10px;" />
+                    <ui:Label name="BestQuick" text="10/10" style="color: #10B981; font-size: 18px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement class="card" style="width: 31%; align-items: center; padding: 12px 0;">
+                    <ui:Label text="Time Rush" style="color: #94A3B8; font-size: 10px;" />
+                    <ui:Label name="BestTimeRush" text="18" style="color: #3B82F6; font-size: 18px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:ScrollView>
+
+        <!-- Gameplay Overlay (Full Screen) -->
+        <ui:VisualElement name="SoloGameplayOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none;">
+            <ui:VisualElement style="background-color: #1E293B; padding: 16px 24px; flex-direction: row; justify-content: space-between; align-items: center;">
+                <ui:Button name="BtnExitGameplay" text="✕" style="background-color: transparent; border-width: 0; color: #94A3B8; font-size: 20px;" />
+                <ui:VisualElement name="SoloStatusContainer" style="flex-direction: row; align-items: center;" />
+                <ui:Label name="SoloScore" text="Score: 0" style="color: white; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="height: 6px; background-color: #334155;">
+                <ui:VisualElement name="SoloProgressBar" style="height: 100%; width: 0%; background-color: #6366F1;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="flex-grow: 1; padding: 24px; align-items: center; justify-content: center;">
+                <ui:VisualElement name="SoloImageContainer" style="width: 240px; height: 180px; background-color: #1E293B; border-radius: 20px; margin-bottom: 24px; display: none; overflow: hidden; border-width: 2px; border-color: #334155;">
+                    <ui:VisualElement name="SoloQuestionImage" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:Label name="SoloQuestionText" text="Question word?" class="font-bold" style="font-size: 28px; color: white; -unity-text-align: middle-center; white-space: normal;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="padding: 24px; padding-bottom: 40px;">
+                <ui:Button name="SoloAns0" text="Answer 1" class="card" style="padding: 16px; margin-bottom: 12px; font-size: 16px; background-color: #1E293B; color: white; border-width: 1px; border-color: #334155;" />
+                <ui:Button name="SoloAns1" text="Answer 2" class="card" style="padding: 16px; margin-bottom: 12px; font-size: 16px; background-color: #1E293B; color: white; border-width: 1px; border-color: #334155;" />
+                <ui:Button name="SoloAns2" text="Answer 3" class="card" style="padding: 16px; margin-bottom: 12px; font-size: 16px; background-color: #1E293B; color: white; border-width: 1px; border-color: #334155;" />
+                <ui:Button name="SoloAns3" text="Answer 4" class="card" style="padding: 16px; margin-bottom: 12px; font-size: 16px; background-color: #1E293B; color: white; border-width: 1px; border-color: #334155;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- EXIT CONFIRMATION DIALOG -->
+        <ui:VisualElement name="SoloExitOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.9); display: none; justify-content: center; align-items: center; z-index: 200;">
+            <ui:VisualElement class="card" style="width: 80%; padding: 24px; background-color: #1E293B; border-width: 1px; border-color: #334155;">
+                <ui:Label text="Quit Quiz?" class="font-bold" style="font-size: 22px; color: white; margin-bottom: 12px; -unity-text-align: middle-center;" />
+                <ui:Label text="Your current progress will be saved. Are you sure?" style="color: #94A3B8; font-size: 14px; margin-bottom: 24px; -unity-text-align: middle-center; white-space: normal;" />
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                    <ui:Button name="BtnConfirmExitNo" text="No, Keep Playing" style="flex-grow: 1; padding: 12px; background-color: #334155; color: white; border-width: 0; border-radius: 8px; margin-right: 8px;" />
+                    <ui:Button name="BtnConfirmExitYes" text="Yes, Quit" style="flex-grow: 1; padding: 12px; background-color: #EF4444; color: white; border-width: 0; border-radius: 8px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Summary Overlay -->
+        <ui:VisualElement name="SummaryOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; padding: 24px; z-index: 100;">
+            <ui:Label name="SummaryTitle" text="Quiz Review" class="font-bold" style="font-size: 22px; color: white; margin-bottom: 8px; -unity-text-align: middle-center; white-space: normal;" />
+            <ui:Label name="SummaryStats" text="Correct: 0 / 0" style="color: #94A3B8; font-size: 14px; margin-bottom: 24px; -unity-text-align: middle-center;" />
+            <ui:ScrollView name="SummaryList" style="flex-grow: 1; margin-bottom: 24px;" vertical-scroller-visibility="Hidden" />
+            <ui:Button name="BtnSummaryContinue" text="CONTINUE" class="btn-primary" style="margin: 0; padding: 0; height: 42px; width: 100%; border-radius: 8px; font-size: 14px; flex-grow: 0;" />
+        </ui:VisualElement>
+
+        <!-- Result Overlay (Redesigned) -->
+        <ui:VisualElement name="ResultOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; padding: 32px; z-index: 110;">
+            <ui:VisualElement style="flex-grow: 1; justify-content: center; align-items: center;">
+                <ui:VisualElement style="width: 120px; height: 120px; background-color: rgba(99, 102, 241, 0.2); border-radius: 60px; justify-content: center; align-items: center; margin-bottom: 24px;">
+                    <ui:Label name="ResultIcon" text="🏁" style="font-size: 64px;" />
+                </ui:VisualElement>
+                
+                <ui:Label name="ResultTitle" text="QUIZ FINISHED!" class="font-bold" style="font-size: 32px; color: #6366F1; -unity-text-align: middle-center; margin-bottom: 8px;" />
+                <ui:Label name="ResultSubtext" text="Mode: TimeRush • Score: 12" style="color: #94A3B8; font-size: 16px; -unity-text-align: middle-center; margin-bottom: 40px;" />
+                
+                <ui:VisualElement class="card" style="width: 100%; padding: 24px; background-color: #1E293B; border-left-width: 4px; border-left-color: #6366F1;">
+                    <ui:Label text="EARNED REWARDS" style="color: #94A3B8; font-size: 12px; margin-bottom: 12px; -unity-font-style: bold; letter-spacing: 1px;" />
+                    <ui:VisualElement style="flex-direction: row; align-items: center;">
+                        <ui:Label text="✨" style="font-size: 24px; margin-right: 8px;" />
+                        <ui:Label name="ResultExp" text="+50 EXP / +50 Coins" style="color: white; font-size: 20px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement style="padding-top: 24px; align-items: center; justify-content: flex-end;">
+                <ui:Button name="BtnLeaveBattle" text="BACK TO HUB" class="btn-primary" style="margin: 0; padding: 0; height: 42px; width: 100%; border-radius: 8px; font-size: 14px; flex-grow: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>

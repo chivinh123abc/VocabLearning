@@ -35,15 +35,21 @@
 
         <!-- Question area -->
         <ui:VisualElement style="padding: 6px 12px; flex-grow: 1; justify-content: center;">
-            <ui:VisualElement style="background-color: #1E293B; border-radius: 12px; border-width: 2px; border-color: #3B82F6; padding: 12px; align-items: center;">
+            <ui:VisualElement style="background-color: #1E293B; border-radius: 12px; border-width: 2px; border-color: #3B82F6; padding: 8px 12px; align-items: center; flex-shrink: 1; overflow: hidden;">
                 
                 <!-- Timer Bar -->
                 <ui:VisualElement class="timer-container">
                     <ui:VisualElement name="TimerFill" class="timer-fill" />
                 </ui:VisualElement>
 
-                <ui:Label text="Translate this word:" style="color: #94A3B8; font-size: 13px; margin-bottom: 6px;" />
-                <ui:Label name="BattleQuestionText" text="Loading..." class="font-bold" style="color: white; font-size: 24px; margin-bottom: 12px;" />
+                <ui:Label name="BattlePromptText" text="Translate this word:" style="color: #94A3B8; font-size: 13px; margin-bottom: 4px;" />
+                <ui:Label name="BattleQuestionText" text="Loading..." class="font-bold" style="color: white; font-size: 24px; margin-bottom: 6px;" />
+
+                <!-- NEW: Image Area -->
+                <ui:VisualElement name="BattleQuestionImageFrame" style="width: 110px; height: 110px; border-radius: 8px; border-width: 2px; border-color: #64748B; background-color: #0F172A; justify-content: center; align-items: center; margin-bottom: 6px; display: none; flex-shrink: 1;">
+                     <ui:VisualElement name="BattleQuestionImage" style="width: 100%; height: 100%; border-radius: 6px; -unity-background-scale-mode: scale-to-fit;" />
+                </ui:VisualElement>
+                <ui:Label name="BattleQuestionSub" text="" style="color: #F59E0B; font-size: 13px; margin-bottom: 8px; display: none; -unity-font-style: bold; white-space: normal;" />
 
                 <!-- Answer Grid -->
                 <ui:VisualElement name="BattleAnswerGrid" class="battle-answer-grid">
@@ -74,21 +80,51 @@
         </ui:VisualElement>
 
         <!-- Result Overlay -->
-        <ui:VisualElement name="ResultOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15,23,42,0.98); justify-content: center; align-items: center; display: none;">
-            <ui:VisualElement style="align-items: center; width: 80%;">
-                <ui:Label name="ResultTitle" text="VICTORY!" class="font-bold" style="font-size: 48px; color: #10B981; margin-bottom: 12px;" />
-                <ui:Label name="ResultSubtext" text="..." style="color: white; font-size: 20px; margin-bottom: 6px;" />
-                <ui:Label name="ResultExp" text="..." style="color: #60A5FA; font-size: 16px; margin-bottom: 20px;" />
+        <ui:VisualElement name="ResultOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; justify-content: center; align-items: center; display: none;">
+            <ui:VisualElement style="align-items: center; width: 90%; background-color: #1E293B; border-radius: 24px; padding: 32px 24px; border-width: 2px; border-color: #334155;">
                 
-                <!-- Special Item Reward Visual -->
-                <ui:VisualElement name="ItemRewardBox" style="flex-direction: row; align-items: center; background-color: rgba(245,158,11,0.2); padding: 8px 16px; border-radius: 12px; border-width: 1px; border-color: #F59E0B; margin-bottom: 24px; display: none;">
+                <ui:Label name="ResultIcon" text="🏆" style="font-size: 64px; margin-bottom: 8px;" />
+                <ui:Label name="ResultTitle" text="VICTORY!" class="font-bold" style="font-size: 36px; color: #10B981; margin-bottom: 24px;" />
+
+                <ui:VisualElement style="width: 100%; margin-bottom: 24px;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: rgba(245,158,11,0.1); padding: 14px 16px; border-radius: 12px; margin-bottom: 8px; align-items: center;">
+                        <ui:Label text="Rank Points" style="color: #F59E0B; font-size: 14px; -unity-font-style: bold;" />
+                        <ui:Label name="ResultSubtext" text="+25" style="color: white; font-size: 18px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: rgba(59,130,246,0.1); padding: 14px 16px; border-radius: 12px; align-items: center;">
+                        <ui:Label text="Rewards" style="color: #60A5FA; font-size: 14px; -unity-font-style: bold;" />
+                        <ui:Label name="ResultExp" text="+50 EXP / +50 Coins" style="color: white; font-size: 14px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+                <ui:VisualElement name="ItemRewardBox" style="flex-direction: row; align-items: center; background-color: #0F172A; padding: 12px 20px; border-radius: 16px; border-width: 1px; border-color: #F59E0B; margin-bottom: 32px; display: none; width: 100%;">
                     <ui:Label name="ItemRewardIcon" text="🎁" style="font-size: 32px; margin-right: 12px;" />
                     <ui:VisualElement>
                         <ui:Label text="New Item Found!" style="color: #F59E0B; font-size: 11px; -unity-font-style: bold;" />
                         <ui:Label name="ItemRewardName" text="Mystery Box" style="color: white; font-size: 15px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Button name="BtnLeaveBattle" text="Return to Hub" class="btn-primary" style="padding: 14px 0; font-size: 16px; width: 220px; align-self: center;" />
+
+                <ui:Button name="BtnLeaveBattle" text="RETURN TO HUB" class="btn-primary" style="margin: 0; padding: 0; height: 44px; width: 100%; border-radius: 8px; font-size: 14px; flex-grow: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Summary Overlay -->
+        <ui:VisualElement name="SummaryOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; flex-direction: column;">
+            <ui:VisualElement style="background-color: #1E293B; padding: 20px 24px; flex-direction: row; align-items: center; border-bottom-width: 1px; border-color: #334155;">
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Label name="SummaryTitle" text="🏆 Battle Summary" class="font-bold" style="font-size: 18px; color: white; margin-bottom: 2px; white-space: normal;" />
+                    <ui:Label name="SummaryStats" text="Correct: 0 / 0" style="color: #F59E0B; font-size: 13px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:ScrollView style="flex-grow: 1; padding: 16px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+                <ui:VisualElement name="SummaryList" style="padding-bottom: 24px;" />
+            </ui:ScrollView>
+
+            <ui:VisualElement style="padding: 16px 24px; background-color: #1E293B; border-top-width: 1px; border-color: #334155; align-items: center;">
+                <ui:Button name="BtnSummaryContinue" text="CONTINUE →" class="btn-primary" style="margin: 0; padding: 0; height: 42px; width: 100%; border-radius: 8px; font-size: 14px; flex-grow: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
 

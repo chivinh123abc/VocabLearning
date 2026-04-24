@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEngine.Networking;
+using System.Linq;
 
 namespace VocabLearning.UI
 {
@@ -16,6 +18,7 @@ namespace VocabLearning.UI
         public VisualTreeAsset BattleScreenAsset;
         public VisualTreeAsset BattleLoadoutScreenAsset;
         public VisualTreeAsset BattleGameplayScreenAsset;
+        public VisualTreeAsset SoloQuizScreenAsset;
         public VisualTreeAsset FriendScreenAsset;
 
         [Header("Remaining Features")]
@@ -47,6 +50,16 @@ namespace VocabLearning.UI
 
         // --- STATE DÀNH CHO SHOP SCREEN ---
         private string _shopCurrentTab = "Cosmetic";
+
+        // --- STATE DÀNH CHO DETAIL SCREEN ---
+        private string _currentSelectedLevel = "Easy";
+        private List<string> _sessionNewlyMasteredWords = new List<string>(); // NEW: Track words mastered in CURRENT session
+        private int _lastSessionCoins = 0;
+        private int _lastSessionExp = 0;
+
+        // --- STATE DÀNH CHO BATTLE HISTORY ---
+        private List<VocabLearning.Data.BattleRoundRecord> _currentBattleRounds = new List<VocabLearning.Data.BattleRoundRecord>();
+        private VocabLearning.Data.BattleHistoryRecord _lastBattleRecord;
 
         private void OnEnable()
         {
@@ -95,6 +108,7 @@ namespace VocabLearning.UI
             else if (targetAsset == BattleLoadoutScreenAsset) BindBattleLoadoutEvents();
             else if (targetAsset == BattleGameplayScreenAsset) BindBattleGameplayEvents();
             else if (targetAsset == FriendScreenAsset) BindFriendEvents();
+            else if (targetAsset == SoloQuizScreenAsset) BindSoloQuizEvents();
             else if (targetAsset == ShopScreenAsset) BindShopEvents();
             else if (targetAsset == RankingScreenAsset) BindRankingEvents();
             else if (targetAsset == ProfileScreenAsset) BindProfileEvents();
@@ -178,7 +192,7 @@ namespace VocabLearning.UI
             if (user.weeklyLogin == null) user.weeklyLogin = new VocabLearning.Data.WeeklyLoginData();
 
             System.DateTime now = System.DateTime.Now;
-            
+
             // Tính ngày Thứ 2 của tuần hiện tại làm mốc reset tuần
             int diff = (7 + (now.DayOfWeek - System.DayOfWeek.Monday)) % 7;
             System.DateTime monday = now.AddDays(-1 * diff).Date;
@@ -275,15 +289,25 @@ namespace VocabLearning.UI
             Button navProfile = _root.Q<Button>("NavProfile");
             if (navProfile != null) navProfile.clicked += () => LoadScreen(ProfileScreenAsset);
 
-            // -- Các nút tính năng chính (Quest, Battle, Friends) --
-            Button actionQuest = _root.Q<Button>("ActionQuest");
-            if (actionQuest != null) actionQuest.clicked += () => LoadScreen(QuestScreenAsset);
+            // -- Các nút tính năng chính (LearnedSets, Battle, Friends) --
+            Button actionLearnedSets = _root.Q<Button>("ActionLearnedSets");
+            if (actionLearnedSets != null) actionLearnedSets.clicked += () => ShowLearnedSetsOverlay();
+
+            Button btnCloseLearnedSets = _root.Q<Button>("BtnCloseLearnedSets");
+            if (btnCloseLearnedSets != null) btnCloseLearnedSets.clicked += () =>
+            {
+                var overlay = _root.Q<VisualElement>("LearnedSetsOverlay");
+                if (overlay != null) overlay.style.display = DisplayStyle.None;
+            };
 
             Button actionBattle = _root.Q<Button>("ActionBattle");
             if (actionBattle != null) actionBattle.clicked += () => LoadScreen(BattleScreenAsset);
 
             Button actionFriends = _root.Q<Button>("ActionFriends");
             if (actionFriends != null) actionFriends.clicked += () => LoadScreen(FriendScreenAsset);
+
+            Button actionSoloQuiz = _root.Q<Button>("ActionSoloQuiz");
+            if (actionSoloQuiz != null) actionSoloQuiz.clicked += () => LoadScreen(SoloQuizScreenAsset);
 
             // -- Đổ dữ liệu Featured và Danh Sách Vocab Sets --
             if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.vocabSets.Count > 0)
@@ -377,7 +401,30 @@ namespace VocabLearning.UI
                         VisualElement tagsGroup = new VisualElement();
                         tagsGroup.style.flexDirection = FlexDirection.Row;
 
-                        Label countLbl = new Label($"{set.wordCount} words");
+                        // [MODIFIED] Logic hiển thị Label Cấp độ và Số từ phù hợp với hệ thống mới
+                        string displayDiff = set.difficulty;
+                        string displayCountText = $"{set.wordCount} words";
+
+                        if (set.levels != null && set.levels.Count > 0)
+                        {
+                            displayDiff = "Multi-Level";
+                            displayCountText = $"{set.levels.Count} Levels";
+
+                            // Nếu có level đã chọn trước đó, hiển thị nó
+                            if (_jsonDb.currentUser != null && _jsonDb.currentUser.savedSetLevels != null)
+                            {
+                                var saved = _jsonDb.currentUser.savedSetLevels.Find(s => s.setId == set.id);
+                                if (saved != null)
+                                {
+                                    displayDiff = saved.level;
+                                    // Cập nhật số từ của level đó luôn
+                                    var levelData = set.levels.Find(l => l.difficulty == saved.level);
+                                    if (levelData != null) displayCountText = $"{levelData.wordIds.Count} words";
+                                }
+                            }
+                        }
+
+                        Label countLbl = new Label(displayCountText);
                         countLbl.style.backgroundColor = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 0.2f)); // rgba(59, 130, 246, 0.2)
                         countLbl.style.color = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 1f));
                         countLbl.style.paddingTop = 4;
@@ -392,7 +439,7 @@ namespace VocabLearning.UI
                         countLbl.style.marginRight = 8;
                         tagsGroup.Add(countLbl);
 
-                        Label diffLbl = new Label(set.difficulty);
+                        Label diffLbl = new Label(displayDiff);
                         diffLbl.style.backgroundColor = new StyleColor(new Color(0.55f, 0.36f, 0.96f, 0.2f));
                         diffLbl.style.color = new StyleColor(new Color(0.55f, 0.36f, 0.96f, 1f));
                         diffLbl.style.paddingTop = 4;
@@ -404,24 +451,63 @@ namespace VocabLearning.UI
                         diffLbl.style.borderBottomLeftRadius = 8;
                         diffLbl.style.borderBottomRightRadius = 8;
                         diffLbl.style.fontSize = 12;
+                        diffLbl.style.marginRight = 8; // Thêm margin right để đẹp hơn
                         tagsGroup.Add(diffLbl);
 
-                        // [NEW] Hiển thị nhãn Đã Học (Learned) nếu User đã hoàn thành
-                        if (_jsonDb.currentUser != null && _jsonDb.currentUser.learnedSets != null && _jsonDb.currentUser.learnedSets.Contains(set.id))
+                        // [MODIFIED] Tính toán tiến độ dựa trên số từ "Đã nhớ" (Mastered)
+                        if (_jsonDb.currentUser != null)
                         {
-                            Label learnedBadge = new Label("✔ Learned");
-                            learnedBadge.style.backgroundColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 0.2f)); // Emerald-500 tint
-                            learnedBadge.style.color = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 1f));
-                            learnedBadge.style.paddingTop = 4;
-                            learnedBadge.style.paddingBottom = 4;
-                            learnedBadge.style.paddingLeft = 8;
-                            learnedBadge.style.paddingRight = 8;
-                            learnedBadge.style.borderTopLeftRadius = 8;
-                            learnedBadge.style.borderTopRightRadius = 8;
-                            learnedBadge.style.borderBottomLeftRadius = 8;
-                            learnedBadge.style.borderBottomRightRadius = 8;
-                            learnedBadge.style.fontSize = 12;
-                            tagsGroup.Add(learnedBadge);
+                            var user = _jsonDb.currentUser;
+                            int masteredCount = 0;
+                            int totalWords = (set.wordIds != null) ? set.wordIds.Count : 0;
+
+                            // Đếm số từ trong bộ này đã đạt status = 2 (Mastered)
+                            if (user.wordProgress != null && set.wordIds != null)
+                            {
+                                foreach (var wordId in set.wordIds)
+                                {
+                                    var p = user.wordProgress.Find(x => x.wordId == wordId);
+                                    if (p != null && p.status == 2) masteredCount++;
+                                }
+                            }
+
+                            if (masteredCount > 0)
+                            {
+                                bool isFullyMastered = (totalWords > 0 && masteredCount >= totalWords);
+                                string progressText = isFullyMastered ? "✔ Hoàn thành" : $"✔ {masteredCount}/{totalWords} từ";
+                                Color badgeColor = isFullyMastered ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.96f, 0.62f, 0.04f); // Emerald or Gold
+
+                                Label progressBadge = new Label(progressText);
+                                progressBadge.style.backgroundColor = new StyleColor(new Color(badgeColor.r, badgeColor.g, badgeColor.b, 0.2f));
+                                progressBadge.style.color = new StyleColor(badgeColor);
+                                progressBadge.style.paddingTop = 4;
+                                progressBadge.style.paddingBottom = 4;
+                                progressBadge.style.paddingLeft = 8;
+                                progressBadge.style.paddingRight = 8;
+                                progressBadge.style.borderTopLeftRadius = 8;
+                                progressBadge.style.borderTopRightRadius = 8;
+                                progressBadge.style.borderBottomLeftRadius = 8;
+                                progressBadge.style.borderBottomRightRadius = 8;
+                                progressBadge.style.fontSize = 12;
+                                tagsGroup.Add(progressBadge);
+                            }
+                            else if (totalWords > 0)
+                            {
+                                // Show Pending if zero mastered words
+                                Label pendingBadge = new Label("Chưa học");
+                                pendingBadge.style.backgroundColor = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 0.2f)); // Slate-400 tint
+                                pendingBadge.style.color = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 1f));
+                                pendingBadge.style.paddingTop = 4;
+                                pendingBadge.style.paddingBottom = 4;
+                                pendingBadge.style.paddingLeft = 8;
+                                pendingBadge.style.paddingRight = 8;
+                                pendingBadge.style.borderTopLeftRadius = 8;
+                                pendingBadge.style.borderTopRightRadius = 8;
+                                pendingBadge.style.borderBottomLeftRadius = 8;
+                                pendingBadge.style.borderBottomRightRadius = 8;
+                                pendingBadge.style.fontSize = 12;
+                                tagsGroup.Add(pendingBadge);
+                            }
                         }
 
                         textGroup.Add(tagsGroup);
@@ -463,11 +549,272 @@ namespace VocabLearning.UI
         private void ResolveSetWords(VocabLearning.Data.VocabSetJson set)
         {
             _currentVocabSetWords.Clear();
-            if (set == null || set.wordIds == null) return;
-            foreach (var id in set.wordIds)
+            if (set == null) return;
+
+            List<string> wordIdsToUse = set.wordIds;
+
+            // [NEW] If set has levels, filter by selected level
+            if (set.levels != null && set.levels.Count > 0)
+            {
+                var levelData = set.levels.Find(l => l.difficulty == _currentSelectedLevel);
+                if (levelData != null)
+                {
+                    wordIdsToUse = levelData.wordIds;
+                }
+            }
+
+            if (wordIdsToUse == null) return;
+
+            foreach (var id in wordIdsToUse)
             {
                 var word = FindWordById(id);
                 if (word != null) _currentVocabSetWords.Add(word);
+            }
+        }
+
+        private void SelectLevel(string level)
+        {
+            _currentSelectedLevel = level;
+            _sessionNewlyMasteredWords.Clear();
+
+            // Save to database
+            if (_jsonDb.currentUser != null)
+            {
+                if (_jsonDb.currentUser.savedSetLevels == null)
+                    _jsonDb.currentUser.savedSetLevels = new List<VocabLearning.Data.UserSetLevelJson>();
+
+                var saved = _jsonDb.currentUser.savedSetLevels.Find(s => s.setId == _currentVocabSet.id);
+                if (saved != null)
+                {
+                    saved.level = level;
+                }
+                else
+                {
+                    _jsonDb.currentUser.savedSetLevels.Add(new VocabLearning.Data.UserSetLevelJson
+                    {
+                        setId = _currentVocabSet.id,
+                        level = level
+                    });
+                }
+            }
+
+            // Refresh UI
+            ResolveSetWords(_currentVocabSet);
+            BindDetailEvents(); // Re-bind to refresh list and button states
+        }
+
+        private void CreateLevelButtons()
+        {
+            VisualElement container = _root.Q<VisualElement>("LevelSelectionContainer");
+            if (container == null) return;
+
+            container.Clear();
+
+            // Nếu bộ này có danh sách Level cụ thể
+            if (_currentVocabSet.levels != null && _currentVocabSet.levels.Count > 0)
+            {
+                foreach (var levelData in _currentVocabSet.levels)
+                {
+                    var levelName = levelData.difficulty;
+
+                    // Tính tiến độ cho level này [NEW]
+                    int masteredInLevel = 0;
+                    int totalInLevel = levelData.wordIds.Count;
+                    if (_jsonDb.currentUser != null && _jsonDb.currentUser.wordProgress != null)
+                    {
+                        foreach (var wId in levelData.wordIds)
+                        {
+                            var p = _jsonDb.currentUser.wordProgress.Find(x => x.wordId == wId);
+                            if (p != null && p.status == 2) masteredInLevel++;
+                        }
+                    }
+
+                    string btnText = $"{levelName.ToUpper()} ({masteredInLevel}/{totalInLevel})";
+                    Button btn = CreateLevelBtn(levelName, btnText);
+                    btn.clicked += () => SelectLevel(levelName);
+                    container.Add(btn);
+                }
+            }
+            else
+            {
+                // Nếu không có level, hiện 1 nút duy nhất với độ khó mặc định
+                var defaultLevel = _currentVocabSet.difficulty;
+
+                // Tính tiến độ cho level mặc định này [NEW FIX]
+                int masteredCount = 0;
+                int totalCount = _currentVocabSet.wordIds.Count;
+                if (_jsonDb.currentUser != null && _jsonDb.currentUser.wordProgress != null)
+                {
+                    foreach (var wId in _currentVocabSet.wordIds)
+                    {
+                        var p = _jsonDb.currentUser.wordProgress.Find(x => x.wordId == wId);
+                        if (p != null && p.status == 2) masteredCount++;
+                    }
+                }
+
+                string btnText = $"{defaultLevel.ToUpper()} ({masteredCount}/{totalCount})";
+                Button btn = CreateLevelBtn(defaultLevel, btnText);
+                btn.clicked += () => SelectLevel(defaultLevel);
+                container.Add(btn);
+            }
+
+            UpdateLevelButtonsUI();
+        }
+
+        private Button CreateLevelBtn(string levelName, string displayText)
+        {
+            Button btn = new Button();
+            btn.text = displayText;
+            btn.name = "BtnLevel_" + levelName;
+            btn.AddToClassList("card");
+            btn.style.flexGrow = 1;
+            btn.style.flexShrink = 1;
+            btn.style.minWidth = 80;
+            btn.style.marginRight = 6;
+            btn.style.marginBottom = 6;
+            btn.style.paddingTop = 10;
+            btn.style.paddingBottom = 10;
+            btn.style.paddingLeft = 4;
+            btn.style.paddingRight = 4;
+            btn.style.fontSize = 11;
+            btn.style.color = Color.white;
+            btn.style.borderTopLeftRadius = 10;
+            btn.style.borderTopRightRadius = 10;
+            btn.style.borderBottomLeftRadius = 10;
+            btn.style.borderBottomRightRadius = 10;
+            btn.style.borderTopWidth = 0;
+            btn.style.borderBottomWidth = 0;
+            btn.style.borderLeftWidth = 0;
+            btn.style.borderRightWidth = 0;
+            btn.style.unityFontStyleAndWeight = FontStyle.Bold;
+            return btn;
+        }
+
+        private void UpdateLevelButtonsUI()
+        {
+            VisualElement container = _root.Q<VisualElement>("LevelSelectionContainer");
+            if (container == null) return;
+
+            foreach (var child in container.Children())
+            {
+                if (child is Button btn)
+                {
+                    string levelName = btn.name.Replace("BtnLevel_", "");
+                    bool isSelected = (levelName == _currentSelectedLevel);
+
+                    Color activeColor = new Color(0.23f, 0.51f, 0.96f); // Default Blue
+                    if (levelName == "Easy") activeColor = new Color(0.10f, 0.73f, 0.51f); // Emerald
+                    else if (levelName == "Medium") activeColor = new Color(0.23f, 0.51f, 0.96f); // Blue
+                    else if (levelName == "Hard") activeColor = new Color(0.93f, 0.26f, 0.26f); // Red
+
+                    SetLevelButtonStyle(btn, isSelected, activeColor);
+                }
+            }
+        }
+
+        private void SetLevelButtonStyle(Button btn, bool isSelected, Color activeColor)
+        {
+            if (isSelected)
+            {
+                btn.style.backgroundColor = new StyleColor(activeColor);
+                btn.style.borderBottomWidth = 4;
+                btn.style.borderBottomColor = new StyleColor(new Color(0, 0, 0, 0.3f));
+            }
+            else
+            {
+                btn.style.backgroundColor = new StyleColor(new Color(0.2f, 0.25f, 0.33f)); // Slate-700
+                btn.style.borderBottomWidth = 0;
+            }
+        }
+
+        private void ShowLearnedSetsOverlay()
+        {
+            var overlay = _root.Q<VisualElement>("LearnedSetsOverlay");
+            if (overlay == null) return;
+            overlay.style.display = DisplayStyle.Flex;
+
+            var container = _root.Q<VisualElement>("LearnedSetsListContainer");
+            if (container == null) return;
+            container.Clear();
+
+            var user = _jsonDb?.currentUser;
+            if (user == null || user.learnedSets == null || user.learnedSets.Count == 0)
+            {
+                Label emptyLbl = new Label("Bạn chưa hoàn thành bộ từ vựng nào cả!");
+                emptyLbl.style.color = Color.white;
+                emptyLbl.style.marginTop = 20;
+                emptyLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+                container.Add(emptyLbl);
+                return;
+            }
+
+            // Đảo ngược list để hiện bộ mới học lên trên
+            List<string> reversedLearned = new List<string>(user.learnedSets);
+            reversedLearned.Reverse();
+
+            foreach (string setId in reversedLearned)
+            {
+                var vocabSet = _jsonDb.vocabSets.Find(s => s.id == setId);
+                if (vocabSet == null) continue;
+
+                VisualElement card = new VisualElement();
+                card.AddToClassList("card");
+                card.style.flexDirection = FlexDirection.Row;
+                card.style.marginBottom = 16;
+                card.style.paddingLeft = 16;
+                card.style.paddingRight = 16;
+                card.style.paddingTop = 16;
+                card.style.paddingBottom = 16;
+
+                VisualElement iconBox = new VisualElement();
+                iconBox.style.width = 60;
+                iconBox.style.height = 60;
+                iconBox.style.backgroundColor = new StyleColor(new Color(0.06f, 0.72f, 0.5f));
+                iconBox.style.borderTopLeftRadius = 12;
+                iconBox.style.borderTopRightRadius = 12;
+                iconBox.style.borderBottomLeftRadius = 12;
+                iconBox.style.borderBottomRightRadius = 12;
+                iconBox.style.marginRight = 16;
+                iconBox.style.justifyContent = Justify.Center;
+                iconBox.style.alignItems = Align.Center;
+
+                Label iconLbl = new Label("✔");
+                iconLbl.style.color = Color.white;
+                iconLbl.style.fontSize = 24;
+                iconLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                iconBox.Add(iconLbl);
+                card.Add(iconBox);
+
+                VisualElement infoBox = new VisualElement();
+                infoBox.style.flexGrow = 1;
+                infoBox.style.justifyContent = Justify.Center;
+
+                Label titleLbl = new Label(vocabSet.title);
+                titleLbl.style.color = Color.white;
+                titleLbl.style.fontSize = 18;
+                titleLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                titleLbl.style.marginBottom = 4;
+                infoBox.Add(titleLbl);
+
+                Label countLbl = new Label($"{vocabSet.wordCount} words - Đã hoàn thành");
+                countLbl.style.color = new StyleColor(new Color(0.6f, 0.64f, 0.71f));
+                infoBox.Add(countLbl);
+
+                card.Add(infoBox);
+
+                Button btnReplay = new Button(() =>
+                {
+                    _currentVocabSet = vocabSet;
+                    LoadScreen(VocabDetailScreenAsset);
+                });
+                btnReplay.text = "Review";
+                btnReplay.AddToClassList("btn-secondary");
+                btnReplay.style.paddingLeft = 12;
+                btnReplay.style.paddingRight = 12;
+                btnReplay.style.alignSelf = Align.Center;
+                card.Add(btnReplay);
+
+                container.Add(card);
             }
         }
 
@@ -476,7 +823,26 @@ namespace VocabLearning.UI
         {
             if (_currentVocabSet != null)
             {
+                // [NEW] Load saved level for this set
+                if (_jsonDb.currentUser != null && _jsonDb.currentUser.savedSetLevels != null)
+                {
+                    var saved = _jsonDb.currentUser.savedSetLevels.Find(s => s.setId == _currentVocabSet.id);
+                    if (saved != null)
+                    {
+                        _currentSelectedLevel = saved.level;
+                    }
+                    else
+                    {
+                        // Default logic: Lấy từ levels[0] nếu có, nếu không lấy từ difficulty gốc
+                        if (_currentVocabSet.levels != null && _currentVocabSet.levels.Count > 0)
+                            _currentSelectedLevel = _currentVocabSet.levels[0].difficulty;
+                        else
+                            _currentSelectedLevel = _currentVocabSet.difficulty;
+                    }
+                }
+
                 ResolveSetWords(_currentVocabSet);
+                CreateLevelButtons();
 
                 // Binding Dữ Liệu Động (Tiêu đề, Số từ, Level)
                 Label lblTitle = _root.Q<Label>("LblVocabTitle");
@@ -486,10 +852,10 @@ namespace VocabLearning.UI
                 if (lblDesc != null) lblDesc.text = _currentVocabSet.description;
 
                 Label lblCount = _root.Q<Label>("LblVocabCount");
-                if (lblCount != null) lblCount.text = _currentVocabSet.wordCount.ToString();
+                if (lblCount != null) lblCount.text = _currentVocabSetWords.Count.ToString();
 
                 Label lblLevel = _root.Q<Label>("LblVocabLevel");
-                if (lblLevel != null) lblLevel.text = _currentVocabSet.difficulty;
+                if (lblLevel != null) lblLevel.text = _currentSelectedLevel;
 
                 // Binding danh sách từ vựng động
                 VisualElement wordsContainer = _root.Q<VisualElement>("WordsContainer");
@@ -526,6 +892,27 @@ namespace VocabLearning.UI
                         vnLbl.AddToClassList("text-muted");
                         textContainer.Add(vnLbl);
 
+                        // [NEW] Badge trạng thái từ vựng
+                        int status = GetWordStatus(wordData.id);
+                        if (status > 0)
+                        {
+                            Label statusBadge = new Label(status == 2 ? "★ Đã học" : "Đang học");
+                            statusBadge.style.fontSize = 10;
+                            statusBadge.style.marginLeft = 8;
+                            statusBadge.style.paddingLeft = 4;
+                            statusBadge.style.paddingRight = 4;
+                            statusBadge.style.borderTopLeftRadius = 4;
+                            statusBadge.style.borderTopRightRadius = 4;
+                            statusBadge.style.borderBottomLeftRadius = 4;
+                            statusBadge.style.borderBottomRightRadius = 4;
+                            statusBadge.style.backgroundColor = status == 2 ? new Color(0.96f, 0.62f, 0.04f, 0.2f) : new Color(0.23f, 0.51f, 0.96f, 0.2f);
+                            statusBadge.style.color = status == 2 ? new Color(0.96f, 0.62f, 0.04f) : new Color(0.23f, 0.51f, 0.96f);
+
+                            // Thêm vào hàng chứa text (ngang với English word hoặc ngay dưới)
+                            enLbl.parent.Insert(1, statusBadge);
+                            statusBadge.style.alignSelf = Align.FlexStart;
+                        }
+
                         wordCard.Add(textContainer);
                         wordsContainer.Add(wordCard);
                         count++;
@@ -543,6 +930,7 @@ namespace VocabLearning.UI
                     {
                         _practiceCurrentIndex = 0;
                         _practiceShowMeaning = false;
+                        _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách mỗi khi vào Practice mới
                         LoadScreen(PracticeModeScreenAsset);
                     }
                     else
@@ -552,9 +940,9 @@ namespace VocabLearning.UI
                 };
             }
 
-            // Nút Solo Quiz 
+            // Nút Review Quiz 
             Button quizBtn = _root.Q<Button>(className: "mode-btn-quiz");
-            if (quizBtn != null) quizBtn.clicked += () => Debug.Log("DetailScreen: Solo Quiz clicked!");
+            if (quizBtn != null) quizBtn.clicked += () => StartReviewQuiz();
 
             // Nút Back
             Button backBtn = _root.Q<Button>("BtnBack");
@@ -583,7 +971,37 @@ namespace VocabLearning.UI
 
             // Nút Đóng
             Button btnClose = _root.Q<Button>("BtnPracticeClose");
-            if (btnClose != null) btnClose.clicked += () => LoadScreen(VocabDetailScreenAsset);
+            if (btnClose != null)
+            {
+                Debug.Log("BindPracticeEvents: Found BtnPracticeClose");
+                btnClose.clicked += () =>
+                {
+                    int newlyMastered = (_sessionNewlyMasteredWords != null) ? _sessionNewlyMasteredWords.Count : 0;
+
+                    if (newlyMastered > 0)
+                    {
+                        ShowConfirmationDialog(
+                            "Kết thúc bài học?",
+                            $"Bạn đã thuộc được {newlyMastered} từ mới. Bạn có muốn lưu lại kết quả và nhận thưởng ngay bây giờ không?",
+                            () => { RecordSetProgress(false); LoadScreen(ResultScreenAsset); },
+                            null
+                        );
+                    }
+                    else
+                    {
+                        ShowConfirmationDialog(
+                            "Thoát luyện tập?",
+                            "Bạn có chắc muốn thoát khỏi bài luyện tập này không?",
+                            () => LoadScreen(VocabDetailScreenAsset),
+                            null
+                        );
+                    }
+                };
+            }
+            else
+            {
+                Debug.LogError("BindPracticeEvents: CANNOT find BtnPracticeClose!");
+            }
 
             VisualElement flashcard = _root.Q<VisualElement>("FlashcardContainer");
             Button btnPrev = _root.Q<Button>("BtnPracticePrev");
@@ -595,6 +1013,13 @@ namespace VocabLearning.UI
                 flashcard.RegisterCallback<ClickEvent>(evt =>
                 {
                     _practiceShowMeaning = !_practiceShowMeaning;
+                    // Đọc từ tiếng Anh khi lật sang mặt sau
+                    if (_practiceShowMeaning && _currentVocabSetWords != null)
+                    {
+                        var word = _currentVocabSetWords[_practiceCurrentIndex];
+                        if (VocabLearning.Helpers.TextToSpeechHelper.Instance != null)
+                            VocabLearning.Helpers.TextToSpeechHelper.Instance.Speak(word.word);
+                    }
                     UpdatePracticeUI();
                 });
             }
@@ -616,42 +1041,160 @@ namespace VocabLearning.UI
             // Nút Next
             if (btnNext != null)
             {
-                btnNext.clicked += () =>
+                btnNext.clicked += () => HandlePracticeNext();
+            }
+
+            // Nút Đã Nhớ (Mastered) [NEW]
+            Button btnMastered = _root.Q<Button>("BtnPracticeMastered");
+            if (btnMastered != null)
+            {
+                btnMastered.clicked += () =>
                 {
-                    // Tăng tiến độ nhiệm vụ "Học 10 từ mới"
-                    AddQuestProgressByType("LearnWord", 1);
-
-                    if (_practiceCurrentIndex < _currentVocabSetWords.Count - 1)
-                    {
-                        _practiceCurrentIndex++;
-                        _practiceShowMeaning = false;
-                        UpdatePracticeUI();
-                    }
-                    else
-                    {
-                        // Hoàn thành bộ -> Tăng tiến độ nhiệm vụ "Đạt điểm tuyệt đối"
-                        AddQuestProgressByType("PerfectPractice", 1);
-
-                        // Từ cuối cùng -> Finish -> Ghi nhận Đã Học và chuyển sang Result
-                        if (_jsonDb != null && _jsonDb.currentUser != null)
-                        {
-                            if (_jsonDb.currentUser.learnedSets == null)
-                                _jsonDb.currentUser.learnedSets = new System.Collections.Generic.List<string>();
-
-                            if (!_jsonDb.currentUser.learnedSets.Contains(_currentVocabSet.id))
-                            {
-                                _jsonDb.currentUser.learnedSets.Add(_currentVocabSet.id);
-                                _jsonDb.currentUser.coins += 50; // Thưởng coin tự do gập khuôn
-                                _jsonDb.currentUser.exp += 100;
-                            }
-                        }
-                        LoadScreen(ResultScreenAsset);
-                    }
+                    MarkWordAsMastered();
+                    HandlePracticeNext();
                 };
             }
 
             // Lần đầu mở lên -> Vẽ UI
             UpdatePracticeUI();
+        }
+
+        private void MarkWordAsMastered()
+        {
+            if (_currentVocabSetWords == null || _practiceCurrentIndex >= _currentVocabSetWords.Count) return;
+            var word = _currentVocabSetWords[_practiceCurrentIndex];
+
+            if (_jsonDb != null && _jsonDb.currentUser != null)
+            {
+                var user = _jsonDb.currentUser;
+                if (user.wordProgress == null) user.wordProgress = new List<VocabLearning.Data.UserWordProgressJson>();
+
+                var progress = user.wordProgress.Find(p => p.wordId == word.id);
+
+                // [NEW] Chỉ ghi nhận nếu từ này CHƯA từng được Mastered trước đó
+                if (progress == null || progress.status != 2)
+                {
+                    if (!_sessionNewlyMasteredWords.Contains(word.id))
+                    {
+                        _sessionNewlyMasteredWords.Add(word.id);
+                    }
+                }
+
+                if (progress == null)
+                {
+                    progress = new VocabLearning.Data.UserWordProgressJson { wordId = word.id, status = 2 };
+                    user.wordProgress.Add(progress);
+                }
+                else
+                {
+                    progress.status = 2;
+                }
+            }
+        }
+
+        private void HandlePracticeNext()
+        {
+            // Tăng tiến độ nhiệm vụ "Học 10 từ mới"
+            AddQuestProgressByType("LearnWord", 1);
+
+            // Đánh dấu từ hiện tại là "Đã học" (status = 1) nếu chưa có status nào khác
+            if (_jsonDb.currentUser != null)
+            {
+                var word = _currentVocabSetWords[_practiceCurrentIndex];
+                var progress = _jsonDb.currentUser.wordProgress.Find(p => p.wordId == word.id);
+                if (progress == null)
+                {
+                    _jsonDb.currentUser.wordProgress.Add(new VocabLearning.Data.UserWordProgressJson { wordId = word.id, status = 1 });
+                }
+                else if (progress.status == 0)
+                {
+                    progress.status = 1;
+                }
+            }
+
+            if (_practiceCurrentIndex < _currentVocabSetWords.Count - 1)
+            {
+                _practiceCurrentIndex++;
+                _practiceShowMeaning = false;
+                UpdatePracticeUI();
+            }
+            else
+            {
+                // [NEW] Kiểm tra xem đã học hết (Mastered) tất cả các từ trong bài chưa
+                int masteredInLevel = 0;
+                foreach (var w in _currentVocabSetWords)
+                {
+                    if (GetWordStatus(w.id) == 2) masteredInLevel++;
+                }
+
+                if (masteredInLevel < _currentVocabSetWords.Count)
+                {
+                    ShowConfirmationDialog(
+                        "Chưa thuộc hết bài!",
+                        "Bạn vẫn còn một số từ chưa nhấn 'Đã nhớ'. Bạn có chắc muốn kết thúc bài học này ngay bây giờ không?",
+                        () => { RecordSetProgress(false); LoadScreen(ResultScreenAsset); },
+                        null
+                    );
+                }
+                else
+                {
+                    // Hoàn thành bộ -> Tăng tiến độ nhiệm vụ "Đạt điểm tuyệt đối"
+                    AddQuestProgressByType("PerfectPractice", 1);
+                    RecordSetProgress(true);
+                    LoadScreen(ResultScreenAsset);
+                }
+            }
+        }
+
+        private void RecordSetProgress(bool isLevelCompleted)
+        {
+            var user = _jsonDb.currentUser;
+            if (user == null) return;
+
+            // [NEW] Tính toán thưởng cuối bài dựa trên số từ mới học được
+            _lastSessionCoins = _sessionNewlyMasteredWords.Count * 10; // 10 coin mỗi từ mới
+            _lastSessionExp = _sessionNewlyMasteredWords.Count * 20;  // 20 exp mỗi từ mới
+
+            user.coins += _lastSessionCoins;
+            user.exp += _lastSessionExp;
+
+            if (user.setProgress == null) user.setProgress = new List<VocabLearning.Data.UserSetProgressJson>();
+            var progress = user.setProgress.Find(p => p.setId == _currentVocabSet.id);
+            if (progress == null)
+            {
+                progress = new VocabLearning.Data.UserSetProgressJson { setId = _currentVocabSet.id };
+                user.setProgress.Add(progress);
+            }
+
+            if (isLevelCompleted && !progress.completedLevels.Contains(_currentSelectedLevel))
+            {
+                progress.completedLevels.Add(_currentSelectedLevel);
+                // Thưởng thêm khi hoàn thành cả level (Bonus)
+                user.coins += 20;
+                user.exp += 50;
+                _lastSessionCoins += 20;
+                _lastSessionExp += 50;
+            }
+
+            bool allDone = true;
+            if (_currentVocabSet.levels != null && _currentVocabSet.levels.Count > 0)
+            {
+                foreach (var lv in _currentVocabSet.levels)
+                {
+                    if (!progress.completedLevels.Contains(lv.difficulty)) { allDone = false; break; }
+                }
+            }
+            if (allDone)
+            {
+                if (user.learnedSets == null) user.learnedSets = new List<string>();
+                if (!user.learnedSets.Contains(_currentVocabSet.id)) user.learnedSets.Add(_currentVocabSet.id);
+            }
+            // Chỉ cần học được ít nhất 1 từ thì cũng đưa vào Learned Sets
+            else if (_sessionNewlyMasteredWords.Count > 0)
+            {
+                if (user.learnedSets == null) user.learnedSets = new List<string>();
+                if (!user.learnedSets.Contains(_currentVocabSet.id)) user.learnedSets.Add(_currentVocabSet.id);
+            }
         }
 
         private void UpdatePracticeUI()
@@ -675,23 +1218,62 @@ namespace VocabLearning.UI
             Label lblEnglish = _root.Q<Label>("LblEnglishWord");
             if (lblEnglish != null) lblEnglish.text = currentWord.word;
 
-            // Nghĩa và gợi ý
-            VisualElement meaningBox = _root.Q<VisualElement>("MeaningBox");
-            Label lblTapHint = _root.Q<Label>("LblTapHint");
-            Label lblVietnamese = _root.Q<Label>("LblVietnamese");
-
-            if (meaningBox != null && lblTapHint != null && lblVietnamese != null)
+            // [NEW] Hiển thị trạng thái Word Mastery
+            Label lblStatus = _root.Q<Label>("LblWordStatus");
+            if (lblStatus != null)
             {
-                if (_practiceShowMeaning)
+                int status = GetWordStatus(currentWord.id);
+                switch (status)
                 {
-                    meaningBox.style.display = DisplayStyle.Flex;
-                    lblTapHint.style.display = DisplayStyle.None;
-                    lblVietnamese.text = currentWord.meaning;
+                    case 1:
+                        lblStatus.text = "Learning";
+                        lblStatus.style.color = new Color(0.23f, 0.51f, 0.96f); // Blue
+                        break;
+                    case 2:
+                        lblStatus.text = "Mastered ✔";
+                        lblStatus.style.color = new Color(0.10f, 0.73f, 0.51f); // Emerald
+                        break;
+                    default:
+                        lblStatus.text = "New Word";
+                        lblStatus.style.color = new Color(0.58f, 0.64f, 0.72f); // Slate
+                        break;
+                }
+            }
+
+            // Hình ảnh minh họa [NEW]
+            VisualElement imgBox = _root.Q<VisualElement>("FlashcardImgBox");
+            if (imgBox != null)
+            {
+                if (!string.IsNullOrEmpty(currentWord.imageUrl))
+                {
+                    imgBox.style.display = DisplayStyle.Flex;
+                    imgBox.style.backgroundImage = null; // Clear old image
+                    StartCoroutine(DownloadAndSetImage(currentWord.imageUrl, imgBox));
                 }
                 else
                 {
-                    meaningBox.style.display = DisplayStyle.None;
-                    lblTapHint.style.display = DisplayStyle.Flex;
+                    imgBox.style.display = DisplayStyle.None;
+                }
+            }
+
+            // Lật thẻ (Flip Card)
+            VisualElement cardFront = _root.Q<VisualElement>("FlashcardFront");
+            VisualElement cardBack = _root.Q<VisualElement>("FlashcardBack");
+
+            if (cardFront != null && cardBack != null)
+            {
+                if (_practiceShowMeaning)
+                {
+                    cardFront.style.display = DisplayStyle.None;
+                    cardBack.style.display = DisplayStyle.Flex;
+
+                    Label lblVietnamese = _root.Q<Label>("LblVietnamese");
+                    if (lblVietnamese != null) lblVietnamese.text = currentWord.meaning;
+                }
+                else
+                {
+                    cardFront.style.display = DisplayStyle.Flex;
+                    cardBack.style.display = DisplayStyle.None;
                 }
             }
 
@@ -714,14 +1296,42 @@ namespace VocabLearning.UI
                 else
                 {
                     btnNext.text = "Next";
-                    btnNext.style.backgroundColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f, 1f)); // Trả về xanh lục của primary
+                    btnNext.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f)); // Trả về màu secondary tối
                 }
             }
+
+            // Nút Got It [NEW]
+            Button btnMastered = _root.Q<Button>("BtnPracticeMastered");
+            if (btnMastered != null)
+            {
+                int status = GetWordStatus(currentWord.id);
+                if (status == 2)
+                {
+                    btnMastered.style.display = DisplayStyle.None;
+                }
+                else
+                {
+                    btnMastered.style.display = DisplayStyle.Flex;
+                }
+            }
+        }
+
+        private int GetWordStatus(string wordId)
+        {
+            if (_jsonDb == null || _jsonDb.currentUser == null || _jsonDb.currentUser.wordProgress == null) return 0;
+            var p = _jsonDb.currentUser.wordProgress.Find(x => x.wordId == wordId);
+            return (p != null) ? p.status : 0;
         }
 
         // --- BINDING CHO RESULT SCREEN ---
         private void BindResultEvents()
         {
+            // [NEW] Hiển thị thưởng đã tính toán
+            Label lblCoins = _root.Q<Label>("LblRewardCoins");
+            Label lblExp = _root.Q<Label>("LblRewardExp");
+            if (lblCoins != null) lblCoins.text = "+" + _lastSessionCoins;
+            if (lblExp != null) lblExp.text = "+" + _lastSessionExp;
+
             Button btnHome = _root.Q<Button>("BtnResultHome");
             if (btnHome != null) btnHome.clicked += () => LoadScreen(HomeScreenAsset);
 
@@ -730,8 +1340,57 @@ namespace VocabLearning.UI
             {
                 _practiceCurrentIndex = 0;
                 _practiceShowMeaning = false;
+                _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách khi chơi lại
                 LoadScreen(PracticeModeScreenAsset);
             };
+
+            Button btnContinue = _root.Q<Button>("BtnResultContinue");
+            if (btnContinue != null)
+            {
+                btnContinue.clicked += () => HandleContinue();
+            }
+
+            Button btnBackToSet = _root.Q<Button>("BtnResultBackToSet");
+            if (btnBackToSet != null)
+            {
+                btnBackToSet.clicked += () => LoadScreen(VocabDetailScreenAsset);
+            }
+        }
+
+        private void HandleContinue()
+        {
+            if (_currentVocabSet == null) { LoadScreen(HomeScreenAsset); return; }
+
+            // 1. Tìm level tiếp theo trong bộ hiện tại
+            if (_currentVocabSet.levels != null && _currentVocabSet.levels.Count > 0)
+            {
+                int currentIndex = _currentVocabSet.levels.FindIndex(l => l.difficulty == _currentSelectedLevel);
+                if (currentIndex >= 0 && currentIndex < _currentVocabSet.levels.Count - 1)
+                {
+                    // Chuyển sang level tiếp theo
+                    _currentSelectedLevel = _currentVocabSet.levels[currentIndex + 1].difficulty;
+                    _practiceCurrentIndex = 0;
+                    _practiceShowMeaning = false;
+                    _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách khi tiếp tục level mới
+                    ResolveSetWords(_currentVocabSet);
+                    LoadScreen(PracticeModeScreenAsset);
+                    return;
+                }
+            }
+
+            // 2. Nếu đã hết level, tìm bộ từ vựng tiếp theo
+            int setIndex = _jsonDb.vocabSets.FindIndex(s => s.id == _currentVocabSet.id);
+            if (setIndex >= 0 && setIndex < _jsonDb.vocabSets.Count - 1)
+            {
+                _currentVocabSet = _jsonDb.vocabSets[setIndex + 1];
+                _currentSelectedLevel = "Easy"; // Reset về Easy cho bộ mới
+                LoadScreen(VocabDetailScreenAsset);
+            }
+            else
+            {
+                // Hết sạch bộ -> Về home
+                LoadScreen(HomeScreenAsset);
+            }
         }
 
         private void BindQuestEvents()
@@ -803,7 +1462,7 @@ namespace VocabLearning.UI
             if (_questCurrentTab == "Active" && _jsonDb.currentUser.weeklyLogin != null)
             {
                 var weekly = _jsonDb.currentUser.weeklyLogin;
-                
+
                 VisualElement weeklyCard = new VisualElement();
                 weeklyCard.AddToClassList("card");
                 weeklyCard.style.marginBottom = 24;
@@ -869,7 +1528,7 @@ namespace VocabLearning.UI
                 Label progressText = new Label($"{loginCount}/5 Days");
                 progressText.AddToClassList("text-muted");
                 progressText.style.fontSize = 12;
-                
+
                 weeklyInfo.Add(rewardInfo);
                 weeklyInfo.Add(progressText);
                 weeklyCard.Add(weeklyInfo);
@@ -1113,6 +1772,202 @@ namespace VocabLearning.UI
 
             Button btnCasual = _root.Q<Button>("BtnCasualMode");
             if (btnCasual != null) btnCasual.clicked += () => StartBattle(false);
+
+            // -- Lịch sử trận đấu --
+            Button btnViewHistory = _root.Q<Button>("BtnViewHistory");
+            if (btnViewHistory != null) btnViewHistory.clicked += () => ShowBattleHistoryOverlay();
+
+            Button btnCloseHistory = _root.Q<Button>("BtnCloseHistory");
+            if (btnCloseHistory != null) btnCloseHistory.clicked += () =>
+            {
+                var overlay = _root.Q<VisualElement>("BattleHistoryOverlay");
+                if (overlay != null) overlay.style.display = DisplayStyle.None;
+            };
+
+            Button btnCloseDetail = _root.Q<Button>("BtnCloseDetail");
+            if (btnCloseDetail != null) btnCloseDetail.clicked += () =>
+            {
+                var detail = _root.Q<VisualElement>("HistoryDetailOverlay");
+                if (detail != null) detail.style.display = DisplayStyle.None;
+            };
+        }
+
+        private void ShowBattleHistoryOverlay()
+        {
+            var overlay = _root.Q<VisualElement>("BattleHistoryOverlay");
+            if (overlay == null) return;
+            overlay.style.display = DisplayStyle.Flex;
+
+            var container = _root.Q<VisualElement>("HistoryListContainer");
+            if (container == null) return;
+            container.Clear();
+
+            var history = _jsonDb?.currentUser?.battleHistory;
+            if (history == null || history.Count == 0)
+            {
+                Label empty = new Label("Chưa có trận đấu nào trong lịch sử.");
+                empty.style.color = new StyleColor(new Color(0.6f, 0.64f, 0.71f));
+                empty.style.marginTop = 24;
+                empty.style.unityTextAlign = TextAnchor.MiddleCenter;
+                container.Add(empty);
+                return;
+            }
+
+            foreach (var record in history)
+            {
+                VisualElement card = new VisualElement();
+                card.AddToClassList("card");
+                card.style.flexDirection = FlexDirection.Row;
+                card.style.alignItems = Align.Center;
+                card.style.marginBottom = 12;
+                card.style.paddingLeft = 16;
+                card.style.paddingRight = 16;
+                card.style.paddingTop = 12;
+                card.style.paddingBottom = 12;
+
+                // Badge WIN / LOSE
+                VisualElement badge = new VisualElement();
+                badge.style.width = 52;
+                badge.style.height = 52;
+                badge.style.borderTopLeftRadius = 12;
+                badge.style.borderTopRightRadius = 12;
+                badge.style.borderBottomLeftRadius = 12;
+                badge.style.borderBottomRightRadius = 12;
+                badge.style.justifyContent = Justify.Center;
+                badge.style.alignItems = Align.Center;
+                badge.style.marginRight = 16;
+                badge.style.backgroundColor = record.isWin
+                    ? new StyleColor(new Color(0.06f, 0.44f, 0.31f))
+                    : new StyleColor(new Color(0.56f, 0.16f, 0.16f));
+
+                Label badgeLbl = new Label(record.isWin ? "W" : "L");
+                badgeLbl.style.color = Color.white;
+                badgeLbl.style.fontSize = 22;
+                badgeLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                badge.Add(badgeLbl);
+                card.Add(badge);
+
+                // Info
+                VisualElement info = new VisualElement();
+                info.style.flexGrow = 1;
+
+                Label nameLbl = new Label($"vs {record.opponentName}");
+                nameLbl.style.color = Color.white;
+                nameLbl.style.fontSize = 15;
+                nameLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                info.Add(nameLbl);
+
+                Label modeLbl = new Label($"{(record.isRanked ? "Ranked" : "Casual")}  •  {record.correctCount}/{record.totalRounds} đúng  •  {record.date}");
+                modeLbl.style.color = new StyleColor(new Color(0.6f, 0.64f, 0.71f));
+                modeLbl.style.fontSize = 11;
+                modeLbl.style.whiteSpace = WhiteSpace.Normal;
+                info.Add(modeLbl);
+
+                card.Add(info);
+
+                // Nút xem chi tiết
+                var capturedRecord = record;
+                Label arrowLbl = new Label("→");
+                arrowLbl.style.color = new StyleColor(new Color(0.38f, 0.65f, 0.98f));
+                arrowLbl.style.fontSize = 20;
+                card.Add(arrowLbl);
+
+                card.RegisterCallback<ClickEvent>(_ => ShowBattleHistoryDetail(capturedRecord));
+                container.Add(card);
+            }
+        }
+
+        private void ShowBattleHistoryDetail(VocabLearning.Data.BattleHistoryRecord record)
+        {
+            var detailOverlay = _root.Q<VisualElement>("HistoryDetailOverlay");
+            if (detailOverlay == null) return;
+            detailOverlay.style.display = DisplayStyle.Flex;
+
+            Label titleLbl = detailOverlay.Q<Label>("DetailTitle");
+            if (titleLbl != null) titleLbl.text = $"vs {record.opponentName} — {(record.isWin ? "Victory" : "Defeat")}";
+
+            Label statsLbl = detailOverlay.Q<Label>("DetailStats");
+            if (statsLbl != null) statsLbl.text = $"{record.correctCount} / {record.totalRounds} đúng";
+
+            VisualElement detailList = detailOverlay.Q<VisualElement>("DetailList");
+            if (detailList == null) return;
+            detailList.Clear();
+
+            foreach (var round in record.rounds)
+            {
+                VisualElement row = CreateBattleRoundRow(round);
+                detailList.Add(row);
+            }
+        }
+
+        private VisualElement CreateBattleRoundRow(VocabLearning.Data.BattleRoundRecord round)
+        {
+            VisualElement row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row; // Changed to Row to fit image
+            row.style.marginBottom = 12;
+            row.style.paddingLeft = 12;
+            row.style.paddingRight = 12;
+            row.style.paddingTop = 10;
+            row.style.paddingBottom = 10;
+            row.style.borderTopLeftRadius = 10;
+            row.style.borderTopRightRadius = 10;
+            row.style.borderBottomLeftRadius = 10;
+            row.style.borderBottomRightRadius = 10;
+
+            if (round.isTimeout)
+                row.style.backgroundColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f, 0.3f));
+            else if (round.isCorrect)
+                row.style.backgroundColor = new StyleColor(new Color(0.06f, 0.44f, 0.31f, 0.4f));
+            else
+                row.style.backgroundColor = new StyleColor(new Color(0.56f, 0.16f, 0.16f, 0.4f));
+
+            // Image Thumbnail (if exists)
+            if (!string.IsNullOrEmpty(round.imageUrl))
+            {
+                VisualElement img = new VisualElement();
+                img.style.width = 40;
+                img.style.height = 40;
+                img.style.marginRight = 12;
+                img.style.borderTopLeftRadius = 6;
+                img.style.borderTopRightRadius = 6;
+                img.style.borderBottomLeftRadius = 6;
+                img.style.borderBottomRightRadius = 6;
+                img.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0.2f));
+                img.style.flexShrink = 0;
+                StartCoroutine(DownloadAndSetImage(round.imageUrl, img));
+                row.Add(img);
+            }
+
+            // Info Column
+            VisualElement info = new VisualElement();
+            info.style.flexGrow = 1;
+
+            string icon = round.isTimeout ? "⏱" : round.isCorrect ? "✅" : "❌";
+            Label qLbl = new Label($"{icon}  {round.question}");
+            qLbl.style.color = Color.white;
+            qLbl.style.fontSize = 15;
+            qLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+            qLbl.style.whiteSpace = WhiteSpace.Normal;
+            info.Add(qLbl);
+
+            // Always show correct answer
+            Label ansLbl = new Label($"Đáp án đúng: {round.correctAnswer}");
+            ansLbl.style.color = round.isCorrect ? new StyleColor(new Color(0.40f, 0.93f, 0.60f)) : new StyleColor(new Color(0.93f, 0.40f, 0.40f));
+            ansLbl.style.fontSize = 12;
+            ansLbl.style.whiteSpace = WhiteSpace.Normal;
+            info.Add(ansLbl);
+
+            if (!round.isCorrect && !round.isTimeout)
+            {
+                Label yourLbl = new Label($"Bạn chọn: {(string.IsNullOrEmpty(round.playerAnswer) ? "..." : round.playerAnswer)}");
+                yourLbl.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+                yourLbl.style.fontSize = 11;
+                yourLbl.style.whiteSpace = WhiteSpace.Normal;
+                info.Add(yourLbl);
+            }
+
+            row.Add(info);
+            return row;
         }
 
         private bool _isRankedBattle = false;
@@ -1130,11 +1985,29 @@ namespace VocabLearning.UI
         private string _playerAnswerText = "";
         private Coroutine _timerCoroutine;
 
+        // --- Solo Quiz State ---
+        private enum SoloMode { Survivor, Quick10, TimeRush }
+        private SoloMode _soloMode;
+        private int _soloHearts = 3;
+        private int _soloScore = 0;
+        private int _soloTimer = 60;
+        private int _soloQuestionCount = 0;
+        private Coroutine _soloTimerCoroutine;
+        private System.Collections.Generic.List<VocabLearning.Data.BattleRoundRecord> _soloRoundRecords = new System.Collections.Generic.List<VocabLearning.Data.BattleRoundRecord>();
+        private System.Collections.Generic.HashSet<string> _soloUsedWordIds = new System.Collections.Generic.HashSet<string>(); // NEW: Prevent duplicates
+        
+        // --- Review Mode State ---
+        private bool _isReviewMode = false;
+        private System.Collections.Generic.List<VocabLearning.Data.WordJson> _reviewPool = new System.Collections.Generic.List<VocabLearning.Data.WordJson>();
+        private int _reviewCurrentIndex = 0;
+
         // --- Battle Word Pool (Rank-based, No Repeat) ---
         // Dùng bảng words trung tâm, lọc theo rankRequired của từng từ
         private System.Collections.Generic.List<VocabLearning.Data.WordJson> _battleWordPool = new System.Collections.Generic.List<VocabLearning.Data.WordJson>();
         private System.Collections.Generic.List<string> _battleAllPoolMeanings = new System.Collections.Generic.List<string>();
+        private System.Collections.Generic.List<string> _battleAllPoolWords = new System.Collections.Generic.List<string>();
         private int _battlePoolIndex = 0;
+        private bool _isImageMode = false;
 
         // --- Current Study Set Words ---
         private System.Collections.Generic.List<VocabLearning.Data.WordJson> _currentVocabSetWords = new System.Collections.Generic.List<VocabLearning.Data.WordJson>();
@@ -1262,7 +2135,23 @@ namespace VocabLearning.UI
         private void BindBattleGameplayEvents()
         {
             Button btnFlee = _root.Q<Button>("BtnFlee");
-            if (btnFlee != null) btnFlee.clicked += () => LoadScreen(BattleScreenAsset);
+            if (btnFlee != null)
+            {
+                btnFlee.clicked += () =>
+                {
+                    ShowConfirmationDialog(
+                        "Thoát trận đấu?",
+                        "Bạn có chắc chắn muốn bỏ chạy? Bạn sẽ bị tính là thua cuộc!",
+                        () =>
+                        {
+                            StopBattleTimer();
+                            _battlePlayerHP = 0;
+                            FinishBattle(false);
+                        },
+                        null
+                    );
+                };
+            }
 
             Label lblMode = _root.Q<Label>("LblBattleMode");
             if (lblMode != null) lblMode.text = _isRankedBattle ? "RANKED MATCH" : "CASUAL MATCH";
@@ -1279,6 +2168,7 @@ namespace VocabLearning.UI
             }
 
             // [RANK] Build word pool theo rank người chơi
+            _currentBattleRounds.Clear(); // Reset lịch sử câu hỏi cho trận mới
             BuildBattleWordPool();
 
             // [RANK] Hiển thị rank pool info lên UI
@@ -1345,6 +2235,11 @@ namespace VocabLearning.UI
                     else
                     {
                         Debug.Log("🤖 Opponent guessed WRONG!");
+                        if (_playerAnswered)
+                        {
+                            ResolveRound("None");
+                            yield break;
+                        }
                     }
                 }
 
@@ -1381,18 +2276,30 @@ namespace VocabLearning.UI
                 {
                     _battlePlayerHP -= 10;
                 }
-                Debug.Log("❌ Opponent was FASTER! You -10 HP");
+
+                if (_playerAnswered)
+                {
+                    Debug.Log("❌ Opponent was CORRECT! You -10 HP");
+                }
+                else
+                {
+                    Debug.Log("❌ Opponent was FASTER! You -10 HP");
+                }
             }
             else
             {
                 // Timeout or both wrong
-                bool playerWrong = _playerAnswered && (_playerAnswerText != _battleCurrentWord.meaning);
+                string correctAnswer = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+                bool playerWrong = _playerAnswered && (_playerAnswerText != correctAnswer);
                 bool aiWrong = _aiAnswered && !_aiCorrect;
-                bool timeout = !(_playerAnswered || _aiAnswered);
 
-                if (playerWrong || timeout)
+                bool isTimeout = (_battleTimer <= 0f);
+                bool playerMissed = !_playerAnswered && isTimeout;
+                bool aiMissed = !_aiAnswered && isTimeout;
+
+                if (playerWrong || playerMissed)
                 {
-                    if (_battleShieldActive && !aiWrong)
+                    if (_battleShieldActive && !aiWrong && !aiMissed)
                     {
                         _battleShieldActive = false;
                     }
@@ -1402,7 +2309,7 @@ namespace VocabLearning.UI
                     }
                 }
 
-                if (aiWrong || timeout)
+                if (aiWrong || aiMissed)
                 {
                     _battleEnemyHP -= 10;
                 }
@@ -1412,6 +2319,21 @@ namespace VocabLearning.UI
 
             if (_battlePlayerHP < 0) _battlePlayerHP = 0;
             if (_battleEnemyHP < 0) _battleEnemyHP = 0;
+
+            // --- Ghi lại kết quả câu hỏi này ---
+            string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            bool isTimeoutRound = (_battleTimer <= 0f);
+            var roundRecord = new VocabLearning.Data.BattleRoundRecord
+            {
+                question = _isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word,
+                correctAnswer = correctAns,
+                playerAnswer = _playerAnswered ? _playerAnswerText : "",
+                imageUrl = _isImageMode ? _battleCurrentWord.imageUrl : null,
+                isCorrect = _playerAnswered && (_playerAnswerText == correctAns),
+                isTimeout = isTimeoutRound && !_playerAnswered
+            };
+            _currentBattleRounds.Add(roundRecord);
+            // ------------------------------------
 
             UpdateBattleUI();
 
@@ -1577,6 +2499,7 @@ namespace VocabLearning.UI
         {
             _battleWordPool.Clear();
             _battleAllPoolMeanings.Clear();
+            _battleAllPoolWords.Clear();
             _battlePoolIndex = 0;
 
             if (_jsonDb == null || _jsonDb.words == null || _jsonDb.currentUser == null)
@@ -1599,6 +2522,8 @@ namespace VocabLearning.UI
                     _battleWordPool.Add(w);
                     if (!_battleAllPoolMeanings.Contains(w.meaning))
                         _battleAllPoolMeanings.Add(w.meaning);
+                    if (!_battleAllPoolWords.Contains(w.word))
+                        _battleAllPoolWords.Add(w.word);
                 }
             }
 
@@ -1657,15 +2582,57 @@ namespace VocabLearning.UI
             _battlePoolIndex++;
             _battleCurrentWord = current;
 
+            Label qPrompt = _root.Q<Label>("BattlePromptText");
             Label qText = _root.Q<Label>("BattleQuestionText");
-            if (qText != null) qText.text = _battleCurrentWord.word;
+            VisualElement imgFrame = _root.Q<VisualElement>("BattleQuestionImageFrame");
+            VisualElement imgElem = _root.Q<VisualElement>("BattleQuestionImage");
+            Label subText = _root.Q<Label>("BattleQuestionSub");
 
-            // Tạo distractors từ toàn bộ pool meanings (không phải chỉ trong 1 bộ)
-            System.Collections.Generic.List<string> options = new System.Collections.Generic.List<string> { _battleCurrentWord.meaning };
+            System.Collections.Generic.List<string> options = new System.Collections.Generic.List<string>();
+            System.Collections.Generic.List<string> distractorPool = new System.Collections.Generic.List<string>();
 
-            // Tạo danh sách meanings có thể dùng làm distractor (loại đáp án đúng)
-            System.Collections.Generic.List<string> distractorPool = new System.Collections.Generic.List<string>(_battleAllPoolMeanings);
-            distractorPool.Remove(_battleCurrentWord.meaning);
+            _isImageMode = false;
+            if (!string.IsNullOrEmpty(_battleCurrentWord.imageUrl))
+            {
+                _isImageMode = (UnityEngine.Random.value > 0.5f); // 50% chance
+            }
+
+            if (_isImageMode)
+            {
+                if (qPrompt != null) qPrompt.text = "What is this?";
+                if (qText != null) qText.style.display = DisplayStyle.None;
+                if (imgFrame != null) imgFrame.style.display = DisplayStyle.Flex;
+                if (subText != null)
+                {
+                    subText.text = _battleCurrentWord.imageSub;
+                    subText.style.display = string.IsNullOrEmpty(_battleCurrentWord.imageSub) ? DisplayStyle.None : DisplayStyle.Flex;
+                }
+
+                if (imgElem != null)
+                {
+                    imgElem.style.backgroundImage = null; // Clear previous
+                    StartCoroutine(DownloadAndSetImage(_battleCurrentWord.imageUrl, imgElem));
+                }
+
+                options.Add(_battleCurrentWord.word);
+                distractorPool.AddRange(_battleAllPoolWords);
+                distractorPool.Remove(_battleCurrentWord.word);
+            }
+            else
+            {
+                if (qPrompt != null) qPrompt.text = "Translate this word:";
+                if (qText != null)
+                {
+                    qText.text = _battleCurrentWord.word;
+                    qText.style.display = DisplayStyle.Flex;
+                }
+                if (imgFrame != null) imgFrame.style.display = DisplayStyle.None;
+                if (subText != null) subText.style.display = DisplayStyle.None;
+
+                options.Add(_battleCurrentWord.meaning);
+                distractorPool.AddRange(_battleAllPoolMeanings);
+                distractorPool.Remove(_battleCurrentWord.meaning);
+            }
 
             // Shuffle distractor pool
             for (int i = distractorPool.Count - 1; i > 0; i--)
@@ -1726,7 +2693,9 @@ namespace VocabLearning.UI
                 }
             }
 
-            if (answerText == _battleCurrentWord.meaning)
+            string correctAnswer = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+
+            if (answerText == correctAnswer)
             {
                 Debug.Log("✅ Player got it RIGHT first!");
                 ResolveRound("Player");
@@ -1734,6 +2703,30 @@ namespace VocabLearning.UI
             else
             {
                 Debug.Log("❌ Player chose WRONG answer. Waiting for AI or Timer...");
+                if (_aiAnswered && !_aiCorrect)
+                {
+                    ResolveRound("None");
+                }
+            }
+        }
+
+        private System.Collections.IEnumerator DownloadAndSetImage(string url, VisualElement targetElement)
+        {
+            if (string.IsNullOrEmpty(url)) yield break;
+
+            using (UnityEngine.Networking.UnityWebRequest uwr = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return uwr.SendWebRequest();
+
+                if (uwr.result == UnityEngine.Networking.UnityWebRequest.Result.Success)
+                {
+                    Texture2D tex = UnityEngine.Networking.DownloadHandlerTexture.GetContent(uwr);
+                    targetElement.style.backgroundImage = new StyleBackground(tex);
+                }
+                else
+                {
+                    Debug.LogWarning($"[Battle] Failed to download image: {uwr.error}");
+                }
             }
         }
 
@@ -1744,14 +2737,16 @@ namespace VocabLearning.UI
 
             VisualElement overlay = _root.Q<VisualElement>("ResultOverlay");
             Label title = _root.Q<Label>("ResultTitle");
+            Label iconLbl = _root.Q<Label>("ResultIcon");
             Label subtext = _root.Q<Label>("ResultSubtext");
             Label expText = _root.Q<Label>("ResultExp");
 
             if (isWin)
             {
                 curUser.wins++;
-                title.text = "VICTORY!";
-                title.style.color = new StyleColor(new Color(0.10f, 0.73f, 0.51f)); // Green
+                if (title != null) title.text = "VICTORY!";
+                if (title != null) title.style.color = new StyleColor(new Color(0.10f, 0.73f, 0.51f)); // Green
+                if (iconLbl != null) iconLbl.text = "🏆";
 
                 if (_isRankedBattle)
                 {
@@ -1759,65 +2754,136 @@ namespace VocabLearning.UI
                     curUser.exp += 50;
                     curUser.coins += 50;
 
-                    // Thưởng Mystery Box cho trận Ranked
                     var mysteryBox = _jsonDb.inventory.Find(i => i.id == "4" || i.name == "Mystery Box");
                     if (mysteryBox != null)
                     {
                         mysteryBox.quantity++;
-                        // Hiển thị box phần thưởng đặc biệt trên UI
                         VisualElement rewardBox = _root.Q<VisualElement>("ItemRewardBox");
                         if (rewardBox != null) rewardBox.style.display = DisplayStyle.Flex;
                     }
 
-                    // Tăng tiến độ nhiệm vụ "Thắng 5 trận Ranked" (mới)
                     AddQuestProgressByType("WinRankedBattle", 1);
 
-                    subtext.text = "+25 Rank Points";
-                    expText.text = "+50 EXP / +50 Coins";
+                    if (subtext != null) subtext.text = "+25 Rank Points";
+                    if (expText != null) expText.text = "+50 EXP / +50 Coins";
                 }
                 else
                 {
-                    // Casual: Ẩn phần thưởng item
                     VisualElement rewardBox = _root.Q<VisualElement>("ItemRewardBox");
                     if (rewardBox != null) rewardBox.style.display = DisplayStyle.None;
 
                     curUser.exp += 30;
                     curUser.coins += 30;
-                    subtext.text = "Casual Match";
-                    expText.text = "+30 EXP / +30 Coins";
+                    if (subtext != null) subtext.text = "Casual Match";
+                    if (expText != null) expText.text = "+30 EXP / +30 Coins";
                 }
 
-                // Tăng tiến độ nhiệm vụ "Thắng 3 trận bất kỳ"
                 AddQuestProgressByType("WinBattle", 1);
             }
             else
             {
-                title.text = "DEFEAT";
-                title.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f)); // Red
+                if (title != null) title.text = "DEFEAT";
+                if (title != null) title.style.color = new StyleColor(new Color(0.93f, 0.26f, 0.26f)); // Red
+                if (iconLbl != null) iconLbl.text = "💀";
 
                 if (_isRankedBattle)
                 {
                     curUser.rankPoints -= 15;
                     if (curUser.rankPoints < 0) curUser.rankPoints = 0;
                     curUser.exp += 15;
-                    subtext.text = "-15 Rank Points";
-                    expText.text = "+15 EXP";
+                    if (subtext != null) subtext.text = "-15 Rank Points";
+                    if (expText != null) expText.text = "+15 EXP (Consolation)";
                 }
                 else
                 {
                     curUser.exp += 10;
-                    subtext.text = "Casual Match";
-                    expText.text = "+10 EXP";
+                    if (subtext != null) subtext.text = "Casual Match";
+                    if (expText != null) expText.text = "+10 EXP (Consolation)";
                 }
             }
 
-            // Changes exist in memory for this session
-            if (overlay != null) overlay.style.display = DisplayStyle.Flex;
+            // --- Lưu lịch sử trận đấu ---
+            string opponentName = _battleEnemyData != null ? _battleEnemyData.username : "Unknown";
+            int correctCount = 0;
+            foreach (var r in _currentBattleRounds) if (r.isCorrect) correctCount++;
 
-            Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
-            if (btnLeave != null)
+            _lastBattleRecord = new VocabLearning.Data.BattleHistoryRecord
             {
-                btnLeave.clicked += () => LoadScreen(BattleScreenAsset);
+                matchId = System.Guid.NewGuid().ToString(),
+                date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                isRanked = _isRankedBattle,
+                isWin = isWin,
+                opponentName = opponentName,
+                playerFinalHP = _battlePlayerHP,
+                enemyFinalHP = _battleEnemyHP,
+                correctCount = correctCount,
+                totalRounds = _currentBattleRounds.Count,
+                rounds = new List<VocabLearning.Data.BattleRoundRecord>(_currentBattleRounds)
+            };
+
+            if (curUser.battleHistory == null)
+                curUser.battleHistory = new List<VocabLearning.Data.BattleHistoryRecord>();
+            curUser.battleHistory.Insert(0, _lastBattleRecord); // Mới nhất lên đầu
+            if (curUser.battleHistory.Count > 20) // Giới hạn 20 trận
+                curUser.battleHistory.RemoveAt(curUser.battleHistory.Count - 1);
+            // -----------------------------------
+
+            // Hiện Summary trước, Result sau khi bấm nút
+            ShowBattleSummaryOverlay(() =>
+            {
+                if (overlay != null) overlay.style.display = DisplayStyle.Flex;
+
+                Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
+                if (btnLeave != null)
+                {
+                    btnLeave.clicked += () => LoadScreen(BattleScreenAsset);
+                }
+            });
+        }
+
+        private void ShowBattleSummaryOverlay(System.Action onContinue)
+        {
+            VisualElement summaryOverlay = _root.Q<VisualElement>("SummaryOverlay");
+            if (summaryOverlay == null)
+            {
+                // Nếu không có overlay trong UI thì gọi callback ngay
+                onContinue?.Invoke();
+                return;
+            }
+
+            summaryOverlay.style.display = DisplayStyle.Flex;
+
+            // Tiêu đề
+            Label titleLbl = summaryOverlay.Q<Label>("SummaryTitle");
+            if (titleLbl != null)
+                titleLbl.text = _lastBattleRecord.isWin ? "🏆 Battle Summary - Victory!" : "💀 Battle Summary - Defeat";
+
+            // Thống kê
+            Label statsLbl = summaryOverlay.Q<Label>("SummaryStats");
+            if (statsLbl != null)
+                statsLbl.text = $"Correct: {_lastBattleRecord.correctCount} / {_lastBattleRecord.totalRounds}";
+
+            // Danh sách câu hỏi
+            VisualElement listContainer = summaryOverlay.Q<VisualElement>("SummaryList");
+            if (listContainer != null)
+            {
+                listContainer.Clear();
+                foreach (var round in _lastBattleRecord.rounds)
+                {
+                    VisualElement row = CreateBattleRoundRow(round);
+                    listContainer.Add(row);
+                }
+            }
+
+            // Nút Continue
+            Button btnContinue = summaryOverlay.Q<Button>("BtnSummaryContinue");
+            if (btnContinue != null)
+            {
+                btnContinue.clicked += () =>
+                {
+                    summaryOverlay.style.display = DisplayStyle.None;
+                    onContinue?.Invoke();
+                };
             }
         }
 
@@ -2872,7 +3938,7 @@ namespace VocabLearning.UI
         private void AddQuestProgressByType(string questType, int amount)
         {
             if (_jsonDb == null || _jsonDb.quests == null) return;
-            
+
             // Tìm tất cả nhiệm vụ có cùng loại (hỗ trợ nhiều nhiệm vụ cùng trigger)
             var targetQuests = _jsonDb.quests.FindAll(q => q.questType == questType);
             foreach (var quest in targetQuests)
@@ -2934,6 +4000,496 @@ namespace VocabLearning.UI
                 foreach (char c in userId) hash += c;
             }
             return botAvatars[hash % botAvatars.Length];
+        }
+        #region DYNAMIC DIALOG SYSTEM [NEW]
+        private void ShowConfirmationDialog(string title, string message, System.Action onConfirm, System.Action onCancel)
+        {
+            // 1. Overlay (Màn phủ mờ)
+            VisualElement overlay = new VisualElement();
+            overlay.style.position = Position.Absolute;
+            overlay.style.width = Length.Percent(100);
+            overlay.style.height = Length.Percent(100);
+            overlay.style.backgroundColor = new Color(0, 0, 0, 0.7f);
+            overlay.style.justifyContent = Justify.Center;
+            overlay.style.alignItems = Align.Center;
+
+            // 2. Dialog Box
+            VisualElement dialog = new VisualElement();
+            dialog.style.width = 320;
+            dialog.style.backgroundColor = new Color(0.07f, 0.11f, 0.19f); // Dark background
+            dialog.style.borderTopLeftRadius = 16;
+            dialog.style.borderTopRightRadius = 16;
+            dialog.style.borderBottomLeftRadius = 16;
+            dialog.style.borderBottomRightRadius = 16;
+            dialog.style.paddingTop = 24;
+            dialog.style.paddingBottom = 24;
+            dialog.style.paddingLeft = 24;
+            dialog.style.paddingRight = 24;
+            dialog.style.borderTopWidth = 1;
+            dialog.style.borderBottomWidth = 1;
+            dialog.style.borderLeftWidth = 1;
+            dialog.style.borderRightWidth = 1;
+            dialog.style.borderTopColor = new Color(1, 1, 1, 0.1f);
+            dialog.style.borderBottomColor = new Color(1, 1, 1, 0.1f);
+            dialog.style.borderLeftColor = new Color(1, 1, 1, 0.1f);
+            dialog.style.borderRightColor = new Color(1, 1, 1, 0.1f);
+
+            // 3. Content
+            Label titleLbl = new Label(title);
+            titleLbl.style.fontSize = 20;
+            titleLbl.AddToClassList("font-bold");
+            titleLbl.style.color = Color.white;
+            titleLbl.style.marginBottom = 12;
+            titleLbl.style.whiteSpace = WhiteSpace.Normal;
+            dialog.Add(titleLbl);
+
+            Label msgLbl = new Label(message);
+            msgLbl.style.fontSize = 14;
+            msgLbl.style.color = new Color(0.58f, 0.64f, 0.72f);
+            msgLbl.style.marginBottom = 24;
+            msgLbl.style.whiteSpace = WhiteSpace.Normal;
+            dialog.Add(msgLbl);
+
+            // 4. Buttons Container
+            VisualElement btnRow = new VisualElement();
+            btnRow.style.flexDirection = FlexDirection.Row;
+            btnRow.style.justifyContent = Justify.SpaceBetween;
+
+            Button btnCancel = new Button();
+            btnCancel.text = "QUAY LẠI";
+            btnCancel.AddToClassList("btn-secondary");
+            btnCancel.style.flexGrow = 1;
+            btnCancel.style.marginRight = 6;
+            btnCancel.clicked += () =>
+            {
+                _root.Remove(overlay);
+                onCancel?.Invoke();
+            };
+
+            Button btnConfirm = new Button();
+            btnConfirm.text = "ĐỒNG Ý";
+            btnConfirm.AddToClassList("btn-primary");
+            btnConfirm.style.flexGrow = 1;
+            btnConfirm.style.marginLeft = 6;
+            btnConfirm.clicked += () =>
+            {
+                _root.Remove(overlay);
+                onConfirm?.Invoke();
+            };
+
+            btnRow.Add(btnCancel);
+            btnRow.Add(btnConfirm);
+            dialog.Add(btnRow);
+
+            overlay.Add(dialog);
+            _root.Add(overlay);
+        }
+        #endregion
+        // =====================================================================
+        // SOLO QUIZ LOGIC
+        // =====================================================================
+
+        private void BindSoloQuizEvents()
+        {
+            Button btnBack = _root.Q<Button>("BtnBack");
+            if (btnBack != null) btnBack.clicked += () => LoadScreen(HomeScreenAsset);
+
+            _root.Q<Button>("BtnModeSurvivor")?.RegisterCallback<ClickEvent>(_ => StartSoloQuiz(SoloMode.Survivor));
+            _root.Q<Button>("BtnModeQuick10")?.RegisterCallback<ClickEvent>(_ => StartSoloQuiz(SoloMode.Quick10));
+            _root.Q<Button>("BtnModeTimeRush")?.RegisterCallback<ClickEvent>(_ => StartSoloQuiz(SoloMode.TimeRush));
+
+            RefreshSoloHubUI();
+
+            _root.Q<Button>("BtnExitGameplay")?.RegisterCallback<ClickEvent>(_ =>
+            {
+                _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.Flex;
+            });
+
+            _root.Q<Button>("BtnConfirmExitNo")?.RegisterCallback<ClickEvent>(_ =>
+            {
+                _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None;
+            });
+
+            _root.Q<Button>("BtnConfirmExitYes")?.RegisterCallback<ClickEvent>(_ => 
+            {
+                _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None;
+                if (_isReviewMode) FinishReviewQuiz();
+                else FinishSoloQuiz();
+            });
+
+            for (int i = 0; i < 4; i++)
+            {
+                int index = i;
+                Button btn = _root.Q<Button>($"SoloAns{index}");
+                if (btn != null) btn.clicked += () => StartCoroutine(HandleSoloAnswerSelection(btn, btn.text));
+            }
+        }
+
+        private void StartSoloQuiz(SoloMode mode)
+        {
+            _soloMode = mode;
+            _soloHearts = 3;
+            _soloScore = 0;
+            _soloTimer = (_soloMode == SoloMode.Quick10) ? 0 : 60;
+            _soloQuestionCount = 0;
+            _soloRoundRecords.Clear();
+            _soloUsedWordIds.Clear();
+
+            _root.Q<VisualElement>("SoloGameplayOverlay").style.display = DisplayStyle.Flex;
+            _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None; 
+            _root.Q<Label>("SoloScore").text = _isReviewMode ? "" : "Score: 0";
+
+            UpdateSoloStatusUI();
+
+            if (!_isReviewMode && (_soloMode == SoloMode.TimeRush || _soloMode == SoloMode.Quick10))
+            {
+                _soloTimerCoroutine = StartCoroutine(SoloTimerTick());
+            }
+
+            if (_isReviewMode) NextReviewQuestion();
+            else NextSoloQuestion();
+        }
+
+        private void StartReviewQuiz()
+        {
+            if (_currentVocabSet == null || _currentVocabSet.wordIds == null || _currentVocabSet.wordIds.Count == 0) return;
+
+            _isReviewMode = true;
+            _reviewPool.Clear();
+            foreach (var wId in _currentVocabSet.wordIds)
+            {
+                var w = _jsonDb.words.Find(x => x.id == wId);
+                if (w != null) _reviewPool.Add(w);
+            }
+            
+            _reviewPool = _reviewPool.OrderBy(x => UnityEngine.Random.value).ToList();
+            _reviewCurrentIndex = 0;
+            _soloRoundRecords.Clear();
+
+            // QUAN TRỌNG: Phải tải màn hình Quiz trước khi truy cập UI gameplay
+            LoadScreen(SoloQuizScreenAsset);
+            StartSoloQuiz(SoloMode.Quick10); 
+        }
+
+        private void RefreshSoloHubUI()
+        {
+            // Chỉ reset nếu không phải đang trong chế độ Review
+            if (!_isReviewMode) 
+            {
+                var user = _jsonDb.currentUser;
+                if (_root.Q<Label>("BestSurvivor") != null) _root.Q<Label>("BestSurvivor").text = user.bestSurvivor.ToString();
+                if (_root.Q<Label>("BestQuick") != null) _root.Q<Label>("BestQuick").text = user.bestQuick10 + "/10";
+                if (_root.Q<Label>("BestTimeRush") != null) _root.Q<Label>("BestTimeRush").text = user.bestTimeRush.ToString();
+            }
+        }
+
+        private void UpdateSoloStatusUI()
+        {
+            VisualElement container = _root.Q<VisualElement>("SoloStatusContainer");
+            if (container == null) return;
+            container.Clear();
+
+            if (_isReviewMode)
+            {
+                Label progLbl = new Label($"Review: {_reviewCurrentIndex}/{_reviewPool.Count}");
+                progLbl.style.color = new StyleColor(new Color(0.54f, 0.45f, 0.94f));
+                progLbl.style.fontSize = 18;
+                progLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                container.Add(progLbl);
+                return;
+            }
+
+            if (_soloMode == SoloMode.Survivor)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Label heart = new Label(i < _soloHearts ? "❤️" : "🖤");
+                    heart.style.fontSize = 20;
+                    heart.style.marginRight = 4;
+                    container.Add(heart);
+                }
+            }
+            else if (_soloMode == SoloMode.TimeRush)
+            {
+                Label timerLbl = new Label($"⏱ {_soloTimer}s");
+                timerLbl.style.color = _soloTimer < 10 ? Color.red : Color.white;
+                timerLbl.style.fontSize = 18;
+                timerLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                container.Add(timerLbl);
+            }
+            else
+            {
+                Label progLbl = new Label($"{_soloQuestionCount}/10");
+                progLbl.style.color = Color.white;
+                progLbl.style.fontSize = 18;
+                progLbl.style.marginRight = 12;
+                container.Add(progLbl);
+
+                Label timerLbl = new Label($"⏱ {_soloTimer}s");
+                timerLbl.style.color = _soloTimer < 10 ? Color.red : Color.white;
+                timerLbl.style.fontSize = 18;
+                timerLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                container.Add(timerLbl);
+            }
+        }
+
+        private System.Collections.IEnumerator SoloTimerTick()
+        {
+            while (true)
+            {
+                yield return new UnityEngine.WaitForSeconds(1f);
+                if (_soloMode == SoloMode.TimeRush)
+                {
+                    _soloTimer--;
+                    UpdateSoloStatusUI();
+                    if (_soloTimer <= 0) break;
+                }
+                else if (_soloMode == SoloMode.Quick10)
+                {
+                    _soloTimer++;
+                    UpdateSoloStatusUI();
+                }
+                else break;
+            }
+            if (_soloMode == SoloMode.TimeRush && _soloTimer <= 0) FinishSoloQuiz();
+        }
+
+        private void StopSoloTimer()
+        {
+            if (_soloTimerCoroutine != null) StopCoroutine(_soloTimerCoroutine);
+        }
+
+        private void NextSoloQuestion()
+        {
+            if (_soloMode == SoloMode.Quick10 && _soloQuestionCount >= 10)
+            {
+                FinishSoloQuiz();
+                return;
+            }
+
+            _soloQuestionCount++;
+            UpdateSoloStatusUI();
+
+            var availableWords = _jsonDb.words.Where(w => !_soloUsedWordIds.Contains(w.id)).ToList();
+            if (availableWords.Count == 0)
+            {
+                _soloUsedWordIds.Clear();
+                availableWords = _jsonDb.words;
+            }
+
+            _battleCurrentWord = availableWords[UnityEngine.Random.Range(0, availableWords.Count)];
+            _soloUsedWordIds.Add(_battleCurrentWord.id);
+
+            SetupSoloQuestionUI();
+        }
+
+        private void NextReviewQuestion()
+        {
+            if (_reviewCurrentIndex >= _reviewPool.Count)
+            {
+                FinishReviewQuiz();
+                return;
+            }
+
+            _battleCurrentWord = _reviewPool[_reviewCurrentIndex];
+            _reviewCurrentIndex++;
+            UpdateSoloStatusUI();
+
+            SetupSoloQuestionUI();
+        }
+
+        private void SetupSoloQuestionUI()
+        {
+            _isImageMode = UnityEngine.Random.value > 0.5f && !string.IsNullOrEmpty(_battleCurrentWord.imageUrl);
+            _root.Q<Label>("SoloQuestionText").text = _isImageMode ? (_battleCurrentWord.imageSub ?? "What is this?") : _battleCurrentWord.word;
+            
+            VisualElement imgCont = _root.Q<VisualElement>("SoloImageContainer");
+            VisualElement imgElem = _root.Q<VisualElement>("SoloQuestionImage");
+            if (_isImageMode)
+            {
+                imgCont.style.display = DisplayStyle.Flex;
+                StartCoroutine(DownloadAndSetImage(_battleCurrentWord.imageUrl, imgElem));
+            }
+            else imgCont.style.display = DisplayStyle.None;
+
+            string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            List<string> options = new List<string> { correctAns };
+            
+            List<string> distPool = (_isReviewMode && _reviewPool.Count > 4) 
+                ? (_isImageMode ? _reviewPool.Select(w => w.word).ToList() : _reviewPool.Select(w => w.meaning).ToList())
+                : (_isImageMode ? _jsonDb.words.Select(w => w.word).ToList() : _jsonDb.words.Select(w => w.meaning).ToList());
+            
+            distPool.Remove(correctAns);
+            for (int i = 0; i < 3; i++)
+            {
+                if (distPool.Count == 0) break;
+                string dist = distPool[UnityEngine.Random.Range(0, distPool.Count)];
+                options.Add(dist);
+                distPool.Remove(dist);
+            }
+
+            options = options.OrderBy(x => UnityEngine.Random.value).ToList();
+
+            for (int i = 0; i < 4; i++)
+            {
+                Button btn = _root.Q<Button>($"SoloAns{i}");
+                if (btn != null)
+                {
+                    if (i < options.Count)
+                    {
+                        btn.style.display = DisplayStyle.Flex;
+                        btn.text = options[i];
+                        btn.SetEnabled(true);
+                        btn.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));
+                    }
+                    else btn.style.display = DisplayStyle.None;
+                }
+            }
+
+            float progress = 0;
+            if (_soloMode == SoloMode.Quick10 && !_isReviewMode) progress = (_soloQuestionCount / 10f) * 100f;
+            else if (_soloMode == SoloMode.TimeRush) progress = (_soloTimer / 60f) * 100f;
+            else if (_isReviewMode) progress = ((float)_reviewCurrentIndex / _reviewPool.Count) * 100f;
+            _root.Q<VisualElement>("SoloProgressBar").style.width = new Length(progress, LengthUnit.Percent);
+        }
+
+        private System.Collections.IEnumerator HandleSoloAnswerSelection(Button btn, string ans)
+        {
+            string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            bool isCorrect = (ans == correctAns);
+
+            for (int i = 0; i < 4; i++) _root.Q<Button>($"SoloAns{i}")?.SetEnabled(false);
+
+            if (isCorrect)
+            {
+                btn.style.backgroundColor = Color.green;
+                if (!_isReviewMode)
+                {
+                    _soloScore++;
+                    _root.Q<Label>("SoloScore").text = $"Score: {_soloScore}";
+                }
+            }
+            else
+            {
+                btn.style.backgroundColor = Color.red;
+                if (!_isReviewMode)
+                {
+                    _soloHearts--;
+                    UpdateSoloStatusUI();
+                }
+            }
+
+            _soloRoundRecords.Add(new VocabLearning.Data.BattleRoundRecord
+            {
+                question = _isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word,
+                correctAnswer = correctAns,
+                playerAnswer = ans,
+                isCorrect = isCorrect,
+                imageUrl = _isImageMode ? _battleCurrentWord.imageUrl : null
+            });
+
+            yield return new UnityEngine.WaitForSeconds(1.0f);
+
+            if (!_isReviewMode && (_soloHearts <= 0 || (_soloMode == SoloMode.Quick10 && _soloQuestionCount >= 10))) FinishSoloQuiz();
+            else if (_isReviewMode && _reviewCurrentIndex >= _reviewPool.Count) FinishReviewQuiz();
+            else if (_isReviewMode) NextReviewQuestion();
+            else NextSoloQuestion();
+        }
+
+        private void FinishSoloQuiz()
+        {
+            StopSoloTimer();
+            _root.Q<VisualElement>("SoloGameplayOverlay").style.display = DisplayStyle.None;
+
+            var user = _jsonDb.currentUser;
+            if (_soloMode == SoloMode.Survivor && _soloScore > user.bestSurvivor) user.bestSurvivor = _soloScore;
+            if (_soloMode == SoloMode.Quick10 && _soloScore > user.bestQuick10) user.bestQuick10 = _soloScore;
+            if (_soloMode == SoloMode.TimeRush && _soloScore > user.bestTimeRush) user.bestTimeRush = _soloScore;
+
+            int exp = _soloScore * 2;
+            int coins = _soloScore;
+            user.exp += exp;
+            user.coins += coins;
+
+            _lastBattleRecord = new VocabLearning.Data.BattleHistoryRecord
+            {
+                opponentName = "Solo Quiz - " + _soloMode.ToString(),
+                date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                isWin = true,
+                correctCount = _soloScore,
+                totalRounds = _soloRoundRecords.Count,
+                rounds = new List<VocabLearning.Data.BattleRoundRecord>(_soloRoundRecords)
+            };
+
+            ShowBattleSummaryOverlay(() =>
+            {
+                VisualElement resOverlay = _root.Q<VisualElement>("ResultOverlay");
+                if (resOverlay != null) resOverlay.style.display = DisplayStyle.Flex;
+
+                if (_root.Q<Label>("ResultTitle") != null)
+                {
+                    _root.Q<Label>("ResultTitle").text = "QUIZ FINISHED!";
+                    _root.Q<Label>("ResultTitle").style.color = new StyleColor(new Color(0.39f, 0.40f, 0.95f)); // Purple-ish
+                }
+                if (_root.Q<Label>("ResultSubtext") != null) _root.Q<Label>("ResultSubtext").text = $"Mode: {_soloMode} • Score: {_soloScore}";
+                if (_root.Q<Label>("ResultExp") != null) _root.Q<Label>("ResultExp").text = $"+{exp} EXP / +{coins} Coins";
+                if (_root.Q<Label>("ResultIcon") != null) _root.Q<Label>("ResultIcon").text = "🏁";
+
+                Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
+                if (btnLeave != null)
+                {
+                    btnLeave.clicked += () =>
+                    {
+                        // Refresh HUB before returning
+                        RefreshSoloHubUI();
+                        // Hide all overlays
+                        _root.Q<VisualElement>("ResultOverlay").style.display = DisplayStyle.None;
+                    };
+                }
+            });
+        }
+
+        private void FinishReviewQuiz()
+        {
+            _root.Q<VisualElement>("SoloGameplayOverlay").style.display = DisplayStyle.None;
+            int correctCount = _soloRoundRecords.Count(r => r.isCorrect);
+
+            _lastBattleRecord = new VocabLearning.Data.BattleHistoryRecord
+            {
+                opponentName = "Review: " + (_currentVocabSet?.title ?? "Set"),
+                date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
+                isWin = true,
+                correctCount = correctCount,
+                totalRounds = _soloRoundRecords.Count,
+                rounds = new List<VocabLearning.Data.BattleRoundRecord>(_soloRoundRecords)
+            };
+
+            ShowBattleSummaryOverlay(() => 
+            {
+                VisualElement resOverlay = _root.Q<VisualElement>("ResultOverlay");
+                if (resOverlay != null) resOverlay.style.display = DisplayStyle.Flex;
+
+                if (_root.Q<Label>("ResultTitle") != null)
+                {
+                    _root.Q<Label>("ResultTitle").text = "REVIEW FINISHED!";
+                    _root.Q<Label>("ResultTitle").style.color = new StyleColor(new Color(0.54f, 0.45f, 0.94f));
+                }
+                if (_root.Q<Label>("ResultSubtext") != null) _root.Q<Label>("ResultSubtext").text = $"Score: {correctCount}/{_soloRoundRecords.Count}";
+                if (_root.Q<Label>("ResultExp") != null) _root.Q<Label>("ResultExp").text = "Nice practice!";
+                if (_root.Q<Label>("ResultIcon") != null) _root.Q<Label>("ResultIcon").text = "📚";
+
+                Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
+                if (btnLeave != null)
+                {
+                    btnLeave.clicked += () => 
+                    {
+                        _isReviewMode = false;
+                        _root.Q<VisualElement>("ResultOverlay").style.display = DisplayStyle.None;
+                        // Quay lại màn hình chi tiết bộ từ thay vì ở lại Hub Quiz
+                        LoadScreen(VocabDetailScreenAsset);
+                    };
+                }
+            });
         }
     }
 }

@@ -34,6 +34,36 @@ namespace VocabLearning.Data
         public string lastQuestRefreshDate;
         public WeeklyLoginData weeklyLogin; // NEW: Weekly login tracking
         public List<string> learnedSets = new List<string>();
+        public List<UserSetLevelJson> savedSetLevels = new List<UserSetLevelJson>();
+        public List<UserSetProgressJson> setProgress = new List<UserSetProgressJson>();
+        public List<UserWordProgressJson> wordProgress = new List<UserWordProgressJson>();
+        public List<BattleHistoryRecord> battleHistory = new List<BattleHistoryRecord>();
+        
+        // --- Solo Quiz Bests ---
+        public int bestSurvivor;
+        public int bestQuick10;
+        public int bestTimeRush;
+    }
+
+    [System.Serializable]
+    public class UserWordProgressJson
+    {
+        public string wordId;
+        public int status; // 0: Not Learned, 1: Learned, 2: Mastered
+    }
+
+    [System.Serializable]
+    public class UserSetProgressJson
+    {
+        public string setId;
+        public List<string> completedLevels = new List<string>();
+    }
+
+    [System.Serializable]
+    public class UserSetLevelJson
+    {
+        public string setId;
+        public string level; // Easy, Medium, Hard
     }
 
     [System.Serializable]
@@ -46,7 +76,15 @@ namespace VocabLearning.Data
         public string category;
         public string difficulty;
         public string rankRequired;
-        public List<string> wordIds; // ID của các từ trong bảng words
+        public List<string> wordIds; // ID của các từ trong bảng words (Fallback/Default)
+        public List<VocabLevelJson> levels; // NEW: Detailed levels within this set
+    }
+
+    [System.Serializable]
+    public class VocabLevelJson
+    {
+        public string difficulty; // Easy, Medium, Hard
+        public List<string> wordIds;
     }
 
     [System.Serializable]
@@ -56,6 +94,8 @@ namespace VocabLearning.Data
         public string word;
         public string meaning;
         public string rankRequired; // Rank tối thiểu: Dong, Bac, Vang, BachKim, KimCuong, SieuCap
+        public string imageUrl;
+        public string imageSub;
     }
 
     [System.Serializable]
@@ -119,5 +159,31 @@ namespace VocabLearning.Data
         public string rarity; // Common, Rare, Epic, Legendary
         public string category; // Consumable, Cosmetic, Theme
         public string equipType; // Avatar, Border, Effect (only for Cosmetics)
+    }
+
+    [System.Serializable]
+    public class BattleRoundRecord
+    {
+        public string question;      // Từ tiếng Anh hoặc Text hint
+        public string correctAnswer; // Đáp án đúng
+        public string playerAnswer;  // Đáp án người chơi đã chọn ("" = không trả lời)
+        public string imageUrl;      // URL ảnh nếu là mode nhìn hình
+        public bool isCorrect;
+        public bool isTimeout;
+    }
+
+    [System.Serializable]
+    public class BattleHistoryRecord
+    {
+        public string matchId;
+        public string date;          // yyyy-MM-dd HH:mm
+        public bool isRanked;
+        public bool isWin;
+        public string opponentName;
+        public int playerFinalHP;
+        public int enemyFinalHP;
+        public int correctCount;
+        public int totalRounds;
+        public List<BattleRoundRecord> rounds = new List<BattleRoundRecord>();
     }
 }

@@ -106,7 +106,52 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
+            <!-- Battle History Button -->
+            <ui:VisualElement style="padding: 0 24px; margin-bottom: 24px;">
+                <ui:Button name="BtnViewHistory" class="card" style="flex-direction: row; align-items: center; padding: 16px; border-width: 1px; border-color: #334155;">
+                    <ui:VisualElement style="width: 44px; height: 44px; background-color: rgba(59,130,246,0.2); border-radius: 12px; justify-content: center; align-items: center; margin-right: 16px;">
+                        <ui:Label text="H" style="color: #3B82F6; font-size: 20px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-grow: 1;">
+                        <ui:Label text="Battle History" class="font-bold" style="color: white; font-size: 16px;" />
+                        <ui:Label text="View your last 20 matches" class="text-muted" style="font-size: 12px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="→" style="color: #60A5FA; font-size: 20px;" />
+                </ui:Button>
+            </ui:VisualElement>
+
         </ui:ScrollView>
 
     </ui:VisualElement>
+
+    <!-- Battle History Overlay -->
+    <ui:VisualElement name="BattleHistoryOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; flex-direction: column;">
+        <!-- Header -->
+        <ui:VisualElement style="background-color: #EF4444; padding: 24px; flex-direction: row; align-items: center; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+            <ui:Button name="BtnCloseHistory" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(255,255,255,0.2); border-width: 0; justify-content: center; align-items: center; margin-right: 16px; margin-left: 0; margin-top: 0; margin-bottom: 0;">
+                <ui:Label text="←" style="color: white; font-weight: bold; font-size: 18px;" />
+            </ui:Button>
+            <ui:Label text="Battle History" class="font-bold" style="font-size: 22px; color: white;" />
+        </ui:VisualElement>
+
+        <!-- List -->
+        <ui:ScrollView style="flex-grow: 1; padding: 16px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+            <ui:VisualElement name="HistoryListContainer" style="padding-bottom: 40px;" />
+        </ui:ScrollView>
+
+        <!-- Detail Overlay (bên trong) -->
+        <ui:VisualElement name="HistoryDetailOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; flex-direction: column;">
+            <ui:VisualElement style="background-color: #1E293B; padding: 20px 24px; flex-direction: row; align-items: center; border-bottom-width: 1px; border-color: #334155;">
+                <ui:Button name="BtnCloseDetail" style="width: 36px; height: 36px; border-radius: 18px; background-color: rgba(255,255,255,0.15); border-width: 0; justify-content: center; align-items: center; margin-right: 12px; margin-left: 0; margin-top: 0; margin-bottom: 0;">
+                    <ui:Label text="←" style="color: white; font-size: 16px;" />
+                </ui:Button>
+                <ui:Label name="DetailTitle" text="Match Details" class="font-bold" style="font-size: 18px; color: white; flex-grow: 1;" />
+                <ui:Label name="DetailStats" text="0 / 0" style="color: #F59E0B; font-size: 13px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+            <ui:ScrollView style="flex-grow: 1; padding: 16px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+                <ui:VisualElement name="DetailList" style="padding-bottom: 40px;" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+
 </ui:UXML>

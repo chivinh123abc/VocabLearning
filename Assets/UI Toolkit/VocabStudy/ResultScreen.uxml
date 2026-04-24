@@ -53,7 +53,9 @@
         
         <!-- Footer Nút Bấm -->
         <ui:VisualElement style="flex-direction: column;">
-            <ui:Button name="BtnResultHome" text="Back to Home" class="btn-primary" style="margin-bottom: 12px; margin-left: 0; margin-right: 0;" />
+            <ui:Button name="BtnResultContinue" text="Continue Learning" class="btn-primary" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; background-color: #10B981;" />
+            <ui:Button name="BtnResultBackToSet" text="Change Level" class="btn-secondary" style="margin-bottom: 12px; margin-left: 0; margin-right: 0;" />
+            <ui:Button name="BtnResultHome" text="Back to Home" class="btn-secondary" style="margin-bottom: 12px; margin-left: 0; margin-right: 0;" />
             <ui:Button name="BtnResultReplay" text="Play Again" class="btn-secondary" style="margin-left: 0; margin-right: 0;" />
         </ui:VisualElement>
 

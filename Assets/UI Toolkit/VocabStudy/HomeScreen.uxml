@@ -46,12 +46,12 @@
 
         <!-- Quick Actions Grid -->
         <ui:VisualElement class="stats-container" style="margin-top: 16px;">
-            <!-- Quest -->
-            <ui:Button class="card stat-item" name="ActionQuest" style="padding: 16px; align-items: center; border-width: 1px;">
-                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(59, 130, 246, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
-                    <ui:Label text="Tr" style="color: #3B82F6; font-size: 20px; -unity-font-style: bold;" />
+            <!-- Learned Sets (History) -->
+            <ui:Button class="card stat-item" name="ActionLearnedSets" style="padding: 16px; align-items: center; border-width: 1px;">
+                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(16, 185, 129, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
+                    <ui:Label text="H" style="color: #10B981; font-size: 20px; -unity-font-style: bold;" />
                 </ui:VisualElement>
-                <ui:Label text="Quest" style="font-weight: bold; color: white;" />
+                <ui:Label text="Learned" style="font-weight: bold; color: white;" />
             </ui:Button>
             
             <!-- Battle -->
@@ -68,6 +68,14 @@
                     <ui:Label text="Fr" style="color: #8B5CF6; font-size: 20px; -unity-font-style: bold;" />
                 </ui:VisualElement>
                 <ui:Label text="Friends" style="font-weight: bold; color: white;" />
+            </ui:Button>
+
+            <!-- Solo Quiz -->
+            <ui:Button class="card stat-item" name="ActionSoloQuiz" style="padding: 16px; align-items: center; border-width: 1px;">
+                <ui:VisualElement style="width: 48px; height: 48px; background-color: rgba(99, 102, 241, 0.2); border-radius: 12px; justify-content: center; align-items: center; margin-bottom: 8px;">
+                    <ui:Label text="⚡" style="color: #6366F1; font-size: 20px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Label text="Solo" style="font-weight: bold; color: white;" />
             </ui:Button>
         </ui:VisualElement>
 
@@ -121,6 +129,22 @@
                 <ui:Label text="P" class="nav-icon" />
                 <ui:Label text="Profile" class="nav-label" />
             </ui:Button>
+        </ui:VisualElement>
+
+        <!-- Learned Sets Overlay (Màn hình phụ hiển thị các bộ đã học) -->
+        <ui:VisualElement name="LearnedSetsOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; z-index: 50;">
+            <!-- Header -->
+            <ui:VisualElement style="background-color: #3B82F6; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; flex-direction: row; align-items: center;">
+                <ui:Button name="BtnCloseLearnedSets" style="width: 40px; height: 40px; border-radius: 20px; background-color: rgba(255,255,255,0.2); border-width: 0; justify-content: center; align-items: center; margin-right: 16px; margin-left: 0; margin-top: 0; margin-bottom: 0;">
+                    <ui:Label text="←" style="color: white; font-weight: bold; font-size: 18px;" />
+                </ui:Button>
+                <ui:Label text="Learned Sets" class="font-bold" style="font-size: 24px; color: white;" />
+            </ui:VisualElement>
+
+            <!-- Danh sách -->
+            <ui:ScrollView style="flex-grow: 1; padding: 24px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+                <ui:VisualElement name="LearnedSetsListContainer" style="padding-bottom: 100px;" />
+            </ui:ScrollView>
         </ui:VisualElement>
 
     </ui:VisualElement>

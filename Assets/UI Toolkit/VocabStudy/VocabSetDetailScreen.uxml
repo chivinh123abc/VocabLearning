@@ -34,6 +34,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
+        <ui:Label text="Select Difficulty Level" class="section-title" />
+        <ui:VisualElement name="LevelSelectionContainer" style="flex-direction: row; flex-wrap: wrap; padding-left: 24px; padding-right: 24px; margin-bottom: 12px; justify-content: flex-start;" />
+
         <!-- Learning Modes -->
         <ui:Label text="Choose Learning Mode" class="section-title" />
         <ui:VisualElement style="padding-left: 24px; padding-right: 24px;">
@@ -52,7 +55,7 @@
                     <ui:Label text="Q" style="color: white; font-size: 24px; -unity-font-style: bold;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-grow: 1; align-items: flex-start; justify-content: flex-start;">
-                    <ui:Label text="Solo Quiz" class="text-xl font-bold" style="color: white; margin-bottom: 4px;" />
+                    <ui:Label text="Review Quiz" class="text-xl font-bold" style="color: white; margin-bottom: 4px;" />
                     <ui:Label text="Test your knowledge" style="color: rgba(255,255,255,0.8); font-size: 14px;" />
                 </ui:VisualElement>
             </ui:Button>
