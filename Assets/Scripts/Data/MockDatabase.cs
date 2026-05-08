@@ -7,6 +7,7 @@ namespace VocabLearning.Data
     public class MockDatabase
     {
         public UserJson currentUser;
+        public List<UserJson> registeredUsers = new List<UserJson>(); // Danh sách user đã đăng ký
         public List<WordJson> words;        // Bảng từ vựng trung tâm
         public List<VocabSetJson> vocabSets; // Bộ từ vựng (chỉ lưu wordIds)
         public List<AchievementJson> achievements;
@@ -23,6 +24,7 @@ namespace VocabLearning.Data
         public string id;
         public string username;
         public string email;
+        public string password; // Mật khẩu đăng nhập
         public int level;
         public int exp;
         public int expNeeded;
@@ -43,6 +45,16 @@ namespace VocabLearning.Data
         public int bestSurvivor;
         public int bestQuick10;
         public int bestTimeRush;
+
+        public List<ShopPurchaseRecord> shopHistory = new List<ShopPurchaseRecord>();
+    }
+
+    [System.Serializable]
+    public class ShopPurchaseRecord
+    {
+        public string itemName;
+        public int price;
+        public string date; // yyyy-MM-dd HH:mm
     }
 
     [System.Serializable]

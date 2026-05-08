@@ -23,7 +23,24 @@
       "isRewardClaimed": false
     },
     "learnedSets": [],
-    "savedSetLevels": []
+    "savedSetLevels": [],
+    "shopHistory": [
+      {
+        "itemName": "Mystery Box",
+        "price": 200,
+        "date": "2023-10-10 14:30"
+      },
+      {
+        "itemName": "Double EXP Potion",
+        "price": 150,
+        "date": "2023-10-11 09:15"
+      },
+      {
+        "itemName": "Premium Avatar Frame",
+        "price": 500,
+        "date": "2023-10-12 18:45"
+      }
+    ]
   },
   "words": [
     {
@@ -31,7 +48,7 @@
       "word": "Hello",
       "meaning": "Xin chào",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Xin chào"
     },
     {
@@ -39,7 +56,7 @@
       "word": "Thank you",
       "meaning": "Cảm ơn",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Cảm ơn"
     },
     {
@@ -47,7 +64,7 @@
       "word": "Sorry",
       "meaning": "Xin lỗi",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Xin lỗi"
     },
     {
@@ -55,7 +72,7 @@
       "word": "Please",
       "meaning": "Làm ơn",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Làm ơn"
     },
     {
@@ -63,7 +80,7 @@
       "word": "Yes / No",
       "meaning": "Có / Không",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Có / Không"
     },
     {
@@ -71,7 +88,7 @@
       "word": "Good morning",
       "meaning": "Chào buổi sáng",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Chào buổi sáng"
     },
     {
@@ -79,7 +96,7 @@
       "word": "Good night",
       "meaning": "Chúc ngủ ngon",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Chúc ngủ ngon"
     },
     {
@@ -87,7 +104,7 @@
       "word": "Goodbye",
       "meaning": "Tạm biệt",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Tạm biệt"
     },
     {
@@ -95,7 +112,7 @@
       "word": "Dog",
       "meaning": "Con chó",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con chó"
     },
     {
@@ -103,7 +120,7 @@
       "word": "Cat",
       "meaning": "Con mèo",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con mèo"
     },
     {
@@ -111,7 +128,7 @@
       "word": "Bird",
       "meaning": "Con chim",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con chim"
     },
     {
@@ -119,7 +136,7 @@
       "word": "Elephant",
       "meaning": "Con voi",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con voi"
     },
     {
@@ -127,7 +144,7 @@
       "word": "Tiger",
       "meaning": "Con hổ",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con hổ"
     },
     {
@@ -135,7 +152,7 @@
       "word": "Rabbit",
       "meaning": "Con thỏ",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con thỏ"
     },
     {
@@ -143,7 +160,7 @@
       "word": "Fish",
       "meaning": "Con cá",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con cá"
     },
     {
@@ -151,7 +168,7 @@
       "word": "Horse",
       "meaning": "Con ngựa",
       "rankRequired": "Dong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Con ngựa"
     },
     {
@@ -159,7 +176,7 @@
       "word": "Apple",
       "meaning": "Quả táo",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Quả táo"
     },
     {
@@ -167,7 +184,7 @@
       "word": "Bread",
       "meaning": "Bánh mì",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Bánh mì"
     },
     {
@@ -175,7 +192,7 @@
       "word": "Chicken",
       "meaning": "Thịt gà",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Thịt gà"
     },
     {
@@ -183,7 +200,7 @@
       "word": "Rice",
       "meaning": "Cơm",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Cơm"
     },
     {
@@ -191,7 +208,7 @@
       "word": "Water",
       "meaning": "Nước",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Nước"
     },
     {
@@ -199,7 +216,7 @@
       "word": "Orange",
       "meaning": "Quả cam",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Quả cam"
     },
     {
@@ -207,7 +224,7 @@
       "word": "Milk",
       "meaning": "Sữa",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Sữa"
     },
     {
@@ -215,7 +232,7 @@
       "word": "Coffee",
       "meaning": "Cà phê",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Cà phê"
     },
     {
@@ -223,7 +240,7 @@
       "word": "Red",
       "meaning": "Màu đỏ",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Màu đỏ"
     },
     {
@@ -231,7 +248,7 @@
       "word": "Blue",
       "meaning": "Màu xanh dương",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Màu xanh dương"
     },
     {
@@ -239,7 +256,7 @@
       "word": "Green",
       "meaning": "Màu xanh lá",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Màu xanh lá"
     },
     {
@@ -247,7 +264,7 @@
       "word": "Yellow",
       "meaning": "Màu vàng",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Màu vàng"
     },
     {
@@ -255,7 +272,7 @@
       "word": "Purple",
       "meaning": "Màu tím",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Màu tím"
     },
     {
@@ -263,7 +280,7 @@
       "word": "Hundred",
       "meaning": "Một trăm",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Một trăm"
     },
     {
@@ -271,7 +288,7 @@
       "word": "Thousand",
       "meaning": "Một nghìn",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Một nghìn"
     },
     {
@@ -279,7 +296,7 @@
       "word": "Million",
       "meaning": "Một triệu",
       "rankRequired": "Bac",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Một triệu"
     },
     {
@@ -287,7 +304,7 @@
       "word": "Airport",
       "meaning": "Sân bay",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Sân bay"
     },
     {
@@ -295,7 +312,7 @@
       "word": "Passport",
       "meaning": "Hộ chiếu",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Hộ chiếu"
     },
     {
@@ -303,7 +320,7 @@
       "word": "Hotel",
       "meaning": "Khách sạn",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Khách sạn"
     },
     {
@@ -311,7 +328,7 @@
       "word": "Destination",
       "meaning": "Điểm đến",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Điểm đến"
     },
     {
@@ -319,7 +336,7 @@
       "word": "Luggage",
       "meaning": "Hành lý",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Hành lý"
     },
     {
@@ -327,7 +344,7 @@
       "word": "Reservation",
       "meaning": "Đặt chỗ trước",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Đặt chỗ trước"
     },
     {
@@ -335,7 +352,7 @@
       "word": "Customs",
       "meaning": "Hải quan",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Hải quan"
     },
     {
@@ -343,7 +360,7 @@
       "word": "Departure",
       "meaning": "Khởi hành",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Khởi hành"
     },
     {
@@ -351,7 +368,7 @@
       "word": "Shoulder",
       "meaning": "Vai",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Vai"
     },
     {
@@ -359,7 +376,7 @@
       "word": "Elbow",
       "meaning": "Khuỷu tay",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Khuỷu tay"
     },
     {
@@ -367,7 +384,7 @@
       "word": "Forehead",
       "meaning": "Trán",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Trán"
     },
     {
@@ -375,7 +392,7 @@
       "word": "Eyebrow",
       "meaning": "Lông mày",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Lông mày"
     },
     {
@@ -383,7 +400,7 @@
       "word": "Eyelid",
       "meaning": "Mí mắt",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Mí mắt"
     },
     {
@@ -391,7 +408,7 @@
       "word": "Cheekbone",
       "meaning": "Xương gò má",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Xương gò má"
     },
     {
@@ -399,7 +416,7 @@
       "word": "Spine",
       "meaning": "Cột sống",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Cột sống"
     },
     {
@@ -407,7 +424,7 @@
       "word": "Calf",
       "meaning": "Bắp chân",
       "rankRequired": "Vang",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Bắp chân"
     },
     {
@@ -415,7 +432,7 @@
       "word": "Algorithm",
       "meaning": "Thuật toán",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Thuật toán"
     },
     {
@@ -423,7 +440,7 @@
       "word": "Bandwidth",
       "meaning": "Băng thông",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Băng thông"
     },
     {
@@ -431,7 +448,7 @@
       "word": "Encryption",
       "meaning": "Mã hóa",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Mã hóa"
     },
     {
@@ -439,7 +456,7 @@
       "word": "Artificial Intelligence",
       "meaning": "Trí tuệ nhân tạo",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Trí tuệ nhân tạo"
     },
     {
@@ -447,7 +464,7 @@
       "word": "Database",
       "meaning": "Cơ sở dữ liệu",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Cơ sở dữ liệu"
     },
     {
@@ -455,7 +472,7 @@
       "word": "Framework",
       "meaning": "Khung phát triển",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Khung phát triển"
     },
     {
@@ -463,7 +480,7 @@
       "word": "Repository",
       "meaning": "Kho lưu trữ code",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Kho lưu trữ code"
     },
     {
@@ -471,7 +488,7 @@
       "word": "Debugging",
       "meaning": "Gỡ lỗi chương trình",
       "rankRequired": "BachKim",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Gỡ lỗi chương trình"
     },
     {
@@ -479,7 +496,7 @@
       "word": "Acquisition",
       "meaning": "Sự mua lại (công ty)",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Sự mua lại (công ty)"
     },
     {
@@ -487,7 +504,7 @@
       "word": "Depreciation",
       "meaning": "Khấu hao tài sản",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Khấu hao tài sản"
     },
     {
@@ -495,7 +512,7 @@
       "word": "Diversification",
       "meaning": "Đa dạng hóa đầu tư",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Đa dạng hóa đầu tư"
     },
     {
@@ -503,7 +520,7 @@
       "word": "Fiscal",
       "meaning": "Thuộc về tài chính nhà nước",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Thuộc về tài chính nhà nước"
     },
     {
@@ -511,7 +528,7 @@
       "word": "Liquidity",
       "meaning": "Tính thanh khoản",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Tính thanh khoản"
     },
     {
@@ -519,7 +536,7 @@
       "word": "Monopoly",
       "meaning": "Độc quyền",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Độc quyền"
     },
     {
@@ -527,7 +544,7 @@
       "word": "Procurement",
       "meaning": "Mua sắm / Thu mua",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Mua sắm / Thu mua"
     },
     {
@@ -535,7 +552,7 @@
       "word": "Stakeholder",
       "meaning": "Các bên liên quan",
       "rankRequired": "KimCuong",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Các bên liên quan"
     },
     {
@@ -543,7 +560,7 @@
       "word": "Ambiguous",
       "meaning": "Mơ hồ, không rõ ràng",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Mơ hồ, không rõ ràng"
     },
     {
@@ -551,7 +568,7 @@
       "word": "Exacerbate",
       "meaning": "Làm trầm trọng thêm",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Làm trầm trọng thêm"
     },
     {
@@ -559,7 +576,7 @@
       "word": "Juxtaposition",
       "meaning": "Sự đặt cạnh nhau để so sánh",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Sự đặt cạnh nhau để so sánh"
     },
     {
@@ -567,7 +584,7 @@
       "word": "Ubiquitous",
       "meaning": "Có mặt khắp nơi, phổ biến",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Có mặt khắp nơi, phổ biến"
     },
     {
@@ -575,7 +592,7 @@
       "word": "Paradox",
       "meaning": "Nghịch lý",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Nghịch lý"
     },
     {
@@ -583,7 +600,7 @@
       "word": "Ephemeral",
       "meaning": "Phù du, thoáng qua",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Phù du, thoáng qua"
     },
     {
@@ -591,7 +608,7 @@
       "word": "Pragmatic",
       "meaning": "Thực dụng, thực tế",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Thực dụng, thực tế"
     },
     {
@@ -599,7 +616,7 @@
       "word": "Unprecedented",
       "meaning": "Chưa từng có tiền lệ",
       "rankRequired": "SieuCap",
-      "imageUrl": "https://i.pinimg.com/736x/0a/29/b8/0a29b8633579037147e2861f8168c349.jpg",
+      "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
       "imageSub": "Hint: Chưa từng có tiền lệ"
     }
   ],

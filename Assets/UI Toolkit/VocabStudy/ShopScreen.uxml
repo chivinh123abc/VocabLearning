@@ -29,6 +29,11 @@
                         <ui:Label name="LblShopCoinBalance" text="0" style="color: white; font-weight: bold; font-size: 16px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+
+                <!-- History Button -->
+                <ui:VisualElement style="flex-direction: row; justify-content: flex-end; margin-top: 12px;">
+                    <ui:Button name="BtnShopHistory" text="📜 History" style="background-color: rgba(255,255,255,0.2); border-width: 0; color: white; border-radius: 8px; font-size: 13px; padding: 6px 12px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
 
             <!-- Category Tabs -->
@@ -52,6 +57,16 @@
             </ui:VisualElement>
 
         </ui:ScrollView>
+
+        <!-- Purchase History Overlay -->
+        <ui:VisualElement name="ShopHistoryOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #0F172A; display: none; padding: 24px; z-index: 100;">
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <ui:Label text="Purchase History" class="font-bold" style="font-size: 24px; color: white;" />
+                <ui:Button name="BtnCloseHistory" text="✕" style="background-color: transparent; border-width: 0; color: #94A3B8; font-size: 24px;" />
+            </ui:VisualElement>
+            
+            <ui:ScrollView name="HistoryListContainer" style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" />
+        </ui:VisualElement>
 
         <!-- Bottom Navigation -->
         <ui:VisualElement class="bottom-nav-container">

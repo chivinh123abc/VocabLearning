@@ -23,7 +23,8 @@
 
         <!-- Tiêu đề -->
         <ui:Label name="LblResultTitle" text="Excellent!" style="font-size: 32px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-bottom: 8px; align-self: center;" />
-        <ui:Label name="LblResultSubtitle" text="You've completed the Practice mode!" style="font-size: 16px; color: #94A3B8; -unity-text-align: middle-center; margin-bottom: 32px; align-self: center;" />
+        <ui:Label name="LblResultSubtitle" text="You've completed the Practice mode!" style="font-size: 16px; color: #94A3B8; -unity-text-align: middle-center; margin-bottom: 8px; align-self: center;" />
+        <ui:Label name="LblResultScore" text="Mastered: 0 / 0 words" style="font-size: 18px; color: #10B981; -unity-text-align: middle-center; margin-bottom: 32px; align-self: center; -unity-font-style: bold;" />
 
         <!-- Card Điểm thưởng -->
         <ui:VisualElement class="card" style="padding-left: 24px; padding-right: 24px; padding-top: 24px; padding-bottom: 24px; margin-bottom: 32px; overflow: hidden; flex-shrink: 1;">

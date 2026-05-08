@@ -10,6 +10,7 @@ namespace VocabLearning.UI
     public class VocabStudyController : MonoBehaviour
     {
         [Header("UI Templates (UXML)")]
+        public VisualTreeAsset AuthScreenAsset; // NEW: Màn hình Đăng nhập/Đăng ký
         public VisualTreeAsset HomeScreenAsset;
         public VisualTreeAsset VocabDetailScreenAsset;
         public VisualTreeAsset PracticeModeScreenAsset;
@@ -66,8 +67,12 @@ namespace VocabLearning.UI
             _doc = GetComponent<UIDocument>();
             LoadJsonDatabase();
 
-            // Khởi chạy HomeScreen mặc định nếu chưa có VisualTree
-            if (_doc.visualTreeAsset == null && HomeScreenAsset != null)
+            // Khởi chạy AuthScreen mặc định (Bắt buộc đè lên giá trị có sẵn trong Inspector)
+            if (AuthScreenAsset != null)
+            {
+                _doc.visualTreeAsset = AuthScreenAsset;
+            }
+            else if (HomeScreenAsset != null)
             {
                 _doc.visualTreeAsset = HomeScreenAsset;
             }
@@ -100,7 +105,8 @@ namespace VocabLearning.UI
             // Nếu không được truyền vào, thử lấy từ assigned UIDocument (lúc vừa mở lên)
             if (targetAsset == null) targetAsset = _doc.visualTreeAsset;
 
-            if (targetAsset == HomeScreenAsset) BindHomeEvents();
+            if (targetAsset == AuthScreenAsset) BindAuthEvents();
+            else if (targetAsset == HomeScreenAsset) BindHomeEvents();
             else if (targetAsset == VocabDetailScreenAsset) BindDetailEvents();
             else if (targetAsset == PracticeModeScreenAsset) BindPracticeEvents();
             else if (targetAsset == QuestScreenAsset) BindQuestEvents();
@@ -128,11 +134,28 @@ namespace VocabLearning.UI
                 _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
                 Debug.Log($"[JSON DB] Đã tải Database. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
 
-                // Tự động kiểm tra và làm mới nhiệm vụ hàng ngày
-                CheckDailyQuests();
+                // TỰ ĐỘNG TẠO USER "user1" ĐỂ TEST
+                if (_jsonDb.registeredUsers == null) _jsonDb.registeredUsers = new List<VocabLearning.Data.UserJson>();
+                if (!_jsonDb.registeredUsers.Exists(u => u.username == "user1"))
+                {
+                    VocabLearning.Data.UserJson mockUser;
+                    if (_jsonDb.currentUser != null)
+                    {
+                        // Clone từ currentUser để có sẵn tiền/level test cho dễ
+                        mockUser = JsonUtility.FromJson<VocabLearning.Data.UserJson>(JsonUtility.ToJson(_jsonDb.currentUser));
+                    }
+                    else
+                    {
+                        mockUser = new VocabLearning.Data.UserJson();
+                    }
+                    mockUser.id = "test_user_1";
+                    mockUser.username = "user1";
+                    mockUser.password = "user1";
+                    _jsonDb.registeredUsers.Add(mockUser);
+                }
 
-                // Kiểm tra điểm danh tuần
-                CheckWeeklyLogin();
+                // KHÔNG gọi CheckDailyQuests/CheckWeeklyLogin ở đây
+                // Phải đợi user đăng nhập thành công mới gọi
             }
             else
             {
@@ -222,6 +245,255 @@ namespace VocabLearning.UI
                 user.coins += 1000; // Thưởng lớn cho việc chuyên cần
                 user.exp += 2000;
                 Debug.Log("🎁 SIÊU CẤP CHUYÊN CẦN: Bạn đã nhận được 1000 Coins và 2000 EXP cho việc đăng nhập 5 ngày trong tuần!");
+            }
+        }
+
+        // --- BINDING CHO AUTH SCREEN ---
+        private void BindAuthEvents()
+        {
+            var panelLogin = _root.Q<VisualElement>("PanelLogin");
+            var panelRegister = _root.Q<VisualElement>("PanelRegister");
+            var panelForgot = _root.Q<VisualElement>("PanelForgot");
+
+            var lblError = _root.Q<Label>("LblAuthError");
+            var lblSuccess = _root.Q<Label>("LblAuthSuccess");
+
+            // Helper để ẩn lỗi
+            void HideMessages()
+            {
+                if (lblError != null) lblError.style.display = DisplayStyle.None;
+                if (lblSuccess != null) lblSuccess.style.display = DisplayStyle.None;
+            }
+
+            // Chuyển panel
+            void SwitchPanel(VisualElement showPanel)
+            {
+                HideMessages();
+                if (panelLogin != null) panelLogin.style.display = DisplayStyle.None;
+                if (panelRegister != null) panelRegister.style.display = DisplayStyle.None;
+                if (panelForgot != null) panelForgot.style.display = DisplayStyle.None;
+                if (showPanel != null) showPanel.style.display = DisplayStyle.Flex;
+            }
+
+            // --- LOGIN PANEL EVENTS ---
+            var btnLogin = _root.Q<Button>("BtnLogin");
+            var btnGoToRegister = _root.Q<Button>("BtnGoToRegister");
+            var btnGoToForgot = _root.Q<Button>("BtnGoToForgot");
+            var inputLoginUsername = _root.Q<TextField>("InputLoginUsername");
+            var inputLoginPassword = _root.Q<TextField>("InputLoginPassword");
+            var btnToggleLoginPassword = _root.Q<Button>("BtnToggleLoginPassword");
+
+            // Bắt buộc ẩn mật khẩu ngay khi khởi tạo
+            if (inputLoginPassword != null) inputLoginPassword.isPasswordField = true;
+
+            if (btnGoToRegister != null) btnGoToRegister.clicked += () => SwitchPanel(panelRegister);
+            if (btnGoToForgot != null) btnGoToForgot.clicked += () => SwitchPanel(panelForgot);
+
+            if (btnToggleLoginPassword != null && inputLoginPassword != null)
+            {
+                btnToggleLoginPassword.clicked += () => {
+                    inputLoginPassword.isPasswordField = !inputLoginPassword.isPasswordField;
+                    btnToggleLoginPassword.text = inputLoginPassword.isPasswordField ? "Show" : "Hide";
+                };
+            }
+
+            if (btnLogin != null)
+            {
+                btnLogin.clicked += () => {
+                    HideMessages();
+                    string user = inputLoginUsername?.value;
+                    string pass = inputLoginPassword?.value;
+
+                    if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
+                    {
+                        if (lblError != null) { lblError.text = "Username and Password cannot be empty!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    // Validate
+                    bool isValid = false;
+                    VocabLearning.Data.UserJson matchedUser = null;
+
+                    if (_jsonDb.registeredUsers != null && _jsonDb.registeredUsers.Count > 0)
+                    {
+                        matchedUser = _jsonDb.registeredUsers.Find(u => u.username == user && u.password == pass);
+                        if (matchedUser != null) isValid = true;
+                    }
+                    else if (_jsonDb.currentUser != null)
+                    {
+                        // Fallback logic for mock db
+                        if (user == _jsonDb.currentUser.username && (string.IsNullOrEmpty(_jsonDb.currentUser.password) || pass == _jsonDb.currentUser.password))
+                        {
+                            isValid = true;
+                            matchedUser = _jsonDb.currentUser;
+                        }
+                    }
+
+                    if (isValid)
+                    {
+                        _jsonDb.currentUser = matchedUser; // Cập nhật user hiện tại
+
+                        // Chạy check quest và điểm danh SAU KHI đăng nhập thành công
+                        CheckDailyQuests();
+                        CheckWeeklyLogin();
+
+                        LoadScreen(HomeScreenAsset); // Thành công -> Vào game
+                    }
+                    else
+                    {
+                        if (lblError != null) { lblError.text = "Invalid username or password!"; lblError.style.display = DisplayStyle.Flex; }
+                    }
+                };
+            }
+
+            // --- REGISTER PANEL EVENTS ---
+            var btnRegister = _root.Q<Button>("BtnRegister");
+            var btnBackToLoginFromReg = _root.Q<Button>("BtnBackToLoginFromReg");
+            var inputRegUsername = _root.Q<TextField>("InputRegUsername");
+            var inputRegEmail = _root.Q<TextField>("InputRegEmail");
+            var inputRegPassword = _root.Q<TextField>("InputRegPassword");
+            var btnToggleRegPassword = _root.Q<Button>("BtnToggleRegPassword");
+
+            // Bắt buộc ẩn mật khẩu ngay khi khởi tạo
+            if (inputRegPassword != null) inputRegPassword.isPasswordField = true;
+
+            if (btnBackToLoginFromReg != null) btnBackToLoginFromReg.clicked += () => SwitchPanel(panelLogin);
+
+            if (btnToggleRegPassword != null && inputRegPassword != null)
+            {
+                btnToggleRegPassword.clicked += () => {
+                    inputRegPassword.isPasswordField = !inputRegPassword.isPasswordField;
+                    btnToggleRegPassword.text = inputRegPassword.isPasswordField ? "Show" : "Hide";
+                };
+            }
+
+            if (btnRegister != null)
+            {
+                btnRegister.clicked += () => {
+                    HideMessages();
+                    string user = inputRegUsername?.value;
+                    string email = inputRegEmail?.value;
+                    string pass = inputRegPassword?.value;
+
+                    if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
+                    {
+                        if (lblError != null) { lblError.text = "Username and Password are required!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    if (_jsonDb.registeredUsers == null) _jsonDb.registeredUsers = new System.Collections.Generic.List<VocabLearning.Data.UserJson>();
+
+                    // Kiểm tra trùng
+                    if (_jsonDb.registeredUsers.Exists(u => u.username == user))
+                    {
+                        if (lblError != null) { lblError.text = "Username already exists!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    // Tạo user mới (Copy dữ liệu từ currentUser nếu muốn có sẵn data để test)
+                    VocabLearning.Data.UserJson newUser = null;
+                    if (_jsonDb.currentUser != null)
+                    {
+                        string originalJson = UnityEngine.JsonUtility.ToJson(_jsonDb.currentUser);
+                        newUser = UnityEngine.JsonUtility.FromJson<VocabLearning.Data.UserJson>(originalJson);
+                    }
+                    else
+                    {
+                        newUser = new VocabLearning.Data.UserJson();
+                    }
+
+                    newUser.id = System.Guid.NewGuid().ToString();
+                    newUser.username = user;
+                    newUser.email = email;
+                    newUser.password = pass;
+
+                    _jsonDb.registeredUsers.Add(newUser);
+
+                    if (lblSuccess != null) { lblSuccess.text = "Account created successfully! Please login."; lblSuccess.style.display = DisplayStyle.Flex; }
+                    SwitchPanel(panelLogin);
+                };
+            }
+
+            // --- FORGOT PASSWORD PANEL EVENTS ---
+            var btnRecover = _root.Q<Button>("BtnRecover");
+            var btnBackToLoginFromForgot = _root.Q<Button>("BtnBackToLoginFromForgot");
+            var inputForgotEmail = _root.Q<TextField>("InputForgotEmail");
+            var inputForgotOTP = _root.Q<TextField>("InputForgotOTP");
+            var inputForgotNewPassword = _root.Q<TextField>("InputForgotNewPassword");
+            var inputForgotConfirmPassword = _root.Q<TextField>("InputForgotConfirmPassword");
+            var btnSendOTP = _root.Q<Button>("BtnSendOTP");
+
+            // Bắt buộc ẩn mật khẩu ngay khi khởi tạo
+            if (inputForgotNewPassword != null) inputForgotNewPassword.isPasswordField = true;
+            if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.isPasswordField = true;
+
+            if (btnBackToLoginFromForgot != null) btnBackToLoginFromForgot.clicked += () => SwitchPanel(panelLogin);
+
+            if (btnSendOTP != null)
+            {
+                btnSendOTP.clicked += () => {
+                    HideMessages();
+                    string email = inputForgotEmail?.value;
+                    if (string.IsNullOrEmpty(email))
+                    {
+                        if (lblError != null) { lblError.text = "Please enter your email first to receive OTP!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+                    if (lblSuccess != null) { lblSuccess.text = "OTP Code has been sent to your email!"; lblSuccess.style.display = DisplayStyle.Flex; }
+                };
+            }
+
+            var btnToggleForgotNewPassword = _root.Q<Button>("BtnToggleForgotNewPassword");
+            if (btnToggleForgotNewPassword != null && inputForgotNewPassword != null)
+            {
+                btnToggleForgotNewPassword.clicked += () => {
+                    inputForgotNewPassword.isPasswordField = !inputForgotNewPassword.isPasswordField;
+                    btnToggleForgotNewPassword.text = inputForgotNewPassword.isPasswordField ? "Show" : "Hide";
+                };
+            }
+
+            var btnToggleForgotConfirmPassword = _root.Q<Button>("BtnToggleForgotConfirmPassword");
+            if (btnToggleForgotConfirmPassword != null && inputForgotConfirmPassword != null)
+            {
+                btnToggleForgotConfirmPassword.clicked += () => {
+                    inputForgotConfirmPassword.isPasswordField = !inputForgotConfirmPassword.isPasswordField;
+                    btnToggleForgotConfirmPassword.text = inputForgotConfirmPassword.isPasswordField ? "Show" : "Hide";
+                };
+            }
+
+            if (btnRecover != null)
+            {
+                btnRecover.clicked += () => {
+                    HideMessages();
+                    string email = inputForgotEmail?.value;
+                    string otp = inputForgotOTP?.value;
+                    string newPass = inputForgotNewPassword?.value;
+                    string confirmPass = inputForgotConfirmPassword?.value;
+
+                    if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass))
+                    {
+                        if (lblError != null) { lblError.text = "Please fill in all fields!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    if (newPass != confirmPass)
+                    {
+                        if (lblError != null) { lblError.text = "Passwords do not match!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    // Dummy UI response cho tính năng reset mật khẩu
+                    if (lblSuccess != null) { 
+                        lblSuccess.text = "Your password has been successfully reset! You can now login."; 
+                        lblSuccess.style.display = DisplayStyle.Flex; 
+                    }
+
+                    // Xóa trắng form sau khi thành công
+                    if (inputForgotEmail != null) inputForgotEmail.value = "";
+                    if (inputForgotOTP != null) inputForgotOTP.value = "";
+                    if (inputForgotNewPassword != null) inputForgotNewPassword.value = "";
+                    if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.value = "";
+                };
             }
         }
 
@@ -1332,6 +1604,14 @@ namespace VocabLearning.UI
             if (lblCoins != null) lblCoins.text = "+" + _lastSessionCoins;
             if (lblExp != null) lblExp.text = "+" + _lastSessionExp;
 
+            // [NEW] Hiển thị số từ đã thuộc (Mastered)
+            Label lblScore = _root.Q<Label>("LblResultScore");
+            if (lblScore != null && _currentVocabSetWords != null)
+            {
+                int masteredThisSession = (_sessionNewlyMasteredWords != null) ? _sessionNewlyMasteredWords.Count : 0;
+                lblScore.text = $"Mastered: {masteredThisSession} / {_currentVocabSetWords.Count} words";
+            }
+
             Button btnHome = _root.Q<Button>("BtnResultHome");
             if (btnHome != null) btnHome.clicked += () => LoadScreen(HomeScreenAsset);
 
@@ -1905,14 +2185,14 @@ namespace VocabLearning.UI
             VisualElement row = new VisualElement();
             row.style.flexDirection = FlexDirection.Row; // Changed to Row to fit image
             row.style.marginBottom = 12;
-            row.style.paddingLeft = 12;
-            row.style.paddingRight = 12;
-            row.style.paddingTop = 10;
-            row.style.paddingBottom = 10;
-            row.style.borderTopLeftRadius = 10;
-            row.style.borderTopRightRadius = 10;
-            row.style.borderBottomLeftRadius = 10;
-            row.style.borderBottomRightRadius = 10;
+            row.style.paddingLeft = 16;
+            row.style.paddingRight = 16;
+            row.style.paddingTop = 14;
+            row.style.paddingBottom = 14;
+            row.style.borderTopLeftRadius = 12;
+            row.style.borderTopRightRadius = 12;
+            row.style.borderBottomLeftRadius = 12;
+            row.style.borderBottomRightRadius = 12;
 
             if (round.isTimeout)
                 row.style.backgroundColor = new StyleColor(new Color(0.4f, 0.4f, 0.4f, 0.3f));
@@ -1945,16 +2225,18 @@ namespace VocabLearning.UI
             string icon = round.isTimeout ? "⏱" : round.isCorrect ? "✅" : "❌";
             Label qLbl = new Label($"{icon}  {round.question}");
             qLbl.style.color = Color.white;
-            qLbl.style.fontSize = 15;
+            qLbl.style.fontSize = 16;
             qLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
             qLbl.style.whiteSpace = WhiteSpace.Normal;
+            qLbl.style.marginBottom = 4;
             info.Add(qLbl);
 
             // Always show correct answer
             Label ansLbl = new Label($"Đáp án đúng: {round.correctAnswer}");
             ansLbl.style.color = round.isCorrect ? new StyleColor(new Color(0.40f, 0.93f, 0.60f)) : new StyleColor(new Color(0.93f, 0.40f, 0.40f));
-            ansLbl.style.fontSize = 12;
+            ansLbl.style.fontSize = 13;
             ansLbl.style.whiteSpace = WhiteSpace.Normal;
+            ansLbl.style.marginBottom = 2;
             info.Add(ansLbl);
 
             if (!round.isCorrect && !round.isTimeout)
@@ -2802,6 +3084,15 @@ namespace VocabLearning.UI
                 }
             }
 
+            // [NEW] Hiển thị điểm số X/Y
+            Label lblScore = _root.Q<Label>("ResultScore");
+            if (lblScore != null)
+            {
+                int corrects = 0;
+                foreach (var r in _currentBattleRounds) if (r.isCorrect) corrects++;
+                lblScore.text = $"Score: {corrects} / {_currentBattleRounds.Count}";
+            }
+
             // --- Lưu lịch sử trận đấu ---
             string opponentName = _battleEnemyData != null ? _battleEnemyData.username : "Unknown";
             int correctCount = 0;
@@ -2932,15 +3223,20 @@ namespace VocabLearning.UI
                 };
             }
 
-            if (_shopCurrentTab == "Cosmetic" && tabCosmetics != null && tabConsumables != null)
+            Button btnHistory = _root.Q<Button>("BtnShopHistory");
+            VisualElement historyOverlay = _root.Q<VisualElement>("ShopHistoryOverlay");
+            if (btnHistory != null && historyOverlay != null)
             {
-                tabCosmetics.AddToClassList("tab-btn-active");
-                tabConsumables.RemoveFromClassList("tab-btn-active");
+                btnHistory.clicked += () => {
+                    historyOverlay.style.display = DisplayStyle.Flex;
+                    RenderShopHistory();
+                };
             }
-            else if (_shopCurrentTab == "Consumable" && tabCosmetics != null && tabConsumables != null)
+
+            Button btnCloseHistory = _root.Q<Button>("BtnCloseHistory");
+            if (btnCloseHistory != null && historyOverlay != null)
             {
-                tabConsumables.AddToClassList("tab-btn-active");
-                tabCosmetics.RemoveFromClassList("tab-btn-active");
+                btnCloseHistory.clicked += () => historyOverlay.style.display = DisplayStyle.None;
             }
 
             RenderShopList();
@@ -3112,6 +3408,14 @@ namespace VocabLearning.UI
                 // Trừ tiền
                 _jsonDb.currentUser.coins -= item.price;
 
+                // [NEW] Ghi lại lịch sử mua hàng
+                if (_jsonDb.currentUser.shopHistory == null) _jsonDb.currentUser.shopHistory = new List<VocabLearning.Data.ShopPurchaseRecord>();
+                _jsonDb.currentUser.shopHistory.Insert(0, new VocabLearning.Data.ShopPurchaseRecord {
+                    itemName = item.name,
+                    price = item.price,
+                    date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm")
+                });
+
                 // Kiểm tra xem đã có trong kho chưa
                 var invItem = _jsonDb.inventory.Find(i => i.name == item.name);
                 if (invItem != null)
@@ -3144,6 +3448,71 @@ namespace VocabLearning.UI
             else
             {
                 Debug.Log("Không đủ tiền mua vật phẩm này!");
+            }
+        }
+
+        private void RenderShopHistory()
+        {
+            if (_jsonDb == null || _jsonDb.currentUser == null) return;
+
+            VisualElement listContainer = _root.Q<VisualElement>("HistoryListContainer");
+            if (listContainer == null) return;
+
+            listContainer.Clear();
+
+            if (_jsonDb.currentUser.shopHistory == null || _jsonDb.currentUser.shopHistory.Count == 0)
+            {
+                Label emptyLbl = new Label("Chưa có lịch sử mua hàng.");
+                emptyLbl.style.color = new StyleColor(new Color(0.58f, 0.64f, 0.72f));
+                emptyLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+                emptyLbl.style.marginTop = 40;
+                listContainer.Add(emptyLbl);
+                return;
+            }
+
+            foreach (var record in _jsonDb.currentUser.shopHistory)
+            {
+                VisualElement row = new VisualElement();
+                row.AddToClassList("card");
+                row.style.marginBottom = 12;
+                row.style.flexDirection = FlexDirection.Row;
+                row.style.justifyContent = Justify.SpaceBetween;
+                row.style.alignItems = Align.Center;
+                row.style.paddingLeft = 16;
+                row.style.paddingRight = 16;
+                row.style.paddingTop = 12;
+                row.style.paddingBottom = 12;
+
+                VisualElement leftGroup = new VisualElement();
+                Label nameLbl = new Label(record.itemName);
+                nameLbl.AddToClassList("font-bold");
+                nameLbl.style.color = Color.white;
+                nameLbl.style.fontSize = 15;
+                leftGroup.Add(nameLbl);
+
+                Label dateLbl = new Label(record.date);
+                dateLbl.style.color = new StyleColor(new Color(0.58f, 0.64f, 0.72f));
+                dateLbl.style.fontSize = 11;
+                leftGroup.Add(dateLbl);
+
+                VisualElement rightGroup = new VisualElement();
+                rightGroup.style.flexDirection = FlexDirection.Row;
+                rightGroup.style.alignItems = Align.Center;
+
+                Label coinIcon = new Label("O");
+                coinIcon.style.color = new StyleColor(new Color(0.96f, 0.62f, 0.04f));
+                coinIcon.style.marginRight = 4;
+                rightGroup.Add(coinIcon);
+
+                Label priceLbl = new Label(record.price.ToString());
+                priceLbl.AddToClassList("font-bold");
+                priceLbl.style.color = Color.white;
+                priceLbl.style.fontSize = 16;
+                rightGroup.Add(priceLbl);
+
+                row.Add(leftGroup);
+                row.Add(rightGroup);
+                listContainer.Add(row);
             }
         }
 
@@ -4431,7 +4800,7 @@ namespace VocabLearning.UI
                     _root.Q<Label>("ResultTitle").text = "QUIZ FINISHED!";
                     _root.Q<Label>("ResultTitle").style.color = new StyleColor(new Color(0.39f, 0.40f, 0.95f)); // Purple-ish
                 }
-                if (_root.Q<Label>("ResultSubtext") != null) _root.Q<Label>("ResultSubtext").text = $"Mode: {_soloMode} • Score: {_soloScore}";
+                if (_root.Q<Label>("ResultSubtext") != null) _root.Q<Label>("ResultSubtext").text = $"Mode: {_soloMode}  •  Score: {_soloScore} / {_soloRoundRecords.Count}";
                 if (_root.Q<Label>("ResultExp") != null) _root.Q<Label>("ResultExp").text = $"+{exp} EXP / +{coins} Coins";
                 if (_root.Q<Label>("ResultIcon") != null) _root.Q<Label>("ResultIcon").text = "🏁";
 
