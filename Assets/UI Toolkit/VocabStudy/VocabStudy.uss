@@ -262,11 +262,50 @@
     background-color: #1E293B;
     border-color: #334155;
     border-width: 1px;
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: white;
+    min-height: 48px;
+}
+
+.search-input:focus > .unity-text-field__input {
+    border-color: #3B82F6;
+}
+
+/* Authentication Card */
+.auth-card {
+    width: 420px;
+    max-width: 100%;
+    align-self: center;
+}
+
+/* Content Container for Centering */
+.content-container {
+    width: 100%;
+    max-width: 600px;
+    align-self: center;
+}
+
+/* Reward Row Styling */
+.reward-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 16px;
     padding: 12px 16px;
-    font-size: 16px;
-    color: #94A3B8;
+    margin-bottom: 12px;
 }
+
+.reward-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+}
+
 
 /* Extended Colors & Utils for Quest/Battle/Friend Screens */
 .bg-destructive { background-color: #EF4444; }

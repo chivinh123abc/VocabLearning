@@ -8,117 +8,121 @@
     <!-- Include Stylesheet -->
     <ui:Style src="VocabStudy.uss" />
 
-    <ui:VisualElement class="screen-container" style="justify-content: center; align-items: center; padding: 24px;">
-        
-        <!-- Logo / Title -->
-        <ui:VisualElement style="align-items: center; margin-bottom: 32px;">
-            <ui:VisualElement style="width: 80px; height: 80px; background-color: #3B82F6; border-radius: 40px; justify-content: center; align-items: center; margin-bottom: 16px;">
-                <ui:Label text="📚" style="font-size: 40px;" />
-            </ui:VisualElement>
-            <ui:Label text="VocabStudy" class="text-3xl font-bold" style="color: white; margin-bottom: 8px;" />
-            <ui:Label text="Learn vocabulary everyday!" style="color: #94A3B8; font-size: 14px;" />
-        </ui:VisualElement>
-
-        <!-- Common Error Label (Hidden by default) -->
-        <ui:Label name="LblAuthError" text="Invalid username or password" style="position: absolute; top: 24px; left: 24px; right: 24px; color: white; background-color: #EF4444; padding: 12px 16px; border-radius: 8px; display: none; -unity-text-align: middle-center; z-index: 100;" />
-        <!-- Common Success Label (Hidden by default) -->
-        <ui:Label name="LblAuthSuccess" text="Success message" style="position: absolute; top: 24px; left: 24px; right: 24px; color: white; background-color: #10B981; padding: 12px 16px; border-radius: 8px; display: none; -unity-text-align: middle-center; z-index: 100;" />
-
-        <!-- ==================== LOGIN PANEL ==================== -->
-        <ui:VisualElement name="PanelLogin" class="card" style="width: 100%; padding: 24px;">
-            <ui:Label text="Login" class="text-xl font-bold" style="color: white; margin-bottom: 24px; -unity-text-align: middle-center;" />
-            
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="Username" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:TextField name="InputLoginUsername" class="search-input" style="margin: 0;" />
-            </ui:VisualElement>
-
-            <ui:VisualElement style="margin-bottom: 24px;">
-                <ui:Label text="Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:TextField name="InputLoginPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
-                    <ui:Button name="BtnToggleLoginPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
+    <ui:VisualElement class="screen-container">
+        <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+            <ui:VisualElement class="content-container" style="flex-grow: 1; justify-content: center; align-items: stretch; padding: 32px 16px;">
+                
+                <!-- Logo / Title -->
+                <ui:VisualElement style="align-items: center; margin-bottom: 32px;">
+                    <ui:VisualElement style="width: 80px; height: 80px; background-color: #3B82F6; border-radius: 40px; justify-content: center; align-items: center; margin-bottom: 16px;">
+                        <ui:Label text="📚" style="font-size: 40px;" />
+                    </ui:VisualElement>
+                    <ui:Label text="VocabStudy" class="text-3xl font-bold" style="color: white; margin-bottom: 8px;" />
+                    <ui:Label text="Learn vocabulary everyday!" style="color: #94A3B8; font-size: 14px;" />
                 </ui:VisualElement>
-            </ui:VisualElement>
 
-            <ui:Button name="BtnLogin" text="Sign In" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px;" />
-            
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
-                <ui:Button name="BtnGoToRegister" text="Create Account" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
-                <ui:Button name="BtnGoToForgot" text="Forgot Password?" style="background-color: transparent; border-width: 0; color: #94A3B8; padding: 8px 0;" />
-            </ui:VisualElement>
-        </ui:VisualElement>
+                <!-- Common Error Label (Hidden by default) -->
+                <ui:Label name="LblAuthError" text="Invalid username or password" style="position: absolute; top: 24px; left: 24px; right: 24px; color: white; background-color: #EF4444; padding: 12px 16px; border-radius: 8px; display: none; -unity-text-align: middle-center; z-index: 100;" />
+                <!-- Common Success Label (Hidden by default) -->
+                <ui:Label name="LblAuthSuccess" text="Success message" style="position: absolute; top: 24px; left: 24px; right: 24px; color: white; background-color: #10B981; padding: 12px 16px; border-radius: 8px; display: none; -unity-text-align: middle-center; z-index: 100;" />
 
-        <!-- ==================== REGISTER PANEL ==================== -->
-        <ui:VisualElement name="PanelRegister" class="card" style="width: 100%; padding: 24px; display: none;">
-            <ui:Label text="Register" class="text-xl font-bold" style="color: white; margin-bottom: 24px; -unity-text-align: middle-center;" />
-            
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="Username" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:TextField name="InputRegUsername" class="search-input" style="margin: 0;" />
-            </ui:VisualElement>
+                <!-- ==================== LOGIN PANEL ==================== -->
+                <ui:VisualElement name="PanelLogin" class="card auth-card" style="padding: 24px; margin-bottom: 24px;">
+                    <ui:Label text="Login" class="text-xl font-bold" style="color: white; margin-bottom: 24px; -unity-text-align: middle-center;" />
+                    
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="Username" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:TextField name="InputLoginUsername" class="search-input" style="margin: 0;" />
+                    </ui:VisualElement>
 
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="Email" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:TextField name="InputRegEmail" class="search-input" style="margin: 0;" />
-            </ui:VisualElement>
+                    <ui:VisualElement style="margin-bottom: 24px;">
+                        <ui:Label text="Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:VisualElement style="flex-direction: row; align-items: stretch;">
+                            <ui:TextField name="InputLoginPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden;" />
+                            <ui:Button name="BtnToggleLoginPassword" text="Show" style="width: 64px; border-radius: 12px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
 
-            <ui:VisualElement style="margin-bottom: 24px;">
-                <ui:Label text="Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:TextField name="InputRegPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
-                    <ui:Button name="BtnToggleRegPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
+                    <ui:Button name="BtnLogin" text="Sign In" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px;" />
+                    
+                    <ui:VisualElement class="flex-row-wrap justify-between" style="margin-top: 8px;">
+                        <ui:Button name="BtnGoToRegister" text="Create Account" class="auth-footer-btn" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
+                        <ui:Button name="BtnGoToForgot" text="Forgot Password?" class="auth-footer-btn" style="background-color: transparent; border-width: 0; color: #94A3B8; padding: 8px 0;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-            </ui:VisualElement>
 
-            <ui:Button name="BtnRegister" text="Sign Up" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px; background-color: #10B981;" />
-            
-            <ui:VisualElement style="flex-direction: row; justify-content: center;">
-                <ui:Label text="Already have an account? " style="color: #94A3B8; margin-top: 8px;" />
-                <ui:Button name="BtnBackToLoginFromReg" text="Sign In" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
-            </ui:VisualElement>
-        </ui:VisualElement>
+                <!-- ==================== REGISTER PANEL ==================== -->
+                <ui:VisualElement name="PanelRegister" class="card auth-card" style="padding: 24px; display: none; margin-bottom: 24px;">
+                    <ui:Label text="Register" class="text-xl font-bold" style="color: white; margin-bottom: 24px; -unity-text-align: middle-center;" />
+                    
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="Username" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:TextField name="InputRegUsername" class="search-input" style="margin: 0;" />
+                    </ui:VisualElement>
 
-        <!-- ==================== FORGOT PASSWORD PANEL ==================== -->
-        <ui:VisualElement name="PanelForgot" class="card" style="width: 100%; padding: 24px; display: none;">
-            <ui:Label text="Forgot Password" class="text-xl font-bold" style="color: white; margin-bottom: 8px; -unity-text-align: middle-center;" />
-            <ui:Label text="Please enter your email and the OTP code to reset your password." style="color: #94A3B8; margin-bottom: 24px; font-size: 12px; -unity-text-align: middle-center; white-space: normal;" />
-            
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="Email" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:TextField name="InputForgotEmail" class="search-input" style="margin: 0;" />
-            </ui:VisualElement>
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="Email" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:TextField name="InputRegEmail" class="search-input" style="margin: 0;" />
+                    </ui:VisualElement>
 
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="OTP Code" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:TextField name="InputForgotOTP" class="search-input" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
-                    <ui:Button name="BtnSendOTP" text="Send OTP" style="height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding-left: 16px; padding-right: 16px; -unity-font-style: bold; flex-shrink: 0;" />
+                    <ui:VisualElement style="margin-bottom: 24px;">
+                        <ui:Label text="Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:VisualElement style="flex-direction: row; align-items: stretch;">
+                            <ui:TextField name="InputRegPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden;" />
+                            <ui:Button name="BtnToggleRegPassword" text="Show" style="width: 64px; border-radius: 12px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:Button name="BtnRegister" text="Sign Up" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px; background-color: #10B981;" />
+                    
+                    <ui:VisualElement class="flex-row-wrap justify-center">
+                        <ui:Label text="Already have an account? " style="color: #94A3B8; margin-top: 8px;" />
+                        <ui:Button name="BtnBackToLoginFromReg" text="Sign In" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-            </ui:VisualElement>
 
-            <ui:VisualElement style="margin-bottom: 16px;">
-                <ui:Label text="New Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:TextField name="InputForgotNewPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
-                    <ui:Button name="BtnToggleForgotNewPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
+                <!-- ==================== FORGOT PASSWORD PANEL ==================== -->
+                <ui:VisualElement name="PanelForgot" class="card auth-card" style="padding: 24px; display: none; margin-bottom: 24px;">
+                    <ui:Label text="Forgot Password" class="text-xl font-bold" style="color: white; margin-bottom: 8px; -unity-text-align: middle-center;" />
+                    <ui:Label text="Please enter your email and the OTP code to reset your password." style="color: #94A3B8; margin-bottom: 24px; font-size: 12px; -unity-text-align: middle-center; white-space: normal;" />
+                    
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="Email" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:TextField name="InputForgotEmail" class="search-input" style="margin: 0;" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="OTP Code" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:VisualElement style="flex-direction: row; align-items: stretch;">
+                            <ui:TextField name="InputForgotOTP" class="search-input" style="margin: 0; flex-grow: 1; overflow: hidden;" />
+                            <ui:Button name="BtnSendOTP" text="Send" style="border-radius: 12px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding-left: 12px; padding-right: 12px; -unity-font-style: bold; flex-shrink: 0;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="margin-bottom: 16px;">
+                        <ui:Label text="New Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:VisualElement style="flex-direction: row; align-items: center;">
+                            <ui:TextField name="InputForgotNewPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
+                            <ui:Button name="BtnToggleForgotNewPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement style="margin-bottom: 24px;">
+                        <ui:Label text="Confirm New Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
+                        <ui:VisualElement style="flex-direction: row; align-items: center;">
+                            <ui:TextField name="InputForgotConfirmPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
+                            <ui:Button name="BtnToggleForgotConfirmPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:Button name="BtnRecover" text="Reset Password" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px; background-color: #F59E0B;" />
+                    
+                    <ui:VisualElement class="flex-row-wrap justify-center">
+                        <ui:Button name="BtnBackToLoginFromForgot" text="Back to Login" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-            </ui:VisualElement>
 
-            <ui:VisualElement style="margin-bottom: 24px;">
-                <ui:Label text="Confirm New Password" style="color: #94A3B8; margin-bottom: 4px; font-size: 12px;" />
-                <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:TextField name="InputForgotConfirmPassword" class="search-input" is-password="true" style="margin: 0; flex-grow: 1; overflow: hidden; min-height: 52px;" />
-                    <ui:Button name="BtnToggleForgotConfirmPassword" text="Show" style="width: 54px; height: 52px; border-radius: 8px; background-color: #334155; color: white; border-width: 0; margin-left: 8px; padding: 0; flex-shrink: 0;" />
-                </ui:VisualElement>
             </ui:VisualElement>
-
-            <ui:Button name="BtnRecover" text="Reset Password" class="btn-primary" style="padding: 16px; margin: 0; margin-bottom: 16px; background-color: #F59E0B;" />
-            
-            <ui:VisualElement style="flex-direction: row; justify-content: center;">
-                <ui:Button name="BtnBackToLoginFromForgot" text="Back to Login" style="background-color: transparent; border-width: 0; color: #3B82F6; padding: 8px 0; -unity-font-style: bold;" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-
+        </ui:ScrollView>
     </ui:VisualElement>
 </ui:UXML>

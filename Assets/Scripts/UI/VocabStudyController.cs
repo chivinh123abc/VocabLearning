@@ -291,7 +291,8 @@ namespace VocabLearning.UI
 
             if (btnToggleLoginPassword != null && inputLoginPassword != null)
             {
-                btnToggleLoginPassword.clicked += () => {
+                btnToggleLoginPassword.clicked += () =>
+                {
                     inputLoginPassword.isPasswordField = !inputLoginPassword.isPasswordField;
                     btnToggleLoginPassword.text = inputLoginPassword.isPasswordField ? "Show" : "Hide";
                 };
@@ -299,7 +300,8 @@ namespace VocabLearning.UI
 
             if (btnLogin != null)
             {
-                btnLogin.clicked += () => {
+                btnLogin.clicked += () =>
+                {
                     HideMessages();
                     string user = inputLoginUsername?.value;
                     string pass = inputLoginPassword?.value;
@@ -361,7 +363,8 @@ namespace VocabLearning.UI
 
             if (btnToggleRegPassword != null && inputRegPassword != null)
             {
-                btnToggleRegPassword.clicked += () => {
+                btnToggleRegPassword.clicked += () =>
+                {
                     inputRegPassword.isPasswordField = !inputRegPassword.isPasswordField;
                     btnToggleRegPassword.text = inputRegPassword.isPasswordField ? "Show" : "Hide";
                 };
@@ -369,7 +372,8 @@ namespace VocabLearning.UI
 
             if (btnRegister != null)
             {
-                btnRegister.clicked += () => {
+                btnRegister.clicked += () =>
+                {
                     HideMessages();
                     string user = inputRegUsername?.value;
                     string email = inputRegEmail?.value;
@@ -431,7 +435,8 @@ namespace VocabLearning.UI
 
             if (btnSendOTP != null)
             {
-                btnSendOTP.clicked += () => {
+                btnSendOTP.clicked += () =>
+                {
                     HideMessages();
                     string email = inputForgotEmail?.value;
                     if (string.IsNullOrEmpty(email))
@@ -446,7 +451,8 @@ namespace VocabLearning.UI
             var btnToggleForgotNewPassword = _root.Q<Button>("BtnToggleForgotNewPassword");
             if (btnToggleForgotNewPassword != null && inputForgotNewPassword != null)
             {
-                btnToggleForgotNewPassword.clicked += () => {
+                btnToggleForgotNewPassword.clicked += () =>
+                {
                     inputForgotNewPassword.isPasswordField = !inputForgotNewPassword.isPasswordField;
                     btnToggleForgotNewPassword.text = inputForgotNewPassword.isPasswordField ? "Show" : "Hide";
                 };
@@ -455,7 +461,8 @@ namespace VocabLearning.UI
             var btnToggleForgotConfirmPassword = _root.Q<Button>("BtnToggleForgotConfirmPassword");
             if (btnToggleForgotConfirmPassword != null && inputForgotConfirmPassword != null)
             {
-                btnToggleForgotConfirmPassword.clicked += () => {
+                btnToggleForgotConfirmPassword.clicked += () =>
+                {
                     inputForgotConfirmPassword.isPasswordField = !inputForgotConfirmPassword.isPasswordField;
                     btnToggleForgotConfirmPassword.text = inputForgotConfirmPassword.isPasswordField ? "Show" : "Hide";
                 };
@@ -463,7 +470,8 @@ namespace VocabLearning.UI
 
             if (btnRecover != null)
             {
-                btnRecover.clicked += () => {
+                btnRecover.clicked += () =>
+                {
                     HideMessages();
                     string email = inputForgotEmail?.value;
                     string otp = inputForgotOTP?.value;
@@ -483,9 +491,10 @@ namespace VocabLearning.UI
                     }
 
                     // Dummy UI response cho tính năng reset mật khẩu
-                    if (lblSuccess != null) { 
-                        lblSuccess.text = "Your password has been successfully reset! You can now login."; 
-                        lblSuccess.style.display = DisplayStyle.Flex; 
+                    if (lblSuccess != null)
+                    {
+                        lblSuccess.text = "Your password has been successfully reset! You can now login.";
+                        lblSuccess.style.display = DisplayStyle.Flex;
                     }
 
                     // Xóa trắng form sau khi thành công
@@ -2277,7 +2286,7 @@ namespace VocabLearning.UI
         private Coroutine _soloTimerCoroutine;
         private System.Collections.Generic.List<VocabLearning.Data.BattleRoundRecord> _soloRoundRecords = new System.Collections.Generic.List<VocabLearning.Data.BattleRoundRecord>();
         private System.Collections.Generic.HashSet<string> _soloUsedWordIds = new System.Collections.Generic.HashSet<string>(); // NEW: Prevent duplicates
-        
+
         // --- Review Mode State ---
         private bool _isReviewMode = false;
         private System.Collections.Generic.List<VocabLearning.Data.WordJson> _reviewPool = new System.Collections.Generic.List<VocabLearning.Data.WordJson>();
@@ -3227,7 +3236,8 @@ namespace VocabLearning.UI
             VisualElement historyOverlay = _root.Q<VisualElement>("ShopHistoryOverlay");
             if (btnHistory != null && historyOverlay != null)
             {
-                btnHistory.clicked += () => {
+                btnHistory.clicked += () =>
+                {
                     historyOverlay.style.display = DisplayStyle.Flex;
                     RenderShopHistory();
                 };
@@ -3410,7 +3420,8 @@ namespace VocabLearning.UI
 
                 // [NEW] Ghi lại lịch sử mua hàng
                 if (_jsonDb.currentUser.shopHistory == null) _jsonDb.currentUser.shopHistory = new List<VocabLearning.Data.ShopPurchaseRecord>();
-                _jsonDb.currentUser.shopHistory.Insert(0, new VocabLearning.Data.ShopPurchaseRecord {
+                _jsonDb.currentUser.shopHistory.Insert(0, new VocabLearning.Data.ShopPurchaseRecord
+                {
                     itemName = item.name,
                     price = item.price,
                     date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm")
@@ -4479,7 +4490,7 @@ namespace VocabLearning.UI
                 _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None;
             });
 
-            _root.Q<Button>("BtnConfirmExitYes")?.RegisterCallback<ClickEvent>(_ => 
+            _root.Q<Button>("BtnConfirmExitYes")?.RegisterCallback<ClickEvent>(_ =>
             {
                 _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None;
                 if (_isReviewMode) FinishReviewQuiz();
@@ -4505,7 +4516,7 @@ namespace VocabLearning.UI
             _soloUsedWordIds.Clear();
 
             _root.Q<VisualElement>("SoloGameplayOverlay").style.display = DisplayStyle.Flex;
-            _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None; 
+            _root.Q<VisualElement>("SoloExitOverlay").style.display = DisplayStyle.None;
             _root.Q<Label>("SoloScore").text = _isReviewMode ? "" : "Score: 0";
 
             UpdateSoloStatusUI();
@@ -4530,20 +4541,20 @@ namespace VocabLearning.UI
                 var w = _jsonDb.words.Find(x => x.id == wId);
                 if (w != null) _reviewPool.Add(w);
             }
-            
+
             _reviewPool = _reviewPool.OrderBy(x => UnityEngine.Random.value).ToList();
             _reviewCurrentIndex = 0;
             _soloRoundRecords.Clear();
 
             // QUAN TRỌNG: Phải tải màn hình Quiz trước khi truy cập UI gameplay
             LoadScreen(SoloQuizScreenAsset);
-            StartSoloQuiz(SoloMode.Quick10); 
+            StartSoloQuiz(SoloMode.Quick10);
         }
 
         private void RefreshSoloHubUI()
         {
             // Chỉ reset nếu không phải đang trong chế độ Review
-            if (!_isReviewMode) 
+            if (!_isReviewMode)
             {
                 var user = _jsonDb.currentUser;
                 if (_root.Q<Label>("BestSurvivor") != null) _root.Q<Label>("BestSurvivor").text = user.bestSurvivor.ToString();
@@ -4671,7 +4682,7 @@ namespace VocabLearning.UI
         {
             _isImageMode = UnityEngine.Random.value > 0.5f && !string.IsNullOrEmpty(_battleCurrentWord.imageUrl);
             _root.Q<Label>("SoloQuestionText").text = _isImageMode ? (_battleCurrentWord.imageSub ?? "What is this?") : _battleCurrentWord.word;
-            
+
             VisualElement imgCont = _root.Q<VisualElement>("SoloImageContainer");
             VisualElement imgElem = _root.Q<VisualElement>("SoloQuestionImage");
             if (_isImageMode)
@@ -4683,11 +4694,11 @@ namespace VocabLearning.UI
 
             string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
             List<string> options = new List<string> { correctAns };
-            
-            List<string> distPool = (_isReviewMode && _reviewPool.Count > 4) 
+
+            List<string> distPool = (_isReviewMode && _reviewPool.Count > 4)
                 ? (_isImageMode ? _reviewPool.Select(w => w.word).ToList() : _reviewPool.Select(w => w.meaning).ToList())
                 : (_isImageMode ? _jsonDb.words.Select(w => w.word).ToList() : _jsonDb.words.Select(w => w.meaning).ToList());
-            
+
             distPool.Remove(correctAns);
             for (int i = 0; i < 3; i++)
             {
@@ -4833,7 +4844,7 @@ namespace VocabLearning.UI
                 rounds = new List<VocabLearning.Data.BattleRoundRecord>(_soloRoundRecords)
             };
 
-            ShowBattleSummaryOverlay(() => 
+            ShowBattleSummaryOverlay(() =>
             {
                 VisualElement resOverlay = _root.Q<VisualElement>("ResultOverlay");
                 if (resOverlay != null) resOverlay.style.display = DisplayStyle.Flex;
@@ -4850,7 +4861,7 @@ namespace VocabLearning.UI
                 Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
                 if (btnLeave != null)
                 {
-                    btnLeave.clicked += () => 
+                    btnLeave.clicked += () =>
                     {
                         _isReviewMode = false;
                         _root.Q<VisualElement>("ResultOverlay").style.display = DisplayStyle.None;
