@@ -1,0 +1,133 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements">
+
+    <Style>
+        #root {
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(18, 22, 30, 0.9);
+        }
+
+        #SettingsPopup {
+            width: 450px;
+            justify-content: center;
+            align-items: stretch;
+            background-color: rgb(32, 38, 48);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            border-top-width: 2px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+            border-right-width: 2px;
+            border-top-color: rgba(255,255,255,0.08);
+            border-bottom-color: rgba(255,255,255,0.08);
+            border-left-color: rgba(255,255,255,0.08);
+            border-right-color: rgba(255,255,255,0.08);
+            padding-top: 32px;
+            padding-bottom: 32px;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+
+        .title {
+            font-size: 28px;
+            color: white;
+            unity-font-style: bold;
+            margin-bottom: 32px;
+            -unity-text-align: middle-center;
+        }
+
+        .slider-label {
+            font-size: 18px;
+            color: rgb(170, 180, 195);
+            unity-font-style: bold;
+            margin-bottom: 12px;
+        }
+        
+        .custom-slider {
+            margin-bottom: 24px;
+        }
+
+        /* Tùy chỉnh thanh trượt (Slider Tracker) */
+        .custom-slider .unity-base-slider__tracker {
+            background-color: rgb(22, 26, 34);
+            height: 12px;
+            border-radius: 6px;
+            border-width: 2px;
+            border-color: rgba(255,255,255,0.05);
+            margin-top: -6px;
+        }
+
+        /* Tùy chỉnh cục nắm kéo (Slider Dragger) */
+        .custom-slider .unity-base-slider__dragger {
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
+            background-color: rgb(60, 120, 255);
+            border-width: 3px;
+            border-color: white;
+            margin-top: -14px;
+        }
+
+        .custom-slider .unity-base-slider__dragger:hover {
+            background-color: rgb(85, 145, 255);
+            scale: 1.1;
+        }
+
+        #BtnLogout {
+            height: 52px;
+            background-color: rgb(239, 68, 68);
+            color: white;
+            font-size: 20px;
+            unity-font-style: bold;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+            margin-bottom: 16px;
+            margin-top: 16px;
+            border-width: 0;
+        }
+
+        #BtnLogout:hover {
+            background-color: rgb(220, 38, 38);
+        }
+
+        #BtnCloseSettings {
+            height: 52px;
+            background-color: rgb(71, 85, 105);
+            color: white;
+            font-size: 20px;
+            unity-font-style: bold;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+            border-width: 0;
+        }
+
+        #BtnCloseSettings:hover {
+            background-color: rgb(51, 65, 85);
+        }
+    </Style>
+
+    <ui:VisualElement name="root">
+        <ui:VisualElement name="SettingsPopup">
+            <ui:Label text="CÀI ĐẶT" class="title" />
+            
+            <ui:Label text="Nhạc nền (BGM)" class="slider-label" />
+            <ui:Slider name="SldMusicVolume" low-value="0" high-value="1" value="0.4" class="custom-slider" />
+            
+            <ui:Label text="Âm thanh (SFX)" class="slider-label" />
+            <ui:Slider name="SldSfxVolume" low-value="0" high-value="1" value="1" class="custom-slider" />
+            
+            <ui:Button name="BtnLogout" text="Đăng xuất" />
+            <ui:Button name="BtnCloseSettings" text="Đóng" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+</ui:UXML>

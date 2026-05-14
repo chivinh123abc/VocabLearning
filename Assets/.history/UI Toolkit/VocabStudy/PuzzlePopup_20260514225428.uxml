@@ -1,0 +1,193 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements">
+
+    <Style>
+        #root {
+            flex-grow: 1;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(18, 22, 30);
+        }
+
+        #OpenPuzzleButton {
+            width: 220px;
+            height: 60px;
+
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+
+            background-color: rgb(60, 120, 255);
+
+            color: white;
+            font-size: 22px;
+
+            unity-font-style: bold;
+        }
+
+        #OpenPuzzleButton:hover {
+            background-color: rgb(85, 145, 255);
+        }
+
+        #PuzzlePopup {
+            position: absolute;
+
+            width: 450px;
+            height: 320px;
+
+            justify-content: center;
+            align-items: center;
+
+            background-color: rgb(32, 38, 48);
+
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+
+            border-top-width: 2px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+            border-right-width: 2px;
+
+            border-top-color: rgba(255,255,255,0.08);
+            border-bottom-color: rgba(255,255,255,0.08);
+            border-left-color: rgba(255,255,255,0.08);
+            border-right-color: rgba(255,255,255,0.08);
+
+            padding-top: 24px;
+            padding-bottom: 24px;
+            padding-left: 24px;
+            padding-right: 24px;
+
+            display: none;
+        }
+
+        .title {
+            font-size: 28px;
+            color: white;
+            unity-font-style: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgb(170, 180, 195);
+
+            margin-bottom: 24px;
+        }
+
+        #WordLabel {
+            font-size: 42px;
+
+            color: rgb(255, 214, 102);
+
+            unity-font-style: bold;
+
+            margin-bottom: 24px;
+
+            letter-spacing: 4px;
+        }
+
+        #AnswerField {
+            width: 280px;
+            height: 46px;
+
+            background-color: rgb(22, 26, 34);
+
+            color: white;
+
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+
+            border-top-width: 2px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+            border-right-width: 2px;
+
+            border-top-color: rgb(70, 80, 95);
+            border-bottom-color: rgb(70, 80, 95);
+            border-left-color: rgb(70, 80, 95);
+            border-right-color: rgb(70, 80, 95);
+
+            margin-bottom: 20px;
+
+            padding-left: 12px;
+
+            font-size: 18px;
+        }
+
+        #SubmitButton {
+            width: 180px;
+            height: 52px;
+
+            background-color: rgb(80, 200, 120);
+
+            color: white;
+
+            font-size: 20px;
+
+            unity-font-style: bold;
+
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            border-bottom-left-radius: 14px;
+            border-bottom-right-radius: 14px;
+        }
+
+        #SubmitButton:hover {
+            background-color: rgb(105, 220, 145);
+        }
+
+        #ResultLabel {
+            margin-top: 18px;
+
+            font-size: 18px;
+
+            unity-font-style: bold;
+
+            color: rgb(255, 120, 120);
+        }
+    </Style>
+
+    <ui:VisualElement name="root">
+
+        <ui:Button
+            name="OpenPuzzleButton"
+            text="Open Mystery Box" />
+
+        <ui:VisualElement name="PuzzlePopup">
+
+            <ui:Label
+                text="WORD PUZZLE"
+                class="title" />
+
+            <ui:Label
+                text="Complete the missing letters"
+                class="subtitle" />
+
+            <ui:Label
+                name="WordLabel"
+                text="A_PLE" />
+
+            <ui:TextField
+                name="AnswerField" />
+
+            <ui:Button
+                name="SubmitButton"
+                text="SUBMIT" />
+
+            <ui:Label
+                name="ResultLabel"
+                text="" />
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>

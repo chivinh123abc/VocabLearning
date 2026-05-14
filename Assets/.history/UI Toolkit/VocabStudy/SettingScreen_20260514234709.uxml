@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/VocabStudy.uss?fileID=7433441132597879392&amp;guid=9f4677d07b128d54baa41fbf8d8d6564&amp;type=3#VocabStudy"/>
+    <ui:VisualElement name="SettingsOverlay" class="settings-overlay">
+        <ui:VisualElement name="SettingsPopup" style="width: 334px; height: 497px; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
+            <ui:Label text="CÀI ĐẶT" class="title"/>
+            <ui:Label text="Nhạc nền (BGM)" class="slider-label"/>
+            <ui:Slider name="SldMusicVolume" low-value="0" high-value="1" value="0.4" class="custom-slider"/>
+            <ui:Label text="Âm thanh (SFX)" class="slider-label"/>
+            <ui:Slider name="SldSfxVolume" low-value="0" high-value="1" value="1" class="custom-slider"/>
+            <ui:Button name="BtnLogout" text="Đăng xuất"/>
+            <ui:Button name="BtnCloseSettings" text="Đóng"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

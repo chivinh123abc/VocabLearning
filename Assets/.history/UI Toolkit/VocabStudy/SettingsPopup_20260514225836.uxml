@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="VocabStudy.uss" />
+    <ui:VisualElement name="SettingsOverlay" class="reward-overlay" style="display: none; opacity: 1;">
+        <ui:VisualElement class="card auth-card" style="width: 350px; padding: 24px; align-items: stretch;">
+            <ui:Label text="CÀI ĐẶT" class="text-2xl font-bold text-center" style="margin-bottom: 24px; color: white;" />
+            
+            <ui:Label text="Nhạc nền (BGM)" class="text-muted font-bold" style="margin-bottom: 8px; margin-left: 4px;" />
+            <ui:Slider name="SldMusicVolume" low-value="0" high-value="1" value="0.4" style="margin-bottom: 16px;" />
+            
+            <ui:Label text="Âm thanh (SFX)" class="text-muted font-bold" style="margin-bottom: 8px; margin-left: 4px;" />
+            <ui:Slider name="SldSfxVolume" low-value="0" high-value="1" value="1" style="margin-bottom: 32px;" />
+            
+            <ui:Button name="BtnLogout" text="Đăng xuất" class="btn-primary" style="margin-bottom: 12px; background-color: #EF4444;" />
+            <ui:Button name="BtnCloseSettings" text="Đóng" class="btn-secondary" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

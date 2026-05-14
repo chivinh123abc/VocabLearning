@@ -1,0 +1,49 @@
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements">
+
+    <Style src="VocabStudy.uss" />
+
+    <ui:VisualElement name="root">
+
+        <ui:VisualElement name="SettingsPopup">
+
+            <ui:Label
+                text="CÀI ĐẶT"
+                class="title" />
+
+            <ui:Label
+                text="Nhạc nền (BGM)"
+                class="slider-label" />
+
+            <ui:Slider
+                name="SldMusicVolume"
+                low-value="0"
+                high-value="1"
+                value="0.4"
+                class="custom-slider" />
+
+            <ui:Label
+                text="Âm thanh (SFX)"
+                class="slider-label" />
+
+            <ui:Slider
+                name="SldSfxVolume"
+                low-value="0"
+                high-value="1"
+                value="1"
+                class="custom-slider" />
+
+            <ui:Button
+                name="BtnLogout"
+                text="Đăng xuất" />
+
+            <ui:Button
+                name="BtnCloseSettings"
+                text="Đóng" />
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>
