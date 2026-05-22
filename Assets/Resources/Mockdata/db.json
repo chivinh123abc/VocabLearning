@@ -3,52 +3,38 @@
         "id": "test_user_1",
         "username": "user1",
         "email": "hero@vocab.com",
-        "password": "user1",
+        "password": "",
         "role": "user",
         "level": 12,
-        "exp": 1390,
-        "expNeeded": 1000,
-        "coins": 2820,
+        "exp": 1600,
+        "expNeeded": 1200,
+        "coins": 1420,
         "rank": "SieuCap",
         "rankPoints": 24550,
         "wins": 37,
         "totalGames": 53,
-        "lastQuestRefreshDate": "2026-05-22",
         "weeklyLogin": {
             "weekStartDate": "2026-05-18",
             "loginDates": [
                 "2026-05-20",
                 "2026-05-21",
-                "2026-05-22"
+                "2026-05-22",
+                "2026-05-23"
             ],
             "isRewardClaimed": false
         },
         "learnedSets": [
-            "1",
             "2",
-            "3"
+            "3",
+            "4"
         ],
         "savedSetLevels": [
             {
-                "setId": "1",
-                "level": "Easy"
-            },
-            {
                 "setId": "2",
                 "level": "Easy"
-            },
-            {
-                "setId": "vs1",
-                "level": "Hard"
             }
         ],
         "setProgress": [
-            {
-                "setId": "1",
-                "completedLevels": [
-                    "Easy"
-                ]
-            },
             {
                 "setId": "2",
                 "completedLevels": [
@@ -60,21 +46,15 @@
                 "completedLevels": [
                     "Easy"
                 ]
+            },
+            {
+                "setId": "4",
+                "completedLevels": [
+                    "Easy"
+                ]
             }
         ],
         "wordProgress": [
-            {
-                "wordId": "w3",
-                "status": 2
-            },
-            {
-                "wordId": "w4",
-                "status": 2
-            },
-            {
-                "wordId": "w9",
-                "status": 2
-            },
             {
                 "wordId": "w10",
                 "status": 2
@@ -104,15 +84,15 @@
                 "status": 2
             },
             {
-                "wordId": "w19",
-                "status": 2
-            },
-            {
                 "wordId": "w17",
                 "status": 2
             },
             {
                 "wordId": "w18",
+                "status": 2
+            },
+            {
+                "wordId": "w19",
                 "status": 2
             },
             {
@@ -133,6 +113,50 @@
             },
             {
                 "wordId": "w24",
+                "status": 2
+            },
+            {
+                "wordId": "w3",
+                "status": 2
+            },
+            {
+                "wordId": "w4",
+                "status": 2
+            },
+            {
+                "wordId": "w9",
+                "status": 2
+            },
+            {
+                "wordId": "w25",
+                "status": 2
+            },
+            {
+                "wordId": "w26",
+                "status": 2
+            },
+            {
+                "wordId": "w27",
+                "status": 2
+            },
+            {
+                "wordId": "w28",
+                "status": 2
+            },
+            {
+                "wordId": "w29",
+                "status": 2
+            },
+            {
+                "wordId": "w30",
+                "status": 2
+            },
+            {
+                "wordId": "w31",
+                "status": 2
+            },
+            {
+                "wordId": "w32",
                 "status": 2
             }
         ],
@@ -486,6 +510,16 @@
         "bestTimeRush": 0,
         "shopHistory": [
             {
+                "itemName": "Ninja Avatar",
+                "price": 1000,
+                "date": "2026-05-23 00:57"
+            },
+            {
+                "itemName": "Basic Blue",
+                "price": 500,
+                "date": "2026-05-23 00:57"
+            },
+            {
                 "itemName": "Mystery Box",
                 "price": 200,
                 "date": "2023-10-10 14:30"
@@ -499,6 +533,176 @@
                 "itemName": "Premium Avatar Frame",
                 "price": 500,
                 "date": "2023-10-12 18:45"
+            }
+        ],
+        "inventory": [
+            {
+                "id": "1",
+                "icon": "🧪",
+                "name": "Freeze Potion",
+                "description": "Freezes the enemy, dealing 15 damage.",
+                "quantity": 4,
+                "rarity": "Common",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": true
+            },
+            {
+                "id": "1-2",
+                "icon": "🔥",
+                "name": "Fire Potion",
+                "description": "Explosive damage! Deals 25 HP to enemy.",
+                "quantity": 1,
+                "rarity": "Rare",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": true
+            },
+            {
+                "id": "1-3",
+                "icon": "❤️",
+                "name": "Health Potion",
+                "description": "Restores 40 HP to your character.",
+                "quantity": 2,
+                "rarity": "Common",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": true
+            },
+            {
+                "id": "10",
+                "icon": "🔥",
+                "name": "Flame Aura",
+                "description": "A burning aura surrounding your portrait.",
+                "quantity": 1,
+                "rarity": "Legendary",
+                "category": "Cosmetic",
+                "equipType": "Effect",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "11",
+                "icon": "🏵️",
+                "name": "Golden Frame",
+                "description": "A pure gold classic profile frame.",
+                "quantity": 1,
+                "rarity": "Rare",
+                "category": "Cosmetic",
+                "equipType": "Border",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "12",
+                "icon": "💎",
+                "name": "Diamond Frame",
+                "description": "Shining diamond-encrusted frame.",
+                "quantity": 1,
+                "rarity": "Epic",
+                "category": "Cosmetic",
+                "equipType": "Border",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "4",
+                "icon": "🎁",
+                "name": "Mystery Box",
+                "description": "Contains random amount of coins or items.",
+                "quantity": 5,
+                "rarity": "Rare",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "5",
+                "icon": "🦊",
+                "name": "Foxy Avatar",
+                "description": "A cute fox avatar.",
+                "quantity": 1,
+                "rarity": "Epic",
+                "category": "Cosmetic",
+                "equipType": "Avatar",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "6",
+                "icon": "🔲",
+                "name": "Neon Border",
+                "description": "Cool glowing neon profile border.",
+                "quantity": 1,
+                "rarity": "Legendary",
+                "category": "Cosmetic",
+                "equipType": "Border",
+                "isEquipped": true,
+                "isCombatItem": false
+            },
+            {
+                "id": "7",
+                "icon": "🐻",
+                "name": "Bear Avatar",
+                "description": "A fierce but cuddly bear avatar.",
+                "quantity": 1,
+                "rarity": "Common",
+                "category": "Cosmetic",
+                "equipType": "Avatar",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "8",
+                "icon": "🐉",
+                "name": "Dragon Avatar",
+                "description": "A legendary golden dragon.",
+                "quantity": 1,
+                "rarity": "Legendary",
+                "category": "Cosmetic",
+                "equipType": "Avatar",
+                "isEquipped": true,
+                "isCombatItem": false
+            },
+            {
+                "id": "9",
+                "icon": "✨",
+                "name": "Starry Trail",
+                "description": "Leaves a trail of stars when you win a battle.",
+                "quantity": 1,
+                "rarity": "Epic",
+                "category": "Cosmetic",
+                "equipType": "Effect",
+                "isEquipped": true,
+                "isCombatItem": false
+            },
+            {
+                "id": "13",
+                "icon": "🟦",
+                "name": "Basic Blue",
+                "description": "A simple blue frame.",
+                "quantity": 1,
+                "rarity": "Common",
+                "category": "Cosmetic",
+                "equipType": "Border",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "14",
+                "icon": "🥷",
+                "name": "Ninja Avatar",
+                "description": "Silent but deadly vocabulary ninja.",
+                "quantity": 1,
+                "rarity": "Epic",
+                "category": "Cosmetic",
+                "equipType": "Avatar",
+                "isEquipped": false,
+                "isCombatItem": false
             }
         ]
     },
@@ -517,13 +721,13 @@
             "rankPoints": 24550,
             "wins": 37,
             "totalGames": 53,
-            "lastQuestRefreshDate": "2026-05-22",
             "weeklyLogin": {
                 "weekStartDate": "2026-05-18",
                 "loginDates": [
                     "2026-05-20",
                     "2026-05-21",
-                    "2026-05-22"
+                    "2026-05-22",
+                    "2026-05-23"
                 ],
                 "isRewardClaimed": false
             },
@@ -1004,7 +1208,8 @@
                     "price": 500,
                     "date": "2023-10-12 18:45"
                 }
-            ]
+            ],
+            "inventory": []
         },
         {
             "id": "test_admin_1",
@@ -1020,7 +1225,6 @@
             "rankPoints": 24500,
             "wins": 34,
             "totalGames": 50,
-            "lastQuestRefreshDate": "2023-10-12",
             "weeklyLogin": {
                 "weekStartDate": "2023-10-09",
                 "loginDates": [
@@ -1055,66 +1259,11 @@
                     "price": 500,
                     "date": "2023-10-12 18:45"
                 }
-            ]
+            ],
+            "inventory": []
         }
     ],
     "words": [
-        {
-            "id": "w3",
-            "word": "Sorry",
-            "meaning": "Xin lỗi",
-            "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-            "imageSub": "Hint: Xin lỗi"
-        },
-        {
-            "id": "w4",
-            "word": "Please",
-            "meaning": "Làm ơn",
-            "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-            "imageSub": "Hint: Làm ơn"
-        },
-        {
-            "id": "w5",
-            "word": "Yes / No",
-            "meaning": "Có / Không",
-            "rankRequired": "Dong",
-            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260520_214016_Screenshot 2023-06-16 225711.png",
-            "imageSub": "Hint: Có / Không"
-        },
-        {
-            "id": "w6",
-            "word": "Good morning",
-            "meaning": "Chào buổi sáng",
-            "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-            "imageSub": "Hint: Chào buổi sáng"
-        },
-        {
-            "id": "w7",
-            "word": "Good night",
-            "meaning": "Chúc ngủ ngon",
-            "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-            "imageSub": "Hint: Chúc ngủ ngon"
-        },
-        {
-            "id": "w8",
-            "word": "Goodbye",
-            "meaning": "Tạm biệt",
-            "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-            "imageSub": "Hint: Tạm biệt"
-        },
-        {
-            "id": "w9",
-            "word": "Dog",
-            "meaning": "Con chó",
-            "rankRequired": "Dong",
-            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260521_142645_Screenshot 2024-07-17 224700.png",
-            "imageSub": "Hint: Con chó"
-        },
         {
             "id": "w10",
             "word": "Cat",
@@ -1276,6 +1425,14 @@
             "imageSub": "Hint: Màu tím"
         },
         {
+            "id": "w3",
+            "word": "Sorry",
+            "meaning": "Xin lỗi",
+            "rankRequired": "Dong",
+            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageSub": "Hint: Xin lỗi"
+        },
+        {
             "id": "w30",
             "word": "Hundred",
             "meaning": "Một trăm",
@@ -1354,6 +1511,14 @@
             "rankRequired": "Vang",
             "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
             "imageSub": "Hint: Hải quan"
+        },
+        {
+            "id": "w4",
+            "word": "Please",
+            "meaning": "Làm ơn",
+            "rankRequired": "Dong",
+            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageSub": "Hint: Làm ơn"
         },
         {
             "id": "w40",
@@ -1436,6 +1601,14 @@
             "imageSub": "Hint: Thuật toán"
         },
         {
+            "id": "w5",
+            "word": "Yes / No",
+            "meaning": "Có / Không",
+            "rankRequired": "Dong",
+            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260520_214016_Screenshot 2023-06-16 225711.png",
+            "imageSub": "Hint: Có / Không"
+        },
+        {
             "id": "w50",
             "word": "Bandwidth",
             "meaning": "Băng thông",
@@ -1514,6 +1687,14 @@
             "rankRequired": "KimCuong",
             "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
             "imageSub": "Hint: Đa dạng hóa đầu tư"
+        },
+        {
+            "id": "w6",
+            "word": "Good morning",
+            "meaning": "Chào buổi sáng",
+            "rankRequired": "Dong",
+            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageSub": "Hint: Chào buổi sáng"
         },
         {
             "id": "w60",
@@ -1596,6 +1777,14 @@
             "imageSub": "Hint: Nghịch lý"
         },
         {
+            "id": "w7",
+            "word": "Good night",
+            "meaning": "Chúc ngủ ngon",
+            "rankRequired": "Dong",
+            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageSub": "Hint: Chúc ngủ ngon"
+        },
+        {
             "id": "w70",
             "word": "Ephemeral",
             "meaning": "Phù du, thoáng qua",
@@ -1626,6 +1815,22 @@
             "rankRequired": "Dong",
             "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
             "imageSub": "Hint: Cảm ơn"
+        },
+        {
+            "id": "w8",
+            "word": "Goodbye",
+            "meaning": "Tạm biệt",
+            "rankRequired": "Dong",
+            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageSub": "Hint: Tạm biệt"
+        },
+        {
+            "id": "w9",
+            "word": "Dog",
+            "meaning": "Con chó",
+            "rankRequired": "Dong",
+            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260521_142645_Screenshot 2024-07-17 224700.png",
+            "imageSub": "Hint: Con chó"
         }
     ],
     "vocabSets": [
@@ -1633,7 +1838,7 @@
             "id": "2",
             "title": "Animals",
             "description": "Learn animal names in English",
-            "wordCount": 9,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Dong",
@@ -1669,7 +1874,7 @@
             "id": "3",
             "title": "Food & Drinks",
             "description": "Discover common food and drink names",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Bac",
@@ -1703,7 +1908,7 @@
             "id": "4",
             "title": "Colors & Numbers",
             "description": "Master colors and numbers in English",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Bac",
@@ -1737,7 +1942,7 @@
             "id": "5",
             "title": "Travel & Places",
             "description": "Vocabulary for traveling and locations",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Medium",
             "rankRequired": "Vang",
@@ -1771,7 +1976,7 @@
             "id": "6",
             "title": "Human Body",
             "description": "Learn body parts and health vocabulary",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Medium",
             "rankRequired": "Vang",
@@ -1805,7 +2010,7 @@
             "id": "7",
             "title": "Technology",
             "description": "Modern tech vocabulary and digital terms",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "BachKim",
@@ -1839,7 +2044,7 @@
             "id": "8",
             "title": "Business & Economics",
             "description": "Professional business and economic terms",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "KimCuong",
@@ -1873,7 +2078,7 @@
             "id": "9",
             "title": "Advanced Academic",
             "description": "IELTS-level academic vocabulary",
-            "wordCount": 8,
+            "wordCount": 0,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "SieuCap",
@@ -1911,9 +2116,9 @@
             "title": "First Blood",
             "description": "Complete your first vocabulary set.",
             "maxProgress": 1,
-            "currentProgress": 1,
-            "isUnlocked": true,
-            "unlockDate": "Oct 12, 2023"
+            "currentProgress": 0,
+            "isUnlocked": false,
+            "unlockDate": ""
         },
         {
             "id": "2",
@@ -1921,9 +2126,9 @@
             "title": "On Fire",
             "description": "Maintain a 7-day study streak.",
             "maxProgress": 7,
-            "currentProgress": 7,
-            "isUnlocked": true,
-            "unlockDate": "Yesterday"
+            "currentProgress": 0,
+            "isUnlocked": false,
+            "unlockDate": ""
         },
         {
             "id": "3",
@@ -1931,7 +2136,7 @@
             "title": "Vocabulary Master",
             "description": "Learn 1,000 words.",
             "maxProgress": 1000,
-            "currentProgress": 250,
+            "currentProgress": 0,
             "isUnlocked": false,
             "unlockDate": ""
         },
@@ -1941,7 +2146,7 @@
             "title": "King of the Arena",
             "description": "Win 50 battles in PvP.",
             "maxProgress": 50,
-            "currentProgress": 5,
+            "currentProgress": 0,
             "isUnlocked": false,
             "unlockDate": ""
         }
@@ -1982,6 +2187,42 @@
             "equipType": "",
             "isEquipped": false,
             "isCombatItem": true
+        },
+        {
+            "id": "10",
+            "icon": "🔥",
+            "name": "Flame Aura",
+            "description": "A burning aura surrounding your portrait.",
+            "quantity": 1,
+            "rarity": "Legendary",
+            "category": "Cosmetic",
+            "equipType": "Effect",
+            "isEquipped": false,
+            "isCombatItem": false
+        },
+        {
+            "id": "11",
+            "icon": "🏵️",
+            "name": "Golden Frame",
+            "description": "A pure gold classic profile frame.",
+            "quantity": 1,
+            "rarity": "Rare",
+            "category": "Cosmetic",
+            "equipType": "Border",
+            "isEquipped": false,
+            "isCombatItem": false
+        },
+        {
+            "id": "12",
+            "icon": "💎",
+            "name": "Diamond Frame",
+            "description": "Shining diamond-encrusted frame.",
+            "quantity": 1,
+            "rarity": "Epic",
+            "category": "Cosmetic",
+            "equipType": "Border",
+            "isEquipped": false,
+            "isCombatItem": false
         },
         {
             "id": "4",
@@ -2056,38 +2297,26 @@
             "isCombatItem": false
         },
         {
-            "id": "10",
-            "icon": "🔥",
-            "name": "Flame Aura",
-            "description": "A burning aura surrounding your portrait.",
+            "id": "13",
+            "icon": "🟦",
+            "name": "Basic Blue",
+            "description": "A simple blue frame.",
             "quantity": 1,
-            "rarity": "Legendary",
-            "category": "Cosmetic",
-            "equipType": "Effect",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "11",
-            "icon": "🏵️",
-            "name": "Golden Frame",
-            "description": "A pure gold classic profile frame.",
-            "quantity": 1,
-            "rarity": "Rare",
+            "rarity": "Common",
             "category": "Cosmetic",
             "equipType": "Border",
             "isEquipped": false,
             "isCombatItem": false
         },
         {
-            "id": "12",
-            "icon": "💎",
-            "name": "Diamond Frame",
-            "description": "Shining diamond-encrusted frame.",
+            "id": "14",
+            "icon": "🥷",
+            "name": "Ninja Avatar",
+            "description": "Silent but deadly vocabulary ninja.",
             "quantity": 1,
             "rarity": "Epic",
             "category": "Cosmetic",
-            "equipType": "Border",
+            "equipType": "Avatar",
             "isEquipped": false,
             "isCombatItem": false
         }
@@ -2097,7 +2326,7 @@
             "id": "q5",
             "title": "Win 5 Ranked Battles",
             "description": "Show your skill in ranked matches",
-            "currentProgress": 1,
+            "currentProgress": 0,
             "maxProgress": 5,
             "rewardCoins": 300,
             "rewardExp": 600,
@@ -2105,27 +2334,51 @@
             "questType": "WinRankedBattle"
         },
         {
-            "id": "q6",
-            "title": "Learn 20 words",
-            "description": "Dedication is key",
-            "currentProgress": 0,
-            "maxProgress": 20,
-            "rewardCoins": 100,
-            "rewardExp": 200,
+            "id": "q10",
+            "title": "Complete 5 Sets",
+            "description": "Broaden your knowledge",
+            "currentProgress": 2,
+            "maxProgress": 5,
+            "rewardCoins": 200,
+            "rewardExp": 400,
             "isClaimed": false,
-            "questType": "LearnWord"
+            "questType": "CompleteSet"
+        },
+        {
+            "id": "q7",
+            "title": "Win 10 Battles",
+            "description": "You are unstoppable!",
+            "currentProgress": 0,
+            "maxProgress": 10,
+            "rewardCoins": 400,
+            "rewardExp": 800,
+            "isClaimed": false,
+            "questType": "WinBattle"
         },
         {
             "id": "q8",
             "title": "Win 3 Ranked in a Row",
             "description": "Arena master",
-            "currentProgress": 1,
+            "currentProgress": 0,
             "maxProgress": 3,
             "rewardCoins": 500,
             "rewardExp": 1000,
             "isClaimed": false,
             "questType": "WinRankedBattle"
         },
+        {
+            "id": "q3",
+            "title": "Win 3 Battles",
+            "description": "Play ranked or casual matches",
+            "currentProgress": 0,
+            "maxProgress": 3,
+            "rewardCoins": 100,
+            "rewardExp": 200,
+            "isClaimed": false,
+            "questType": "WinBattle"
+        }
+    ],
+    "questPool": [
         {
             "id": "q10",
             "title": "Complete 5 Sets",
@@ -2137,19 +2390,6 @@
             "isClaimed": false,
             "questType": "CompleteSet"
         },
-        {
-            "id": "q3",
-            "title": "Win 3 Battles",
-            "description": "Play ranked or casual matches",
-            "currentProgress": 2,
-            "maxProgress": 3,
-            "rewardCoins": 100,
-            "rewardExp": 200,
-            "isClaimed": false,
-            "questType": "WinBattle"
-        }
-    ],
-    "questPool": [
         {
             "id": "q3",
             "title": "Win 3 Battles",
@@ -2204,17 +2444,6 @@
             "rewardExp": 1000,
             "isClaimed": false,
             "questType": "WinRankedBattle"
-        },
-        {
-            "id": "q10",
-            "title": "Complete 5 Sets",
-            "description": "Broaden your knowledge",
-            "currentProgress": 0,
-            "maxProgress": 5,
-            "rewardCoins": 200,
-            "rewardExp": 400,
-            "isClaimed": false,
-            "questType": "CompleteSet"
         }
     ],
     "shopItems": [
@@ -2271,20 +2500,49 @@
     ],
     "leaderboardUsers": [
         {
+            "id": "test_user_1",
+            "username": "user1",
+            "email": "",
+            "password": "",
+            "role": "",
+            "level": 12,
+            "exp": 1390,
+            "expNeeded": 1200,
+            "coins": 2820,
+            "rank": "SieuCap",
+            "rankPoints": 24550,
+            "wins": 37,
+            "totalGames": 53,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": []
+        },
+        {
             "id": "u2",
             "username": "Faker",
-            "email": "faker@skt.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 25,
             "exp": 24500,
-            "expNeeded": 0,
+            "expNeeded": 2500,
             "coins": 9999,
-            "rank": "",
+            "rank": "SieuCap",
             "rankPoints": 24500,
             "wins": 150,
             "totalGames": 160,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2298,23 +2556,53 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
+        },
+        {
+            "id": "test_admin_1",
+            "username": "admin",
+            "email": "",
+            "password": "",
+            "role": "",
+            "level": 12,
+            "exp": 750,
+            "expNeeded": 1200,
+            "coins": 2450,
+            "rank": "SieuCap",
+            "rankPoints": 24500,
+            "wins": 34,
+            "totalGames": 50,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u3",
             "username": "Sophia",
-            "email": "s@s.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 18,
             "exp": 17200,
-            "expNeeded": 0,
+            "expNeeded": 1800,
             "coins": 500,
-            "rank": "",
+            "rank": "KimCuong",
             "rankPoints": 17200,
             "wins": 78,
             "totalGames": 100,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2328,23 +2616,23 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u4",
             "username": "Oliver_Bot",
-            "email": "o@o.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 12,
             "exp": 11500,
-            "expNeeded": 0,
+            "expNeeded": 1200,
             "coins": 100,
-            "rank": "",
+            "rank": "KimCuong",
             "rankPoints": 11500,
             "wins": 45,
             "totalGames": 55,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2358,23 +2646,23 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u5",
             "username": "Emma_Read",
-            "email": "e@e.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 9,
             "exp": 8100,
-            "expNeeded": 0,
+            "expNeeded": 900,
             "coins": 300,
-            "rank": "",
+            "rank": "BachKim",
             "rankPoints": 8100,
             "wins": 30,
             "totalGames": 40,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2388,23 +2676,23 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u6",
             "username": "NoobMaster69",
-            "email": "n@n.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 5,
             "exp": 4200,
-            "expNeeded": 0,
+            "expNeeded": 500,
             "coins": 0,
-            "rank": "",
+            "rank": "Vang",
             "rankPoints": 4200,
             "wins": 12,
             "totalGames": 25,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2418,23 +2706,23 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u7",
             "username": "ProGamer",
-            "email": "p@p.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 3,
             "exp": 2100,
-            "expNeeded": 0,
+            "expNeeded": 300,
             "coins": 0,
-            "rank": "",
+            "rank": "Bac",
             "rankPoints": 2100,
             "wins": 5,
             "totalGames": 10,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2448,23 +2736,23 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         },
         {
             "id": "u8",
             "username": "SleepyCat",
-            "email": "sc@sc.com",
+            "email": "",
             "password": "",
             "role": "",
             "level": 1,
             "exp": 500,
-            "expNeeded": 0,
+            "expNeeded": 100,
             "coins": 0,
-            "rank": "",
+            "rank": "Dong",
             "rankPoints": 500,
             "wins": 1,
             "totalGames": 2,
-            "lastQuestRefreshDate": "",
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2478,7 +2766,8 @@
             "bestSurvivor": 0,
             "bestQuick10": 0,
             "bestTimeRush": 0,
-            "shopHistory": []
+            "shopHistory": [],
+            "inventory": []
         }
     ]
 }

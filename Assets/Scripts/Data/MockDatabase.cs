@@ -34,7 +34,6 @@ namespace VocabLearning.Data
         public int rankPoints;
         public int wins;
         public int totalGames;
-        public string lastQuestRefreshDate;
         public WeeklyLoginData weeklyLogin; // NEW: Weekly login tracking
         public List<string> learnedSets = new List<string>();
         public List<UserSetLevelJson> savedSetLevels = new List<UserSetLevelJson>();
@@ -48,6 +47,7 @@ namespace VocabLearning.Data
         public int bestTimeRush;
 
         public List<ShopPurchaseRecord> shopHistory = new List<ShopPurchaseRecord>();
+        public List<InventoryItemJson> inventory = new List<InventoryItemJson>(); // NEW: Đồng bộ kho đồ lên SQL Server
     }
 
     [System.Serializable]

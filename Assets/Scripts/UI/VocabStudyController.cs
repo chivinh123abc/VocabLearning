@@ -218,7 +218,7 @@ namespace VocabLearning.UI
             {
                 // Dùng JsonUtility gốc của Unity để đọc thẳng file db.json thành Object siêu tốc
                 _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
-                Debug.Log($"[JSON DB] Đã tải Database. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
+                Debug.Log($"[JSON DB] Đã tải Database offline. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
 
                 // Tự động phân chia levels cho tất cả các bộ từ vựng theo rank để đảm bảo tính đồng nhất
                 if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.words != null)
@@ -228,56 +228,42 @@ namespace VocabLearning.UI
                         AutoPartitionSetLevels(set);
                     }
                 }
-
-                // TỰ ĐỘNG TẠO USER "user1" ĐỂ TEST
-                if (_jsonDb.registeredUsers == null) _jsonDb.registeredUsers = new List<VocabLearning.Data.UserJson>();
-                if (!_jsonDb.registeredUsers.Exists(u => u.username == "user1"))
-                {
-                    VocabLearning.Data.UserJson mockUser;
-                    if (_jsonDb.currentUser != null)
-                    {
-                        // Clone từ currentUser để có sẵn tiền/level test cho dễ
-                        mockUser = JsonUtility.FromJson<VocabLearning.Data.UserJson>(JsonUtility.ToJson(_jsonDb.currentUser));
-                    }
-                    else
-                    {
-                        mockUser = new VocabLearning.Data.UserJson();
-                    }
-                    mockUser.id = "test_user_1";
-                    mockUser.username = "user1";
-                    mockUser.password = "user1";
-                    mockUser.role = "user";
-                    _jsonDb.registeredUsers.Add(mockUser);
-                }
-                var existingAdmin = _jsonDb.registeredUsers.Find(u => u.username == "admin");
-                if (existingAdmin == null)
-                {
-                    // Admin chưa tồn tại → tạo mới
-                    VocabLearning.Data.UserJson mockAdmin = (_jsonDb.currentUser != null)
-                        ? JsonUtility.FromJson<VocabLearning.Data.UserJson>(JsonUtility.ToJson(_jsonDb.currentUser))
-                        : new VocabLearning.Data.UserJson();
-
-                    mockAdmin.id = "test_admin_1";
-                    mockAdmin.username = "admin";
-                    mockAdmin.password = "admin";
-                    mockAdmin.role = "admin";
-                    _jsonDb.registeredUsers.Add(mockAdmin);
-                }
-                else
-                {
-                    // Admin đã tồn tại (từ db.json) → BẮT BUỘC set lại role và password
-                    existingAdmin.role = "admin";
-                    if (string.IsNullOrEmpty(existingAdmin.password))
-                        existingAdmin.password = "admin";
-                }
-
-                // KHÔNG gọi CheckDailyQuests/CheckWeeklyLogin ở đây
-                // Phải đợi user đăng nhập thành công mới gọi
             }
             else
             {
-                Debug.LogError("🚨 LỖI: Không tìm thấy file JSON trong thư mục Resources/Mockdata/db.json");
+                Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu offline dự phòng.");
+                _jsonDb = new VocabLearning.Data.MockDatabase();
             }
+
+            // Gọi API nạp dữ liệu toàn cục trực tiếp từ máy chủ Node.js SQL Server
+            Debug.Log("[JSON DB - Network] Đang nạp dữ liệu game toàn cục từ Node.js SQL Server...");
+            VocabLearning.Network.NetworkClient.Instance.GetGlobals((success, message, data) =>
+            {
+                if (success && data != null && data.success)
+                {
+                    _jsonDb.words = data.words;
+                    _jsonDb.vocabSets = data.vocabSets;
+                    _jsonDb.achievements = data.achievements;
+                    _jsonDb.questPool = data.questPool;
+                    _jsonDb.shopItems = data.shopItems;
+                    _jsonDb.leaderboardUsers = data.leaderboardUsers;
+
+                    // Tự động phân cấp lại cho các sets nạp từ server
+                    if (_jsonDb.vocabSets != null)
+                    {
+                        foreach (var set in _jsonDb.vocabSets)
+                        {
+                            AutoPartitionSetLevels(set);
+                        }
+                    }
+
+                    Debug.Log($"[JSON DB - Network] Nạp dữ liệu toàn cục thành công từ Backend SQL Server. Số bộ từ vựng: {_jsonDb.vocabSets.Count}, Số từ vựng: {_jsonDb.words.Count}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[JSON DB - Network] Không thể nạp dữ liệu từ server ({message}). Sử dụng dữ liệu offline fallback.");
+                }
+            });
         }
 
         private void CheckDailyQuests()
@@ -285,11 +271,14 @@ namespace VocabLearning.UI
             if (_jsonDb == null || _jsonDb.currentUser == null || _jsonDb.questPool == null) return;
 
             string today = System.DateTime.Now.ToString("yyyy-MM-dd");
-            if (_jsonDb.currentUser.lastQuestRefreshDate != today)
+            var user = _jsonDb.currentUser;
+            if (user.weeklyLogin == null) user.weeklyLogin = new VocabLearning.Data.WeeklyLoginData();
+
+            // Nếu hôm nay chưa có trong danh sách ngày điểm danh -> Ngày mới!
+            if (!user.weeklyLogin.loginDates.Contains(today))
             {
                 Debug.Log("🌞 New day detected! Refreshing daily quests...");
                 RefreshQuests();
-                _jsonDb.currentUser.lastQuestRefreshDate = today;
             }
             // Trường hợp file JSON trống quests (lần đầu), cũng cần refresh
             else if (_jsonDb.quests == null || _jsonDb.quests.Count == 0)
@@ -3374,6 +3363,9 @@ namespace VocabLearning.UI
                     });
                 }
 
+                _jsonDb.currentUser.inventory = _jsonDb.inventory;
+                SaveJsonDatabase(); // Đồng bộ tiến trình lên SQL Server và lưu đĩa
+                UpdateAllCoinLabels(); // Cập nhật lại tất cả nhãn vàng ở các màn hình khác
                 RenderShopList(); // render lại để cập nhật balance và UI Owned
             }
             else
@@ -4075,6 +4067,8 @@ namespace VocabLearning.UI
                             }
 
                             item.isEquipped = true;
+                            _jsonDb.currentUser.inventory = _jsonDb.inventory;
+                            SaveJsonDatabase(); // Đồng bộ lên SQL Server và lưu đĩa
                             RenderInventoryList(); // re-render
                         }
                     };
