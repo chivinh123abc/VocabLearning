@@ -1,0 +1,539 @@
+/* ============================================================
+   VocabManagement.uss  —  Admin screens: VocabList, Quest
+   Scale: mobile-first Unity UI (logical px ≈ 2-3× web px)
+   ============================================================ */
+
+/* ─── ROOT ─── */
+.root {
+    flex-direction: column;
+    background-color: rgb(247, 245, 240);
+    flex-grow: 1;
+}
+
+/* ─── HEADER ─── */
+.header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 24px 20px 24px;
+    background-color: rgb(255, 255, 255);
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(232, 228, 218);
+}
+
+.header-left {
+    flex-direction: row;
+    align-items: center;
+}
+
+.header-text {
+    flex-direction: column;
+}
+
+.btn-back {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    border-width: 0;
+    background-color: rgb(235, 231, 222);
+    color: rgb(40, 40, 40);
+    font-size: 28px;
+    margin-right: 16px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-back:hover {
+    background-color: rgb(215, 210, 198);
+    scale: 1.05;
+}
+
+.title {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: rgb(20, 20, 20);
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 20px;
+    color: rgb(150, 145, 135);
+}
+
+.btn-add {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    border-width: 0;
+    background-color: rgb(255, 170, 30);
+    color: rgb(255, 255, 255);
+    font-size: 38px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-add:hover {
+    background-color: rgb(235, 150, 10);
+    scale: 1.06;
+}
+
+/* ─── SEARCH BAR ─── */
+.search-bar {
+    flex-direction: row;
+    align-items: center;
+    margin: 20px 24px 16px 24px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    border-width: 1.5px;
+    border-color: rgb(225, 220, 210);
+    padding: 0 20px;
+    height: 72px;
+}
+
+.search-icon {
+    font-size: 24px;
+    margin-right: 12px;
+    color: rgb(160, 155, 145);
+}
+
+.search-field {
+    flex-grow: 1;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    font-size: 20px;
+    color: rgb(50, 50, 50);
+    height: 56px;
+}
+
+.search-field > .unity-base-field__input {
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    padding: 0;
+    font-size: 20px;
+}
+
+/* ─── STATS ROW ─── */
+.stats-row {
+    flex-direction: row;
+    margin: 0 24px 16px 24px;
+}
+
+.stat-card {
+    flex-grow: 1;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    padding: 18px 16px;
+    margin-right: 10px;
+    border-width: 1.5px;
+    border-color: rgb(230, 225, 215);
+    align-items: center;
+}
+
+.stat-card:last-child {
+    margin-right: 0;
+}
+
+.stat-value {
+    font-size: 34px;
+    -unity-font-style: bold;
+    color: rgb(20, 20, 20);
+    margin-bottom: 4px;
+    -unity-text-align: middle-center;
+}
+
+.stat-label {
+    font-size: 18px;
+    color: rgb(140, 135, 125);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* ─── COUNT LABEL ─── */
+.vocab-count-label {
+    font-size: 22px;
+    color: rgb(120, 115, 105);
+    -unity-font-style: bold;
+    margin: 4px 24px 12px 24px;
+}
+
+/* ─── VOCAB LIST ─── */
+.vocab-list {
+    flex-grow: 1;
+    padding: 0 24px 24px 24px;
+}
+
+.vocab-list > #unity-content-container {
+    flex-direction: column;
+}
+
+.vocab-list #unity-vertical-scroller,
+.vocab-list #unity-horizontal-scroller {
+    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.vocab-list .unity-scroll-view__vertical-scroller,
+.vocab-list .unity-scroll-view__horizontal-scroller {
+    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* ─── VOCAB CARD ─── */
+.vocab-card {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 22px;
+    padding: 18px 16px;
+    margin-bottom: 14px;
+    border-width: 1.5px;
+    border-color: rgb(230, 225, 215);
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+    cursor: link;
+}
+
+.vocab-card:hover {
+    background-color: rgb(245, 242, 235);
+    scale: 1.01;
+}
+
+/* ─── THUMBNAIL ─── */
+.vocab-thumbnail {
+    width: 84px;
+    height: 84px;
+    border-radius: 18px;
+    margin-right: 18px;
+    flex-shrink: 0;
+}
+
+/* ─── CARD INFO ─── */
+.vocab-info {
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.vocab-name-row {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.vocab-word {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: rgb(20, 20, 20);
+    margin-right: 10px;
+}
+
+.rank-badge {
+    font-size: 17px;
+    -unity-font-style: bold;
+    border-radius: 24px;
+    padding: 4px 14px;
+    background-color: rgb(220, 232, 255);
+    color: rgb(60, 100, 210);
+    border-width: 1.5px;
+    border-color: rgb(185, 205, 245);
+    -unity-text-align: middle-center;
+}
+
+.rank-badge--2 {
+    background-color: rgb(220, 245, 230);
+    color: rgb(40, 155, 100);
+    border-color: rgb(170, 225, 190);
+}
+
+.rank-badge--3 {
+    background-color: rgb(255, 238, 215);
+    color: rgb(200, 120, 30);
+    border-color: rgb(240, 200, 155);
+}
+
+.vocab-meaning {
+    font-size: 20px;
+    color: rgb(70, 70, 70);
+    margin-bottom: 6px;
+}
+
+.vocab-id {
+    font-size: 18px;
+    color: rgb(155, 150, 140);
+}
+
+/* ─── DELETE BUTTON ─── */
+.btn-delete {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    color: rgb(210, 65, 65);
+    font-size: 24px;
+    -unity-text-align: middle-center;
+    flex-shrink: 0;
+    margin-left: 8px;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-delete:hover {
+    background-color: rgb(255, 228, 228);
+    scale: 1.1;
+}
+
+/* ─── FILTER RANK (Dropdown trong search bar) ─── */
+.filter-rank {
+    width: 180px;
+    height: 44px;
+    border-left-width: 1.5px;
+    border-left-color: rgb(225, 220, 210);
+    padding-left: 12px;
+    margin-left: 12px;
+    font-size: 20px;
+    color: rgb(90, 85, 75);
+    -unity-font-style: bold;
+}
+
+.filter-rank > .unity-base-field__input {
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+/* ─── MODAL OVERLAY ─── */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(20, 18, 15, 0.68);
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+}
+
+.modal-container {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 32px;
+    padding: 36px;
+    flex-direction: column;
+    border-width: 1.5px;
+    border-color: rgb(228, 222, 210);
+}
+
+.modal-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.modal-title {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: rgb(30, 28, 24);
+}
+
+.btn-modal-close {
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+    font-size: 28px;
+    color: rgb(160, 155, 145);
+    cursor: link;
+    margin: 0;
+    padding: 6px;
+    -unity-text-align: middle-center;
+    width: 48px;
+    height: 48px;
+    transition-property: color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-modal-close:hover {
+    color: rgb(215, 60, 60);
+    scale: 1.15;
+}
+
+/* ─── MODAL FORM SCROLL ─── */
+.modal-form-scroll {
+    max-height: 600px;
+    margin-bottom: 24px;
+}
+
+.modal-form-scroll #unity-vertical-scroller,
+.modal-form-scroll #unity-horizontal-scroller {
+    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.modal-form-scroll .unity-scroll-view__vertical-scroller,
+.modal-form-scroll .unity-scroll-view__horizontal-scroller {
+    display: none;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* ─── FORM GROUPS ─── */
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-label {
+    font-size: 21px;
+    -unity-font-style: bold;
+    color: rgb(110, 105, 95);
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+
+.form-input {
+    background-color: rgb(248, 247, 244);
+    border-radius: 18px;
+    border-width: 1.5px;
+    border-color: rgb(225, 220, 210);
+    font-size: 20px;
+    color: rgb(50, 48, 44);
+    height: 62px;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+    padding: 0;
+}
+
+.form-input > .unity-base-field__input {
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+    padding: 0 18px;
+    font-size: 20px;
+}
+
+.form-input:hover {
+    border-color: rgb(255, 170, 30);
+    background-color: rgb(255, 255, 255);
+}
+
+.form-input:focus {
+    border-color: rgb(255, 170, 30);
+    background-color: rgb(255, 255, 255);
+}
+
+.form-dropdown {
+    background-color: rgb(248, 247, 244);
+    border-radius: 18px;
+    border-width: 1.5px;
+    border-color: rgb(225, 220, 210);
+    font-size: 20px;
+    color: rgb(50, 48, 44);
+    height: 62px;
+    transition-property: border-color, background-color;
+    transition-duration: 0.2s;
+    padding: 0;
+}
+
+.form-dropdown > .unity-base-field__input {
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+    padding: 0 18px;
+    font-size: 20px;
+}
+
+.form-dropdown:hover {
+    border-color: rgb(255, 170, 30);
+    background-color: rgb(255, 255, 255);
+}
+
+.form-dropdown:focus {
+    border-color: rgb(255, 170, 30);
+    background-color: rgb(255, 255, 255);
+}
+
+/* ─── MODAL ERROR ─── */
+.modal-error-msg {
+    color: rgb(215, 45, 45);
+    font-size: 20px;
+    margin-bottom: 20px;
+    -unity-text-align: middle-left;
+    -unity-font-style: bold;
+}
+
+/* ─── MODAL FOOTER ─── */
+.modal-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.btn-modal-cancel {
+    background-color: rgb(235, 231, 222);
+    border-width: 0;
+    border-radius: 18px;
+    padding: 18px 32px;
+    margin-right: 14px;
+    font-size: 20px;
+    color: rgb(90, 85, 75);
+    -unity-font-style: bold;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-modal-cancel:hover {
+    background-color: rgb(215, 210, 198);
+    scale: 1.03;
+}
+
+.btn-modal-save {
+    background-color: rgb(255, 170, 30);
+    border-width: 0;
+    border-radius: 18px;
+    padding: 18px 44px;
+    font-size: 20px;
+    color: white;
+    -unity-font-style: bold;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-modal-save:hover {
+    background-color: rgb(235, 150, 10);
+    scale: 1.03;
+}
+
+/* ─── CHOOSE IMAGE BUTTON ─── */
+.btn-choose-image {
+    height: 62px;
+    border-radius: 18px;
+    background-color: rgb(235, 231, 222);
+    border-width: 0;
+    padding: 0 22px;
+    font-size: 20px;
+    color: rgb(90, 85, 75);
+    -unity-font-style: bold;
+    cursor: link;
+    transition-property: background-color, scale;
+    transition-duration: 0.15s;
+}
+
+.btn-choose-image:hover {
+    background-color: rgb(215, 210, 198);
+    scale: 1.02;
+}

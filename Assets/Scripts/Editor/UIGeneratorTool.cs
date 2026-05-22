@@ -34,18 +34,30 @@ namespace VocabLearning.Editor
             var controller = go.AddComponent<VocabStudyController>();
 
             // Tự động gán các VisualTreeAsset cho Controller
+            controller.AuthScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AuthScreen.uxml");
             controller.HomeScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/HomeScreen.uxml");
             controller.VocabDetailScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/VocabSetDetailScreen.uxml");
             controller.PracticeModeScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/PracticeModeScreen.uxml");
             controller.QuestScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/QuestScreen.uxml");
             controller.BattleScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/BattleScreen.uxml");
+            controller.BattleLoadoutScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/BattleLoadoutScreen.uxml");
+            controller.BattleGameplayScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/BattleGameplayScreen.uxml");
+            controller.SoloQuizScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/SoloQuizScreen.uxml");
             controller.FriendScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/FriendScreen.uxml");
+            controller.SettingScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/SettingScreen.uxml");
             controller.ShopScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ShopScreen.uxml");
             controller.RankingScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/RankingScreen.uxml");
             controller.ProfileScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ProfileScreen.uxml");
             controller.ResultScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ResultScreen.uxml");
             controller.AchievementScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AchievementScreen.uxml");
             controller.InventoryScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/InventoryScreen.uxml");
+
+            // Admin Features
+            controller.AdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/adminScreen.uxml");
+            controller.VocabAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/VocabScreen.uxml");
+            controller.QuestAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/QuestAdminScreen.uxml");
+            controller.VocabListAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/VocabListAdminScreen.uxml");
+            controller.AchievementAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AchievementAdminScreen.uxml");
 
 
             // Cập nhật db.json (Nếu cấu trúc dùng thẻ OverrideJsonDb thì gán, nếu dùng Resources thì bỏ qua bước này hoặc gán)

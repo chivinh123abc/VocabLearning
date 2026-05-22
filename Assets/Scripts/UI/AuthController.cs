@@ -21,7 +21,7 @@ namespace VocabLearning.UI
                 if (lblError != null) lblError.style.display = DisplayStyle.None;
                 if (lblSuccess != null) lblSuccess.style.display = DisplayStyle.None;
             }
-
+ 
             // Chuyển panel
             void SwitchPanel(VisualElement showPanel)
             {
@@ -92,11 +92,21 @@ namespace VocabLearning.UI
                     {
                         _jsonDb.currentUser = matchedUser; // Cập nhật user hiện tại
 
-                        // Chạy check quest và điểm danh SAU KHI đăng nhập thành công
-                        CheckDailyQuests();
-                        CheckWeeklyLogin();
+                        // Phân quyền: admin -> AdminScreen, user thường -> HomeScreen
+                        if (matchedUser.role == "admin" && AdminScreenAsset != null)
+                        {
+                            Debug.Log("[Auth] Đăng nhập Admin thành công. Chuyển sang Admin Panel.");
+                            LoadScreen(AdminScreenAsset);
+                        }
+                        else
+                        {
+                            // Chạy check quest và điểm danh SAU KHI đăng nhập thành công
+                            CheckDailyQuests();
+                            CheckWeeklyLogin();
 
-                        LoadScreen(HomeScreenAsset); // Thành công -> Vào game
+                            Debug.Log("[Auth] Đăng nhập User thành công. Chuyển sang Home.");
+                            LoadScreen(HomeScreenAsset); // Thành công -> Vào game
+                        }
                     }
                     else
                     {

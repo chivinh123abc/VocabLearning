@@ -166,6 +166,10 @@ MonoBehaviour:
   ResultScreenAsset: {fileID: 9197481963319205126, guid: 459d79dbe938cff4d922d4f7f1ceca6b, type: 3}
   AchievementScreenAsset: {fileID: 9197481963319205126, guid: 8bb86adb15e68674da29b1fab2ec2708, type: 3}
   InventoryScreenAsset: {fileID: 9197481963319205126, guid: 0e16b2cc740dc074e9114d668c7687ff, type: 3}
+  AdminScreenAsset: {fileID: 9197481963319205126, guid: 1c6482ed3ab9e8a48a8f2524a5e8e00b, type: 3}
+  VocabAdminScreenAsset: {fileID: 9197481963319205126, guid: 73e55ed071df2964081bedfa89f8990d, type: 3}
+  QuestAdminScreenAsset: {fileID: 9197481963319205126, guid: 8d0f788a3521a6d4ebc59a0afa6df5a1, type: 3}
+  VocabListAdminScreenAsset: {fileID: 9197481963319205126, guid: 2fc26ecc4abfedc48a4e5da64a2571c5, type: 3}
   OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
 --- !u!114 &240302674
 MonoBehaviour:
@@ -424,7 +428,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13025bbe303b7bf429ff780be909d788, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundMangaer
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   clickSound: {fileID: 8300000, guid: b6583afc1a5bc244583dd669845e80f0, type: 3}
   correctSound: {fileID: 8300000, guid: 95a6c0c69b52487428bd6baad1832b96, type: 3}
   wrongSound: {fileID: 8300000, guid: b705ae8b8ff05154085e3b602d458ae8, type: 3}
@@ -432,6 +436,8 @@ MonoBehaviour:
   fireSound: {fileID: 8300000, guid: 32048a596e09a554cb63a604736c320e, type: 3}
   poisonSound: {fileID: 8300000, guid: 33d05aec038271743980e9d512edaefc, type: 3}
   healingSound: {fileID: 8300000, guid: b2cc15f9476652346a88322fb16d0481, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 9a37bebe025f79e43b04075e8dd4c2c9, type: 3}
+  winBattleSound: {fileID: 8300000, guid: 74c7cde3ac7785c408bbdc60d85d80c2, type: 3}
 --- !u!82 &473357863
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,0 +1,123 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/VocabManagement.uss?fileID=7433441132597879392&amp;guid=1cbefe4fadd76d3409bcfc3b58146c52&amp;type=3#VocabManagement"/>
+    <ui:VisualElement name="root" class="root">
+        <ui:VisualElement name="header" class="header">
+            <ui:VisualElement class="header-left">
+                <ui:Button name="btn-back" text="←" class="btn-back"/>
+                <ui:VisualElement class="header-text">
+                    <ui:Label text="Quản lý Từ Vựng" class="title" style="font-size: 22px;"/>
+                    <ui:Label text="Danh sách tất cả từ vựng" class="subtitle" style="font-size: 14px;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="btn-add" text="+" class="btn-add" style="-unity-text-align: middle-center;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="search-bar" class="search-bar" style="height: 60px;">
+            <ui:Label text="🔍" class="search-icon"/>
+            <ui:TextField name="search-field" placeholder-text="Tìm theo ID, từ, nghĩa..." class="search-field" style="flex-grow: 1;"/>
+            <ui:DropdownField name="filter-rank" focusable="true" class="filter-rank"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="stats-row" class="stats-row">
+            <ui:VisualElement class="stat-card" style="width: 33%;">
+                <ui:Label name="vocab-stat-total" text="0" class="stat-value"/>
+                <ui:Label text="Tổng từ" class="stat-label" style="font-size: 14px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-card" style="width: 33%;">
+                <ui:Label name="vocab-stat-filtered" text="0" class="stat-value"/>
+                <ui:Label text="Kết quả" class="stat-label" style="font-size: 14px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="stat-card" style="width: 33%;">
+                <ui:Label name="vocab-stat-max-rank" text="-" class="stat-value"/>
+                <ui:Label text="Max Rank" class="stat-label" style="font-size: 14px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="vocab-count-label" text="4 từ vựng" class="vocab-count-label" style="font-size: 16px; -unity-font-style: bold;"/>
+        <ui:ScrollView name="vocab-list" mode="Vertical" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="vocab-list">
+            <ui:VisualElement name="card-happy" class="vocab-card">
+                <ui:VisualElement class="vocab-thumbnail thumb--happy"/>
+                <ui:VisualElement class="vocab-info">
+                    <ui:VisualElement class="vocab-name-row">
+                        <ui:Label text="Happy" class="vocab-word"/>
+                        <ui:Label text="Rank 1" class="rank-badge"/>
+                    </ui:VisualElement>
+                    <ui:Label text="Vui vẻ, hạnh phúc" class="vocab-meaning"/>
+                    <ui:Label text="ID: 1" class="vocab-id"/>
+                </ui:VisualElement>
+                <ui:Button name="btn-delete-happy" text="🗑" class="btn-delete"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="card-book" class="vocab-card">
+                <ui:VisualElement class="vocab-thumbnail thumb--book"/>
+                <ui:VisualElement class="vocab-info">
+                    <ui:VisualElement class="vocab-name-row">
+                        <ui:Label text="Book" class="vocab-word"/>
+                        <ui:Label text="Rank 1" class="rank-badge"/>
+                    </ui:VisualElement>
+                    <ui:Label text="Sách" class="vocab-meaning"/>
+                    <ui:Label text="ID: 2" class="vocab-id"/>
+                </ui:VisualElement>
+                <ui:Button name="btn-delete-book" text="🗑" class="btn-delete"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="card-friend" class="vocab-card">
+                <ui:VisualElement class="vocab-thumbnail thumb--friend"/>
+                <ui:VisualElement class="vocab-info">
+                    <ui:VisualElement class="vocab-name-row">
+                        <ui:Label text="Friend" class="vocab-word"/>
+                        <ui:Label text="Rank 2" class="rank-badge rank-badge--2"/>
+                    </ui:VisualElement>
+                    <ui:Label text="Bạn bè" class="vocab-meaning"/>
+                    <ui:Label text="ID: 3" class="vocab-id"/>
+                </ui:VisualElement>
+                <ui:Button name="btn-delete-friend" text="🗑" class="btn-delete"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="card-beautiful" class="vocab-card">
+                <ui:VisualElement class="vocab-thumbnail thumb--beautiful"/>
+                <ui:VisualElement class="vocab-info">
+                    <ui:VisualElement class="vocab-name-row">
+                        <ui:Label text="Beautiful" class="vocab-word"/>
+                        <ui:Label text="Rank 3" class="rank-badge rank-badge--3"/>
+                    </ui:VisualElement>
+                    <ui:Label text="Đẹp" class="vocab-meaning"/>
+                    <ui:Label text="ID: 4" class="vocab-id"/>
+                </ui:VisualElement>
+                <ui:Button name="btn-delete-beautiful" text="🗑" class="btn-delete"/>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:VisualElement name="modal-overlay" class="modal-overlay" style="display: none;">
+            <ui:VisualElement name="modal-container" class="modal-container">
+                <ui:VisualElement class="modal-header">
+                    <ui:Label name="modal-title" text="Thêm Từ Vựng" class="modal-title"/>
+                    <ui:Button name="btn-modal-close" text="✕" class="btn-modal-close"/>
+                </ui:VisualElement>
+                <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="modal-form-scroll">
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Từ tiếng Anh *" class="form-label"/>
+                        <ui:TextField name="input-word" class="form-input"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Nghĩa tiếng Việt *" class="form-label"/>
+                        <ui:TextField name="input-meaning" class="form-input"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Rank yêu cầu *" class="form-label"/>
+                        <ui:DropdownField name="input-rank" class="form-dropdown"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Đường dẫn ảnh (Image URL)" class="form-label"/>
+                        <ui:VisualElement style="flex-direction: row; align-items: center;">
+                            <ui:TextField name="input-image" class="form-input" style="flex-grow: 1; margin-right: 10px; margin-bottom: 0;"/>
+                            <ui:Button name="btn-choose-image" text="Chọn file" class="btn-choose-image"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Gợi ý nghĩa (Hint / Sub)" class="form-label"/>
+                        <ui:TextField name="input-sub" class="form-input"/>
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:Label name="modal-error-msg" text="" class="modal-error-msg" style="display: none;"/>
+                <ui:VisualElement class="modal-footer">
+                    <ui:Button name="btn-modal-cancel" text="Hủy" class="btn-modal-cancel"/>
+                    <ui:Button name="btn-modal-save" text="Lưu" class="btn-modal-save"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

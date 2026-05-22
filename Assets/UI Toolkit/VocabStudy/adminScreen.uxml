@@ -1,0 +1,110 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/VocabStudy.uss?fileID=7433441132597879392&amp;guid=9f4677d07b128d54baa41fbf8d8d6564&amp;type=3#VocabStudy"/>
+    <ui:VisualElement class="admin-root">
+        <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="menu-scroll">
+            <ui:VisualElement class="admin-header">
+                <ui:VisualElement class="header-left">
+                    <ui:Label text="Admin Panel" class="header-title"/>
+                    <ui:Label text="Quản lý hệ thống" class="header-subtitle"/>
+                </ui:VisualElement>
+                <ui:Button name="setting-btn" class="setting-btn">
+                    <ui:Label text="⚙" class="setting-icon"/>
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement class="stats-grid">
+                <ui:VisualElement class="stat-card">
+                    <ui:Label text="👥" class="stat-icon blue"/>
+                    <ui:Label name="stat-users" text="0" class="stat-number"/>
+                    <ui:Label text="Tổng user" class="stat-label"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-card">
+                    <ui:Label text="📚" class="stat-icon purple"/>
+                    <ui:Label name="stat-vocab" text="0" class="stat-number"/>
+                    <ui:Label text="Bộ Từ Vựng" class="stat-label"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-card">
+                    <ui:Label text="📘" class="stat-icon green"/>
+                    <ui:Label name="stat-questions" text="0" class="stat-number"/>
+                    <ui:Label text="Từ Vựng" class="stat-label"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="stat-card">
+                    <ui:Label text="📊" class="stat-icon orange"/>
+                    <ui:Label text="342" class="stat-number"/>
+                    <ui:Label text="Hoạt Động Hôm Nay" class="stat-label"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="btn-users" class="menu-card">
+                <ui:VisualElement class="menu-icon blue">
+                    <ui:Label text="👥" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản Lý User" class="menu-title"/>
+                    <ui:Label text="Xem và quản lý người dùng" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-vocab" class="menu-card">
+                <ui:VisualElement class="menu-icon green">
+                    <ui:Label text="📘" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản Lý Từ Vựng" class="menu-title"/>
+                    <ui:Label text="Thêm Và Chỉnh Sửa Từ Vựng" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-VocabList" class="menu-card">
+                <ui:VisualElement class="menu-icon purple">
+                    <ui:Label text="📚" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản Lý Bộ Từ Vựng" class="menu-title"/>
+                    <ui:Label text="Tạo Và Thiết Lập Bộ Từ Vựng" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-quest" class="menu-card">
+                <ui:VisualElement class="menu-icon teal">
+                    <ui:Label text="🎯" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản lý Nhiệm Vụ" class="menu-title"/>
+                    <ui:Label text="Tạo Và Chỉnh Sửa Nhiệm Vụ" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-achievement" class="menu-card">
+                <ui:VisualElement class="menu-icon rose">
+                    <ui:Label text="🏆" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản Lý Thành Tựu" class="menu-title"/>
+                    <ui:Label text="Tạo Và Thiết Lập Mốc Thành Tựu" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-item" class="menu-card">
+                <ui:VisualElement class="menu-icon orange">
+                    <ui:Label text="🎁" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Quản Lý Vật Phẩm" class="menu-title"/>
+                    <ui:Label text="Thêm Và Cấu Hình Vật Phẩm" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="btn-dashboard" class="menu-card">
+                <ui:VisualElement class="menu-icon orange">
+                    <ui:Label text="📊" class="menu-icon-text"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="menu-content">
+                    <ui:Label text="Thống kê" class="menu-title"/>
+                    <ui:Label text="Xem Và Báo Cáo Chi Tiết" class="menu-subtitle"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:VisualElement class="recent-container" style="display: none;">
+                <ui:Label text="Hoat dong gan day" class="recent-title"/>
+                <ui:VisualElement class="recent-card">
+                    <ui:Label text="- User moi dang ky" class="recent-item"/>
+                    <ui:Label text="- Them bo tu vung Animals" class="recent-item"/>
+                    <ui:Label text="- 20 cau hoi moi duoc tao" class="recent-item"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:Label name="admin-toast" text="" style="display: none; position: absolute; bottom: 50px; left: 20px; right: 20px; height: 60px; background-color: rgba(15, 23, 42, 0.95); color: white; font-size: 18px; border-radius: 14px; padding: 12px 16px; -unity-text-align: middle-center;"/>
+    </ui:VisualElement>
+</ui:UXML>

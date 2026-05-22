@@ -25,6 +25,7 @@ namespace VocabLearning.Data
         public string username;
         public string email;
         public string password; // Mật khẩu đăng nhập
+        public string role; // users hoac admin
         public int level;
         public int exp;
         public int expNeeded;
