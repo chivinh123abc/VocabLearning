@@ -62,56 +62,48 @@ namespace VocabLearning.UI
                     HideMessages();
                     string user = inputLoginUsername?.value;
                     string pass = inputLoginPassword?.value;
-
+ 
                     if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                     {
                         if (lblError != null) { lblError.text = "Username and Password cannot be empty!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
-
-                    // Validate
-                    bool isValid = false;
-                    VocabLearning.Data.UserJson matchedUser = null;
-
-                    if (_jsonDb.registeredUsers != null && _jsonDb.registeredUsers.Count > 0)
+ 
+                    if (lblSuccess != null) { lblSuccess.text = "Đang xác thực..."; lblSuccess.style.display = DisplayStyle.Flex; }
+ 
+                    // Gọi API Login tới máy chủ Node.js SQL Server
+                    VocabLearning.Network.NetworkClient.Instance.Login(user, pass, (success, message, responseData) =>
                     {
-                        matchedUser = _jsonDb.registeredUsers.Find(u => u.username == user && u.password == pass);
-                        if (matchedUser != null) isValid = true;
-                    }
-                    else if (_jsonDb.currentUser != null)
-                    {
-                        // Fallback logic for mock db
-                        if (user == _jsonDb.currentUser.username && (string.IsNullOrEmpty(_jsonDb.currentUser.password) || pass == _jsonDb.currentUser.password))
+                        HideMessages();
+                        if (success && responseData != null && responseData.username != null)
                         {
-                            isValid = true;
-                            matchedUser = _jsonDb.currentUser;
-                        }
-                    }
-
-                    if (isValid)
-                    {
-                        _jsonDb.currentUser = matchedUser; // Cập nhật user hiện tại
-
-                        // Phân quyền: admin -> AdminScreen, user thường -> HomeScreen
-                        if (matchedUser.role == "admin" && AdminScreenAsset != null)
-                        {
-                            Debug.Log("[Auth] Đăng nhập Admin thành công. Chuyển sang Admin Panel.");
-                            LoadScreen(AdminScreenAsset);
+                            _jsonDb.currentUser = responseData; // Ghi đè toàn bộ profile đã chuẩn hóa từ SQL Server
+                            if (responseData.inventory != null)
+                            {
+                                _jsonDb.inventory = responseData.inventory; // Đồng bộ kho đồ từ DB lên UI
+                            }
+ 
+                            // Phân quyền
+                            if (responseData.role == "admin" && AdminScreenAsset != null)
+                            {
+                                Debug.Log("[Auth - Network] Đăng nhập Admin thành công.");
+                                LoadScreen(AdminScreenAsset);
+                            }
+                            else
+                            {
+                                // Chạy kiểm tra nhiệm vụ và điểm danh sau khi đăng nhập thành công
+                                CheckDailyQuests();
+                                CheckWeeklyLogin();
+ 
+                                Debug.Log("[Auth - Network] Đăng nhập User thành công. Tiến trình tải hoàn tất.");
+                                LoadScreen(HomeScreenAsset);
+                            }
                         }
                         else
                         {
-                            // Chạy check quest và điểm danh SAU KHI đăng nhập thành công
-                            CheckDailyQuests();
-                            CheckWeeklyLogin();
-
-                            Debug.Log("[Auth] Đăng nhập User thành công. Chuyển sang Home.");
-                            LoadScreen(HomeScreenAsset); // Thành công -> Vào game
+                            if (lblError != null) { lblError.text = message; lblError.style.display = DisplayStyle.Flex; }
                         }
-                    }
-                    else
-                    {
-                        if (lblError != null) { lblError.text = "Invalid username or password!"; lblError.style.display = DisplayStyle.Flex; }
-                    }
+                    });
                 };
             }
 
@@ -145,43 +137,29 @@ namespace VocabLearning.UI
                     string user = inputRegUsername?.value;
                     string email = inputRegEmail?.value;
                     string pass = inputRegPassword?.value;
-
+ 
                     if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
                     {
                         if (lblError != null) { lblError.text = "Username and Password are required!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
-
-                    if (_jsonDb.registeredUsers == null) _jsonDb.registeredUsers = new System.Collections.Generic.List<VocabLearning.Data.UserJson>();
-
-                    // Kiểm tra trùng
-                    if (_jsonDb.registeredUsers.Exists(u => u.username == user))
+ 
+                    if (lblSuccess != null) { lblSuccess.text = "Đang tạo tài khoản..."; lblSuccess.style.display = DisplayStyle.Flex; }
+ 
+                    // Gọi API đăng ký tới Backend SQL Server
+                    VocabLearning.Network.NetworkClient.Instance.Register(user, email, pass, (success, message, responseData) =>
                     {
-                        if (lblError != null) { lblError.text = "Username already exists!"; lblError.style.display = DisplayStyle.Flex; }
-                        return;
-                    }
-
-                    // Tạo user mới (Copy dữ liệu từ currentUser nếu muốn có sẵn data để test)
-                    VocabLearning.Data.UserJson newUser = null;
-                    if (_jsonDb.currentUser != null)
-                    {
-                        string originalJson = UnityEngine.JsonUtility.ToJson(_jsonDb.currentUser);
-                        newUser = UnityEngine.JsonUtility.FromJson<VocabLearning.Data.UserJson>(originalJson);
-                    }
-                    else
-                    {
-                        newUser = new VocabLearning.Data.UserJson();
-                    }
-
-                    newUser.id = System.Guid.NewGuid().ToString();
-                    newUser.username = user;
-                    newUser.email = email;
-                    newUser.password = pass;
-
-                    _jsonDb.registeredUsers.Add(newUser);
-
-                    if (lblSuccess != null) { lblSuccess.text = "Account created successfully! Please login."; lblSuccess.style.display = DisplayStyle.Flex; }
-                    SwitchPanel(panelLogin);
+                        HideMessages();
+                        if (success)
+                        {
+                            if (lblSuccess != null) { lblSuccess.text = "Tạo tài khoản thành công! Vui lòng đăng nhập."; lblSuccess.style.display = DisplayStyle.Flex; }
+                            SwitchPanel(panelLogin);
+                        }
+                        else
+                        {
+                            if (lblError != null) { lblError.text = message; lblError.style.display = DisplayStyle.Flex; }
+                        }
+                    });
                 };
             }
 
