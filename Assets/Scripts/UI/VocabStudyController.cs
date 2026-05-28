@@ -413,6 +413,9 @@ namespace VocabLearning.UI
                         borderContainer.style.borderRightColor = new StyleColor(borderColor);
                     }
                 }
+
+                // Cập nhật EXP Bar và Level ngay khi load Home Screen
+                UpdateAllCoinLabels();
             }
 
             // -- Các nút Bottom Nav --
@@ -2299,29 +2302,19 @@ namespace VocabLearning.UI
             Label count = _root.Q<Label>("SelectionCount");
             if (count != null) count.text = $"Selected: {_selectedBattleItems.Count}/3";
 
+            // Luôn cho phép bắt đầu battle dù có item hay không
             Button btnStart = _root.Q<Button>("BtnConfirmStart");
             if (btnStart != null)
             {
-                // In UI Toolkit, we can't easily "disable" visually without class
-                if (_selectedBattleItems.Count > 0)
-                {
-                    btnStart.style.backgroundColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f)); // Success green
-                    btnStart.style.color = Color.white;
-                    btnStart.clicked -= LoadBattleFromLoadout; // Clean up
-                    btnStart.clicked += LoadBattleFromLoadout;
-                }
-                else
-                {
-                    btnStart.style.backgroundColor = new StyleColor(new Color(0.2f, 0.25f, 0.35f));
-                    btnStart.style.color = new StyleColor(new Color(1f, 1f, 1f, 0.3f));
-                    btnStart.clicked -= LoadBattleFromLoadout;
-                }
+                btnStart.style.backgroundColor = new StyleColor(new Color(0.06f, 0.73f, 0.51f)); // Success green
+                btnStart.style.color = Color.white;
+                btnStart.clicked -= LoadBattleFromLoadout;
+                btnStart.clicked += LoadBattleFromLoadout;
             }
         }
 
         private void LoadBattleFromLoadout()
         {
-            if (_selectedBattleItems.Count == 0) return;
             if (BattleGameplayScreenAsset == null) return;
             LoadScreen(BattleGameplayScreenAsset);
         }
@@ -3690,12 +3683,17 @@ namespace VocabLearning.UI
                 Label lblName = _root.Q<Label>("LblProfileName");
                 if (lblName != null) lblName.text = _jsonDb.currentUser.username;
 
-                int currentLevel = (_jsonDb.currentUser.exp / 1000) + 1;
+                int currentLevel = GetLevelFromExp(_jsonDb.currentUser.exp);
                 Label lblLevel = _root.Q<Label>("LblProfileLevel");
                 if (lblLevel != null) lblLevel.text = $"Level {currentLevel}";
 
                 Label lblExp = _root.Q<Label>("LblProfileExp");
-                if (lblExp != null) lblExp.text = $"{_jsonDb.currentUser.exp} / {currentLevel * 1000} EXP";
+                if (lblExp != null)
+                {
+                    int expNeeded = GetExpForLevel(currentLevel);
+                    int expInLevel = GetExpInCurrentLevel(_jsonDb.currentUser.exp, currentLevel);
+                    lblExp.text = $"{expInLevel} / {expNeeded} EXP";
+                }
 
                 Label lblCoins = _root.Q<Label>("LblProfileCoins");
                 if (lblCoins != null) lblCoins.text = _jsonDb.currentUser.coins.ToString();
@@ -4294,11 +4292,40 @@ namespace VocabLearning.UI
             }
         }
 
+        /// <summary>EXP cần để vượt qua level đó: 1000 + level * 100 (ví dụ level 1 cần 1100, level 5 cần 1500)</summary>
+        private int GetExpForLevel(int level) => 1000 + level * 100;
+
+        /// <summary>Tính level hiện tại từ tổng EXP (bắt đầu từ level 1)</summary>
+        private int GetLevelFromExp(int totalExp)
+        {
+            int level = 1;
+            int accumulated = 0;
+            while (true)
+            {
+                int needed = GetExpForLevel(level);
+                if (accumulated + needed > totalExp) break;
+                accumulated += needed;
+                level++;
+            }
+            return level;
+        }
+
+        /// <summary>EXP đã tích lũy trong level hiện tại (phần dư sau khi trừ các level trước)</summary>
+        private int GetExpInCurrentLevel(int totalExp, int currentLevel)
+        {
+            int accumulated = 0;
+            for (int lv = 1; lv < currentLevel; lv++)
+                accumulated += GetExpForLevel(lv);
+            return totalExp - accumulated;
+        }
+
         private void UpdateAllCoinLabels()
         {
             if (_jsonDb == null || _jsonDb.currentUser == null) return;
-            string coinsStr = _jsonDb.currentUser.coins.ToString();
+            var user = _jsonDb.currentUser;
+            string coinsStr = user.coins.ToString();
 
+            // --- Coins ---
             Label lblCoinsFind = _root.Q<Label>("LblUserCoins");
             if (lblCoinsFind != null) lblCoinsFind.text = coinsStr;
 
@@ -4307,7 +4334,28 @@ namespace VocabLearning.UI
 
             Label lblCoins = _root.Q<Label>("LblProfileCoins");
             if (lblCoins != null) lblCoins.text = coinsStr;
+
+            // --- Level (tự động sync với EXP theo công thức 1000 + level * 100) ---
+            int correctLevel = GetLevelFromExp(user.exp);
+            if (user.level != correctLevel)
+                user.level = correctLevel;
+
+            Label lblLevel = _root.Q<Label>("LblUserLevel");
+            if (lblLevel != null) lblLevel.text = $"★ Level {user.level}";
+
+            // --- EXP Bar & Text (HomeScreen) ---
+            int expNeeded = GetExpForLevel(user.level);           // VD level 3 → cần 1300 EXP
+            int expInLevel = GetExpInCurrentLevel(user.exp, user.level); // EXP đã có trong level này
+            float expPercent = expNeeded > 0 ? Mathf.Clamp01((float)expInLevel / expNeeded) : 0f;
+
+            VisualElement expBarFill = _root.Q<VisualElement>("HomeExpBarFill");
+            if (expBarFill != null)
+                expBarFill.style.width = new StyleLength(new Length(expPercent * 100f, LengthUnit.Percent));
+
+            Label expText = _root.Q<Label>("HomeExpText");
+            if (expText != null) expText.text = $"{expInLevel} / {expNeeded} EXP";
         }
+
 
         private void AnimateAura(VisualElement target)
         {
