@@ -143,6 +143,13 @@ namespace VocabLearning.UI
                         if (lblError != null) { lblError.text = "Username and Password are required!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
+
+                    // Kiểm tra mật khẩu tối thiểu 8 ký tự (ND_QD 1)
+                    if (pass.Length < 8)
+                    {
+                        if (lblError != null) { lblError.text = "Mật khẩu phải có ít nhất 8 ký tự!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
  
                     if (lblSuccess != null) { lblSuccess.text = "Đang tạo tài khoản..."; lblSuccess.style.display = DisplayStyle.Flex; }
  
@@ -226,6 +233,13 @@ namespace VocabLearning.UI
                     if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass))
                     {
                         if (lblError != null) { lblError.text = "Please fill in all fields!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
+                    }
+
+                    // Kiểm tra mật khẩu mới tối thiểu 8 ký tự (ND_QD 1)
+                    if (newPass.Length < 8)
+                    {
+                        if (lblError != null) { lblError.text = "Mật khẩu mới phải có ít nhất 8 ký tự!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
 

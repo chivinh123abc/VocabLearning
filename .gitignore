@@ -110,7 +110,8 @@ server/.env
 # Ignore all markdown files except README.md
 *.md
 !README.md
-
+*.docx
+*.pptx
 
 # Unity Packages (ignore downloaded package directories, keep manifest and lock)
 /Packages/*/

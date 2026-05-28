@@ -216,6 +216,11 @@ exports.register = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Tên đăng nhập và mật khẩu là bắt buộc!' });
   }
 
+  // Kiểm tra độ dài mật khẩu tối thiểu 8 ký tự (theo ND_QD 1)
+  if (password.length < 8) {
+    return res.status(400).json({ success: false, message: 'Mật khẩu phải có ít nhất 8 ký tự!' });
+  }
+
   try {
     const pool = await getPool();
     
