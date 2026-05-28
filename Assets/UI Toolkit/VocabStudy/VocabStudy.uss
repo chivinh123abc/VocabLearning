@@ -1,5 +1,9 @@
 .screen-container {
-    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background-color: rgb(15, 23, 42);
     color: rgb(248, 250, 252);
     padding-bottom: 24px;
@@ -547,90 +551,90 @@
 }
 
 #SettingsPopup {
-    width: 450px;
+    width: 420px;
     justify-content: center;
     align-items: stretch;
     background-color: rgb(32, 38, 48);
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     border-top-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
     border-right-width: 2px;
-    border-top-color: rgba(255, 255, 255, 0.08);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
-    border-left-color: rgba(255, 255, 255, 0.08);
-    border-right-color: rgba(255, 255, 255, 0.08);
-    padding-top: 32px;
-    padding-bottom: 32px;
-    padding-left: 32px;
-    padding-right: 32px;
+    border-top-color: rgb(228, 222, 210);
+    border-bottom-color: rgb(228, 222, 210);
+    border-left-color: rgb(228, 222, 210);
+    border-right-color: rgb(228, 222, 210);
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
 .title {
-    font-size: 28px;
-    color: white;
-    unity-font-style: bold;
-    margin-bottom: 32px;
+    font-size: 22px;
+    color: rgb(30, 28, 24);
+    -unity-font-style: bold;
+    margin-bottom: 24px;
     -unity-text-align: middle-center;
 }
 
 .slider-label {
-    font-size: 18px;
-    color: rgb(170, 180, 195);
-    unity-font-style: bold;
-    margin-bottom: 12px;
+    font-size: 14px;
+    color: rgb(110, 105, 95);
+    -unity-font-style: bold;
+    margin-bottom: 8px;
 }
 
 .custom-slider {
-    margin-bottom: 24px;
+    margin-bottom: 18px;
 }
 
 .custom-slider .unity-base-slider__tracker {
-    background-color: rgb(22, 26, 34);
-    height: 12px;
-    border-radius: 6px;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-color: rgba(255, 255, 255, 0.05);
-    border-bottom-color: rgba(255, 255, 255, 0.05);
-    border-left-color: rgba(255, 255, 255, 0.05);
-    border-right-color: rgba(255, 255, 255, 0.05);
-    margin-top: -6px;
+    background-color: rgb(235, 231, 222);
+    height: 10px;
+    border-radius: 5px;
+    border-top-width: 1.5px;
+    border-bottom-width: 1.5px;
+    border-left-width: 1.5px;
+    border-right-width: 1.5px;
+    border-top-color: rgb(220, 215, 205);
+    border-bottom-color: rgb(220, 215, 205);
+    border-left-color: rgb(220, 215, 205);
+    border-right-color: rgb(220, 215, 205);
+    margin-top: -5px;
 }
 
 .custom-slider .unity-base-slider__dragger {
-    width: 28px;
-    height: 28px;
-    border-radius: 14px;
-    background-color: rgb(60, 120, 255);
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
-    border-right-width: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: rgb(255, 170, 30);
+    border-top-width: 2.5px;
+    border-bottom-width: 2.5px;
+    border-left-width: 2.5px;
+    border-right-width: 2.5px;
     border-top-color: white;
     border-bottom-color: white;
     border-left-color: white;
     border-right-color: white;
-    margin-top: -14px;
+    margin-top: -12px;
 }
 
 #BtnLogout {
-    height: 52px;
+    height: 44px;
     background-color: rgb(239, 68, 68);
     color: white;
-    font-size: 20px;
-    unity-font-style: bold;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-    border-bottom-left-radius: 14px;
-    border-bottom-right-radius: 14px;
-    margin-bottom: 16px;
-    margin-top: 16px;
+    font-size: 16px;
+    -unity-font-style: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 12px;
+    margin-top: 12px;
     border-top-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
@@ -642,15 +646,15 @@
 }
 
 #BtnCloseSettings {
-    height: 52px;
-    background-color: rgb(71, 85, 105);
-    color: white;
-    font-size: 20px;
-    unity-font-style: bold;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-    border-bottom-left-radius: 14px;
-    border-bottom-right-radius: 14px;
+    height: 44px;
+    background-color: rgb(215, 210, 198);
+    color: rgb(70, 68, 64);
+    font-size: 16px;
+    -unity-font-style: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     border-top-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
@@ -658,92 +662,125 @@
 }
 
 #BtnCloseSettings:hover {
-    background-color: rgb(51, 65, 85);
+    background-color: rgb(195, 190, 178);
 }
 
+
+/* ═══════════════════════════════════════════════════
+   ADMIN DASHBOARD  (adminScreen.uxml → VocabStudy.uss)
+   Designed for 1080×1920 logical resolution
+   ═══════════════════════════════════════════════════ */
+
+/* ─── ROOT ─── */
 .admin-root {
-    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background-color: rgb(247, 243, 235);
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 40px;
+    padding-bottom: 16px;
 }
 
+.menu-scroll {
+    flex-grow: 1;
+}
+
+/* ─── HEADER (peach banner) ─── */
 .admin-header {
-    height: 120px;
-    border-radius: 28px;
-    padding-left: 24px;
-    padding-right: 24px;
+    height: 100px;
+    border-radius: 20px;
+    padding-left: 18px;
+    padding-right: 18px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(255, 201, 157);
-    margin-bottom: 24px;
+    background-color: rgb(255, 195, 140);
+    margin-bottom: 18px;
+}
+
+/* Tăng độ ưu tiên để tránh bị đè bởi VocabManagement.uss .header-left */
+.admin-header .header-left {
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 12px;
+    align-items: flex-start;
 }
 
 .header-title {
-    font-size: 36px;
+    font-size: 26px;
     -unity-font-style: bold;
     color: white;
 }
 
 .header-subtitle {
-    font-size: 18px;
-    color:  #FFFFFFE6;
-    margin-top: 6px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 4px;
 }
 
 .setting-btn {
-    width: 56px;
-    height: 56px;
-    border-radius: 18px;
-    background-color: #FFFFFF26;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.25);
     border-top-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
     border-right-width: 0;
     align-items: center;
     justify-content: center;
-
+    flex-shrink: 0;
     transition-property: scale, background-color;
     transition-duration: 0.15s;
     transition-timing-function: ease-out;
 }
 
 .setting-btn:hover {
-    background-color: #FFFFFF47;
+    background-color: rgba(255, 255, 255, 0.4);
     scale: 1.08;
 }
 
 .setting-btn:active {
     scale: 0.92;
-    background-color: #FFFFFF1A;
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .setting-icon {
-    font-size: 26px;
+    font-size: 20px;
     color: white;
 }
 
+/* ─── SECTION DIVIDER inside scroll ─── */
+.admin-section-pad {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 16px;
+}
+
+/* ─── STATS 2×2 GRID ─── */
 .stats-grid {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 .stat-card {
     width: 48%;
-    height: 180px;
+    height: auto;
+    min-height: 120px;
     background-color: white;
-    border-radius: 24px;
-    padding: 16px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 12px 10px;
+    margin-bottom: 12px;
+    border-width: 1.5px;
+    border-color: rgb(230, 225, 215);
     align-items: center;
     justify-content: center;
-
     transition-property: scale, background-color;
     transition-duration: 0.15s;
     transition-timing-function: ease-out;
@@ -759,64 +796,67 @@
 }
 
 .stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
     align-items: center;
     justify-content: center;
-    -unity-text-align: middle-center;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
-    margin-bottom: 10px;
-}
-
-.blue {
-    background-color: rgb(59, 130, 246);
-}
-
-.green {
-    background-color: rgb(34, 197, 94);
-}
-
-.purple {
-    background-color: rgb(168, 85, 247);
-}
-
-.orange {
-    background-color: rgb(249, 115, 22);
-}
-
-.stat-number {
-    font-size: 34px;
-    -unity-font-style: bold;
-    color: rgb(30, 41, 59);
     margin-bottom: 6px;
 }
 
+.stat-number {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: rgb(30, 41, 59);
+    margin-bottom: 4px;
+    -unity-text-align: middle-center;
+    overflow: hidden;
+}
+
 .stat-label {
-    font-size: 18px;
+    font-size: 12px;
     color: rgb(100, 116, 139);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    overflow: hidden;
+    -unity-text-wrap: true;
+    width: 100%;
 }
 
-.menu-scroll {
-    flex-grow: 1;
+/* ─── COLOR CHIPS ─── */
+.blue   { background-color: rgb(59, 130, 246); }
+.green  { background-color: rgb(34, 197, 94); }
+.purple { background-color: rgb(168, 85, 247); }
+.orange { background-color: rgb(249, 115, 22); }
+.teal   { background-color: rgb(20, 184, 166); }
+.rose   { background-color: rgb(244, 63, 94); }
+
+/* ─── MENU SECTION LABEL ─── */
+.menu-section-label {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: rgb(90, 80, 65);
+    margin-bottom: 8px;
+    margin-top: 4px;
 }
 
+/* ─── MENU CARDS ─── */
 .menu-card {
-    height: 110px;
+    height: auto;
+    min-height: 80px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     background-color: white;
-    border-radius: 24px;
+    border-radius: 16px;
     flex-direction: row;
     align-items: center;
-    padding-left: 18px;
-    padding-right: 18px;
-    margin-bottom: 18px;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
+    padding-left: 14px;
+    padding-right: 14px;
+    margin-bottom: 10px;
+    border-width: 1.5px;
+    border-color: rgb(235, 230, 220);
     transition-property: scale, background-color;
     transition-duration: 0.15s;
     transition-timing-function: ease-out;
@@ -833,17 +873,19 @@
 }
 
 .menu-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     align-items: center;
     justify-content: center;
-    margin-right: 18px;
+    margin-right: 14px;
+    flex-shrink: 0;
 }
 
 .menu-icon-text {
-    font-size: 28px;
+    font-size: 20px;
     color: white;
+    -unity-text-align: middle-center;
 }
 
 .menu-content {
@@ -851,36 +893,45 @@
 }
 
 .menu-title {
-    font-size: 28px;
+    font-size: 18px;
     -unity-font-style: bold;
     color: rgb(15, 23, 42);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .menu-subtitle {
-    font-size: 18px;
-    color: rgb(100, 116, 139);
+    font-size: 12px;
+    color: rgb(70, 80, 100);
 }
 
+.menu-arrow {
+    font-size: 16px;
+    color: rgb(190, 185, 175);
+    flex-shrink: 0;
+}
+
+/* ─── RECENT SECTION (hidden by default) ─── */
 .recent-container {
     margin-top: 12px;
 }
 
 .recent-title {
-    font-size: 30px;
+    font-size: 22px;
     -unity-font-style: bold;
     color: rgb(30, 41, 59);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .recent-card {
     background-color: white;
-    border-radius: 24px;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 14px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.06);
 }
 
 .recent-item {
-    font-size: 18px;
-    color: rgb(71, 85, 105);
-    margin-bottom: 12px;
+    font-size: 14px;
+    color: rgb(148, 163, 184);
+    margin-bottom: 8px;
 }

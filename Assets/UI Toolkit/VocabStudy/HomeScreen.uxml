@@ -34,9 +34,9 @@
 
             <!-- EXP Bar -->
             <ui:VisualElement style="background-color: rgba(255, 255, 255, 0.2); height: 12px; border-radius: 6px; overflow: hidden; margin-top: 8px;">
-                <ui:VisualElement style="background-color: #F59E0B; width: 65%; height: 100%; border-radius: 6px;" />
+                <ui:VisualElement name="HomeExpFill" style="background-color: #F59E0B; width: 65%; height: 100%; border-radius: 6px;" />
             </ui:VisualElement>
-            <ui:Label text="650 / 1000 EXP" style="color: rgba(255, 255, 255, 0.9); font-size: 12px; -unity-text-align: middle-center; margin-top: 4px;" />
+            <ui:Label name="LblHomeExp" text="650 / 1000 EXP" style="color: rgba(255, 255, 255, 0.9); font-size: 12px; -unity-text-align: middle-center; margin-top: 4px;" />
         </ui:VisualElement>
 
         <!-- Search Bar -->

@@ -447,6 +447,19 @@ namespace VocabLearning.UI
         // Lưu thay đổi MockDatabase xuống file db.json và đồng bộ lên Node.js Backend SQL Server
         private void SaveJsonDatabase()
         {
+            // 1. Luôn lưu dữ liệu cục bộ bền vững trên mọi thiết bị (Editor & Bản Build chạy thật)
+            try
+            {
+                string localSavePath = System.IO.Path.Combine(Application.persistentDataPath, "local_db.json");
+                string json = JsonUtility.ToJson(_jsonDb, true);
+                System.IO.File.WriteAllText(localSavePath, json);
+                Debug.Log($"[JSON DB - Persistent] Đã lưu tiến trình cục bộ thành công: {localSavePath}");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[JSON DB - Persistent] Lỗi lưu database cục bộ: {ex.Message}");
+            }
+
 #if UNITY_EDITOR
             try
             {
@@ -462,7 +475,7 @@ namespace VocabLearning.UI
             }
 #endif
 
-            // Đồng bộ dữ liệu tiến trình người dùng lên SQL Server thông qua Node.js Backend API
+            // 2. Đồng bộ dữ liệu tiến trình người dùng lên SQL Server thông qua Node.js Backend API
             if (_jsonDb != null && _jsonDb.currentUser != null && !string.IsNullOrEmpty(_jsonDb.currentUser.id))
             {
                 Debug.Log($"[JSON DB - Network] Bắt đầu đồng bộ tiến trình game của người chơi '{_jsonDb.currentUser.username}' lên SQL Server...");

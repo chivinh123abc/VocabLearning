@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { getPool, sql } = require('../config/db');
 
 // Hàm chuyển đổi điểm rank thành chuỗi rank tương ứng (Đồng bộ với Unity)
@@ -137,6 +138,7 @@ async function getUserFullProfile(pool, userId) {
     username: user.username,
     email: user.email,
     role: user.role,
+    status: user.status || 'active',
     level: user.level,
     exp: user.exp,
     expNeeded: getExpNeeded(user.level),
@@ -188,9 +190,24 @@ exports.login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Tên đăng nhập hoặc mật khẩu không chính xác!' });
     }
 
-    // Đăng nhập thành công -> Lấy toàn bộ profile của user
+    // Kiểm tra trạng thái tài khoản (Chặn tài khoản bị Banned)
+    if (user.status === 'banned') {
+      console.warn(`🚨 [Xác thực] Đăng nhập bị chặn: Tài khoản '${user.username}' đã bị khóa bởi Ban Quản Trị.`);
+      return res.status(403).json({ success: false, message: 'Tài khoản của bạn đã bị khóa bởi Ban Quản Trị vì vi phạm điều khoản!' });
+    }
+
+    // Đăng nhập thành công -> Tạo mã JWT Token & Lấy toàn bộ profile của user
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET || 'nckh_vocab_learning_secret_key_2026',
+      { expiresIn: '30d' }
+    );
+
     const fullProfile = await getUserFullProfile(pool, user.id);
-    return res.json(fullProfile);
+    return res.json({
+      ...fullProfile,
+      token: token
+    });
 
   } catch (err) {
     console.error('Lỗi khi đăng nhập: ', err);
@@ -280,9 +297,18 @@ exports.register = async (req, res) => {
 
       await transaction.commit();
 
-      // Đăng ký thành công -> Lấy thông tin đầy đủ để tự động đăng nhập luôn
+      // Đăng ký thành công -> Tạo mã JWT Token & Lấy thông tin đầy đủ để tự động đăng nhập luôn
+      const token = jwt.sign(
+        { id: userId, role: 'user' },
+        process.env.JWT_SECRET || 'nckh_vocab_learning_secret_key_2026',
+        { expiresIn: '30d' }
+      );
+
       const fullProfile = await getUserFullProfile(pool, userId);
-      return res.status(201).json(fullProfile);
+      return res.status(201).json({
+        ...fullProfile,
+        token: token
+      });
 
     } catch (err) {
       await transaction.rollback();

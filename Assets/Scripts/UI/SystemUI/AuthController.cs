@@ -78,6 +78,8 @@ namespace VocabLearning.UI
                         if (success && responseData != null && responseData.username != null)
                         {
                             _jsonDb.currentUser = responseData; // Ghi đè toàn bộ profile đã chuẩn hóa từ SQL Server
+                            _jsonDb.jwtToken = responseData.token; // Lưu token vào db cục bộ để duy trì phiên
+                            VocabLearning.Network.NetworkClient.Instance.JwtToken = responseData.token; // Đồng bộ token tới Client mạng
                             if (responseData.inventory != null)
                             {
                                 _jsonDb.inventory = responseData.inventory; // Đồng bộ kho đồ từ DB lên UI

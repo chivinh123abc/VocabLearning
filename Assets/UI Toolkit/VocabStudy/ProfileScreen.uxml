@@ -19,7 +19,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement style="width: 100%; margin-bottom: 4px;">
                         <ui:VisualElement class="progress-bar-container" style="height: 12px; border-radius: 6px; background-color: rgba(255, 255, 255, 0.2);">
-                            <ui:VisualElement style="width: 75%; height: 100%; background-color: rgb(245, 158, 11);"/>
+                            <ui:VisualElement name="ProfileExpFill" style="width: 75%; height: 100%; background-color: rgb(245, 158, 11);"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:Label name="LblProfileExp" text="1,500 / 2,000 EXP" style="color: rgba(255, 255, 255, 0.9); font-size: 12px;"/>
@@ -32,7 +32,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); border-radius: 16px; padding: 12px; align-items: center; margin-left: 6px;">
                         <ui:Label text="🏆" style="font-size: 24px; margin-bottom: 4px;"/>
-                        <ui:Label text="Gold III" class="font-bold" style="color: white; font-size: 18px;"/>
+                        <ui:Label name="LblProfileRank" text="Gold III" class="font-bold" style="color: white; font-size: 18px;"/>
                         <ui:Label text="Rank" style="color: rgba(255, 255, 255, 0.8); font-size: 12px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -42,24 +42,24 @@
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 12px;">
                     <ui:VisualElement class="card" style="width: 48%; align-items: center; padding: 16px;">
                         <ui:Label text="🎯" style="font-size: 32px; margin-bottom: 8px;"/>
-                        <ui:Label text="142" class="font-bold" style="font-size: 24px; color: white;"/>
+                        <ui:Label name="LblProfileTotalGames" text="142" class="font-bold" style="font-size: 24px; color: white;"/>
                         <ui:Label text="Total Games" class="text-muted" style="font-size: 14px;"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="card" style="width: 48%; align-items: center; padding: 16px;">
                         <ui:Label text="🏆" style="font-size: 32px; margin-bottom: 8px;"/>
-                        <ui:Label text="89" class="font-bold" style="font-size: 24px; color: white;"/>
+                        <ui:Label name="LblProfileWins" text="89" class="font-bold" style="font-size: 24px; color: white;"/>
                         <ui:Label text="Wins" class="text-muted" style="font-size: 14px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
                     <ui:VisualElement class="card" style="width: 48%; align-items: center; padding: 16px;">
                         <ui:Label text="⚡" style="font-size: 32px; margin-bottom: 8px;"/>
-                        <ui:Label text="1,024" class="font-bold" style="font-size: 24px; color: white;"/>
+                        <ui:Label name="LblProfileWordsLearned" text="1,024" class="font-bold" style="font-size: 24px; color: white;"/>
                         <ui:Label text="Words Learned" class="text-muted" style="font-size: 14px;"/>
                     </ui:VisualElement>
                     <ui:VisualElement class="card" style="width: 48%; align-items: center; padding: 16px;">
                         <ui:Label text="🏅" style="font-size: 32px; margin-bottom: 8px;"/>
-                        <ui:Label text="15" class="font-bold" style="font-size: 24px; color: white;"/>
+                        <ui:Label name="LblProfileAchievements" text="15" class="font-bold" style="font-size: 24px; color: white;"/>
                         <ui:Label text="Achievements" class="text-muted" style="font-size: 14px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>

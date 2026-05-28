@@ -18,7 +18,7 @@
         <ui:VisualElement name="search-bar" class="search-bar">
             <ui:Label text="🔍" class="search-icon"/>
             <ui:TextField name="search-field" placeholder-text="Tìm theo ID, tên bộ, danh mục..." class="search-field" style="flex-grow: 1;"/>
-            <ui:DropdownField name="filter-category" class="filter-rank" style="width: 200px;"/>
+            <ui:DropdownField name="filter-category" class="filter-rank" style="width: 180px;"/>
         </ui:VisualElement>
 
         <!-- ===== STATS ROW ===== -->
@@ -37,17 +37,17 @@
             </ui:VisualElement>
             <ui:VisualElement class="stat-card">
                 <ui:Label name="set-stat-max-words" text="0" class="stat-value" style="color: rgb(245, 158, 11);"/>
-                <ui:Label text="Bộ Nhiều Nhất" class="stat-label"/>
+                <ui:Label text="Nhiều Nhất" class="stat-label"/>
             </ui:VisualElement>
         </ui:VisualElement>
 
         <!-- ===== TABS LỌC ĐỘ KHÓ ===== -->
-        <ui:VisualElement style="padding: 0 24px 14px 24px;">
-            <ui:VisualElement style="background-color: rgb(228, 224, 215); border-radius: 18px; flex-direction: row; padding: 5px; border-width: 1px; border-color: rgb(210, 205, 195);">
-                <ui:Button name="tab-all"    text="📚 Tất cả"   style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: rgb(255, 170, 30); color: white; -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
-                <ui:Button name="tab-easy"   text="🟢 Dễ"       style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
-                <ui:Button name="tab-medium" text="🟡 Trung"    style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
-                <ui:Button name="tab-hard"   text="🔴 Khó"      style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
+        <ui:VisualElement style="padding-left: 20px; padding-right: 20px; padding-bottom: 12px;">
+            <ui:VisualElement style="background-color: rgb(228, 224, 215); border-radius: 12px; flex-direction: row; padding: 4px; border-width: 1px; border-color: rgb(210, 205, 195);">
+                <ui:Button name="tab-all"    text="📚 Tất cả"  style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: rgb(255, 170, 30); color: white; -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
+                <ui:Button name="tab-easy"   text="🟢 Dễ"      style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
+                <ui:Button name="tab-medium" text="🟡 TB"      style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
+                <ui:Button name="tab-hard"   text="🔴 Khó"     style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -57,9 +57,9 @@
         <!-- ===== DANH SÁCH BỘ TỪ VỰNG ===== -->
         <ui:ScrollView name="set-list" mode="Vertical" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="vocab-list">
 
-            <!-- Placeholder card (sẽ được thay bằng code) -->
-            <ui:VisualElement class="vocab-card">
-                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgb(220, 240, 220); justify-content: center; align-items: center;">
+            <!-- Placeholder (ẩn, sinh bằng C#) -->
+            <ui:VisualElement class="vocab-card" style="display: none;">
+                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgba(255, 255, 255, 0.08); justify-content: center; align-items: center;">
                     <ui:Label text="🐾" style="font-size: 38px; -unity-text-align: middle-center;"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="vocab-info">
@@ -67,38 +67,8 @@
                         <ui:Label text="Animals" class="vocab-word"/>
                         <ui:Label text="Dễ" class="rank-badge rank-badge--2"/>
                     </ui:VisualElement>
-                    <ui:Label text="Động vật quen thuộc trong cuộc sống hàng ngày" class="vocab-meaning"/>
-                    <ui:Label text="ID: vs1  |  📖 12 từ  |  🏅 Dong  |  🗂 Nature" class="vocab-id"/>
-                </ui:VisualElement>
-                <ui:Button text="🗑" class="btn-delete"/>
-            </ui:VisualElement>
-
-            <ui:VisualElement class="vocab-card">
-                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgb(255, 237, 220); justify-content: center; align-items: center;">
-                    <ui:Label text="🍎" style="font-size: 38px; -unity-text-align: middle-center;"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="vocab-info">
-                    <ui:VisualElement class="vocab-name-row">
-                        <ui:Label text="Food &amp; Drinks" class="vocab-word"/>
-                        <ui:Label text="Trung Bình" class="rank-badge"/>
-                    </ui:VisualElement>
-                    <ui:Label text="Từ vựng về ẩm thực, món ăn và đồ uống" class="vocab-meaning"/>
-                    <ui:Label text="ID: vs2  |  📖 20 từ  |  🏅 Bac  |  🗂 Food" class="vocab-id"/>
-                </ui:VisualElement>
-                <ui:Button text="🗑" class="btn-delete"/>
-            </ui:VisualElement>
-
-            <ui:VisualElement class="vocab-card">
-                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgb(218, 232, 255); justify-content: center; align-items: center;">
-                    <ui:Label text="✈️" style="font-size: 38px; -unity-text-align: middle-center;"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="vocab-info">
-                    <ui:VisualElement class="vocab-name-row">
-                        <ui:Label text="Travel" class="vocab-word"/>
-                        <ui:Label text="Khó" class="rank-badge rank-badge--3"/>
-                    </ui:VisualElement>
-                    <ui:Label text="Từ vựng du lịch và giao tiếp quốc tế" class="vocab-meaning"/>
-                    <ui:Label text="ID: vs3  |  📖 30 từ  |  🏅 Vang  |  🗂 Travel" class="vocab-id"/>
+                    <ui:Label text="Động vật quen thuộc trong cuộc sống" class="vocab-meaning"/>
+                    <ui:Label text="ID: vs1  |  📖 12 từ  |  🗂 Nature" class="vocab-id"/>
                 </ui:VisualElement>
                 <ui:Button text="🗑" class="btn-delete"/>
             </ui:VisualElement>
@@ -116,67 +86,57 @@
 
                 <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="modal-form-scroll">
 
-                    <!-- Tên bộ -->
                     <ui:VisualElement class="form-group">
                         <ui:Label text="Tên bộ từ vựng *" class="form-label"/>
                         <ui:TextField name="input-title" placeholder-text="VD: Animals, Food, Travel..." class="form-input"/>
                     </ui:VisualElement>
 
-                    <!-- Mô tả -->
                     <ui:VisualElement class="form-group">
                         <ui:Label text="Mô tả chi tiết" class="form-label"/>
                         <ui:TextField name="input-desc" placeholder-text="Giới thiệu ngắn về nội dung bộ từ..." multiline="true" class="form-input" style="height: 100px;"/>
                     </ui:VisualElement>
 
-                    <!-- Danh mục + Độ khó (cùng hàng) -->
-                    <ui:VisualElement style="flex-direction: row; margin-bottom: 22px;">
-                        <ui:VisualElement style="flex-grow: 1; margin-right: 14px;">
+                    <ui:VisualElement class="form-row" style="margin-bottom: 22px;">
+                        <ui:VisualElement class="form-col" style="flex-grow: 1; margin-right: 14px;">
                             <ui:Label text="Danh mục *" class="form-label"/>
                             <ui:DropdownField name="input-category" class="form-dropdown"/>
                         </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1;">
+                        <ui:VisualElement class="form-col" style="flex-grow: 1;">
                             <ui:Label text="Độ khó *" class="form-label"/>
                             <ui:DropdownField name="input-difficulty" class="form-dropdown"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
 
-                    <!-- Rank yêu cầu -->
                     <ui:VisualElement class="form-group">
                         <ui:Label text="Rank yêu cầu tối thiểu *" class="form-label"/>
                         <ui:DropdownField name="input-rank" class="form-dropdown"/>
                     </ui:VisualElement>
 
-                    <!-- Chọn từ bằng Word Picker -->
                     <ui:VisualElement class="form-group">
-                        <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 10px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 12px;">
                             <ui:Label text="Từ vựng trong bộ *" class="form-label" style="flex-grow: 1; margin-bottom: 0;"/>
-                            <!-- Badge hiển thị số từ đã chọn -->
-                            <ui:Label name="picker-count-badge" text="0 từ đã chọn"
-                                style="font-size: 18px; -unity-font-style: bold; color: rgb(255, 255, 255);
-                                       background-color: rgb(255, 170, 30); border-radius: 20px;
-                                       padding: 4px 14px; margin-right: 12px;"/>
-                            <!-- Nút mở Picker -->
-                            <ui:Button name="btn-open-picker" text="＋ Chọn từ..."
-                                style="font-size: 18px; -unity-font-style: bold; color: rgb(255, 255, 255);
+                            <ui:Label name="picker-count-badge" text="0 từ"
+                                style="font-size: 18px; -unity-font-style: bold; color: white;
+                                       background-color: rgb(255, 170, 30); border-radius: 14px;
+                                       padding-left: 14px; padding-right: 14px; padding-top: 4px; padding-bottom: 4px; margin-right: 12px;"/>
+                            <ui:Button name="btn-open-picker" text="＋ Chọn từ"
+                                style="font-size: 18px; -unity-font-style: bold; color: white;
                                        background-color: rgb(59, 130, 246); border-width: 0;
-                                       border-radius: 14px; padding: 10px 22px; cursor: link;
-                                       transition-property: background-color; transition-duration: 0.15s;"/>
+                                       border-radius: 14px; padding-left: 18px; padding-right: 18px; padding-top: 12px; padding-bottom: 12px; cursor: link;"/>
                         </ui:VisualElement>
 
-                        <!-- Preview dạng chip cho các từ đã chọn -->
                         <ui:VisualElement name="picker-preview"
-                            style="min-height: 54px; background-color: rgb(248, 247, 244);
-                                   border-radius: 16px; border-width: 1.5px;
-                                   border-color: rgb(225, 220, 210); padding: 10px 14px;
+                            style="min-height: 62px; background-color: rgb(15, 23, 42);
+                                   border-radius: 18px; border-width: 1.5px;
+                                   border-color: rgba(255, 255, 255, 0.08); padding: 10px 14px;
                                    flex-direction: row; flex-wrap: wrap;">
-                            <ui:Label name="picker-preview-empty" text="Chưa chọn từ nào — bấm ＋ Chọn từ để thêm"
-                                style="font-size: 18px; color: rgb(180, 175, 165); -unity-font-style: italic; align-self: center;"/>
+                            <ui:Label name="picker-preview-empty" text="Chưa chọn từ nào — bấm ＋ Chọn từ"
+                                style="font-size: 18px; color: rgb(148, 163, 184); -unity-font-style: italic; align-self: center;"/>
                         </ui:VisualElement>
                     </ui:VisualElement>
 
                 </ui:ScrollView>
 
-                <!-- Lỗi validation -->
                 <ui:Label name="modal-error-msg" text="" class="modal-error-msg" style="display: none;"/>
 
                 <ui:VisualElement class="modal-footer">
@@ -187,34 +147,33 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ===== WORD PICKER MODAL (lớp 2, z-index cao hơn) ===== -->
+        <!-- ===== WORD PICKER MODAL ===== -->
         <ui:VisualElement name="picker-overlay" class="modal-overlay" style="display: none;">
-            <ui:VisualElement style="width: 100%; background-color: rgb(255, 255, 255);
+            <ui:VisualElement style="width: 100%; background-color: rgb(30, 41, 59);
                                      border-radius: 32px; padding: 0; flex-direction: column;
-                                     border-width: 1.5px; border-color: rgb(228, 222, 210);
+                                     border-width: 1.5px; border-color: rgba(255, 255, 255, 0.08);
                                      max-height: 92%;">
 
                 <!-- Header picker -->
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between;
                                          align-items: center; padding: 28px 32px 20px 32px;
-                                         border-bottom-width: 1px; border-bottom-color: rgb(232, 227, 215);">
+                                         border-bottom-width: 1px; border-bottom-color: rgba(255, 255, 255, 0.08);">
                     <ui:VisualElement style="flex-direction: column;">
                         <ui:Label text="Chọn từ vựng" class="modal-title"/>
                         <ui:Label name="picker-selected-subtitle" text="Chưa có từ nào được chọn"
-                            style="font-size: 20px; color: rgb(150, 145, 135); margin-top: 4px;"/>
+                            style="font-size: 20px; color: rgb(148, 163, 184); margin-top: 4px;"/>
                     </ui:VisualElement>
                     <ui:Button name="btn-picker-close" text="✕" class="btn-modal-close"/>
                 </ui:VisualElement>
 
                 <!-- Search bar trong picker -->
                 <ui:VisualElement style="flex-direction: row; align-items: center;
-                                         margin: 16px 24px 12px 24px; background-color: rgb(247, 245, 240);
+                                         margin: 16px 24px 12px 24px; background-color: rgb(15, 23, 42);
                                          border-radius: 18px; border-width: 1.5px;
-                                         border-color: rgb(225, 220, 210); padding: 0 18px; height: 66px;">
-                    <ui:Label text="🔍" style="font-size: 22px; margin-right: 10px; color: rgb(160, 155, 145);"/>
+                                         border-color: rgba(255, 255, 255, 0.08); padding: 0 18px; height: 66px;">
+                    <ui:Label text="🔍" style="font-size: 22px; margin-right: 10px; color: rgb(148, 163, 184);"/>
                     <ui:TextField name="picker-search" placeholder-text="Gõ để tìm từ hoặc nghĩa..."
-                        style="flex-grow: 1; border-width: 0; background-color: rgba(0,0,0,0); font-size: 20px; height: 52px;"/>
-                    <!-- Nút Select All / Deselect All -->
+                        style="flex-grow: 1; border-width: 0; background-color: rgba(0,0,0,0); font-size: 20px; height: 52px; color: white;"/>
                     <ui:Button name="btn-picker-select-all" text="Chọn tất cả"
                         style="font-size: 17px; -unity-font-style: bold; color: rgb(59, 130, 246);
                                background-color: rgba(0,0,0,0); border-width: 0; cursor: link; padding: 4px 8px;"/>
@@ -223,24 +182,23 @@
                 <!-- Filter rank trong picker -->
                 <ui:VisualElement style="padding: 0 24px 12px 24px; flex-direction: row;">
                     <ui:DropdownField name="picker-filter-rank"
-                        style="flex-grow: 1; background-color: rgb(247, 245, 240); border-radius: 14px;
-                               border-width: 1.5px; border-color: rgb(225, 220, 210);
-                               font-size: 19px; height: 56px; color: rgb(70, 68, 64);"/>
+                        style="flex-grow: 1; background-color: rgb(15, 23, 42); border-radius: 18px;
+                               border-width: 1.5px; border-color: rgba(255, 255, 255, 0.08);
+                               font-size: 20px; height: 62px; color: white;"/>
                 </ui:VisualElement>
 
                 <!-- Danh sách từ (scroll) -->
                 <ui:ScrollView name="picker-word-list" mode="Vertical"
                     vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden"
                     style="flex-grow: 1; padding: 0 24px 16px 24px;">
-                    <!-- các row từ được sinh bằng code -->
                 </ui:ScrollView>
 
                 <!-- Footer picker -->
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between;
                                          align-items: center; padding: 20px 32px 28px 32px;
-                                         border-top-width: 1px; border-top-color: rgb(232, 227, 215);">
+                                         border-top-width: 1px; border-top-color: rgba(255, 255, 255, 0.08);">
                     <ui:Label name="picker-footer-count" text="0 từ được chọn"
-                        style="font-size: 20px; -unity-font-style: bold; color: rgb(100, 95, 85);"/>
+                        style="font-size: 20px; -unity-font-style: bold; color: rgb(148, 163, 184);"/>
                     <ui:VisualElement style="flex-direction: row;">
                         <ui:Button name="btn-picker-cancel" text="Hủy" class="btn-modal-cancel"
                             style="margin-right: 14px;"/>

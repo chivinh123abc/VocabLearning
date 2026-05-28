@@ -24,6 +24,8 @@ namespace VocabLearning.Network
 
         private const string BaseUrl = "http://localhost:5000/api";
 
+        public string JwtToken { get; set; } // Token bảo mật JWT dùng cho các API yêu cầu xác thực
+
         public delegate void NetworkCallback<T>(bool success, string message, T data);
 
         // API Đăng nhập
@@ -72,6 +74,25 @@ namespace VocabLearning.Network
             StartCoroutine(DeleteRequestCoroutine<string>($"/admin/words/{wordId}", callback));
         }
 
+        // API Admin: Lấy tất cả người dùng
+        public void AdminGetUsers(NetworkCallback<AdminUsersResponse> callback)
+        {
+            StartCoroutine(GetRequestCoroutine<AdminUsersResponse>("/admin/users", callback));
+        }
+
+        // API Admin: Cập nhật thông số & trạng thái người dùng
+        public void AdminUpdateUser(VocabLearning.Data.UserJson user, NetworkCallback<string> callback)
+        {
+            string jsonPayload = JsonUtility.ToJson(user);
+            StartCoroutine(PutRequestCoroutine<string>($"/admin/users/{user.id}", jsonPayload, callback));
+        }
+
+        // API Admin: Xóa tài khoản người dùng
+        public void AdminDeleteUser(string userId, NetworkCallback<string> callback)
+        {
+            StartCoroutine(DeleteRequestCoroutine<string>($"/admin/users/{userId}", callback));
+        }
+
         // --- COROUTINE TRUY VẤN MẠNG ---
 
         private IEnumerator PostRequestCoroutine<T>(string endpoint, string jsonPayload, NetworkCallback<T> callback)
@@ -82,6 +103,11 @@ namespace VocabLearning.Network
                 request.uploadHandler = new UploadHandlerRaw(bodyRaw);
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
+
+                if (!string.IsNullOrEmpty(JwtToken))
+                {
+                    request.SetRequestHeader("Authorization", "Bearer " + JwtToken);
+                }
 
                 yield return request.SendWebRequest();
 
@@ -98,6 +124,11 @@ namespace VocabLearning.Network
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SetRequestHeader("Content-Type", "application/json");
 
+                if (!string.IsNullOrEmpty(JwtToken))
+                {
+                    request.SetRequestHeader("Authorization", "Bearer " + JwtToken);
+                }
+
                 yield return request.SendWebRequest();
 
                 ProcessResponse(request, callback);
@@ -109,6 +140,12 @@ namespace VocabLearning.Network
             using (UnityWebRequest request = new UnityWebRequest(BaseUrl + endpoint, "DELETE"))
             {
                 request.downloadHandler = new DownloadHandlerBuffer();
+
+                if (!string.IsNullOrEmpty(JwtToken))
+                {
+                    request.SetRequestHeader("Authorization", "Bearer " + JwtToken);
+                }
+
                 yield return request.SendWebRequest();
 
                 ProcessResponse(request, callback);
@@ -119,6 +156,11 @@ namespace VocabLearning.Network
         {
             using (UnityWebRequest request = UnityWebRequest.Get(BaseUrl + endpoint))
             {
+                if (!string.IsNullOrEmpty(JwtToken))
+                {
+                    request.SetRequestHeader("Authorization", "Bearer " + JwtToken);
+                }
+
                 yield return request.SendWebRequest();
 
                 ProcessResponse(request, callback);
@@ -193,5 +235,12 @@ namespace VocabLearning.Network
         public System.Collections.Generic.List<VocabLearning.Data.QuestJson> questPool;
         public System.Collections.Generic.List<VocabLearning.Data.ShopItemJson> shopItems;
         public System.Collections.Generic.List<VocabLearning.Data.UserJson> leaderboardUsers;
+    }
+
+    [System.Serializable]
+    public class AdminUsersResponse
+    {
+        public bool success;
+        public System.Collections.Generic.List<VocabLearning.Data.UserJson> users;
     }
 }

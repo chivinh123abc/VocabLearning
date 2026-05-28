@@ -37,6 +37,7 @@ namespace VocabLearning.UI
         public VisualTreeAsset QuestAdminScreenAsset;
         public VisualTreeAsset VocabListAdminScreenAsset;
         public VisualTreeAsset AchievementAdminScreenAsset;
+        public VisualTreeAsset UserAdminScreenAsset;
 
         [Header("Databases (JSON)")]
         public TextAsset OverrideJsonDb; // Cửa hậu nếu muốn kéo thủ công từ Inspector (tùy chọn)
@@ -167,6 +168,7 @@ namespace VocabLearning.UI
             else if (targetAsset == QuestAdminScreenAsset) BindAdminQuestEvents();
             else if (targetAsset == VocabListAdminScreenAsset) BindAdminVocabListEvents();
             else if (targetAsset == AchievementAdminScreenAsset) BindAdminAchievementEvents();
+            else if (targetAsset == UserAdminScreenAsset) BindAdminUserEvents();
             else BindOtherScreens();
 
         }
@@ -213,29 +215,55 @@ namespace VocabLearning.UI
 
         private void LoadJsonDatabase()
         {
-            TextAsset jsonAsset = OverrideJsonDb != null ? OverrideJsonDb : Resources.Load<TextAsset>("Mockdata/db");
-            if (jsonAsset != null)
-            {
-                // Dùng JsonUtility gốc của Unity để đọc thẳng file db.json thành Object siêu tốc
-                _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
-                Debug.Log($"[JSON DB] Đã tải Database offline. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
+            string localSavePath = System.IO.Path.Combine(Application.persistentDataPath, "local_db.json");
+            bool loadedFromLocalFile = false;
 
-                // Tự động phân chia levels cho tất cả các bộ từ vựng theo rank để đảm bảo tính đồng nhất
-                if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.words != null)
+            // 1. Cố gắng tải dữ liệu offline từ persistentDataPath (Cho bản Build chạy thật)
+            if (System.IO.File.Exists(localSavePath))
+            {
+                try
                 {
-                    foreach (var set in _jsonDb.vocabSets)
+                    string fileContent = System.IO.File.ReadAllText(localSavePath);
+                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(fileContent);
+                    if (_jsonDb != null)
                     {
-                        AutoPartitionSetLevels(set);
+                        loadedFromLocalFile = true;
+                        VocabLearning.Network.NetworkClient.Instance.JwtToken = _jsonDb.jwtToken; // Nạp lại token đã lưu từ tệp đĩa
+                        Debug.Log($"[JSON DB] Đã tải Database offline từ tệp cục bộ (persistentDataPath): {localSavePath}. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
                     }
                 }
-            }
-            else
-            {
-                Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu offline dự phòng.");
-                _jsonDb = new VocabLearning.Data.MockDatabase();
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"[JSON DB] Lỗi tải database offline từ tệp cục bộ: {ex.Message}");
+                }
             }
 
-            // Gọi API nạp dữ liệu toàn cục trực tiếp từ máy chủ Node.js SQL Server
+            // 2. Fallback tải từ Resources (Chế độ mặc định lần đầu hoặc lỗi)
+            if (!loadedFromLocalFile)
+            {
+                TextAsset jsonAsset = OverrideJsonDb != null ? OverrideJsonDb : Resources.Load<TextAsset>("Mockdata/db");
+                if (jsonAsset != null)
+                {
+                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
+                    Debug.Log($"[JSON DB] Đã tải Database offline từ Resources fallback. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
+                }
+                else
+                {
+                    Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu offline dự phòng.");
+                    _jsonDb = new VocabLearning.Data.MockDatabase();
+                }
+            }
+
+            // Tự động phân chia levels cho tất cả các bộ từ vựng theo rank để đảm bảo tính đồng nhất
+            if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.words != null)
+            {
+                foreach (var set in _jsonDb.vocabSets)
+                {
+                    AutoPartitionSetLevels(set);
+                }
+            }
+
+            // 3. Gọi API nạp dữ liệu toàn cục trực tiếp từ máy chủ Node.js SQL Server
             Debug.Log("[JSON DB - Network] Đang nạp dữ liệu game toàn cục từ Node.js SQL Server...");
             VocabLearning.Network.NetworkClient.Instance.GetGlobals((success, message, data) =>
             {
@@ -258,6 +286,23 @@ namespace VocabLearning.UI
                     }
 
                     Debug.Log($"[JSON DB - Network] Nạp dữ liệu toàn cục thành công từ Backend SQL Server. Số bộ từ vựng: {_jsonDb.vocabSets.Count}, Số từ vựng: {_jsonDb.words.Count}");
+
+                    // Cải tiến xịn sò: Tự động đồng bộ ngược tiến trình offline cũ lên SQL Server nếu người dùng đã đăng nhập trước đó
+                    if (_jsonDb != null && _jsonDb.currentUser != null && !string.IsNullOrEmpty(_jsonDb.currentUser.id))
+                    {
+                        Debug.Log($"[JSON DB - AutoSync] Phát hiện phiên đăng nhập cũ offline của '{_jsonDb.currentUser.username}'. Bắt đầu tự động đồng bộ lên server...");
+                        VocabLearning.Network.NetworkClient.Instance.SyncUserData(_jsonDb.currentUser, (syncSuccess, syncMsg, syncRes) =>
+                        {
+                            if (syncSuccess)
+                            {
+                                Debug.Log("[JSON DB - AutoSync] Tự động đồng bộ tiến trình offline cũ lên SQL Server thành công.");
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"[JSON DB - AutoSync] Không thể tự động đồng bộ tiến trình offline: {syncMsg}");
+                            }
+                        });
+                    }
                 }
                 else
                 {
@@ -370,6 +415,16 @@ namespace VocabLearning.UI
 
                 Label lblLevelFind = _root.Q<Label>("LblUserLevel");
                 if (lblLevelFind != null) lblLevelFind.text = $"★ Level {_jsonDb.currentUser.level}";
+
+                // Cập nhật thông số EXP & Thanh Progress Bar động
+                int curLevelExp = _jsonDb.currentUser.exp % 1000;
+                float expPercent = (curLevelExp / 1000f) * 100f;
+
+                Label lblHomeExp = _root.Q<Label>("LblHomeExp");
+                if (lblHomeExp != null) lblHomeExp.text = $"{curLevelExp} / 1000 EXP";
+
+                VisualElement homeExpFill = _root.Q<VisualElement>("HomeExpFill");
+                if (homeExpFill != null) homeExpFill.style.width = Length.Percent(expPercent);
 
                 Label lblCoinsFind = _root.Q<Label>("LblUserCoins");
                 if (lblCoinsFind != null) lblCoinsFind.text = _jsonDb.currentUser.coins.ToString();
@@ -2324,10 +2379,32 @@ namespace VocabLearning.UI
             _battleEnemyHP = 100;
             _battleShieldActive = false;
 
-            // Pick Random Enemy
+            // Ghép trận xếp hạng thông minh (MMR Matchmaking) dựa trên khoảng cách điểm Rank
             if (_jsonDb.leaderboardUsers != null && _jsonDb.leaderboardUsers.Count > 0)
             {
-                _battleEnemyData = _jsonDb.leaderboardUsers[UnityEngine.Random.Range(0, _jsonDb.leaderboardUsers.Count)];
+                int myPoints = (_jsonDb.currentUser != null) ? _jsonDb.currentUser.rankPoints : 0;
+                string myId = (_jsonDb.currentUser != null) ? _jsonDb.currentUser.id : "";
+
+                // Lọc bỏ chính người chơi hiện tại ra khỏi danh sách đối thủ tiềm năng
+                List<VocabLearning.Data.UserJson> candidates = _jsonDb.leaderboardUsers.FindAll(u => u.id != myId);
+                
+                if (candidates.Count == 0)
+                {
+                    candidates = _jsonDb.leaderboardUsers; // Dự phòng nếu bảng xếp hạng chỉ có duy nhất người chơi hiện tại
+                }
+
+                // Sắp xếp các đối thủ theo độ lệch điểm Rank (từ nhỏ đến lớn) so với người chơi
+                candidates.Sort((a, b) => {
+                    int diffA = Mathf.Abs(a.rankPoints - myPoints);
+                    int diffB = Mathf.Abs(b.rankPoints - myPoints);
+                    return diffA.CompareTo(diffB);
+                });
+
+                // Chọn ngẫu nhiên 1 đối thủ trong Top 5 đối thủ có khoảng cách điểm Rank gần nhất
+                int rangeCount = Mathf.Min(5, candidates.Count);
+                _battleEnemyData = candidates[UnityEngine.Random.Range(0, rangeCount)];
+
+                Debug.Log($"🎯 [Matchmaking] Ghép trận thành công! Người chơi ({myPoints} pts) VS Đối thủ '{_battleEnemyData.username}' ({_battleEnemyData.rankPoints} pts). Độ lệch: {Mathf.Abs(_battleEnemyData.rankPoints - myPoints)} pts.");
             }
 
             // [RANK] Build word pool theo rank người chơi
@@ -2375,29 +2452,58 @@ namespace VocabLearning.UI
         private System.Collections.IEnumerator BattleTimerRoutine()
         {
             _battleTimer = 15f;
+
+            // Thiết lập độ khó động của Bot AI dựa trên Rank Points của đối thủ (_battleEnemyData.rankPoints)
+            float minAiTimer = 4f;   // Thời gian dự phòng thấp nhất Bot có thể trả lời (tính theo giây còn lại)
+            float maxAiTimer = 12f;  // Thời gian dự phòng cao nhất Bot có thể trả lời
+            float accuracy = 0.70f;  // Tỷ lệ chính xác mặc định
+
+            if (_battleEnemyData != null)
+            {
+                int points = _battleEnemyData.rankPoints;
+
+                // 1. TỐC ĐỘ PHẢN XẠ: Rank càng cao Bot phản xạ trả lời càng nhanh (tức là giây còn lại lúc trả lời càng nhiều)
+                if (points >= 20000)      { minAiTimer = 10.0f; maxAiTimer = 14.0f; } // Siêu Cấp: Cực nhanh (chỉ mất 1 - 5 giây để trả lời)
+                else if (points >= 10000) { minAiTimer = 8.5f;  maxAiTimer = 13.0f; } // Kim Cương: Rất nhanh (mất 2 - 6.5 giây)
+                else if (points >= 5000)  { minAiTimer = 7.5f;  maxAiTimer = 12.0f; } // Bạch Kim: Nhanh (mất 3 - 7.5 giây)
+                else if (points >= 2500)  { minAiTimer = 6.5f;  maxAiTimer = 11.0f; } // Vàng: Khá nhanh (mất 4 - 8.5 giây)
+                else if (points >= 1000)  { minAiTimer = 5.0f;  maxAiTimer = 10.0f; } // Bạc: Trung bình (mất 5 - 10 giây)
+                else                      { minAiTimer = 3.0f;  maxAiTimer = 8.0f;  } // Đồng: Khá chậm (mất 7 - 12 giây để suy nghĩ)
+
+                // 2. ĐỘ CHÍNH XÁC: Rank càng cao Bot học càng giỏi, tỉ lệ trả lời đúng càng lớn
+                if (points >= 20000)      accuracy = 0.95f; // Siêu Cấp: 95% trả lời đúng
+                else if (points >= 10000) accuracy = 0.90f; // Kim Cương: 90% đúng
+                else if (points >= 5000)  accuracy = 0.82f; // Bạch Kim: 82% đúng
+                else if (points >= 2500)  accuracy = 0.75f; // Vàng: 75% đúng
+                else if (points >= 1000)  accuracy = 0.65f; // Bạc: 65% đúng
+                else                      accuracy = 0.50f; // Đồng: 50% đúng (50% còn lại chọn bừa)
+            }
+            else if (_isRankedBattle)
+            {
+                accuracy = 0.85f; // Chế độ dự phòng khi không tìm thấy thông tin đối thủ đấu hạng
+            }
+
             while (_battleTimer > 0)
             {
                 _battleTimer -= Time.deltaTime;
                 VisualElement fill = _root.Q<VisualElement>("TimerFill");
                 if (fill != null) fill.style.width = Length.Percent((_battleTimer / 15f) * 100f);
 
-                // Random AI choice during the timer
-                if (!_aiAnswered && _battleTimer < UnityEngine.Random.Range(4f, 13f))
+                // Quyết định hành động của Bot AI trong thời gian chạy đếm ngược
+                if (!_aiAnswered && _battleTimer < UnityEngine.Random.Range(minAiTimer, maxAiTimer))
                 {
                     _aiAnswered = true;
-                    // AI Accuracy
-                    float accuracy = _isRankedBattle ? 0.85f : 0.7f;
                     _aiCorrect = UnityEngine.Random.value < accuracy;
 
                     if (_aiCorrect)
                     {
-                        Debug.Log("🤖 Opponent got it RIGHT first!");
+                        Debug.Log($"🤖 Opponent ({(_battleEnemyData != null ? _battleEnemyData.username : "AI")}) got it RIGHT first!");
                         ResolveRound("AI");
                         yield break;
                     }
                     else
                     {
-                        Debug.Log("🤖 Opponent guessed WRONG!");
+                        Debug.Log($"🤖 Opponent ({(_battleEnemyData != null ? _battleEnemyData.username : "AI")}) guessed WRONG!");
                         if (_playerAnswered)
                         {
                             ResolveRound("None");
@@ -3657,15 +3763,49 @@ namespace VocabLearning.UI
                 Label lblName = _root.Q<Label>("LblProfileName");
                 if (lblName != null) lblName.text = _jsonDb.currentUser.username;
 
-                int currentLevel = (_jsonDb.currentUser.exp / 1000) + 1;
+                int currentLevel = (_jsonDb.currentUser.level); // Cập nhật đúng Level thực tế
                 Label lblLevel = _root.Q<Label>("LblProfileLevel");
                 if (lblLevel != null) lblLevel.text = $"Level {currentLevel}";
 
+                int curLevelExp = _jsonDb.currentUser.exp % 1000;
+                float expPercent = (curLevelExp / 1000f) * 100f;
+
                 Label lblExp = _root.Q<Label>("LblProfileExp");
-                if (lblExp != null) lblExp.text = $"{_jsonDb.currentUser.exp} / {currentLevel * 1000} EXP";
+                if (lblExp != null) lblExp.text = $"{curLevelExp} / 1000 EXP";
+
+                VisualElement profileExpFill = _root.Q<VisualElement>("ProfileExpFill");
+                if (profileExpFill != null) profileExpFill.style.width = Length.Percent(expPercent);
 
                 Label lblCoins = _root.Q<Label>("LblProfileCoins");
                 if (lblCoins != null) lblCoins.text = _jsonDb.currentUser.coins.ToString();
+
+                // 1. Cập nhật Rank dựa trên điểm Rank thực tế của user
+                var rankTier = GetRankTier(_jsonDb.currentUser.rankPoints);
+                Label lblRank = _root.Q<Label>("LblProfileRank");
+                if (lblRank != null) lblRank.text = rankTier.name;
+
+                // 2. Cập nhật các chỉ số thống kê thực tế từ DB
+                Label lblTotalGames = _root.Q<Label>("LblProfileTotalGames");
+                if (lblTotalGames != null) lblTotalGames.text = _jsonDb.currentUser.totalGames.ToString();
+
+                Label lblWins = _root.Q<Label>("LblProfileWins");
+                if (lblWins != null) lblWins.text = _jsonDb.currentUser.wins.ToString();
+
+                int learnedWordsCount = 0;
+                if (_jsonDb.currentUser.wordProgress != null)
+                {
+                    learnedWordsCount = _jsonDb.currentUser.wordProgress.FindAll(w => w.status > 0).Count;
+                }
+                Label lblWordsLearned = _root.Q<Label>("LblProfileWordsLearned");
+                if (lblWordsLearned != null) lblWordsLearned.text = learnedWordsCount.ToString();
+
+                int unlockedAchievementsCount = 0;
+                if (_jsonDb.achievements != null)
+                {
+                    unlockedAchievementsCount = _jsonDb.achievements.FindAll(a => a.isUnlocked).Count;
+                }
+                Label lblAchievements = _root.Q<Label>("LblProfileAchievements");
+                if (lblAchievements != null) lblAchievements.text = unlockedAchievementsCount.ToString();
 
                 if (_jsonDb.inventory != null)
                 {
@@ -4314,6 +4454,24 @@ namespace VocabLearning.UI
                     if (equippedAvatar != null) return equippedAvatar.icon;
                 }
                 return "👤";
+            }
+
+            // Check if the user is in leaderboardUsers and has an equipped avatar
+            if (_jsonDb != null && _jsonDb.leaderboardUsers != null)
+            {
+                var targetUser = _jsonDb.leaderboardUsers.Find(u => u.id == userId);
+                if (targetUser != null && targetUser.inventory != null)
+                {
+                    var equippedAvatar = targetUser.inventory.Find(i => i.equipType == "Avatar" && i.isEquipped);
+                    if (equippedAvatar != null) return equippedAvatar.icon;
+                }
+            }
+
+            // Check if the user is the battle enemy and has an equipped avatar
+            if (_battleEnemyData != null && _battleEnemyData.id == userId && _battleEnemyData.inventory != null)
+            {
+                var equippedAvatar = _battleEnemyData.inventory.Find(i => i.equipType == "Avatar" && i.isEquipped);
+                if (equippedAvatar != null) return equippedAvatar.icon;
             }
 
             // Fallback for AI bots - deterministic random based on id string

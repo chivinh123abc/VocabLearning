@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { verifyToken } = require('../middleware/authMiddleware');
 
-router.post('/sync', userController.syncUserData);
+router.post('/sync', verifyToken, userController.syncUserData);
 
 module.exports = router;

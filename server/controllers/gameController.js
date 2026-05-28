@@ -60,22 +60,42 @@ exports.getGlobals = async (req, res) => {
     const shopResult = await pool.request().query('SELECT * FROM [shop_items]');
     const shopItems = shopResult.recordset;
 
-    // 6. Lấy danh sách Bảng xếp hạng người chơi thực (sắp xếp theo Rank Points và EXP)
+    // 6. Lấy danh sách Bảng xếp hạng người chơi thực (sắp xếp theo Rank Points và EXP) kèm Avatar đang trang bị
     const lbResult = await pool.request().query(`
       SELECT TOP 50 
         u.[id], u.[username], u.[level], u.[exp], u.[coins], u.[rankPoints], u.[wins], u.[totalGames],
         ISNULL(sr.[bestSurvivor], 0) AS [bestSurvivor],
         ISNULL(sr.[bestQuick10], 0) AS [bestQuick10],
-        ISNULL(sr.[bestTimeRush], 0) AS [bestTimeRush]
+        ISNULL(sr.[bestTimeRush], 0) AS [bestTimeRush],
+        (SELECT TOP 1 ui.[icon] 
+         FROM [user_inventory] ui 
+         WHERE ui.[userId] = u.[id] AND ui.[equipType] = 'Avatar' AND ui.[isEquipped] = 1) AS [equippedAvatarIcon]
       FROM [users] u
       LEFT JOIN [user_solo_records] sr ON u.[id] = sr.[userId]
       ORDER BY u.[rankPoints] DESC, u.[level] DESC
     `);
-    const leaderboardUsers = lbResult.recordset.map(u => ({
-      ...u,
-      expNeeded: getExpNeeded(u.level),
-      rank: getRankName(u.rankPoints)
-    }));
+    const leaderboardUsers = lbResult.recordset.map(u => {
+      const userObj = {
+        ...u,
+        expNeeded: getExpNeeded(u.level),
+        rank: getRankName(u.rankPoints),
+        inventory: []
+      };
+
+      if (u.equippedAvatarIcon) {
+        userObj.inventory.push({
+          id: 'avatar_equipped',
+          name: 'Equipped Avatar',
+          icon: u.equippedAvatarIcon,
+          equipType: 'Avatar',
+          isEquipped: true,
+          category: 'Cosmetic'
+        });
+      }
+
+      delete userObj.equippedAvatarIcon;
+      return userObj;
+    });
 
     return res.json({
       success: true,

@@ -46,7 +46,19 @@ namespace VocabLearning.UI
             var userBtn = _root.Q<Button>("btn-users");
             if (userBtn != null)
             {
-                userBtn.style.display = DisplayStyle.None;
+                userBtn.style.display = DisplayStyle.Flex;
+                userBtn.clicked += () =>
+                {
+                    if (UserAdminScreenAsset != null)
+                    {
+                        Debug.Log("[Admin] Mở màn hình Quản lý User");
+                        LoadScreen(UserAdminScreenAsset);
+                    }
+                    else
+                    {
+                        ShowAdminToast("UserAdminScreenAsset chưa được gán!");
+                    }
+                };
             }
 
             // btn-vocab

@@ -120,6 +120,7 @@ async function initDatabase(forceRecreate = false) {
           [email] NVARCHAR(100) NULL UNIQUE,
           [password] VARCHAR(255) NOT NULL,
           [role] VARCHAR(20) NOT NULL DEFAULT 'user',
+          [status] VARCHAR(20) NOT NULL DEFAULT 'active',
           [level] INT NOT NULL DEFAULT 1,
           [exp] INT NOT NULL DEFAULT 0,
           [coins] INT NOT NULL DEFAULT 0,
@@ -131,6 +132,14 @@ async function initDatabase(forceRecreate = false) {
           [loginDates] NVARCHAR(MAX) NOT NULL DEFAULT ''
         );
         CREATE INDEX idx_users_username ON [users]([username]);
+      END
+      ELSE
+      BEGIN
+        -- Tự động nâng cấp thêm cột [status] nếu bảng đã tồn tại từ trước (tránh lỗi xung đột CSDL cũ)
+        IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('users') AND name = 'status')
+        BEGIN
+          ALTER TABLE [users] ADD [status] VARCHAR(20) NOT NULL DEFAULT 'active';
+        END
       END
     `);
 

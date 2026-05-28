@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/VocabStudy/VocabManagement.uss?fileID=7433441132597879392&amp;guid=1cbefe4fadd76d3409bcfc3b58146c52&amp;type=3#VocabManagement"/>
-    <ui:VisualElement name="root" class="root" style="width: auto;">
+    <ui:VisualElement name="root" class="root">
 
         <!-- ===== HEADER ===== -->
         <ui:VisualElement name="header" class="header">
@@ -11,14 +11,14 @@
                     <ui:Label text="Thiết lập các nhiệm vụ hệ thống" class="subtitle"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:Button name="btn-add" text="+" class="btn-add" style="-unity-text-align: middle-center;"/>
+            <ui:Button name="btn-add" text="+" class="btn-add"/>
         </ui:VisualElement>
 
         <!-- ===== SEARCH BAR ===== -->
         <ui:VisualElement name="search-bar" class="search-bar">
             <ui:Label text="🔍" class="search-icon"/>
             <ui:TextField name="search-field" placeholder-text="Tìm theo ID, tiêu đề, loại..." class="search-field" style="flex-grow: 1;"/>
-            <ui:DropdownField name="filter-type" class="filter-rank" style="width: 200px;"/>
+            <ui:DropdownField name="filter-type" class="filter-rank" style="width: 180px;"/>
         </ui:VisualElement>
 
         <!-- ===== STATS ROW ===== -->
@@ -28,7 +28,7 @@
                 <ui:Label text="Tổng NV" class="stat-label"/>
             </ui:VisualElement>
             <ui:VisualElement class="stat-card">
-                <ui:Label name="quest-stat-active" text="0" class="stat-value"/>
+                <ui:Label name="quest-stat-active" text="0" class="stat-value" style="color: rgb(34, 197, 94);"/>
                 <ui:Label text="Đang Active" class="stat-label"/>
             </ui:VisualElement>
             <ui:VisualElement class="stat-card">
@@ -42,10 +42,10 @@
         </ui:VisualElement>
 
         <!-- ===== TABS POOL / ACTIVE ===== -->
-        <ui:VisualElement style="padding: 0 24px 14px 24px;">
-            <ui:VisualElement style="background-color: rgb(228, 224, 215); border-radius: 18px; flex-direction: row; padding: 5px; border-width: 1px; border-color: rgb(210, 205, 195);">
-                <ui:Button name="tab-pool"   text="🗂 Kho nhiệm vụ (Pool)" style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: rgb(255, 170, 30); color: white; -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
-                <ui:Button name="tab-active" text="▶ Đang chạy (Active)"  style="flex-grow: 1; padding: 16px 8px; border-radius: 14px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 20px; margin: 0;"/>
+        <ui:VisualElement style="padding-left: 20px; padding-right: 20px; padding-bottom: 12px;">
+            <ui:VisualElement style="background-color: rgb(228, 224, 215); border-radius: 12px; flex-direction: row; padding: 4px; border-width: 1px; border-color: rgb(210, 205, 195);">
+                <ui:Button name="tab-pool"   text="🗂 Kho nhiệm vụ" style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: rgb(255, 170, 30); color: white; -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
+                <ui:Button name="tab-active" text="▶ Đang chạy"  style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
             </ui:VisualElement>
         </ui:VisualElement>
 
@@ -55,9 +55,9 @@
         <!-- ===== DANH SÁCH NHIỆM VỤ ===== -->
         <ui:ScrollView name="quest-list" mode="Vertical" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="vocab-list">
 
-            <!-- Placeholder card -->
-            <ui:VisualElement class="vocab-card">
-                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgb(255, 238, 215); justify-content: center; align-items: center;">
+            <!-- Placeholder (ẩn, sinh bằng C#) -->
+            <ui:VisualElement class="vocab-card" style="display: none;">
+                <ui:VisualElement class="vocab-thumbnail" style="background-color: rgba(255, 255, 255, 0.08); justify-content: center; align-items: center;">
                     <ui:Label text="🎯" style="font-size: 38px; -unity-text-align: middle-center;"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="vocab-info">
@@ -66,7 +66,7 @@
                         <ui:Label text="LearnWord" class="rank-badge rank-badge--2"/>
                     </ui:VisualElement>
                     <ui:Label text="Học bất kỳ bộ từ vựng nào hôm nay" class="vocab-meaning"/>
-                    <ui:Label text="ID: q1  |  🪙 50 Coins  |  🌟 100 EXP  |  Max: 10" class="vocab-id"/>
+                    <ui:Label text="ID: q1  |  🪙 50 Coins  |  🌟 100 EXP" class="vocab-id"/>
                 </ui:VisualElement>
                 <ui:Button text="🗑" class="btn-delete"/>
             </ui:VisualElement>
@@ -104,12 +104,12 @@
                         <ui:TextField name="input-max-progress" class="form-input"/>
                     </ui:VisualElement>
 
-                    <ui:VisualElement style="flex-direction: row; margin-bottom: 22px;">
-                        <ui:VisualElement style="flex-grow: 1; margin-right: 14px;">
+                    <ui:VisualElement class="form-row" style="margin-bottom: 22px;">
+                        <ui:VisualElement class="form-col" style="flex-grow: 1; margin-right: 14px;">
                             <ui:Label text="Phần thưởng Coins *" class="form-label"/>
                             <ui:TextField name="input-reward-coins" class="form-input"/>
                         </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1;">
+                        <ui:VisualElement class="form-col" style="flex-grow: 1;">
                             <ui:Label text="Phần thưởng EXP *" class="form-label"/>
                             <ui:TextField name="input-reward-exp" class="form-input"/>
                         </ui:VisualElement>
@@ -126,7 +126,7 @@
 
                 <ui:VisualElement class="modal-footer">
                     <ui:Button name="btn-modal-cancel" text="Hủy" class="btn-modal-cancel"/>
-                    <ui:Button name="btn-modal-save"   text="💾  Lưu" class="btn-modal-save"/>
+                    <ui:Button name="btn-modal-save" text="💾  Lưu" class="btn-modal-save"/>
                 </ui:VisualElement>
 
             </ui:VisualElement>

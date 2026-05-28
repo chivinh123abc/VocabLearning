@@ -7,6 +7,7 @@ namespace VocabLearning.Data
     public class MockDatabase
     {
         public UserJson currentUser;
+        public string jwtToken; // Mã JWT Token xác thực từ server
         public List<UserJson> registeredUsers = new List<UserJson>(); // Danh sách user đã đăng ký
         public List<WordJson> words;        // Bảng từ vựng trung tâm
         public List<VocabSetJson> vocabSets; // Bộ từ vựng (chỉ lưu wordIds)
@@ -22,10 +23,12 @@ namespace VocabLearning.Data
     public class UserJson
     {
         public string id;
+        public string token; // Token bảo mật tạm thời phục vụ kết nối
         public string username;
         public string email;
         public string password; // Mật khẩu đăng nhập
         public string role; // users hoac admin
+        public string status; // Trạng thái tài khoản: active, banned
         public int level;
         public int exp;
         public int expNeeded;

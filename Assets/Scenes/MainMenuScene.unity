@@ -170,6 +170,8 @@ MonoBehaviour:
   VocabAdminScreenAsset: {fileID: 9197481963319205126, guid: 73e55ed071df2964081bedfa89f8990d, type: 3}
   QuestAdminScreenAsset: {fileID: 9197481963319205126, guid: 8d0f788a3521a6d4ebc59a0afa6df5a1, type: 3}
   VocabListAdminScreenAsset: {fileID: 9197481963319205126, guid: 2fc26ecc4abfedc48a4e5da64a2571c5, type: 3}
+  AchievementAdminScreenAsset: {fileID: 9197481963319205126, guid: aacba39e901f9234caadba0866c508f2, type: 3}
+  UserAdminScreenAsset: {fileID: 9197481963319205126, guid: 2c790173caf60ca44818e3920b611098, type: 3}
   OverrideJsonDb: {fileID: 4900000, guid: 0ee2811a0824fe7438a31965e643e227, type: 3}
 --- !u!114 &240302674
 MonoBehaviour:

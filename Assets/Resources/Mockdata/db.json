@@ -1,37 +1,39 @@
 {
     "currentUser": {
         "id": "test_user_1",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfdXNlcl8xIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Nzk4NTgxOTEsImV4cCI6MTc4MjQ1MDE5MX0.abnOZtd3ojwPwbs4hDlloN6YYHnbufsJs1akteRSgwA",
         "username": "user1",
         "email": "hero@vocab.com",
         "password": "",
         "role": "user",
+        "status": "active",
         "level": 12,
-        "exp": 1600,
+        "exp": 3455,
         "expNeeded": 1200,
-        "coins": 1420,
+        "coins": 3270,
         "rank": "SieuCap",
-        "rankPoints": 24550,
-        "wins": 37,
-        "totalGames": 53,
+        "rankPoints": 24560,
+        "wins": 38,
+        "totalGames": 55,
         "weeklyLogin": {
-            "weekStartDate": "2026-05-18",
+            "weekStartDate": "2026-05-25",
             "loginDates": [
-                "2026-05-20",
-                "2026-05-21",
-                "2026-05-22",
-                "2026-05-23"
+                "2026-05-27"
             ],
             "isRewardClaimed": false
         },
         "learnedSets": [
             "2",
-            "3",
-            "4"
+            "3"
         ],
         "savedSetLevels": [
             {
                 "setId": "2",
                 "level": "Easy"
+            },
+            {
+                "setId": "9",
+                "level": "Hard"
             }
         ],
         "setProgress": [
@@ -43,12 +45,6 @@
             },
             {
                 "setId": "3",
-                "completedLevels": [
-                    "Easy"
-                ]
-            },
-            {
-                "setId": "4",
                 "completedLevels": [
                     "Easy"
                 ]
@@ -126,41 +122,158 @@
             {
                 "wordId": "w9",
                 "status": 2
-            },
-            {
-                "wordId": "w25",
-                "status": 2
-            },
-            {
-                "wordId": "w26",
-                "status": 2
-            },
-            {
-                "wordId": "w27",
-                "status": 2
-            },
-            {
-                "wordId": "w28",
-                "status": 2
-            },
-            {
-                "wordId": "w29",
-                "status": 2
-            },
-            {
-                "wordId": "w30",
-                "status": 2
-            },
-            {
-                "wordId": "w31",
-                "status": 2
-            },
-            {
-                "wordId": "w32",
-                "status": 2
             }
         ],
         "battleHistory": [
+            {
+                "matchId": "4e70bfed-3d96-48e8-abef-135b7469f4a7",
+                "date": "2026-05-23 14:52",
+                "isRanked": true,
+                "isWin": false,
+                "opponentName": "Faker",
+                "playerFinalHP": 0,
+                "enemyFinalHP": 30,
+                "correctCount": 7,
+                "totalRounds": 17,
+                "rounds": [
+                    {
+                        "question": "Horse",
+                        "correctAnswer": "Con ngựa",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Airport",
+                        "correctAnswer": "Sân bay",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Các bên liên quan",
+                        "correctAnswer": "Stakeholder",
+                        "playerAnswer": "",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Bird",
+                        "correctAnswer": "Con chim",
+                        "playerAnswer": "Con chim",
+                        "imageUrl": "",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Eyelid",
+                        "correctAnswer": "Mí mắt",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Liquidity",
+                        "correctAnswer": "Tính thanh khoản",
+                        "playerAnswer": "Tính thanh khoản",
+                        "imageUrl": "",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Kho lưu trữ code",
+                        "correctAnswer": "Repository",
+                        "playerAnswer": "",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Thịt gà",
+                        "correctAnswer": "Chicken",
+                        "playerAnswer": "Chicken",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Exacerbate",
+                        "correctAnswer": "Làm trầm trọng thêm",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Sự đặt cạnh nhau để so sánh",
+                        "correctAnswer": "Juxtaposition",
+                        "playerAnswer": "Juxtaposition",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Bánh mì",
+                        "correctAnswer": "Bread",
+                        "playerAnswer": "",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Sorry",
+                        "correctAnswer": "Xin lỗi",
+                        "playerAnswer": "Xin lỗi",
+                        "imageUrl": "",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Băng thông",
+                        "correctAnswer": "Bandwidth",
+                        "playerAnswer": "Bandwidth",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Shoulder",
+                        "correctAnswer": "Vai",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Nước",
+                        "correctAnswer": "Water",
+                        "playerAnswer": "Water",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Hộ chiếu",
+                        "correctAnswer": "Passport",
+                        "playerAnswer": "",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Chưa từng có tiền lệ",
+                        "correctAnswer": "Unprecedented",
+                        "playerAnswer": "",
+                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    }
+                ]
+            },
             {
                 "matchId": "84a04c2d-9f13-417b-a295-008699e64092",
                 "date": "2026-05-22 23:12",
@@ -510,14 +623,34 @@
         "bestTimeRush": 0,
         "shopHistory": [
             {
-                "itemName": "Ninja Avatar",
-                "price": 1000,
-                "date": "2026-05-23 00:57"
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 15:10"
             },
             {
-                "itemName": "Basic Blue",
-                "price": 500,
-                "date": "2026-05-23 00:57"
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 15:10"
+            },
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 15:10"
+            },
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 15:10"
+            },
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 15:10"
+            },
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-05-23 13:31"
             },
             {
                 "itemName": "Mystery Box",
@@ -581,7 +714,7 @@
                 "rarity": "Legendary",
                 "category": "Cosmetic",
                 "equipType": "Effect",
-                "isEquipped": false,
+                "isEquipped": true,
                 "isCombatItem": false
             },
             {
@@ -609,11 +742,47 @@
                 "isCombatItem": false
             },
             {
+                "id": "13",
+                "icon": "🟦",
+                "name": "Basic Blue",
+                "description": "A simple blue frame.",
+                "quantity": 1,
+                "rarity": "Common",
+                "category": "Cosmetic",
+                "equipType": "Border",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "14",
+                "icon": "🥷",
+                "name": "Ninja Avatar",
+                "description": "Silent but deadly vocabulary ninja.",
+                "quantity": 1,
+                "rarity": "Epic",
+                "category": "Cosmetic",
+                "equipType": "Avatar",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
+                "id": "15",
+                "icon": "🎫",
+                "name": "Gacha Ticket",
+                "description": "Use this to spin the lucky wheel.",
+                "quantity": 6,
+                "rarity": "Rare",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": false
+            },
+            {
                 "id": "4",
                 "icon": "🎁",
                 "name": "Mystery Box",
                 "description": "Contains random amount of coins or items.",
-                "quantity": 5,
+                "quantity": 6,
                 "rarity": "Rare",
                 "category": "Consumable",
                 "equipType": "",
@@ -677,42 +846,21 @@
                 "rarity": "Epic",
                 "category": "Cosmetic",
                 "equipType": "Effect",
-                "isEquipped": true,
-                "isCombatItem": false
-            },
-            {
-                "id": "13",
-                "icon": "🟦",
-                "name": "Basic Blue",
-                "description": "A simple blue frame.",
-                "quantity": 1,
-                "rarity": "Common",
-                "category": "Cosmetic",
-                "equipType": "Border",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "14",
-                "icon": "🥷",
-                "name": "Ninja Avatar",
-                "description": "Silent but deadly vocabulary ninja.",
-                "quantity": 1,
-                "rarity": "Epic",
-                "category": "Cosmetic",
-                "equipType": "Avatar",
                 "isEquipped": false,
                 "isCombatItem": false
             }
         ]
     },
+    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfdXNlcl8xIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Nzk4NTgxOTEsImV4cCI6MTc4MjQ1MDE5MX0.abnOZtd3ojwPwbs4hDlloN6YYHnbufsJs1akteRSgwA",
     "registeredUsers": [
         {
             "id": "test_user_1",
+            "token": "",
             "username": "user1",
             "email": "hero@vocab.com",
             "password": "user1",
             "role": "user",
+            "status": "",
             "level": 12,
             "exp": 1390,
             "expNeeded": 1000,
@@ -1213,10 +1361,12 @@
         },
         {
             "id": "test_admin_1",
+            "token": "",
             "username": "admin",
             "email": "hero@vocab.com",
             "password": "admin",
             "role": "admin",
+            "status": "",
             "level": 12,
             "exp": 750,
             "expNeeded": 1000,
@@ -2197,7 +2347,7 @@
             "rarity": "Legendary",
             "category": "Cosmetic",
             "equipType": "Effect",
-            "isEquipped": false,
+            "isEquipped": true,
             "isCombatItem": false
         },
         {
@@ -2225,11 +2375,47 @@
             "isCombatItem": false
         },
         {
+            "id": "13",
+            "icon": "🟦",
+            "name": "Basic Blue",
+            "description": "A simple blue frame.",
+            "quantity": 1,
+            "rarity": "Common",
+            "category": "Cosmetic",
+            "equipType": "Border",
+            "isEquipped": false,
+            "isCombatItem": false
+        },
+        {
+            "id": "14",
+            "icon": "🥷",
+            "name": "Ninja Avatar",
+            "description": "Silent but deadly vocabulary ninja.",
+            "quantity": 1,
+            "rarity": "Epic",
+            "category": "Cosmetic",
+            "equipType": "Avatar",
+            "isEquipped": false,
+            "isCombatItem": false
+        },
+        {
+            "id": "15",
+            "icon": "🎫",
+            "name": "Gacha Ticket",
+            "description": "Use this to spin the lucky wheel.",
+            "quantity": 6,
+            "rarity": "Rare",
+            "category": "Consumable",
+            "equipType": "",
+            "isEquipped": false,
+            "isCombatItem": false
+        },
+        {
             "id": "4",
             "icon": "🎁",
             "name": "Mystery Box",
             "description": "Contains random amount of coins or items.",
-            "quantity": 5,
+            "quantity": 6,
             "rarity": "Rare",
             "category": "Consumable",
             "equipType": "",
@@ -2293,35 +2479,33 @@
             "rarity": "Epic",
             "category": "Cosmetic",
             "equipType": "Effect",
-            "isEquipped": true,
-            "isCombatItem": false
-        },
-        {
-            "id": "13",
-            "icon": "🟦",
-            "name": "Basic Blue",
-            "description": "A simple blue frame.",
-            "quantity": 1,
-            "rarity": "Common",
-            "category": "Cosmetic",
-            "equipType": "Border",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "14",
-            "icon": "🥷",
-            "name": "Ninja Avatar",
-            "description": "Silent but deadly vocabulary ninja.",
-            "quantity": 1,
-            "rarity": "Epic",
-            "category": "Cosmetic",
-            "equipType": "Avatar",
             "isEquipped": false,
             "isCombatItem": false
         }
     ],
     "quests": [
+        {
+            "id": "q3",
+            "title": "Win 3 Battles",
+            "description": "Play ranked or casual matches",
+            "currentProgress": 0,
+            "maxProgress": 3,
+            "rewardCoins": 100,
+            "rewardExp": 200,
+            "isClaimed": false,
+            "questType": "WinBattle"
+        },
+        {
+            "id": "q6",
+            "title": "Learn 20 words",
+            "description": "Dedication is key",
+            "currentProgress": 0,
+            "maxProgress": 20,
+            "rewardCoins": 100,
+            "rewardExp": 200,
+            "isClaimed": false,
+            "questType": "LearnWord"
+        },
         {
             "id": "q5",
             "title": "Win 5 Ranked Battles",
@@ -2332,28 +2516,6 @@
             "rewardExp": 600,
             "isClaimed": false,
             "questType": "WinRankedBattle"
-        },
-        {
-            "id": "q10",
-            "title": "Complete 5 Sets",
-            "description": "Broaden your knowledge",
-            "currentProgress": 2,
-            "maxProgress": 5,
-            "rewardCoins": 200,
-            "rewardExp": 400,
-            "isClaimed": false,
-            "questType": "CompleteSet"
-        },
-        {
-            "id": "q7",
-            "title": "Win 10 Battles",
-            "description": "You are unstoppable!",
-            "currentProgress": 0,
-            "maxProgress": 10,
-            "rewardCoins": 400,
-            "rewardExp": 800,
-            "isClaimed": false,
-            "questType": "WinBattle"
         },
         {
             "id": "q8",
@@ -2367,13 +2529,13 @@
             "questType": "WinRankedBattle"
         },
         {
-            "id": "q3",
-            "title": "Win 3 Battles",
-            "description": "Play ranked or casual matches",
+            "id": "q7",
+            "title": "Win 10 Battles",
+            "description": "You are unstoppable!",
             "currentProgress": 0,
-            "maxProgress": 3,
-            "rewardCoins": 100,
-            "rewardExp": 200,
+            "maxProgress": 10,
+            "rewardCoins": 400,
+            "rewardExp": 800,
             "isClaimed": false,
             "questType": "WinBattle"
         }
@@ -2501,18 +2663,20 @@
     "leaderboardUsers": [
         {
             "id": "test_user_1",
+            "token": "",
             "username": "user1",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 12,
-            "exp": 1390,
+            "exp": 3455,
             "expNeeded": 1200,
-            "coins": 2820,
+            "coins": 3270,
             "rank": "SieuCap",
-            "rankPoints": 24550,
-            "wins": 37,
-            "totalGames": 53,
+            "rankPoints": 24560,
+            "wins": 38,
+            "totalGames": 55,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2527,14 +2691,29 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [
+                {
+                    "id": "avatar_equipped",
+                    "icon": "🐉",
+                    "name": "Equipped Avatar",
+                    "description": "",
+                    "quantity": 0,
+                    "rarity": "",
+                    "category": "Cosmetic",
+                    "equipType": "Avatar",
+                    "isEquipped": true,
+                    "isCombatItem": false
+                }
+            ]
         },
         {
             "id": "u2",
+            "token": "",
             "username": "Faker",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 25,
             "exp": 24500,
             "expNeeded": 2500,
@@ -2561,10 +2740,12 @@
         },
         {
             "id": "test_admin_1",
+            "token": "",
             "username": "admin",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 12,
             "exp": 750,
             "expNeeded": 1200,
@@ -2591,10 +2772,12 @@
         },
         {
             "id": "u3",
+            "token": "",
             "username": "Sophia",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 18,
             "exp": 17200,
             "expNeeded": 1800,
@@ -2621,10 +2804,12 @@
         },
         {
             "id": "u4",
+            "token": "",
             "username": "Oliver_Bot",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 12,
             "exp": 11500,
             "expNeeded": 1200,
@@ -2651,10 +2836,12 @@
         },
         {
             "id": "u5",
+            "token": "",
             "username": "Emma_Read",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 9,
             "exp": 8100,
             "expNeeded": 900,
@@ -2681,10 +2868,12 @@
         },
         {
             "id": "u6",
+            "token": "",
             "username": "NoobMaster69",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 5,
             "exp": 4200,
             "expNeeded": 500,
@@ -2711,10 +2900,12 @@
         },
         {
             "id": "u7",
+            "token": "",
             "username": "ProGamer",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 3,
             "exp": 2100,
             "expNeeded": 300,
@@ -2741,10 +2932,12 @@
         },
         {
             "id": "u8",
+            "token": "",
             "username": "SleepyCat",
             "email": "",
             "password": "",
             "role": "",
+            "status": "",
             "level": 1,
             "exp": 500,
             "expNeeded": 100,
@@ -2768,6 +2961,51 @@
             "bestTimeRush": 0,
             "shopHistory": [],
             "inventory": []
+        },
+        {
+            "id": "user_1779517369711udpu1",
+            "token": "",
+            "username": "nguyenne",
+            "email": "",
+            "password": "",
+            "role": "",
+            "status": "",
+            "level": 100,
+            "exp": 1880,
+            "expNeeded": 10000,
+            "coins": 0,
+            "rank": "Dong",
+            "rankPoints": 100,
+            "wins": 4,
+            "totalGames": 4,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": [
+                {
+                    "id": "avatar_equipped",
+                    "icon": "🥷",
+                    "name": "Equipped Avatar",
+                    "description": "",
+                    "quantity": 0,
+                    "rarity": "",
+                    "category": "Cosmetic",
+                    "equipType": "Avatar",
+                    "isEquipped": true,
+                    "isCombatItem": false
+                }
+            ]
         }
     ]
 }

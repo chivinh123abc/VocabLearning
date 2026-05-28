@@ -8,6 +8,12 @@ exports.syncUserData = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Dữ liệu đồng bộ không hợp lệ!' });
   }
 
+  // Bảo mật: Kiểm tra ID từ Token có trùng khớp với ID dữ liệu đồng bộ không
+  if (req.user.id !== user.id) {
+    console.warn(`🚨 [Bảo mật] Người chơi '${req.user.id}' đang cố gắng ghi đè dữ liệu của người chơi '${user.id}'!`);
+    return res.status(403).json({ success: false, message: 'Từ chối truy cập! Bạn không có quyền chỉnh sửa dữ liệu của tài khoản khác.' });
+  }
+
   try {
     const pool = await getPool();
     const transaction = new sql.Transaction(pool);
