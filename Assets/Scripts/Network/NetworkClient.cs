@@ -92,6 +92,21 @@ namespace VocabLearning.Network
             StartCoroutine(DeleteRequestCoroutine<string>($"/admin/vocabsets/{setId}", callback));
         }
 
+        // API Quên mật khẩu: Gửi OTP về email
+        public void ForgotPassword(string email, NetworkCallback<string> callback)
+        {
+            string jsonPayload = $"{{\"email\":\"{email}\"}}";
+            StartCoroutine(PostRequestCoroutine<string>("/auth/forgot-password", jsonPayload, callback));
+        }
+
+        // API Đặt lại mật khẩu: Xác thực OTP + cập nhật mật khẩu mới
+        public void ResetPassword(string email, string otp, string newPassword, NetworkCallback<string> callback)
+        {
+            string jsonPayload = $"{{\"email\":\"{email}\",\"otp\":\"{otp}\",\"newPassword\":\"{newPassword}\"}}";
+            StartCoroutine(PostRequestCoroutine<string>("/auth/reset-password", jsonPayload, callback));
+        }
+
+
         // --- COROUTINE TRUY VẤN MẠNG ---
 
         private IEnumerator PostRequestCoroutine<T>(string endpoint, string jsonPayload, NetworkCallback<T> callback)

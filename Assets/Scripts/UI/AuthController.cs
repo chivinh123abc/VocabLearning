@@ -193,10 +193,24 @@ namespace VocabLearning.UI
                     string email = inputForgotEmail?.value;
                     if (string.IsNullOrEmpty(email))
                     {
-                        if (lblError != null) { lblError.text = "Please enter your email first to receive OTP!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Vui lòng nhập email trước!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
-                    if (lblSuccess != null) { lblSuccess.text = "OTP Code has been sent to your email!"; lblSuccess.style.display = DisplayStyle.Flex; }
+                    if (lblSuccess != null) { lblSuccess.text = "Đang gửi mã OTP..."; lblSuccess.style.display = DisplayStyle.Flex; }
+
+                    // Gọi API thực gửi OTP qua email
+                    VocabLearning.Network.NetworkClient.Instance.ForgotPassword(email, (success, message, _) =>
+                    {
+                        HideMessages();
+                        if (success)
+                        {
+                            if (lblSuccess != null) { lblSuccess.text = message; lblSuccess.style.display = DisplayStyle.Flex; }
+                        }
+                        else
+                        {
+                            if (lblError != null) { lblError.text = message; lblError.style.display = DisplayStyle.Flex; }
+                        }
+                    });
                 };
             }
 
@@ -232,7 +246,7 @@ namespace VocabLearning.UI
 
                     if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass))
                     {
-                        if (lblError != null) { lblError.text = "Please fill in all fields!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Vui lòng điền đầy đủ thông tin!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
 
@@ -245,22 +259,30 @@ namespace VocabLearning.UI
 
                     if (newPass != confirmPass)
                     {
-                        if (lblError != null) { lblError.text = "Passwords do not match!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Mật khẩu xác nhận không khớp!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
 
-                    // Dummy UI response cho tính năng reset mật khẩu
-                    if (lblSuccess != null)
-                    {
-                        lblSuccess.text = "Your password has been successfully reset! You can now login.";
-                        lblSuccess.style.display = DisplayStyle.Flex;
-                    }
+                    if (lblSuccess != null) { lblSuccess.text = "Đang xác thực..."; lblSuccess.style.display = DisplayStyle.Flex; }
 
-                    // Xóa trắng form sau khi thành công
-                    if (inputForgotEmail != null) inputForgotEmail.value = "";
-                    if (inputForgotOTP != null) inputForgotOTP.value = "";
-                    if (inputForgotNewPassword != null) inputForgotNewPassword.value = "";
-                    if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.value = "";
+                    // Gọi API thực để đặt lại mật khẩu
+                    VocabLearning.Network.NetworkClient.Instance.ResetPassword(email, otp, newPass, (success, message, _) =>
+                    {
+                        HideMessages();
+                        if (success)
+                        {
+                            if (lblSuccess != null) { lblSuccess.text = message; lblSuccess.style.display = DisplayStyle.Flex; }
+                            // Xóa trắng form sau khi đặt lại thành công
+                            if (inputForgotEmail != null) inputForgotEmail.value = "";
+                            if (inputForgotOTP != null) inputForgotOTP.value = "";
+                            if (inputForgotNewPassword != null) inputForgotNewPassword.value = "";
+                            if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.value = "";
+                        }
+                        else
+                        {
+                            if (lblError != null) { lblError.text = message; lblError.style.display = DisplayStyle.Flex; }
+                        }
+                    });
                 };
             }
         }
