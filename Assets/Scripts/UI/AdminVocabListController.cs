@@ -159,7 +159,7 @@ namespace VocabLearning.UI
             lblDesc.AddToClassList("vocab-meaning"); lblDesc.pickingMode = PickingMode.Ignore;
 
             string wc = set.wordCount > 0 ? set.wordCount.ToString() : (set.wordIds?.Count ?? 0).ToString();
-            var lblMeta = new Label($"ID: {set.id}  |  📖 {wc} từ  |  🏅 {set.rankRequired ?? "—"}  |  🗂 {set.category ?? "—"}");
+            var lblMeta = new Label($"ID: {set.id}  |  📖 {wc} từ  |  🗂 {set.category ?? "—"}");
             lblMeta.AddToClassList("vocab-id"); lblMeta.pickingMode = PickingMode.Ignore;
 
             info.Add(nameRow); info.Add(lblDesc); info.Add(lblMeta);
@@ -196,9 +196,7 @@ namespace VocabLearning.UI
             SetInputValue("input-desc",  set.description ?? "");
             HideSetModalError();
             ShowSetModal();
-            SetDropdownValue("input-difficulty", GetDifficultyLabel(set.difficulty ?? "Easy"));
             SetDropdownValue("input-category",   set.category ?? "");
-            SetDropdownValue("input-rank",        set.rankRequired ?? "Dong");
             RefreshPickerPreview();
         }
 
@@ -206,38 +204,48 @@ namespace VocabLearning.UI
         {
             string title    = GetInputValue("input-title").Trim();
             string desc     = GetInputValue("input-desc").Trim();
-            string diffLabel= GetDropdownValue("input-difficulty");
             string category = GetDropdownValue("input-category");
-            string rank     = GetDropdownValue("input-rank");
 
             if (string.IsNullOrEmpty(title))   { ShowSetModalError("⚠️  Tên bộ từ vựng không được để trống!"); return; }
             if (string.IsNullOrEmpty(category)) { ShowSetModalError("⚠️  Vui lòng chọn danh mục!"); return; }
             if (_pickerSelected.Count == 0)     { ShowSetModalError("⚠️  Vui lòng chọn ít nhất 1 từ vựng!"); return; }
 
             var wordIds  = _pickerSelected.OrderBy(id => id).ToList();
-            string diff  = ParseDifficultyLabel(diffLabel);
 
             if (_currentEditingSet == null)
             {
                 var newSet = new VocabSetJson
                 {
                     id = GenerateNextSetId(), title = title, description = desc,
-                    category = category, difficulty = diff, rankRequired = rank,
+                    category = category,
                     wordCount = wordIds.Count, wordIds = wordIds
                 };
                 AutoPartitionSetLevels(newSet);
                 _jsonDb.vocabSets.Add(newSet);
+
+                // Đồng bộ lên Express Backend SQL Server
+                VocabLearning.Network.NetworkClient.Instance.AdminAddVocabSet(newSet, (success, msg, res) =>
+                {
+                    if (success) Debug.Log($"[Admin Set - Network] Đã chèn bộ từ vựng '{newSet.title}' thành công vào SQL Server.");
+                    else Debug.LogError($"[Admin Set - Network] Thất bại khi chèn bộ từ vựng: {msg}");
+                });
             }
             else
             {
                 _currentEditingSet.title       = title; 
                 _currentEditingSet.description = desc;
                 _currentEditingSet.category    = category; 
-                _currentEditingSet.difficulty  = diff;
-                _currentEditingSet.rankRequired= rank;
                 _currentEditingSet.wordCount   = wordIds.Count; 
                 _currentEditingSet.wordIds     = wordIds;
                 AutoPartitionSetLevels(_currentEditingSet);
+
+                string capturedId = _currentEditingSet.id;
+                // Đồng bộ cập nhật lên Express Backend SQL Server
+                VocabLearning.Network.NetworkClient.Instance.AdminUpdateVocabSet(_currentEditingSet, (success, msg, res) =>
+                {
+                    if (success) Debug.Log($"[Admin Set - Network] Đã cập nhật bộ từ vựng ID '{capturedId}' thành công trong SQL Server.");
+                    else Debug.LogError($"[Admin Set - Network] Thất bại khi cập nhật bộ từ vựng: {msg}");
+                });
             }
 
             SaveJsonDatabase();
@@ -250,14 +258,20 @@ namespace VocabLearning.UI
         private void DeleteSet(VocabSetJson set)
         {
             _jsonDb.vocabSets.Remove(set);
+
+            // Gọi API mạng xóa trên SQL Server qua Express Backend
+            VocabLearning.Network.NetworkClient.Instance.AdminDeleteVocabSet(set.id, (success, msg, res) =>
+            {
+                if (success) Debug.Log($"[Admin Set - Network] Đã xóa bộ từ vựng ID '{set.id}' thành công khỏi SQL Server.");
+                else Debug.LogError($"[Admin Set - Network] Thất bại khi xóa bộ từ vựng khỏi SQL Server: {msg}");
+            });
+
             SaveJsonDatabase();
             RefreshSetList();
         }
 
         private void ShowSetModal()
         {
-            SetDropdownChoices("input-difficulty", new List<string> { "Dễ", "Trung Bình", "Khó", "Đa cấp độ" });
-            SetDropdownChoices("input-rank", new List<string> { "Dong","Bac","Vang","BachKim","KimCuong","SieuCap" });
             var cats = new List<string> { "Daily Life","Business","Education","Entertainment","Food","Health","Nature","Sports","Technology","Travel" };
             if (_jsonDb?.vocabSets != null)
                 foreach (var s in _jsonDb.vocabSets)
@@ -661,12 +675,6 @@ namespace VocabLearning.UI
             difficulty.ToLower() switch
             {
                 "easy" => "Dễ", "medium" => "Trung Bình", "hard" => "Khó", "multilevel" => "Đa cấp độ", _ => difficulty
-            };
-
-        private string ParseDifficultyLabel(string label) =>
-            label switch
-            {
-                "Dễ" => "Easy", "Trung Bình" => "Medium", "Khó" => "Hard", "Đa cấp độ" => "MultiLevel", _ => label
             };
     }
 }

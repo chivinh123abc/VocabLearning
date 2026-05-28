@@ -358,7 +358,7 @@ namespace VocabLearning.UI
                 };
 
                 _jsonDb.words.Add(newWord);
-                Debug.Log($"[Admin Vocab] Đã thêm từ mới cục bộ: {newWord.word} (ID: {newWord.id})");
+                Debug.Log($"[Admin Vocab] Đã thêm từ mới: {newWord.word} (ID: {newWord.id})");
 
                 // Đồng bộ lên SQL Server qua Express Backend
                 VocabLearning.Network.NetworkClient.Instance.AdminAddWord(newWord, (success, msg, res) =>
@@ -375,17 +375,18 @@ namespace VocabLearning.UI
                 _currentEditingWord.rankRequired = rankStr;
                 _currentEditingWord.imageUrl = imageStr;
                 _currentEditingWord.imageSub = string.IsNullOrEmpty(subStr) ? $"Hint: {meaningStr}" : subStr;
-                Debug.Log($"[Admin Vocab] Đã cập nhật từ vựng cục bộ ID: {_currentEditingWord.id}");
+                Debug.Log($"[Admin Vocab] Đã cập nhật từ vựng ID: {_currentEditingWord.id}");
 
+                string capturedId = _currentEditingWord.id;
                 // Đồng bộ cập nhật lên SQL Server qua Express Backend
                 VocabLearning.Network.NetworkClient.Instance.AdminUpdateWord(_currentEditingWord, (success, msg, res) =>
                 {
-                    if (success) Debug.Log($"[Admin Vocab - Network] Đã cập nhật thành công từ ID {_currentEditingWord.id} trong SQL Server.");
+                    if (success) Debug.Log($"[Admin Vocab - Network] Đã cập nhật thành công từ ID {capturedId} trong SQL Server.");
                     else Debug.LogError($"[Admin Vocab - Network] Thất bại khi sửa từ vựng trong SQL Server: {msg}");
                 });
             }
 
-            // Ghi thay đổi offline xuống đĩa
+            // Đồng bộ dữ liệu
             SaveJsonDatabase();
 
             // Đóng Modal và làm tươi lại danh sách hiển thị
@@ -400,7 +401,7 @@ namespace VocabLearning.UI
 
             // Xóa trong kho tổng
             _jsonDb.words.Remove(word);
-            Debug.Log($"[Admin Vocab] Đã xóa từ vựng cục bộ: {word.word} (ID: {word.id})");
+            Debug.Log($"[Admin Vocab] Đã xóa từ vựng: {word.word} (ID: {word.id})");
 
             // Tự động dọn dẹp các tham chiếu trong các bộ từ vựng (vocabSets) để tránh lỗi mồ côi
             if (_jsonDb.vocabSets != null)
@@ -447,20 +448,7 @@ namespace VocabLearning.UI
         // Lưu thay đổi MockDatabase xuống file db.json và đồng bộ lên Node.js Backend SQL Server
         private void SaveJsonDatabase()
         {
-#if UNITY_EDITOR
-            try
-            {
-                string path = System.IO.Path.Combine(Application.dataPath, "Resources/Mockdata/db.json");
-                string json = JsonUtility.ToJson(_jsonDb, true);
-                System.IO.File.WriteAllText(path, json);
-                UnityEditor.AssetDatabase.Refresh();
-                Debug.Log($"[JSON DB - Editor] Đã lưu database offline về file: {path}");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[JSON DB - Editor] Lỗi lưu database offline: {ex.Message}");
-            }
-#endif
+
 
             // Đồng bộ dữ liệu tiến trình người dùng lên SQL Server thông qua Node.js Backend API
             if (_jsonDb != null && _jsonDb.currentUser != null && !string.IsNullOrEmpty(_jsonDb.currentUser.id))

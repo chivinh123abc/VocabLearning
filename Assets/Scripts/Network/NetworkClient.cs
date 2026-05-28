@@ -72,6 +72,26 @@ namespace VocabLearning.Network
             StartCoroutine(DeleteRequestCoroutine<string>($"/admin/words/{wordId}", callback));
         }
 
+        // API Admin: Thêm bộ từ vựng mới
+        public void AdminAddVocabSet(VocabLearning.Data.VocabSetJson vocabSet, NetworkCallback<string> callback)
+        {
+            string jsonPayload = JsonUtility.ToJson(vocabSet);
+            StartCoroutine(PostRequestCoroutine<string>("/admin/vocabsets", jsonPayload, callback));
+        }
+
+        // API Admin: Sửa bộ từ vựng
+        public void AdminUpdateVocabSet(VocabLearning.Data.VocabSetJson vocabSet, NetworkCallback<string> callback)
+        {
+            string jsonPayload = JsonUtility.ToJson(vocabSet);
+            StartCoroutine(PutRequestCoroutine<string>($"/admin/vocabsets/{vocabSet.id}", jsonPayload, callback));
+        }
+
+        // API Admin: Xóa bộ từ vựng
+        public void AdminDeleteVocabSet(string setId, NetworkCallback<string> callback)
+        {
+            StartCoroutine(DeleteRequestCoroutine<string>($"/admin/vocabsets/{setId}", callback));
+        }
+
         // --- COROUTINE TRUY VẤN MẠNG ---
 
         private IEnumerator PostRequestCoroutine<T>(string endpoint, string jsonPayload, NetworkCallback<T> callback)

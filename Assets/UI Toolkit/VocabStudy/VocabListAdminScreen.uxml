@@ -124,23 +124,13 @@
                         <ui:TextField name="input-desc" placeholder-text="Giới thiệu ngắn về nội dung bộ từ..." multiline="true" class="form-input" style="height: 100px;"/>
                     </ui:VisualElement>
 
-                    <!-- Danh mục + Độ khó (cùng hàng) -->
-                    <ui:VisualElement style="flex-direction: row; margin-bottom: 22px;">
-                        <ui:VisualElement style="flex-grow: 1; margin-right: 14px;">
-                            <ui:Label text="Danh mục *" class="form-label"/>
-                            <ui:DropdownField name="input-category" class="form-dropdown"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1;">
-                            <ui:Label text="Độ khó *" class="form-label"/>
-                            <ui:DropdownField name="input-difficulty" class="form-dropdown"/>
-                        </ui:VisualElement>
+                    <!-- Danh mục -->
+                    <ui:VisualElement class="form-group">
+                        <ui:Label text="Danh mục *" class="form-label"/>
+                        <ui:DropdownField name="input-category" class="form-dropdown"/>
                     </ui:VisualElement>
 
-                    <!-- Rank yêu cầu -->
-                    <ui:VisualElement class="form-group">
-                        <ui:Label text="Rank yêu cầu tối thiểu *" class="form-label"/>
-                        <ui:DropdownField name="input-rank" class="form-dropdown"/>
-                    </ui:VisualElement>
+
 
                     <!-- Chọn từ bằng Word Picker -->
                     <ui:VisualElement class="form-group">

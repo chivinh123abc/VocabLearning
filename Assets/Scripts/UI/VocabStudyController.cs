@@ -226,7 +226,7 @@ namespace VocabLearning.UI
             {
                 // Dùng JsonUtility gốc của Unity để đọc thẳng file db.json thành Object siêu tốc
                 _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
-                Debug.Log($"[JSON DB] Đã tải Database offline. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
+                Debug.Log($"[JSON DB] Đã nạp dữ liệu cấu hình ban đầu. Số lượng bộ từ vựng: {_jsonDb.vocabSets.Count}");
 
                 // Tự động phân chia levels cho tất cả các bộ từ vựng theo rank để đảm bảo tính đồng nhất
                 if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.words != null)
@@ -239,7 +239,7 @@ namespace VocabLearning.UI
             }
             else
             {
-                Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu offline dự phòng.");
+                Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu khởi tạo mặc định.");
                 _jsonDb = new VocabLearning.Data.MockDatabase();
             }
 
@@ -269,7 +269,7 @@ namespace VocabLearning.UI
                 }
                 else
                 {
-                    Debug.LogWarning($"[JSON DB - Network] Không thể nạp dữ liệu từ server ({message}). Sử dụng dữ liệu offline fallback.");
+                    Debug.LogWarning($"[JSON DB - Network] Không thể nạp dữ liệu từ server ({message}). Sử dụng dữ liệu khởi tạo dự phòng.");
                 }
             });
         }
