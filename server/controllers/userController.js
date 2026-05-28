@@ -284,7 +284,11 @@ exports.syncUserData = async (req, res) => {
       return res.json({ success: true, message: 'Đồng bộ tiến trình game thành công!' });
 
     } catch (err) {
-      await transaction.rollback();
+      try {
+        await transaction.rollback();
+      } catch (rollbackErr) {
+        console.warn('⚠️ Ghi chú: Rollback thất bại hoặc đã tự động rollback:', rollbackErr.message);
+      }
       throw err;
     }
   } catch (err) {

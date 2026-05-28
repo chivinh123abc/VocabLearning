@@ -41,7 +41,6 @@
     margin-right: 16px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -73,7 +72,6 @@
     font-size: 38px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -133,10 +131,6 @@
     border-width: 1.5px;
     border-color: rgb(230, 225, 215);
     align-items: center;
-}
-
-.stat-card:last-child {
-    margin-right: 0;
 }
 
 .stat-value {
@@ -200,7 +194,6 @@
     border-color: rgb(230, 225, 215);
     transition-property: background-color, scale;
     transition-duration: 0.15s;
-    cursor: link;
 }
 
 .vocab-card:hover {
@@ -261,6 +254,12 @@
     border-color: rgb(240, 200, 155);
 }
 
+.rank-badge--multi {
+    background-color: rgb(240, 225, 255);
+    color: rgb(130, 60, 220);
+    border-color: rgb(215, 195, 245);
+}
+
 .vocab-meaning {
     font-size: 20px;
     color: rgb(70, 70, 70);
@@ -284,7 +283,6 @@
     -unity-text-align: middle-center;
     flex-shrink: 0;
     margin-left: 8px;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -355,7 +353,6 @@
     border-width: 0;
     font-size: 28px;
     color: rgb(160, 155, 145);
-    cursor: link;
     margin: 0;
     padding: 6px;
     -unity-text-align: middle-center;
@@ -490,7 +487,6 @@
     font-size: 20px;
     color: rgb(90, 85, 75);
     -unity-font-style: bold;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -508,7 +504,6 @@
     font-size: 20px;
     color: white;
     -unity-font-style: bold;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -528,7 +523,6 @@
     font-size: 20px;
     color: rgb(90, 85, 75);
     -unity-font-style: bold;
-    cursor: link;
     transition-property: background-color, scale;
     transition-duration: 0.15s;
 }
@@ -536,4 +530,137 @@
 .btn-choose-image:hover {
     background-color: rgb(215, 210, 198);
     scale: 1.02;
+}
+
+/* ============================================================
+   CUSTOM WORD PICKER STYLES (PREMIUM REDESIGN)
+   ============================================================ */
+.picker-row-card {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    border-width: 1.5px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(232, 227, 215);
+    border-left-width: 6px;
+    border-left-color: rgb(210, 205, 195);
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.15s;
+    -unity-text-align: left;
+}
+
+.picker-row-card:hover {
+    background-color: rgb(250, 248, 244);
+    border-color: rgb(200, 190, 175);
+    scale: 1.01;
+}
+
+.picker-row-card--selected {
+    background-color: rgb(240, 246, 255);
+    border-color: rgb(59, 130, 246);
+    border-left-color: rgb(59, 130, 246);
+}
+
+.picker-row-card--selected:hover {
+    background-color: rgb(230, 240, 255);
+    border-color: rgb(37, 99, 235);
+}
+
+/* Custom Checkbox */
+.picker-checkbox {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border-width: 2px;
+    border-color: rgb(180, 175, 165);
+    background-color: rgb(255, 255, 255);
+    margin-right: 18px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.picker-checkbox--selected {
+    border-width: 0;
+    background-color: rgb(59, 130, 246);
+}
+
+.picker-checkbox-mark {
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    -unity-font-style: bold;
+    margin-top: -1px;
+}
+
+/* Color-coded Rank Badges in Picker */
+.picker-rank-badge {
+    font-size: 15px;
+    -unity-font-style: bold;
+    border-radius: 12px;
+    padding: 2px 10px;
+    border-width: 1px;
+    -unity-text-align: middle-center;
+}
+
+.picker-rank-badge--dong {
+    background-color: rgb(254, 243, 199);
+    color: rgb(146, 64, 14);
+    border-color: rgb(252, 211, 77);
+}
+
+.picker-rank-badge--bac {
+    background-color: rgb(243, 244, 246);
+    color: rgb(55, 65, 81);
+    border-color: rgb(209, 213, 219);
+}
+
+.picker-rank-badge--vang {
+    background-color: rgb(255, 251, 235);
+    color: rgb(217, 119, 6);
+    border-color: rgb(253, 230, 138);
+}
+
+.picker-rank-badge--bachkim {
+    background-color: rgb(236, 253, 245);
+    color: rgb(4, 120, 87);
+    border-color: rgb(167, 243, 208);
+}
+
+.picker-rank-badge--kimcuong {
+    background-color: rgb(240, 253, 250);
+    color: rgb(13, 148, 136);
+    border-color: rgb(153, 246, 228);
+}
+
+.picker-rank-badge--sieucap {
+    background-color: rgb(254, 242, 242);
+    color: rgb(220, 38, 38);
+    border-color: rgb(254, 202, 202);
+}
+
+/* Custom circular Close button for Picker */
+.btn-picker-close {
+    background-color: rgb(245, 243, 238);
+    border-width: 0;
+    font-size: 20px;
+    color: rgb(130, 125, 115);
+    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+    -unity-text-align: middle-center;
+    transition-property: background-color, color, scale;
+    transition-duration: 0.15s;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-picker-close:hover {
+    background-color: rgb(254, 226, 226);
+    color: rgb(220, 38, 38);
+    scale: 1.06;
 }

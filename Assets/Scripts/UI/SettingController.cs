@@ -73,7 +73,7 @@ namespace VocabLearning.UI
             if (sldMusic != null)
             {
         
-                BackgroundMusic bgMusic = FindObjectOfType<BackgroundMusic>();
+                BackgroundMusic bgMusic = FindFirstObjectByType<BackgroundMusic>();
                 if (bgMusic != null) sldMusic.value = bgMusic.volume;
 
                 sldMusic.RegisterValueChangedCallback(evt => {

@@ -106,3 +106,8 @@ InitTestScene*.unity*
 # Backend (Node.js Server) ignores
 server/node_modules/
 server/.env
+
+# Private file
+db.md
+PRESENTATION.md
+PROJECT_INFO.md

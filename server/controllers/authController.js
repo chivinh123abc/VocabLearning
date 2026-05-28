@@ -137,6 +137,7 @@ async function getUserFullProfile(pool, userId) {
     username: user.username,
     email: user.email,
     role: user.role,
+    status: user.status,
     level: user.level,
     exp: user.exp,
     expNeeded: getExpNeeded(user.level),
@@ -182,6 +183,15 @@ exports.login = async (req, res) => {
     }
 
     const user = userResult.recordset[0];
+
+    // Kiểm tra trạng thái tài khoản trước khi đăng nhập (0: Inactive, 1: Active, 2: Banned)
+    if (user.status === 2) {
+      return res.status(403).json({ success: false, message: 'Tài khoản của bạn đã bị khóa (banned)!' });
+    }
+    if (user.status === 0) {
+      return res.status(403).json({ success: false, message: 'Tài khoản của bạn chưa được kích hoạt (inactive)!' });
+    }
+
     const isPasswordValid = bcrypt.compareSync(password, user.password);
 
     if (!isPasswordValid) {
@@ -236,11 +246,11 @@ exports.register = async (req, res) => {
       
       await insertUserReq.query(`
         INSERT INTO [users] (
-          [id], [username], [email], [password], [role], [level], [exp], [coins], 
+          [id], [username], [email], [password], [role], [status], [level], [exp], [coins], 
           [rankPoints], [wins], [totalGames],
           [weekStartDate], [isRewardClaimed], [loginDates]
         ) VALUES (
-          @id, @username, @email, @password, 'user', 1, 0, 500, 
+          @id, @username, @email, @password, 'user', 1, 1, 0, 500, 
           0, 0, 0,
           @today, 0, ''
         )

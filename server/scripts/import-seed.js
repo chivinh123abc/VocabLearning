@@ -230,6 +230,7 @@ async function seed() {
         reqU.input('email', sql.NVarChar, userEmail);
         reqU.input('password', sql.VarChar, hashedPassword);
         reqU.input('role', sql.VarChar, u.role || 'user');
+        reqU.input('status', sql.Int, 1); // Đảm bảo mọi tài khoản đều Active (status = 1) khi khởi tạo
         reqU.input('level', sql.Int, u.level || 1);
         reqU.input('exp', sql.Int, u.exp || 0);
         reqU.input('coins', sql.Int, u.coins || 0);
@@ -248,11 +249,11 @@ async function seed() {
 
         await reqU.query(`
           INSERT INTO [users] (
-            [id], [username], [email], [password], [role], [level], [exp], [coins], 
+            [id], [username], [email], [password], [role], [status], [level], [exp], [coins], 
             [rankPoints], [wins], [totalGames], 
             [weekStartDate], [isRewardClaimed], [loginDates]
           ) VALUES (
-            @id, @username, @email, @password, @role, @level, @exp, @coins, 
+            @id, @username, @email, @password, @role, @status, @level, @exp, @coins, 
             @rankPoints, @wins, @totalGames, 
             @weekStart, @claimed, @loginDates
           )

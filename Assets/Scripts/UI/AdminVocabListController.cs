@@ -39,11 +39,7 @@ namespace VocabLearning.UI
                 catDd.RegisterValueChangedCallback(_ => RefreshSetList());
             }
 
-            // Tabs
-            SetupDifficultyTab("tab-all", "");
-            SetupDifficultyTab("tab-easy", "Easy");
-            SetupDifficultyTab("tab-medium", "Medium");
-            SetupDifficultyTab("tab-hard", "Hard");
+
 
             // Set modal buttons
             _root.Q<Button>("btn-modal-close")?.RegisterCallback<ClickEvent>(_ => CloseSetModal());
@@ -77,29 +73,7 @@ namespace VocabLearning.UI
 
         // ═══════════════════════════════════════════
         //   TABS ĐỘ KHÓ
-        // ═══════════════════════════════════════════
-        private void SetupDifficultyTab(string tabName, string difficulty)
-        {
-            var btn = _root.Q<Button>(tabName);
-            if (btn == null) return;
-            btn.RegisterCallback<ClickEvent>(_ =>
-            {
-                _setDifficultyFilter = difficulty;
-                foreach (var id in new[] { "tab-all", "tab-easy", "tab-medium", "tab-hard" })
-                {
-                    var t = _root.Q<Button>(id);
-                    if (t == null) continue;
-                    bool active = id == tabName;
-                    t.style.backgroundColor = active
-                        ? new StyleColor(new Color(1f, 0.667f, 0.118f))
-                        : new StyleColor(new Color(0, 0, 0, 0));
-                    t.style.color = active
-                        ? new StyleColor(Color.white)
-                        : new StyleColor(new Color(0.39f, 0.37f, 0.33f));
-                }
-                RefreshSetList();
-            });
-        }
+
 
         // ═══════════════════════════════════════════
         //   MAIN LIST
@@ -107,7 +81,11 @@ namespace VocabLearning.UI
         private void RefreshSetList()
         {
             if (_jsonDb?.vocabSets == null) return;
-            var listView = _root.Q<ScrollView>("set-list");
+            VisualElement listView = _root.Q<VisualElement>("set-cards-container");
+            if (listView == null)
+            {
+                listView = _root.Q<ScrollView>("set-list");
+            }
             if (listView == null) return;
             listView.Clear();
 
@@ -125,7 +103,9 @@ namespace VocabLearning.UI
                 bool mC = catFilter == "Tất cả" ||
                     (set.category ?? "").Equals(catFilter, System.StringComparison.OrdinalIgnoreCase);
                 bool mD = string.IsNullOrEmpty(_setDifficultyFilter) ||
-                    (set.difficulty ?? "").Equals(_setDifficultyFilter, System.StringComparison.OrdinalIgnoreCase);
+                    (set.difficulty ?? "").Equals(_setDifficultyFilter, System.StringComparison.OrdinalIgnoreCase) ||
+                    ((set.difficulty ?? "").Equals("MultiLevel", System.StringComparison.OrdinalIgnoreCase) &&
+                     set.levels != null && set.levels.Any(l => l.difficulty.Equals(_setDifficultyFilter, System.StringComparison.OrdinalIgnoreCase)));
                 if (!mQ || !mC || !mD) continue;
 
                 filtered++;
@@ -172,6 +152,7 @@ namespace VocabLearning.UI
             lblDiff.AddToClassList("rank-badge"); lblDiff.pickingMode = PickingMode.Ignore;
             if ((set.difficulty ?? "").Equals("Easy",   System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--2");
             else if ((set.difficulty ?? "").Equals("Hard", System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--3");
+            else if ((set.difficulty ?? "").Equals("MultiLevel", System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--multi");
             nameRow.Add(lblTitle); nameRow.Add(lblDiff);
 
             var lblDesc = new Label(set.description ?? "(Chưa có mô tả)");
@@ -275,7 +256,7 @@ namespace VocabLearning.UI
 
         private void ShowSetModal()
         {
-            SetDropdownChoices("input-difficulty", new List<string> { "Dễ", "Trung Bình", "Khó" });
+            SetDropdownChoices("input-difficulty", new List<string> { "Dễ", "Trung Bình", "Khó", "Đa cấp độ" });
             SetDropdownChoices("input-rank", new List<string> { "Dong","Bac","Vang","BachKim","KimCuong","SieuCap" });
             var cats = new List<string> { "Daily Life","Business","Education","Entertainment","Food","Health","Nature","Sports","Technology","Travel" };
             if (_jsonDb?.vocabSets != null)
@@ -377,26 +358,22 @@ namespace VocabLearning.UI
         private VisualElement BuildPickerRow(WordJson word, bool isSelected)
         {
             var row = new Button();
-            row.style.flexDirection  = FlexDirection.Row;
-            row.style.alignItems     = Align.Center;
-            row.style.paddingTop     = 14; row.style.paddingBottom  = 14;
-            row.style.paddingLeft    = 16; row.style.paddingRight   = 16;
-            row.style.marginBottom   = 6;
-            row.style.borderTopLeftRadius     = 16; row.style.borderTopRightRadius    = 16;
-            row.style.borderBottomLeftRadius  = 16; row.style.borderBottomRightRadius = 16;
-            row.style.borderTopWidth    = 2; row.style.borderBottomWidth = 2;
-            row.style.borderLeftWidth   = 2; row.style.borderRightWidth  = 2;
+            row.ClearClassList();
+            row.AddToClassList("picker-row-card");
             ApplyPickerRowStyle(row, isSelected);
 
-            // Checkbox emoji
-            var checkbox = new Label(isSelected ? "☑" : "☐");
-            checkbox.style.fontSize       = 30;
-            checkbox.style.unityTextAlign = TextAnchor.MiddleCenter;
-            checkbox.style.marginRight    = 16;
-            checkbox.style.flexShrink     = 0;
-            checkbox.style.color          = isSelected
-                ? new StyleColor(new Color(0.23f, 0.51f, 0.96f))
-                : new StyleColor(new Color(0.65f, 0.63f, 0.60f));
+            // Custom circular checkbox
+            var checkbox = new VisualElement();
+            checkbox.ClearClassList();
+            checkbox.AddToClassList("picker-checkbox");
+            if (isSelected)
+            {
+                checkbox.AddToClassList("picker-checkbox--selected");
+                var checkmark = new Label("✔");
+                checkmark.ClearClassList();
+                checkmark.AddToClassList("picker-checkbox-mark");
+                checkbox.Add(checkmark);
+            }
             checkbox.pickingMode = PickingMode.Ignore;
 
             // Info container
@@ -419,15 +396,20 @@ namespace VocabLearning.UI
             lblWord.pickingMode                   = PickingMode.Ignore;
 
             var lblRank = new Label(word.rankRequired ?? "");
-            lblRank.style.fontSize      = 16;
-            lblRank.style.color         = new StyleColor(new Color(0.55f, 0.43f, 0.18f));
-            lblRank.style.backgroundColor= new StyleColor(new Color(1.0f, 0.93f, 0.75f));
-            lblRank.style.borderTopLeftRadius     = 10; lblRank.style.borderTopRightRadius    = 10;
-            lblRank.style.borderBottomLeftRadius  = 10; lblRank.style.borderBottomRightRadius = 10;
-            lblRank.style.paddingLeft   = 8; lblRank.style.paddingRight  = 8;
-            lblRank.style.paddingTop    = 2; lblRank.style.paddingBottom = 2;
-            lblRank.style.unityFontStyleAndWeight = FontStyle.Bold;
-            lblRank.pickingMode                   = PickingMode.Ignore;
+            lblRank.ClearClassList();
+            lblRank.AddToClassList("picker-rank-badge");
+            
+            // Map the rank required to its custom color coded badge class
+            string r = (word.rankRequired ?? "").ToLower();
+            if (r == "dong") lblRank.AddToClassList("picker-rank-badge--dong");
+            else if (r == "bac") lblRank.AddToClassList("picker-rank-badge--bac");
+            else if (r == "vang") lblRank.AddToClassList("picker-rank-badge--vang");
+            else if (r == "bachkim") lblRank.AddToClassList("picker-rank-badge--bachkim");
+            else if (r == "kimcuong") lblRank.AddToClassList("picker-rank-badge--kimcuong");
+            else if (r == "sieucap") lblRank.AddToClassList("picker-rank-badge--sieucap");
+            else lblRank.AddToClassList("picker-rank-badge--dong");
+            
+            lblRank.pickingMode = PickingMode.Ignore;
 
             wordLine.Add(lblWord); wordLine.Add(lblRank);
 
@@ -445,7 +427,7 @@ namespace VocabLearning.UI
             info.Add(wordLine); info.Add(lblMeaning); info.Add(lblId);
             row.Add(checkbox); row.Add(info);
 
-            // Click handler trực tiếp trên Button — không bị chặn
+            // Click handler trực tiếp trên Button
             row.clicked += () =>
             {
                 if (_pickerSelected.Contains(word.id)) _pickerSelected.Remove(word.id);
@@ -459,14 +441,14 @@ namespace VocabLearning.UI
         // Áp style màu sắc row theo trạng thái selected
         private void ApplyPickerRowStyle(Button row, bool isSelected)
         {
-            row.style.backgroundColor = isSelected
-                ? new StyleColor(new Color(0.93f, 0.96f, 1.0f))
-                : new StyleColor(new Color(1f, 1f, 1f));
-            var borderColor = isSelected
-                ? new StyleColor(new Color(0.23f, 0.51f, 0.96f))
-                : new StyleColor(new Color(0.89f, 0.87f, 0.83f));
-            row.style.borderTopColor    = borderColor; row.style.borderBottomColor = borderColor;
-            row.style.borderLeftColor   = borderColor; row.style.borderRightColor  = borderColor;
+            if (isSelected)
+            {
+                row.AddToClassList("picker-row-card--selected");
+            }
+            else
+            {
+                row.RemoveFromClassList("picker-row-card--selected");
+            }
         }
 
         private void UpdatePickerCountLabels()
@@ -478,6 +460,87 @@ namespace VocabLearning.UI
         }
 
         //   PICKER PREVIEW — chip trong form
+        //   PICKER PREVIEW — chip trong form (Phân nhóm theo Cấp độ Dễ, Trung bình, Khó)
+        private void RenderLevelGroup(VisualElement container, string title, List<string> ids, UnityEngine.Color themeColor, UnityEngine.Color textColor)
+        {
+            if (ids == null || ids.Count == 0) return;
+
+            // Container nhóm
+            var group = new VisualElement();
+            group.style.marginBottom = 12;
+            group.style.paddingTop = 8;
+            group.style.paddingBottom = 8;
+            group.style.paddingLeft = 12;
+            group.style.paddingRight = 12;
+            group.style.borderTopLeftRadius = 16; group.style.borderTopRightRadius = 16;
+            group.style.borderBottomLeftRadius = 16; group.style.borderBottomRightRadius = 16;
+            group.style.backgroundColor = new StyleColor(new UnityEngine.Color(themeColor.r, themeColor.g, themeColor.b, 0.08f));
+            group.style.borderTopWidth = 1; group.style.borderBottomWidth = 1;
+            group.style.borderLeftWidth = 1; group.style.borderRightWidth = 1;
+            group.style.borderTopColor = new StyleColor(themeColor);
+            group.style.borderBottomColor = new StyleColor(themeColor);
+            group.style.borderLeftColor = new StyleColor(themeColor);
+            group.style.borderRightColor = new StyleColor(themeColor);
+
+            // Tiêu đề Cấp độ
+            var lblTitle = new Label($"{title} ({ids.Count} từ)");
+            lblTitle.style.fontSize = 18;
+            lblTitle.style.unityFontStyleAndWeight = FontStyle.Bold;
+            lblTitle.style.color = new StyleColor(textColor);
+            lblTitle.style.marginBottom = 8;
+            group.Add(lblTitle);
+
+            // Container chứa chip từ (Flow Layout)
+            var chipsWrap = new VisualElement();
+            chipsWrap.style.flexDirection = FlexDirection.Row;
+            chipsWrap.style.flexWrap = Wrap.Wrap;
+            
+            foreach (var id in ids)
+            {
+                var word = _jsonDb?.words?.FirstOrDefault(w => w.id == id);
+                string wordText = word != null ? word.word : id;
+
+                var chip = new VisualElement();
+                chip.style.flexDirection = FlexDirection.Row;
+                chip.style.alignItems = Align.Center;
+                chip.style.backgroundColor = new StyleColor(UnityEngine.Color.white);
+                chip.style.borderTopLeftRadius = 16; chip.style.borderTopRightRadius = 16;
+                chip.style.borderBottomLeftRadius = 16; chip.style.borderBottomRightRadius = 16;
+                chip.style.paddingLeft = 12; chip.style.paddingRight = 8;
+                chip.style.paddingTop = 4; chip.style.paddingBottom = 4;
+                chip.style.marginRight = 8; chip.style.marginBottom = 6;
+                chip.style.borderTopWidth = 1; chip.style.borderBottomWidth = 1;
+                chip.style.borderLeftWidth = 1; chip.style.borderRightWidth = 1;
+                chip.style.borderTopColor = new StyleColor(themeColor);
+                chip.style.borderBottomColor = new StyleColor(themeColor);
+                chip.style.borderLeftColor = new StyleColor(themeColor);
+                chip.style.borderRightColor = new StyleColor(themeColor);
+
+                var chipLbl = new Label(wordText);
+                chipLbl.style.fontSize = 16;
+                chipLbl.style.color = new StyleColor(textColor);
+                chipLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                chipLbl.pickingMode = PickingMode.Ignore;
+
+                string capturedId = id;
+                var chipRemove = new Button();
+                chipRemove.text = "✕";
+                chipRemove.style.fontSize = 15;
+                chipRemove.style.color = new StyleColor(new UnityEngine.Color(0.5f, 0.5f, 0.5f));
+                chipRemove.style.backgroundColor = new StyleColor(new UnityEngine.Color(0, 0, 0, 0));
+                chipRemove.style.borderTopWidth = 0; chipRemove.style.borderBottomWidth = 0;
+                chipRemove.style.borderLeftWidth = 0; chipRemove.style.borderRightWidth = 0;
+                chipRemove.style.marginLeft = 4;
+                chipRemove.clicked += () => { _pickerSelected.Remove(capturedId); RefreshPickerPreview(); };
+
+                chip.Add(chipLbl); chip.Add(chipRemove);
+                chipsWrap.Add(chip);
+            }
+
+            group.Add(chipsWrap);
+            container.Add(group);
+        }
+
         private void RefreshPickerPreview()
         {
             var preview = _root.Q<VisualElement>("picker-preview");
@@ -492,62 +555,45 @@ namespace VocabLearning.UI
             {
                 var empty = new Label("Chưa chọn từ nào — bấm ＋ Chọn từ để thêm");
                 empty.style.fontSize               = 18;
-                empty.style.color                  = new StyleColor(new Color(0.70f, 0.68f, 0.65f));
+                empty.style.color                  = new StyleColor(new UnityEngine.Color(0.70f, 0.68f, 0.65f));
                 empty.style.unityFontStyleAndWeight= FontStyle.Italic;
                 empty.style.alignSelf              = Align.Center;
                 preview.Add(empty);
                 return;
             }
 
-            int shown = 0;
+            // Phân loại từ vựng đã chọn theo cấp độ
+            var easyIds = new List<string>();
+            var mediumIds = new List<string>();
+            var hardIds = new List<string>();
+
             foreach (var id in _pickerSelected.OrderBy(x => x))
             {
-                if (shown >= 20) break;
-                var word  = _jsonDb?.words?.FirstOrDefault(w => w.id == id);
-                string lbl = word != null ? word.word : id;
-
-                var chip = new VisualElement();
-                chip.style.flexDirection = FlexDirection.Row;
-                chip.style.alignItems    = Align.Center;
-                chip.style.backgroundColor = new StyleColor(new Color(0.86f, 0.93f, 1.0f));
-                chip.style.borderTopLeftRadius     = 20; chip.style.borderTopRightRadius    = 20;
-                chip.style.borderBottomLeftRadius  = 20; chip.style.borderBottomRightRadius = 20;
-                chip.style.paddingLeft   = 12; chip.style.paddingRight  = 8;
-                chip.style.paddingTop    = 6;  chip.style.paddingBottom = 6;
-                chip.style.marginRight   = 8;  chip.style.marginBottom  = 8;
-
-                var chipLbl = new Label(lbl);
-                chipLbl.style.fontSize               = 17;
-                chipLbl.style.color                  = new StyleColor(new Color(0.18f, 0.4f, 0.8f));
-                chipLbl.style.unityFontStyleAndWeight= FontStyle.Bold;
-                chipLbl.pickingMode                  = PickingMode.Ignore;
-
-                string capturedId = id;
-                var chipRemove = new Button();
-                chipRemove.text = "✕";
-                chipRemove.style.fontSize          = 16;
-                chipRemove.style.color             = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
-                chipRemove.style.backgroundColor   = new StyleColor(new Color(0, 0, 0, 0));
-                chipRemove.style.borderTopWidth    = 0; chipRemove.style.borderBottomWidth = 0;
-                chipRemove.style.borderLeftWidth   = 0; chipRemove.style.borderRightWidth  = 0;
-                chipRemove.style.marginLeft        = 4;
-                chipRemove.clicked += () => { _pickerSelected.Remove(capturedId); RefreshPickerPreview(); };
-
-                chip.Add(chipLbl); chip.Add(chipRemove);
-                preview.Add(chip);
-                shown++;
+                var w = _jsonDb?.words?.FirstOrDefault(x => x.id == id);
+                string rankKey = w != null && !string.IsNullOrEmpty(w.rankRequired) ? w.rankRequired.Trim().ToLower() : "dong";
+                
+                if (rankKey == "dong" || rankKey == "bac")
+                {
+                    easyIds.Add(id);
+                }
+                else if (rankKey == "vang" || rankKey == "bachkim")
+                {
+                    mediumIds.Add(id);
+                }
+                else if (rankKey == "kimcuong" || rankKey == "sieucap")
+                {
+                    hardIds.Add(id);
+                }
+                else
+                {
+                    easyIds.Add(id);
+                }
             }
 
-            int remaining = cnt - shown;
-            if (remaining > 0)
-            {
-                var more = new Label($"+{remaining} từ khác");
-                more.style.fontSize               = 17;
-                more.style.color                  = new StyleColor(new Color(0.55f, 0.53f, 0.50f));
-                more.style.unityFontStyleAndWeight= FontStyle.Italic;
-                more.style.alignSelf              = Align.Center;
-                preview.Add(more);
-            }
+            // Vẽ các khối phân nhóm màu sắc chuyên nghiệp
+            RenderLevelGroup(preview, "🟢 Cấp độ Dễ (Easy)", easyIds, new UnityEngine.Color(0.15f, 0.61f, 0.39f), new UnityEngine.Color(0.1f, 0.45f, 0.28f));
+            RenderLevelGroup(preview, "🟡 Cấp độ Trung Bình (Medium)", mediumIds, new UnityEngine.Color(0.95f, 0.65f, 0.1f), new UnityEngine.Color(0.7f, 0.45f, 0.05f));
+            RenderLevelGroup(preview, "🔴 Cấp độ Khó (Hard)", hardIds, new UnityEngine.Color(0.9f, 0.24f, 0.24f), new UnityEngine.Color(0.68f, 0.12f, 0.12f));
         }
 
         // ═══════════════════════════════════════════
@@ -614,13 +660,13 @@ namespace VocabLearning.UI
         private string GetDifficultyLabel(string difficulty) =>
             difficulty.ToLower() switch
             {
-                "easy" => "Dễ", "medium" => "Trung Bình", "hard" => "Khó", _ => difficulty
+                "easy" => "Dễ", "medium" => "Trung Bình", "hard" => "Khó", "multilevel" => "Đa cấp độ", _ => difficulty
             };
 
         private string ParseDifficultyLabel(string label) =>
             label switch
             {
-                "Dễ" => "Easy", "Trung Bình" => "Medium", "Khó" => "Hard", _ => label
+                "Dễ" => "Easy", "Trung Bình" => "Medium", "Khó" => "Hard", "Đa cấp độ" => "MultiLevel", _ => label
             };
     }
 }

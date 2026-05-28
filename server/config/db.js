@@ -120,6 +120,7 @@ async function initDatabase(forceRecreate = false) {
           [email] NVARCHAR(100) NULL UNIQUE,
           [password] VARCHAR(255) NOT NULL,
           [role] VARCHAR(20) NOT NULL DEFAULT 'user',
+          [status] INT NOT NULL DEFAULT 1,
           [level] INT NOT NULL DEFAULT 1,
           [exp] INT NOT NULL DEFAULT 0,
           [coins] INT NOT NULL DEFAULT 0,
@@ -131,6 +132,20 @@ async function initDatabase(forceRecreate = false) {
           [loginDates] NVARCHAR(MAX) NOT NULL DEFAULT ''
         );
         CREATE INDEX idx_users_username ON [users]([username]);
+      END
+    `);
+
+    // Tự động Migration bổ sung cột status nếu bảng users đã tồn tại từ trước
+    await transaction.request().query(`
+      IF EXISTS (SELECT * FROM sys.tables WHERE name = 'users')
+      BEGIN
+        IF NOT EXISTS (
+          SELECT * FROM sys.columns 
+          WHERE object_id = OBJECT_ID('users') AND name = 'status'
+        )
+        BEGIN
+          ALTER TABLE [users] ADD [status] INT NOT NULL DEFAULT 1;
+        END
       END
     `);
 
