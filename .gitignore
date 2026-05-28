@@ -107,10 +107,10 @@ InitTestScene*.unity*
 server/node_modules/
 server/.env
 
-# Private file
-db.md
-PRESENTATION.md
-PROJECT_INFO.md
+# Ignore all markdown files except README.md
+*.md
+!README.md
+
 
 # Unity Packages (ignore downloaded package directories, keep manifest and lock)
 /Packages/*/
