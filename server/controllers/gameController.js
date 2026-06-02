@@ -40,6 +40,7 @@ exports.getGlobals = async (req, res) => {
         id: set.id,
         title: set.title,
         description: set.description,
+        wordCount: wordIds.length,
         category: set.category,
         difficulty: set.difficulty,
         rankRequired: set.rankRequired,
@@ -63,7 +64,7 @@ exports.getGlobals = async (req, res) => {
     // 6. Lấy danh sách Bảng xếp hạng người chơi thực (sắp xếp theo Rank Points và EXP) kèm Avatar đang trang bị
     const lbResult = await pool.request().query(`
       SELECT TOP 50 
-        u.[id], u.[username], u.[level], u.[exp], u.[coins], u.[rankPoints], u.[wins], u.[totalGames],
+        u.[id], u.[username], u.[displayName], u.[exp], u.[coins], u.[rankPoints], u.[wins], u.[totalGames],
         ISNULL(sr.[bestSurvivor], 0) AS [bestSurvivor],
         ISNULL(sr.[bestQuick10], 0) AS [bestQuick10],
         ISNULL(sr.[bestTimeRush], 0) AS [bestTimeRush],
@@ -72,12 +73,15 @@ exports.getGlobals = async (req, res) => {
          WHERE ui.[userId] = u.[id] AND ui.[equipType] = 'Avatar' AND ui.[isEquipped] = 1) AS [equippedAvatarIcon]
       FROM [users] u
       LEFT JOIN [user_solo_records] sr ON u.[id] = sr.[userId]
-      ORDER BY u.[rankPoints] DESC, u.[level] DESC
+      ORDER BY u.[rankPoints] DESC, u.[exp] DESC
     `);
     const leaderboardUsers = lbResult.recordset.map(u => {
+      const calculatedLevel = Math.floor(u.exp / 1000) + 1;
       const userObj = {
         ...u,
-        expNeeded: getExpNeeded(u.level),
+        displayName: u.displayName || u.username,
+        level: calculatedLevel,
+        expNeeded: 1000,
         rank: getRankName(u.rankPoints),
         inventory: []
       };

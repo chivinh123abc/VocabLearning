@@ -678,12 +678,13 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: rgb(247, 243, 235);
+    background-color: rgb(15, 23, 42);
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 40px;
     padding-bottom: 16px;
 }
+
 
 .menu-scroll {
     flex-grow: 1;
@@ -773,12 +774,12 @@
     width: 48%;
     height: auto;
     min-height: 120px;
-    background-color: white;
+    background-color: rgb(30, 41, 59);
     border-radius: 16px;
     padding: 12px 10px;
     margin-bottom: 12px;
     border-width: 1.5px;
-    border-color: rgb(230, 225, 215);
+    border-color: rgb(51, 65, 85);
     align-items: center;
     justify-content: center;
     transition-property: scale, background-color;
@@ -788,12 +789,13 @@
 
 .stat-card:hover {
     scale: 1.04;
-    background-color: rgb(248, 251, 255);
+    background-color: rgb(39, 52, 71);
 }
 
 .stat-card:active {
     scale: 0.97;
 }
+
 
 .stat-icon {
     width: 36px;
@@ -809,7 +811,7 @@
 .stat-number {
     font-size: 24px;
     -unity-font-style: bold;
-    color: rgb(30, 41, 59);
+    color: white;
     margin-bottom: 4px;
     -unity-text-align: middle-center;
     overflow: hidden;
@@ -817,13 +819,14 @@
 
 .stat-label {
     font-size: 12px;
-    color: rgb(100, 116, 139);
+    color: rgb(148, 163, 184);
     -unity-text-align: middle-center;
     -unity-font-style: bold;
     overflow: hidden;
     -unity-text-wrap: true;
     width: 100%;
 }
+
 
 /* ─── COLOR CHIPS ─── */
 .blue   { background-color: rgb(59, 130, 246); }
@@ -837,10 +840,11 @@
 .menu-section-label {
     font-size: 15px;
     -unity-font-style: bold;
-    color: rgb(90, 80, 65);
+    color: rgb(148, 163, 184);
     margin-bottom: 8px;
     margin-top: 4px;
 }
+
 
 /* ─── MENU CARDS ─── */
 .menu-card {
@@ -848,7 +852,7 @@
     min-height: 80px;
     padding-top: 8px;
     padding-bottom: 8px;
-    background-color: white;
+    background-color: rgb(30, 41, 59);
     border-radius: 16px;
     flex-direction: row;
     align-items: center;
@@ -856,21 +860,22 @@
     padding-right: 14px;
     margin-bottom: 10px;
     border-width: 1.5px;
-    border-color: rgb(235, 230, 220);
+    border-color: rgb(51, 65, 85);
     transition-property: scale, background-color;
     transition-duration: 0.15s;
     transition-timing-function: ease-out;
 }
 
 .menu-card:hover {
-    background-color: rgb(245, 248, 255);
+    background-color: rgb(39, 52, 71);
     scale: 1.025;
 }
 
 .menu-card:active {
     scale: 0.97;
-    background-color: rgb(235, 242, 255);
+    background-color: rgba(59, 130, 246, 0.2);
 }
+
 
 .menu-icon {
     width: 48px;
@@ -895,14 +900,15 @@
 .menu-title {
     font-size: 18px;
     -unity-font-style: bold;
-    color: rgb(15, 23, 42);
+    color: white;
     margin-bottom: 4px;
 }
 
 .menu-subtitle {
     font-size: 12px;
-    color: rgb(70, 80, 100);
+    color: rgb(148, 163, 184);
 }
+
 
 .menu-arrow {
     font-size: 16px;
@@ -918,20 +924,43 @@
 .recent-title {
     font-size: 22px;
     -unity-font-style: bold;
-    color: rgb(30, 41, 59);
+    color: white;
     margin-bottom: 12px;
 }
 
 .recent-card {
-    background-color: white;
+    background-color: rgb(30, 41, 59);
     border-radius: 16px;
     padding: 14px;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: rgb(51, 65, 85);
 }
+
 
 .recent-item {
     font-size: 14px;
     color: rgb(148, 163, 184);
     margin-bottom: 8px;
+}
+
+/* Style for custom editable username input field in Profile Screen */
+.profile-name-input {
+    min-width: 140px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-name-input .unity-text-field__input {
+    background-color: rgb(30, 41, 59); /* Match slate card background */
+    color: white; /* Text color */
+    border-color: rgba(255, 255, 255, 0.2);
+    border-width: 1px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 16px;
+}
+
+.profile-name-input .unity-text-field__input:focus {
+    border-color: rgb(59, 130, 246); /* Blue border highlight on focus */
 }

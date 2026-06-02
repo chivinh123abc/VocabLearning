@@ -41,15 +41,6 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ===== TABS LỌC ĐỘ KHÓ ===== -->
-        <ui:VisualElement style="padding-left: 20px; padding-right: 20px; padding-bottom: 12px;">
-            <ui:VisualElement style="background-color: rgb(228, 224, 215); border-radius: 12px; flex-direction: row; padding: 4px; border-width: 1px; border-color: rgb(210, 205, 195);">
-                <ui:Button name="tab-all"    text="📚 Tất cả"  style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: rgb(255, 170, 30); color: white; -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
-                <ui:Button name="tab-easy"   text="🟢 Dễ"      style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
-                <ui:Button name="tab-medium" text="🟡 TB"      style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
-                <ui:Button name="tab-hard"   text="🔴 Khó"     style="flex-grow: 1; padding: 8px 4px; border-radius: 10px; background-color: transparent; color: rgb(100, 95, 85); -unity-font-style: bold; border-width: 0; font-size: 14px; margin: 0;"/>
-            </ui:VisualElement>
-        </ui:VisualElement>
 
         <!-- ===== COUNT LABEL ===== -->
         <ui:Label name="set-count-label" text="0 bộ từ vựng" class="vocab-count-label"/>

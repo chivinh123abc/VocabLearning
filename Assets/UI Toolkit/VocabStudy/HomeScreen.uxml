@@ -129,6 +129,12 @@
                 <ui:Label text="P" class="nav-icon" />
                 <ui:Label text="Profile" class="nav-label" />
             </ui:Button>
+
+            <!-- Admin (chỉ hiện với tài khoản admin, ẩn mặc định) -->
+            <ui:Button class="bottom-nav-item" name="NavAdmin" style="display: none;">
+                <ui:Label text="⚙" class="nav-icon" style="color: #F59E0B;" />
+                <ui:Label text="Admin" class="nav-label" style="color: #F59E0B;" />
+            </ui:Button>
         </ui:VisualElement>
 
         <!-- Learned Sets Overlay (Màn hình phụ hiển thị các bộ đã học) -->

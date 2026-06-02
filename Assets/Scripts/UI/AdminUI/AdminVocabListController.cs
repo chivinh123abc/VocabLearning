@@ -10,7 +10,6 @@ namespace VocabLearning.UI
     {
         // ── State ──────────────────────────────────
         private VocabSetJson    _currentEditingSet   = null;
-        private string          _setDifficultyFilter = "";
         private HashSet<string> _pickerSelected      = new HashSet<string>();
         private string          _pickerRankFilter    = "Tất cả";
 
@@ -39,11 +38,7 @@ namespace VocabLearning.UI
                 catDd.RegisterValueChangedCallback(_ => RefreshSetList());
             }
 
-            // Tabs
-            SetupDifficultyTab("tab-all", "");
-            SetupDifficultyTab("tab-easy", "Easy");
-            SetupDifficultyTab("tab-medium", "Medium");
-            SetupDifficultyTab("tab-hard", "Hard");
+            // Tabs (Removed difficulty filters)
 
             // Set modal buttons
             _root.Q<Button>("btn-modal-close")?.RegisterCallback<ClickEvent>(_ => CloseSetModal());
@@ -75,31 +70,6 @@ namespace VocabLearning.UI
             RefreshSetList();
         }
 
-        // ═══════════════════════════════════════════
-        //   TABS ĐỘ KHÓ
-        // ═══════════════════════════════════════════
-        private void SetupDifficultyTab(string tabName, string difficulty)
-        {
-            var btn = _root.Q<Button>(tabName);
-            if (btn == null) return;
-            btn.RegisterCallback<ClickEvent>(_ =>
-            {
-                _setDifficultyFilter = difficulty;
-                foreach (var id in new[] { "tab-all", "tab-easy", "tab-medium", "tab-hard" })
-                {
-                    var t = _root.Q<Button>(id);
-                    if (t == null) continue;
-                    bool active = id == tabName;
-                    t.style.backgroundColor = active
-                        ? new StyleColor(new Color(1f, 0.667f, 0.118f))
-                        : new StyleColor(new Color(0, 0, 0, 0));
-                    t.style.color = active
-                        ? new StyleColor(Color.white)
-                        : new StyleColor(new Color(0.39f, 0.37f, 0.33f));
-                }
-                RefreshSetList();
-            });
-        }
 
         // ═══════════════════════════════════════════
         //   MAIN LIST
@@ -124,9 +94,7 @@ namespace VocabLearning.UI
                     (set.category ?? "").ToLower().Contains(query) || (set.description ?? "").ToLower().Contains(query);
                 bool mC = catFilter == "Tất cả" ||
                     (set.category ?? "").Equals(catFilter, System.StringComparison.OrdinalIgnoreCase);
-                bool mD = string.IsNullOrEmpty(_setDifficultyFilter) ||
-                    (set.difficulty ?? "").Equals(_setDifficultyFilter, System.StringComparison.OrdinalIgnoreCase);
-                if (!mQ || !mC || !mD) continue;
+                if (!mQ || !mC) continue;
 
                 filtered++;
                 if (!string.IsNullOrEmpty(set.category)) cats.Add(set.category);
@@ -168,10 +136,21 @@ namespace VocabLearning.UI
             var nameRow = new VisualElement(); nameRow.AddToClassList("vocab-name-row"); nameRow.pickingMode = PickingMode.Ignore;
 
             var lblTitle = new Label(set.title); lblTitle.AddToClassList("vocab-word"); lblTitle.pickingMode = PickingMode.Ignore;
-            var lblDiff  = new Label(GetDifficultyLabel(set.difficulty ?? ""));
+            bool isMultiLevel = set.levels != null && set.levels.Count > 1;
+            string displayDiffVal = isMultiLevel ? "Multi-Level" : (set.difficulty ?? "Easy");
+            var lblDiff  = new Label(GetDifficultyLabel(displayDiffVal));
             lblDiff.AddToClassList("rank-badge"); lblDiff.pickingMode = PickingMode.Ignore;
-            if ((set.difficulty ?? "").Equals("Easy",   System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--2");
-            else if ((set.difficulty ?? "").Equals("Hard", System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--3");
+            if (displayDiffVal.Equals("Easy", System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--2");
+            else if (displayDiffVal.Equals("Hard", System.StringComparison.OrdinalIgnoreCase)) lblDiff.AddToClassList("rank-badge--3");
+            else if (displayDiffVal.Equals("Multi-Level", System.StringComparison.OrdinalIgnoreCase))
+            {
+                lblDiff.style.backgroundColor = new StyleColor(new Color(0.88f, 0.92f, 0.99f));
+                lblDiff.style.color = new StyleColor(new Color(0.18f, 0.36f, 0.77f));
+                lblDiff.style.borderTopColor = new StyleColor(new Color(0.78f, 0.85f, 0.98f));
+                lblDiff.style.borderRightColor = new StyleColor(new Color(0.78f, 0.85f, 0.98f));
+                lblDiff.style.borderBottomColor = new StyleColor(new Color(0.78f, 0.85f, 0.98f));
+                lblDiff.style.borderLeftColor = new StyleColor(new Color(0.78f, 0.85f, 0.98f));
+            }
             nameRow.Add(lblTitle); nameRow.Add(lblDiff);
 
             var lblDesc = new Label(set.description ?? "(Chưa có mô tả)");
@@ -275,7 +254,7 @@ namespace VocabLearning.UI
 
         private void ShowSetModal()
         {
-            SetDropdownChoices("input-difficulty", new List<string> { "Dễ", "Trung Bình", "Khó" });
+            SetDropdownChoices("input-difficulty", new List<string> { "Dễ", "Trung Bình", "Khó", "Đa Cấp Độ" });
             SetDropdownChoices("input-rank", new List<string> { "Dong","Bac","Vang","BachKim","KimCuong","SieuCap" });
             var cats = new List<string> { "Daily Life","Business","Education","Entertainment","Food","Health","Nature","Sports","Technology","Travel" };
             if (_jsonDb?.vocabSets != null)
@@ -499,55 +478,124 @@ namespace VocabLearning.UI
                 return;
             }
 
-            int shown = 0;
-            foreach (var id in _pickerSelected.OrderBy(x => x))
+            preview.style.flexDirection = FlexDirection.Column;
+            preview.style.alignItems = Align.Stretch;
+
+            var easyIds = new List<string>();
+            var mediumIds = new List<string>();
+            var hardIds = new List<string>();
+
+            foreach (var id in _pickerSelected)
             {
-                if (shown >= 20) break;
-                var word  = _jsonDb?.words?.FirstOrDefault(w => w.id == id);
-                string lbl = word != null ? word.word : id;
-
-                var chip = new VisualElement();
-                chip.style.flexDirection = FlexDirection.Row;
-                chip.style.alignItems    = Align.Center;
-                chip.style.backgroundColor = new StyleColor(new Color(0.86f, 0.93f, 1.0f));
-                chip.style.borderTopLeftRadius     = 20; chip.style.borderTopRightRadius    = 20;
-                chip.style.borderBottomLeftRadius  = 20; chip.style.borderBottomRightRadius = 20;
-                chip.style.paddingLeft   = 12; chip.style.paddingRight  = 8;
-                chip.style.paddingTop    = 6;  chip.style.paddingBottom = 6;
-                chip.style.marginRight   = 8;  chip.style.marginBottom  = 8;
-
-                var chipLbl = new Label(lbl);
-                chipLbl.style.fontSize               = 17;
-                chipLbl.style.color                  = new StyleColor(new Color(0.18f, 0.4f, 0.8f));
-                chipLbl.style.unityFontStyleAndWeight= FontStyle.Bold;
-                chipLbl.pickingMode                  = PickingMode.Ignore;
-
-                string capturedId = id;
-                var chipRemove = new Button();
-                chipRemove.text = "✕";
-                chipRemove.style.fontSize          = 16;
-                chipRemove.style.color             = new StyleColor(new Color(0.5f, 0.5f, 0.5f));
-                chipRemove.style.backgroundColor   = new StyleColor(new Color(0, 0, 0, 0));
-                chipRemove.style.borderTopWidth    = 0; chipRemove.style.borderBottomWidth = 0;
-                chipRemove.style.borderLeftWidth   = 0; chipRemove.style.borderRightWidth  = 0;
-                chipRemove.style.marginLeft        = 4;
-                chipRemove.clicked += () => { _pickerSelected.Remove(capturedId); RefreshPickerPreview(); };
-
-                chip.Add(chipLbl); chip.Add(chipRemove);
-                preview.Add(chip);
-                shown++;
+                var word = _jsonDb?.words?.FirstOrDefault(w => w.id == id);
+                string rankKey = word != null && !string.IsNullOrEmpty(word.rankRequired) ? word.rankRequired.Trim().ToLower() : "dong";
+                
+                if (rankKey == "dong" || rankKey == "bac")
+                    easyIds.Add(id);
+                else if (rankKey == "vang" || rankKey == "bachkim")
+                    mediumIds.Add(id);
+                else if (rankKey == "kimcuong" || rankKey == "sieucap")
+                    hardIds.Add(id);
+                else
+                    easyIds.Add(id);
             }
 
-            int remaining = cnt - shown;
-            if (remaining > 0)
+            System.Action<string, List<string>, Color> addSection = (sectionName, ids, themeColor) =>
             {
-                var more = new Label($"+{remaining} từ khác");
-                more.style.fontSize               = 17;
-                more.style.color                  = new StyleColor(new Color(0.55f, 0.53f, 0.50f));
-                more.style.unityFontStyleAndWeight= FontStyle.Italic;
-                more.style.alignSelf              = Align.Center;
-                preview.Add(more);
-            }
+                if (ids.Count == 0) return;
+
+                var section = new VisualElement();
+                section.style.flexDirection = FlexDirection.Column;
+                section.style.marginBottom = 10;
+
+                var headerRow = new VisualElement();
+                headerRow.style.flexDirection = FlexDirection.Row;
+                headerRow.style.alignItems = Align.Center;
+                headerRow.style.marginBottom = 6;
+
+                var indicator = new VisualElement();
+                indicator.style.width = 10;
+                indicator.style.height = 10;
+                indicator.style.backgroundColor = new StyleColor(themeColor);
+                indicator.style.borderTopLeftRadius = 5;
+                indicator.style.borderTopRightRadius = 5;
+                indicator.style.borderBottomLeftRadius = 5;
+                indicator.style.borderBottomRightRadius = 5;
+                indicator.style.marginRight = 8;
+
+                var title = new Label($"{sectionName} ({ids.Count} từ)");
+                title.style.fontSize = 14;
+                title.style.unityFontStyleAndWeight = FontStyle.Bold;
+                title.style.color = new StyleColor(new Color(0.8f, 0.8f, 0.8f));
+
+                headerRow.Add(indicator);
+                headerRow.Add(title);
+                section.Add(headerRow);
+
+                var chipsRow = new VisualElement();
+                chipsRow.style.flexDirection = FlexDirection.Row;
+                chipsRow.style.flexWrap = Wrap.Wrap;
+                chipsRow.style.paddingLeft = 18;
+
+                foreach (var id in ids.OrderBy(x => x))
+                {
+                    var word = _jsonDb?.words?.FirstOrDefault(w => w.id == id);
+                    string lbl = word != null ? word.word : id;
+
+                    var chip = new VisualElement();
+                    chip.style.flexDirection = FlexDirection.Row;
+                    chip.style.alignItems = Align.Center;
+                    chip.style.backgroundColor = new StyleColor(new Color(0.12f, 0.16f, 0.23f));
+                    chip.style.borderTopLeftRadius = 14;
+                    chip.style.borderTopRightRadius = 14;
+                    chip.style.borderBottomLeftRadius = 14;
+                    chip.style.borderBottomRightRadius = 14;
+                    chip.style.paddingLeft = 10;
+                    chip.style.paddingRight = 6;
+                    chip.style.paddingTop = 4;
+                    chip.style.paddingBottom = 4;
+                    chip.style.marginRight = 6;
+                    chip.style.marginBottom = 6;
+                    chip.style.borderTopWidth = 1;
+                    chip.style.borderBottomWidth = 1;
+                    chip.style.borderLeftWidth = 1;
+                    chip.style.borderRightWidth = 1;
+                    chip.style.borderTopColor = new StyleColor(new Color(themeColor.r, themeColor.g, themeColor.b, 0.4f));
+                    chip.style.borderRightColor = new StyleColor(new Color(themeColor.r, themeColor.g, themeColor.b, 0.4f));
+                    chip.style.borderBottomColor = new StyleColor(new Color(themeColor.r, themeColor.g, themeColor.b, 0.4f));
+                    chip.style.borderLeftColor = new StyleColor(new Color(themeColor.r, themeColor.g, themeColor.b, 0.4f));
+
+                    var chipLbl = new Label(lbl);
+                    chipLbl.style.fontSize = 13;
+                    chipLbl.style.color = new StyleColor(themeColor);
+                    chipLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+                    chipLbl.pickingMode = PickingMode.Ignore;
+
+                    string capturedId = id;
+                    var chipRemove = new Button();
+                    chipRemove.text = "✕";
+                    chipRemove.style.fontSize = 12;
+                    chipRemove.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+                    chipRemove.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0));
+                    chipRemove.style.borderTopWidth = 0;
+                    chipRemove.style.borderBottomWidth = 0;
+                    chipRemove.style.borderLeftWidth = 0;
+                    chipRemove.style.borderRightWidth = 0;
+                    chipRemove.style.marginLeft = 4;
+                    chipRemove.clicked += () => { _pickerSelected.Remove(capturedId); RefreshPickerPreview(); };
+
+                    chip.Add(chipLbl);
+                    chip.Add(chipRemove);
+                    chipsRow.Add(chip);
+                }
+
+                section.Add(chipsRow);
+                preview.Add(section);
+            };
+
+            addSection("Dễ (Easy)", easyIds, new Color(0.10f, 0.73f, 0.51f));
+            addSection("Trung Bình (Medium)", mediumIds, new Color(0.23f, 0.51f, 0.96f));
+            addSection("Khó (Hard)", hardIds, new Color(0.93f, 0.26f, 0.26f));
         }
 
         // ═══════════════════════════════════════════
@@ -614,13 +662,13 @@ namespace VocabLearning.UI
         private string GetDifficultyLabel(string difficulty) =>
             difficulty.ToLower() switch
             {
-                "easy" => "Dễ", "medium" => "Trung Bình", "hard" => "Khó", _ => difficulty
+                "easy" => "Dễ", "medium" => "Trung Bình", "hard" => "Khó", "multi-level" => "Đa Cấp Độ", _ => difficulty
             };
 
         private string ParseDifficultyLabel(string label) =>
             label switch
             {
-                "Dễ" => "Easy", "Trung Bình" => "Medium", "Khó" => "Hard", _ => label
+                "Dễ" => "Easy", "Trung Bình" => "Medium", "Khó" => "Hard", "Đa Cấp Độ" => "Multi-Level", _ => label
             };
     }
 }

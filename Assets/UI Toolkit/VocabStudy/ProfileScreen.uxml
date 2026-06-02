@@ -12,7 +12,15 @@
                         <ui:Label name="ProfileAvatarEffect" text="" style="position: absolute; font-size: 80px; opacity: 0.4;"/>
                         <ui:Label name="ProfileAvatarIcon" text="👤" style="font-size: 50px;"/>
                     </ui:VisualElement>
-                    <ui:Label name="LblProfileName" text="Player Name" class="font-bold" style="font-size: 24px; color: white; margin-bottom: 8px;"/>
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 8px; justify-content: center;">
+                        <ui:Label name="LblProfileName" text="Player Name" class="font-bold" style="font-size: 24px; color: white;"/>
+                        <ui:Button name="BtnEditProfileName" text="✏" style="background-color: rgba(0,0,0,0); border-width: 0; color: rgba(255,255,255,0.6); font-size: 16px; margin-left: 8px; padding: 2px;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="EditProfileNameContainer" style="flex-direction: row; align-items: center; margin-bottom: 8px; justify-content: center; display: none;">
+                        <ui:TextField name="InputProfileName" class="profile-name-input"/>
+                        <ui:Button name="BtnSaveProfileName" text="💾" style="background-color: rgb(59, 130, 246); border-width: 0; border-radius: 8px; color: white; font-size: 14px; margin-left: 8px; width: 36px; height: 36px; padding: 0; justify-content: center; align-items: center;"/>
+                        <ui:Button name="BtnCancelProfileName" text="✕" style="background-color: rgba(255, 255, 255, 0.15); border-width: 0; border-radius: 8px; color: white; font-size: 14px; margin-left: 4px; width: 36px; height: 36px; padding: 0; justify-content: center; align-items: center;"/>
+                    </ui:VisualElement>
                     <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 12px; margin-bottom: 16px;">
                         <ui:Label text="★" style="color: rgb(245, 158, 11); margin-right: 8px;"/>
                         <ui:Label name="LblProfileLevel" text="Level 15" class="font-bold" style="color: white;"/>

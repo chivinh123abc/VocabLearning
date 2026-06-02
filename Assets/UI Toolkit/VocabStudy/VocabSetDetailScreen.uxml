@@ -34,7 +34,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:Label text="Select Difficulty Level" class="section-title" />
+        <ui:Label name="DifficultySelectionHeader" text="Select Difficulty Level" class="section-title" />
         <ui:VisualElement name="LevelSelectionContainer" style="flex-direction: row; flex-wrap: wrap; padding-left: 24px; padding-right: 24px; margin-bottom: 12px; justify-content: flex-start;" />
 
         <!-- Learning Modes -->

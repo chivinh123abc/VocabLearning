@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const { getPool, sql } = require('../config/db');
 
 // Hàm chuyển đổi điểm rank thành chuỗi rank tương ứng (Đồng bộ với Unity)
@@ -13,12 +14,14 @@ const getRankName = (rankPoints) => {
 };
 
 const getExpNeeded = (level) => {
-  return level * 100;
+  return 1000;
 };
+
 
 // Export để sử dụng ở các Controller khác
 exports.getRankName = getRankName;
 exports.getExpNeeded = getExpNeeded;
+exports.getUserFullProfile = getUserFullProfile;
 
 // Hàm hỗ trợ lấy toàn bộ thông tin tiến độ của một User
 async function getUserFullProfile(pool, userId) {
@@ -132,16 +135,16 @@ async function getUserFullProfile(pool, userId) {
     unlockDate: r.unlockDate
   }));
 
-  // Trả về cấu trúc JSON tương thích Unity Client
   return {
     id: user.id,
     username: user.username,
+    displayName: user.displayName || user.username,
     email: user.email,
     role: user.role,
     status: user.status || 'active',
-    level: user.level,
+    level: Math.floor(user.exp / 1000) + 1,
     exp: user.exp,
-    expNeeded: getExpNeeded(user.level),
+    expNeeded: 1000,
     coins: user.coins,
     rank: getRankName(user.rankPoints),
     rankPoints: user.rankPoints,
@@ -253,11 +256,11 @@ exports.register = async (req, res) => {
       
       await insertUserReq.query(`
         INSERT INTO [users] (
-          [id], [username], [email], [password], [role], [level], [exp], [coins], 
+          [id], [username], [displayName], [email], [password], [role], [exp], [coins], 
           [rankPoints], [wins], [totalGames],
           [weekStartDate], [isRewardClaimed], [loginDates]
         ) VALUES (
-          @id, @username, @email, @password, 'user', 1, 0, 500, 
+          @id, @username, @username, @email, @password, 'user', 0, 500, 
           0, 0, 0,
           @today, 0, ''
         )
@@ -318,5 +321,109 @@ exports.register = async (req, res) => {
   } catch (err) {
     console.error('Lỗi khi đăng ký: ', err);
     return res.status(500).json({ success: false, message: 'Lỗi đăng ký tài khoản!' });
+  }
+};
+
+// Bộ nhớ đệm lưu mã OTP khôi phục mật khẩu
+const otpStore = new Map();
+
+// Gửi mã OTP khôi phục mật khẩu qua email
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email || !email.trim()) {
+    return res.status(400).json({ success: false, message: 'Vui lòng cung cấp email của bạn!' });
+  }
+
+  try {
+    const pool = await getPool();
+    const checkReq = pool.request();
+    checkReq.input('email', sql.NVarChar, email.trim());
+    const checkRes = await checkReq.query('SELECT [id] FROM [users] WHERE [email] = @email');
+
+    if (checkRes.recordset.length === 0) {
+      return res.status(400).json({ success: false, message: 'Địa chỉ email này không tồn tại trên hệ thống!' });
+    }
+
+    // Tạo mã OTP gồm 6 chữ số ngẫu nhiên
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = Date.now() + 5 * 60 * 1000; // Có hiệu lực trong 5 phút
+
+    const emailKey = email.trim().toLowerCase();
+    otpStore.set(emailKey, { otp, expires });
+
+    // Tạo kênh vận chuyển email thông qua SMTP của Gmail
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    const mailOptions = {
+      from: `"VocabLearning Support" <${process.env.EMAIL_USER}>`,
+      to: email.trim(),
+      subject: '[VocabLearning] Mã OTP Khôi Phục Mật Khẩu',
+      text: `Xin chào,\n\nBạn đã gửi yêu cầu đặt lại mật khẩu cho tài khoản VocabLearning.\nMã OTP xác nhận của bạn là: ${otp}\n\nMã OTP này có hiệu lực trong vòng 5 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai.\n\nTrân trọng,\nĐội ngũ VocabLearning.`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✉️ Đã gửi OTP (${otp}) khôi phục mật khẩu tới: ${email}`);
+
+    return res.json({ success: true, message: 'Gửi mã OTP khôi phục mật khẩu thành công!' });
+
+  } catch (err) {
+    console.error('Lỗi khi gửi email OTP: ', err);
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi gửi mã khôi phục mật khẩu!' });
+  }
+};
+
+// Xác thực OTP và Đặt mật khẩu mới
+exports.resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Vui lòng điền đầy đủ các thông tin yêu cầu!' });
+  }
+
+  const emailKey = email.trim().toLowerCase();
+  const record = otpStore.get(emailKey);
+
+  if (!record) {
+    return res.status(400).json({ success: false, message: 'Chưa yêu cầu mã OTP cho email này!' });
+  }
+
+  if (record.otp !== otp.trim()) {
+    return res.status(400).json({ success: false, message: 'Mã OTP không chính xác!' });
+  }
+
+  if (Date.now() > record.expires) {
+    otpStore.delete(emailKey);
+    return res.status(400).json({ success: false, message: 'Mã OTP đã hết hạn sử dụng! Vui lòng yêu cầu mã mới.' });
+  }
+
+  try {
+    const hashedPassword = bcrypt.hashSync(newPassword.trim(), 10);
+    const pool = await getPool();
+
+    const updateReq = pool.request();
+    updateReq.input('email', sql.NVarChar, email.trim());
+    updateReq.input('password', sql.VarChar, hashedPassword);
+    const result = await updateReq.query('UPDATE [users] SET [password] = @password WHERE [email] = @email');
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(400).json({ success: false, message: 'Email không khớp với người dùng nào trong hệ thống.' });
+    }
+
+    // Xóa mã OTP sau khi sử dụng thành công
+    otpStore.delete(emailKey);
+    console.log(`🔑 Đã đổi mật khẩu khôi phục thành công cho hòm thư: ${email}`);
+
+    return res.json({ success: true, message: 'Đặt lại mật khẩu thành công! Bạn có thể sử dụng mật khẩu mới để đăng nhập.' });
+
+  } catch (err) {
+    console.error('Lỗi khi khôi phục mật khẩu: ', err);
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi khôi phục mật khẩu!' });
   }
 };

@@ -103,12 +103,18 @@ exports.getAllUsers = async (req, res) => {
   try {
     const pool = await getPool();
     const result = await pool.request().query(`
-      SELECT [id], [username], [email], [role], [status], [level], [exp], [coins], [rankPoints], [wins], [totalGames]
+      SELECT [id], [username], [displayName], [email], [role], [status], [exp], [coins], [rankPoints], [wins], [totalGames]
       FROM [users]
       ORDER BY [username] ASC
     `);
+
+    const usersCalculated = result.recordset.map(u => ({
+      ...u,
+      displayName: u.displayName || u.username,
+      level: Math.floor(u.exp / 1000) + 1
+    }));
     
-    return res.json({ success: true, users: result.recordset });
+    return res.json({ success: true, users: usersCalculated });
   } catch (err) {
     console.error('Lỗi khi Admin lấy danh sách user: ', err);
     return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi lấy danh sách user!' });
@@ -118,7 +124,7 @@ exports.getAllUsers = async (req, res) => {
 // Cập nhật thông số & trạng thái người dùng (Admin)
 exports.updateUser = async (req, res) => {
   const userId = req.params.id;
-  const { role, status, level, exp, coins, rankPoints } = req.body;
+  const { role, status, exp, coins, rankPoints } = req.body;
 
   try {
     const pool = await getPool();
@@ -126,7 +132,6 @@ exports.updateUser = async (req, res) => {
     request.input('id', sql.VarChar, userId);
     request.input('role', sql.VarChar, role || 'user');
     request.input('status', sql.VarChar, status || 'active');
-    request.input('level', sql.Int, level !== undefined ? level : 1);
     request.input('exp', sql.Int, exp !== undefined ? exp : 0);
     request.input('coins', sql.Int, coins !== undefined ? coins : 0);
     request.input('rankPoints', sql.Int, rankPoints !== undefined ? rankPoints : 0);
@@ -135,7 +140,6 @@ exports.updateUser = async (req, res) => {
       UPDATE [users]
       SET [role] = @role,
           [status] = @status,
-          [level] = @level,
           [exp] = @exp,
           [coins] = @coins,
           [rankPoints] = @rankPoints

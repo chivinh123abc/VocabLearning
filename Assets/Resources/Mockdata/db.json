@@ -1,862 +1,104 @@
 {
     "currentUser": {
-        "id": "test_user_1",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfdXNlcl8xIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Nzk4NTgxOTEsImV4cCI6MTc4MjQ1MDE5MX0.abnOZtd3ojwPwbs4hDlloN6YYHnbufsJs1akteRSgwA",
-        "username": "user1",
-        "email": "hero@vocab.com",
+        "id": "test_admin_1",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MDM4MDc1MCwiZXhwIjoxNzgyOTcyNzUwfQ.zYKdqzoS1ftWMx-59XGYZD0evH0CKLLU5RPwnLBftww",
+        "username": "admin",
+        "displayName": "admin",
+        "email": "admin@vocab.com",
         "password": "",
-        "role": "user",
+        "role": "admin",
         "status": "active",
-        "level": 12,
-        "exp": 3455,
-        "expNeeded": 1200,
-        "coins": 3270,
+        "level": 1,
+        "exp": 750,
+        "expNeeded": 1000,
+        "coins": 2450,
         "rank": "SieuCap",
-        "rankPoints": 24560,
-        "wins": 38,
-        "totalGames": 55,
+        "rankPoints": 24500,
+        "wins": 34,
+        "totalGames": 50,
         "weeklyLogin": {
-            "weekStartDate": "2026-05-25",
+            "weekStartDate": "2026-06-01",
             "loginDates": [
-                "2026-05-27"
+                "2026-06-02"
             ],
             "isRewardClaimed": false
         },
-        "learnedSets": [
-            "2",
-            "3"
-        ],
-        "savedSetLevels": [
-            {
-                "setId": "2",
-                "level": "Easy"
-            },
-            {
-                "setId": "9",
-                "level": "Hard"
-            }
-        ],
-        "setProgress": [
-            {
-                "setId": "2",
-                "completedLevels": [
-                    "Easy"
-                ]
-            },
-            {
-                "setId": "3",
-                "completedLevels": [
-                    "Easy"
-                ]
-            }
-        ],
-        "wordProgress": [
-            {
-                "wordId": "w10",
-                "status": 2
-            },
-            {
-                "wordId": "w11",
-                "status": 2
-            },
-            {
-                "wordId": "w12",
-                "status": 2
-            },
-            {
-                "wordId": "w13",
-                "status": 2
-            },
-            {
-                "wordId": "w14",
-                "status": 2
-            },
-            {
-                "wordId": "w15",
-                "status": 2
-            },
-            {
-                "wordId": "w16",
-                "status": 2
-            },
-            {
-                "wordId": "w17",
-                "status": 2
-            },
-            {
-                "wordId": "w18",
-                "status": 2
-            },
-            {
-                "wordId": "w19",
-                "status": 2
-            },
-            {
-                "wordId": "w20",
-                "status": 2
-            },
-            {
-                "wordId": "w21",
-                "status": 2
-            },
-            {
-                "wordId": "w22",
-                "status": 2
-            },
-            {
-                "wordId": "w23",
-                "status": 2
-            },
-            {
-                "wordId": "w24",
-                "status": 2
-            },
-            {
-                "wordId": "w3",
-                "status": 2
-            },
-            {
-                "wordId": "w4",
-                "status": 2
-            },
-            {
-                "wordId": "w9",
-                "status": 2
-            }
-        ],
-        "battleHistory": [
-            {
-                "matchId": "4e70bfed-3d96-48e8-abef-135b7469f4a7",
-                "date": "2026-05-23 14:52",
-                "isRanked": true,
-                "isWin": false,
-                "opponentName": "Faker",
-                "playerFinalHP": 0,
-                "enemyFinalHP": 30,
-                "correctCount": 7,
-                "totalRounds": 17,
-                "rounds": [
-                    {
-                        "question": "Horse",
-                        "correctAnswer": "Con ngựa",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Airport",
-                        "correctAnswer": "Sân bay",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Các bên liên quan",
-                        "correctAnswer": "Stakeholder",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Bird",
-                        "correctAnswer": "Con chim",
-                        "playerAnswer": "Con chim",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Eyelid",
-                        "correctAnswer": "Mí mắt",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Liquidity",
-                        "correctAnswer": "Tính thanh khoản",
-                        "playerAnswer": "Tính thanh khoản",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Kho lưu trữ code",
-                        "correctAnswer": "Repository",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Thịt gà",
-                        "correctAnswer": "Chicken",
-                        "playerAnswer": "Chicken",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Exacerbate",
-                        "correctAnswer": "Làm trầm trọng thêm",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Sự đặt cạnh nhau để so sánh",
-                        "correctAnswer": "Juxtaposition",
-                        "playerAnswer": "Juxtaposition",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Bánh mì",
-                        "correctAnswer": "Bread",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Sorry",
-                        "correctAnswer": "Xin lỗi",
-                        "playerAnswer": "Xin lỗi",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Băng thông",
-                        "correctAnswer": "Bandwidth",
-                        "playerAnswer": "Bandwidth",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Shoulder",
-                        "correctAnswer": "Vai",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Nước",
-                        "correctAnswer": "Water",
-                        "playerAnswer": "Water",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Hộ chiếu",
-                        "correctAnswer": "Passport",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Chưa từng có tiền lệ",
-                        "correctAnswer": "Unprecedented",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    }
-                ]
-            },
-            {
-                "matchId": "84a04c2d-9f13-417b-a295-008699e64092",
-                "date": "2026-05-22 23:12",
-                "isRanked": false,
-                "isWin": true,
-                "opponentName": "Emma_Read",
-                "playerFinalHP": 40,
-                "enemyFinalHP": 0,
-                "correctCount": 6,
-                "totalRounds": 12,
-                "rounds": [
-                    {
-                        "question": "Hint: Chưa từng có tiền lệ",
-                        "correctAnswer": "Unprecedented",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Có / Không",
-                        "correctAnswer": "Yes / No",
-                        "playerAnswer": "Ubiquitous",
-                        "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260520_214016_Screenshot 2023-06-16 225711.png",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Artificial Intelligence",
-                        "correctAnswer": "Trí tuệ nhân tạo",
-                        "playerAnswer": "Băng thông",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Passport",
-                        "correctAnswer": "Hộ chiếu",
-                        "playerAnswer": "Hộ chiếu",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Elbow",
-                        "correctAnswer": "Khuỷu tay",
-                        "playerAnswer": "Nghịch lý",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Bánh mì",
-                        "correctAnswer": "Bread",
-                        "playerAnswer": "Good night",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Con hổ",
-                        "correctAnswer": "Tiger",
-                        "playerAnswer": "Tiger",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Ubiquitous",
-                        "correctAnswer": "Có mặt khắp nơi, phổ biến",
-                        "playerAnswer": "Có mặt khắp nơi, phổ biến",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Eyelid",
-                        "correctAnswer": "Mí mắt",
-                        "playerAnswer": "Mí mắt",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Một trăm",
-                        "correctAnswer": "Hundred",
-                        "playerAnswer": "Fiscal",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Good morning",
-                        "correctAnswer": "Chào buổi sáng",
-                        "playerAnswer": "Chào buổi sáng",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Algorithm",
-                        "correctAnswer": "Thuật toán",
-                        "playerAnswer": "Thuật toán",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    }
-                ]
-            },
-            {
-                "matchId": "bbc82c24-9894-4391-b2d6-ac6ddfe5a78a",
-                "date": "2026-05-22 23:07",
-                "isRanked": true,
-                "isWin": true,
-                "opponentName": "NoobMaster69",
-                "playerFinalHP": 50,
-                "enemyFinalHP": 0,
-                "correctCount": 9,
-                "totalRounds": 14,
-                "rounds": [
-                    {
-                        "question": "Debugging",
-                        "correctAnswer": "Gỡ lỗi chương trình",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Hành lý",
-                        "correctAnswer": "Luggage",
-                        "playerAnswer": "Luggage",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Yes / No",
-                        "correctAnswer": "Có / Không",
-                        "playerAnswer": "Có / Không",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Horse",
-                        "correctAnswer": "Con ngựa",
-                        "playerAnswer": "Con ngựa",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Màu đỏ",
-                        "correctAnswer": "Red",
-                        "playerAnswer": "Red",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Bánh mì",
-                        "correctAnswer": "Bread",
-                        "playerAnswer": "Bread",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Reservation",
-                        "correctAnswer": "Đặt chỗ trước",
-                        "playerAnswer": "Khấu hao tài sản",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Chúc ngủ ngon",
-                        "correctAnswer": "Good night",
-                        "playerAnswer": "Good night",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Cheekbone",
-                        "correctAnswer": "Xương gò má",
-                        "playerAnswer": "",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Con chim",
-                        "correctAnswer": "Bird",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Kho lưu trữ code",
-                        "correctAnswer": "Repository",
-                        "playerAnswer": "Repository",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Thuật toán",
-                        "correctAnswer": "Algorithm",
-                        "playerAnswer": "Algorithm",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Xin lỗi",
-                        "correctAnswer": "Sorry",
-                        "playerAnswer": "Sorry",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Procurement",
-                        "correctAnswer": "Mua sắm / Thu mua",
-                        "playerAnswer": "Đặt chỗ trước",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    }
-                ]
-            },
-            {
-                "matchId": "f2a66728-2ffd-4544-bff1-e8aaf6b5d0d3",
-                "date": "2026-05-20 21:38",
-                "isRanked": true,
-                "isWin": true,
-                "opponentName": "ProGamer",
-                "playerFinalHP": 80,
-                "enemyFinalHP": 0,
-                "correctCount": 10,
-                "totalRounds": 12,
-                "rounds": [
-                    {
-                        "question": "Hint: Cơ sở dữ liệu",
-                        "correctAnswer": "Database",
-                        "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Hộ chiếu",
-                        "correctAnswer": "Passport",
-                        "playerAnswer": "Passport",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Juxtaposition",
-                        "correctAnswer": "Sự đặt cạnh nhau để so sánh",
-                        "playerAnswer": "Sự đặt cạnh nhau để so sánh",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Mí mắt",
-                        "correctAnswer": "Eyelid",
-                        "playerAnswer": "Eyelid",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Con thỏ",
-                        "correctAnswer": "Rabbit",
-                        "playerAnswer": "Rabbit",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Cat",
-                        "correctAnswer": "Con mèo",
-                        "playerAnswer": "Con mèo",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Xin lỗi",
-                        "correctAnswer": "Sorry",
-                        "playerAnswer": "Sorry",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Có / Không",
-                        "correctAnswer": "Yes / No",
-                        "playerAnswer": "Yes / No",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Artificial Intelligence",
-                        "correctAnswer": "Trí tuệ nhân tạo",
-                        "playerAnswer": "Trí tuệ nhân tạo",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Good night",
-                        "correctAnswer": "Chúc ngủ ngon",
-                        "playerAnswer": "Chúc ngủ ngon",
-                        "imageUrl": "",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Monopoly",
-                        "correctAnswer": "Độc quyền",
-                        "playerAnswer": "Một nghìn",
-                        "imageUrl": "",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Màu xanh lá",
-                        "correctAnswer": "Green",
-                        "playerAnswer": "Green",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    }
-                ]
-            }
-        ],
+        "learnedSets": [],
+        "savedSetLevels": [],
+        "setProgress": [],
+        "wordProgress": [],
+        "battleHistory": [],
         "bestSurvivor": 0,
         "bestQuick10": 0,
         "bestTimeRush": 0,
-        "shopHistory": [
+        "shopHistory": [],
+        "inventory": [],
+        "quests": [
             {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 15:10"
+                "id": "q5",
+                "title": "Win 5 Ranked Battles",
+                "description": "Show your skill in ranked matches",
+                "currentProgress": 0,
+                "maxProgress": 5,
+                "rewardCoins": 300,
+                "rewardExp": 600,
+                "isClaimed": false,
+                "questType": "WinRankedBattle"
             },
             {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 15:10"
+                "id": "q6",
+                "title": "Learn 20 words",
+                "description": "Dedication is key",
+                "currentProgress": 0,
+                "maxProgress": 20,
+                "rewardCoins": 100,
+                "rewardExp": 200,
+                "isClaimed": false,
+                "questType": "LearnWord"
             },
             {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 15:10"
+                "id": "q10",
+                "title": "Complete 5 Sets",
+                "description": "Broaden your knowledge",
+                "currentProgress": 0,
+                "maxProgress": 5,
+                "rewardCoins": 200,
+                "rewardExp": 400,
+                "isClaimed": false,
+                "questType": "CompleteSet"
             },
             {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 15:10"
+                "id": "q3",
+                "title": "Win 3 Battles",
+                "description": "Play ranked or casual matches",
+                "currentProgress": 0,
+                "maxProgress": 3,
+                "rewardCoins": 100,
+                "rewardExp": 200,
+                "isClaimed": false,
+                "questType": "WinBattle"
             },
             {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 15:10"
-            },
-            {
-                "itemName": "Gacha Ticket",
-                "price": 100,
-                "date": "2026-05-23 13:31"
-            },
-            {
-                "itemName": "Mystery Box",
-                "price": 200,
-                "date": "2023-10-10 14:30"
-            },
-            {
-                "itemName": "Double EXP Potion",
-                "price": 150,
-                "date": "2023-10-11 09:15"
-            },
-            {
-                "itemName": "Premium Avatar Frame",
-                "price": 500,
-                "date": "2023-10-12 18:45"
+                "id": "q8",
+                "title": "Win 3 Ranked in a Row",
+                "description": "Arena master",
+                "currentProgress": 0,
+                "maxProgress": 3,
+                "rewardCoins": 500,
+                "rewardExp": 1000,
+                "isClaimed": false,
+                "questType": "WinRankedBattle"
             }
         ],
-        "inventory": [
-            {
-                "id": "1",
-                "icon": "🧪",
-                "name": "Freeze Potion",
-                "description": "Freezes the enemy, dealing 15 damage.",
-                "quantity": 4,
-                "rarity": "Common",
-                "category": "Consumable",
-                "equipType": "",
-                "isEquipped": false,
-                "isCombatItem": true
-            },
-            {
-                "id": "1-2",
-                "icon": "🔥",
-                "name": "Fire Potion",
-                "description": "Explosive damage! Deals 25 HP to enemy.",
-                "quantity": 1,
-                "rarity": "Rare",
-                "category": "Consumable",
-                "equipType": "",
-                "isEquipped": false,
-                "isCombatItem": true
-            },
-            {
-                "id": "1-3",
-                "icon": "❤️",
-                "name": "Health Potion",
-                "description": "Restores 40 HP to your character.",
-                "quantity": 2,
-                "rarity": "Common",
-                "category": "Consumable",
-                "equipType": "",
-                "isEquipped": false,
-                "isCombatItem": true
-            },
-            {
-                "id": "10",
-                "icon": "🔥",
-                "name": "Flame Aura",
-                "description": "A burning aura surrounding your portrait.",
-                "quantity": 1,
-                "rarity": "Legendary",
-                "category": "Cosmetic",
-                "equipType": "Effect",
-                "isEquipped": true,
-                "isCombatItem": false
-            },
-            {
-                "id": "11",
-                "icon": "🏵️",
-                "name": "Golden Frame",
-                "description": "A pure gold classic profile frame.",
-                "quantity": 1,
-                "rarity": "Rare",
-                "category": "Cosmetic",
-                "equipType": "Border",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "12",
-                "icon": "💎",
-                "name": "Diamond Frame",
-                "description": "Shining diamond-encrusted frame.",
-                "quantity": 1,
-                "rarity": "Epic",
-                "category": "Cosmetic",
-                "equipType": "Border",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "13",
-                "icon": "🟦",
-                "name": "Basic Blue",
-                "description": "A simple blue frame.",
-                "quantity": 1,
-                "rarity": "Common",
-                "category": "Cosmetic",
-                "equipType": "Border",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "14",
-                "icon": "🥷",
-                "name": "Ninja Avatar",
-                "description": "Silent but deadly vocabulary ninja.",
-                "quantity": 1,
-                "rarity": "Epic",
-                "category": "Cosmetic",
-                "equipType": "Avatar",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "15",
-                "icon": "🎫",
-                "name": "Gacha Ticket",
-                "description": "Use this to spin the lucky wheel.",
-                "quantity": 6,
-                "rarity": "Rare",
-                "category": "Consumable",
-                "equipType": "",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "4",
-                "icon": "🎁",
-                "name": "Mystery Box",
-                "description": "Contains random amount of coins or items.",
-                "quantity": 6,
-                "rarity": "Rare",
-                "category": "Consumable",
-                "equipType": "",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "5",
-                "icon": "🦊",
-                "name": "Foxy Avatar",
-                "description": "A cute fox avatar.",
-                "quantity": 1,
-                "rarity": "Epic",
-                "category": "Cosmetic",
-                "equipType": "Avatar",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "6",
-                "icon": "🔲",
-                "name": "Neon Border",
-                "description": "Cool glowing neon profile border.",
-                "quantity": 1,
-                "rarity": "Legendary",
-                "category": "Cosmetic",
-                "equipType": "Border",
-                "isEquipped": true,
-                "isCombatItem": false
-            },
-            {
-                "id": "7",
-                "icon": "🐻",
-                "name": "Bear Avatar",
-                "description": "A fierce but cuddly bear avatar.",
-                "quantity": 1,
-                "rarity": "Common",
-                "category": "Cosmetic",
-                "equipType": "Avatar",
-                "isEquipped": false,
-                "isCombatItem": false
-            },
-            {
-                "id": "8",
-                "icon": "🐉",
-                "name": "Dragon Avatar",
-                "description": "A legendary golden dragon.",
-                "quantity": 1,
-                "rarity": "Legendary",
-                "category": "Cosmetic",
-                "equipType": "Avatar",
-                "isEquipped": true,
-                "isCombatItem": false
-            },
-            {
-                "id": "9",
-                "icon": "✨",
-                "name": "Starry Trail",
-                "description": "Leaves a trail of stars when you win a battle.",
-                "quantity": 1,
-                "rarity": "Epic",
-                "category": "Cosmetic",
-                "equipType": "Effect",
-                "isEquipped": false,
-                "isCombatItem": false
-            }
-        ]
+        "achievements": []
     },
-    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfdXNlcl8xIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3Nzk4NTgxOTEsImV4cCI6MTc4MjQ1MDE5MX0.abnOZtd3ojwPwbs4hDlloN6YYHnbufsJs1akteRSgwA",
+    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MDM4MDc1MCwiZXhwIjoxNzgyOTcyNzUwfQ.zYKdqzoS1ftWMx-59XGYZD0evH0CKLLU5RPwnLBftww",
     "registeredUsers": [
         {
             "id": "test_user_1",
             "token": "",
             "username": "user1",
+            "displayName": "",
             "email": "hero@vocab.com",
             "password": "user1",
             "role": "user",
@@ -1357,12 +599,15 @@
                     "date": "2023-10-12 18:45"
                 }
             ],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "test_admin_1",
             "token": "",
             "username": "admin",
+            "displayName": "",
             "email": "hero@vocab.com",
             "password": "admin",
             "role": "admin",
@@ -1410,7 +655,9 @@
                     "date": "2023-10-12 18:45"
                 }
             ],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         }
     ],
     "words": [
@@ -1985,10 +1232,114 @@
     ],
     "vocabSets": [
         {
+            "id": "10",
+            "title": "Comprehensive English",
+            "description": "Learn vocabulary from all tiers: Easy, Medium, and Hard",
+            "wordCount": 12,
+            "category": "English",
+            "difficulty": "Multi-Level",
+            "rankRequired": "Dong",
+            "wordIds": [
+                "w10",
+                "w11",
+                "w17",
+                "w18",
+                "w33",
+                "w34",
+                "w49",
+                "w50",
+                "w57",
+                "w58",
+                "w65",
+                "w66"
+            ],
+            "levels": [
+                {
+                    "difficulty": "Easy",
+                    "wordIds": [
+                        "w10",
+                        "w11",
+                        "w17",
+                        "w18"
+                    ]
+                },
+                {
+                    "difficulty": "Medium",
+                    "wordIds": [
+                        "w33",
+                        "w34",
+                        "w49",
+                        "w50"
+                    ]
+                },
+                {
+                    "difficulty": "Hard",
+                    "wordIds": [
+                        "w57",
+                        "w58",
+                        "w65",
+                        "w66"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "11",
+            "title": "Life & Career",
+            "description": "A mixture of daily life words, travel, business, and tech terminology",
+            "wordCount": 12,
+            "category": "English",
+            "difficulty": "Multi-Level",
+            "rankRequired": "Bac",
+            "wordIds": [
+                "w12",
+                "w13",
+                "w14",
+                "w15",
+                "w35",
+                "w36",
+                "w37",
+                "w38",
+                "w59",
+                "w60",
+                "w61",
+                "w62"
+            ],
+            "levels": [
+                {
+                    "difficulty": "Easy",
+                    "wordIds": [
+                        "w12",
+                        "w13",
+                        "w14",
+                        "w15"
+                    ]
+                },
+                {
+                    "difficulty": "Medium",
+                    "wordIds": [
+                        "w35",
+                        "w36",
+                        "w37",
+                        "w38"
+                    ]
+                },
+                {
+                    "difficulty": "Hard",
+                    "wordIds": [
+                        "w59",
+                        "w60",
+                        "w61",
+                        "w62"
+                    ]
+                }
+            ]
+        },
+        {
             "id": "2",
             "title": "Animals",
             "description": "Learn animal names in English",
-            "wordCount": 0,
+            "wordCount": 13,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Dong",
@@ -2001,6 +1352,10 @@
                 "w15",
                 "w16",
                 "w19",
+                "w33",
+                "w34",
+                "w35",
+                "w36",
                 "w9"
             ],
             "levels": [
@@ -2015,6 +1370,10 @@
                         "w15",
                         "w16",
                         "w19",
+                        "w33",
+                        "w34",
+                        "w35",
+                        "w36",
                         "w9"
                     ]
                 }
@@ -2024,7 +1383,7 @@
             "id": "3",
             "title": "Food & Drinks",
             "description": "Discover common food and drink names",
-            "wordCount": 0,
+            "wordCount": 12,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Bac",
@@ -2036,7 +1395,11 @@
                 "w21",
                 "w22",
                 "w23",
-                "w24"
+                "w24",
+                "w37",
+                "w38",
+                "w39",
+                "w40"
             ],
             "levels": [
                 {
@@ -2049,7 +1412,11 @@
                         "w21",
                         "w22",
                         "w23",
-                        "w24"
+                        "w24",
+                        "w37",
+                        "w38",
+                        "w39",
+                        "w40"
                     ]
                 }
             ]
@@ -2058,7 +1425,7 @@
             "id": "4",
             "title": "Colors & Numbers",
             "description": "Master colors and numbers in English",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Bac",
@@ -2092,7 +1459,7 @@
             "id": "5",
             "title": "Travel & Places",
             "description": "Vocabulary for traveling and locations",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Medium",
             "rankRequired": "Vang",
@@ -2126,7 +1493,7 @@
             "id": "6",
             "title": "Human Body",
             "description": "Learn body parts and health vocabulary",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Medium",
             "rankRequired": "Vang",
@@ -2160,7 +1527,7 @@
             "id": "7",
             "title": "Technology",
             "description": "Modern tech vocabulary and digital terms",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "BachKim",
@@ -2176,7 +1543,7 @@
             ],
             "levels": [
                 {
-                    "difficulty": "Medium",
+                    "difficulty": "Hard",
                     "wordIds": [
                         "w49",
                         "w50",
@@ -2194,7 +1561,7 @@
             "id": "8",
             "title": "Business & Economics",
             "description": "Professional business and economic terms",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "KimCuong",
@@ -2228,7 +1595,7 @@
             "id": "9",
             "title": "Advanced Academic",
             "description": "IELTS-level academic vocabulary",
-            "wordCount": 0,
+            "wordCount": 8,
             "category": "English",
             "difficulty": "Hard",
             "rankRequired": "SieuCap",
@@ -2259,241 +1626,19 @@
             ]
         }
     ],
-    "achievements": [
-        {
-            "id": "1",
-            "icon": "🏆",
-            "title": "First Blood",
-            "description": "Complete your first vocabulary set.",
-            "maxProgress": 1,
-            "currentProgress": 0,
-            "isUnlocked": false,
-            "unlockDate": ""
-        },
-        {
-            "id": "2",
-            "icon": "🔥",
-            "title": "On Fire",
-            "description": "Maintain a 7-day study streak.",
-            "maxProgress": 7,
-            "currentProgress": 0,
-            "isUnlocked": false,
-            "unlockDate": ""
-        },
-        {
-            "id": "3",
-            "icon": "📚",
-            "title": "Vocabulary Master",
-            "description": "Learn 1,000 words.",
-            "maxProgress": 1000,
-            "currentProgress": 0,
-            "isUnlocked": false,
-            "unlockDate": ""
-        },
-        {
-            "id": "4",
-            "icon": "⚔️",
-            "title": "King of the Arena",
-            "description": "Win 50 battles in PvP.",
-            "maxProgress": 50,
-            "currentProgress": 0,
-            "isUnlocked": false,
-            "unlockDate": ""
-        }
-    ],
-    "inventory": [
-        {
-            "id": "1",
-            "icon": "🧪",
-            "name": "Freeze Potion",
-            "description": "Freezes the enemy, dealing 15 damage.",
-            "quantity": 4,
-            "rarity": "Common",
-            "category": "Consumable",
-            "equipType": "",
-            "isEquipped": false,
-            "isCombatItem": true
-        },
-        {
-            "id": "1-2",
-            "icon": "🔥",
-            "name": "Fire Potion",
-            "description": "Explosive damage! Deals 25 HP to enemy.",
-            "quantity": 1,
-            "rarity": "Rare",
-            "category": "Consumable",
-            "equipType": "",
-            "isEquipped": false,
-            "isCombatItem": true
-        },
-        {
-            "id": "1-3",
-            "icon": "❤️",
-            "name": "Health Potion",
-            "description": "Restores 40 HP to your character.",
-            "quantity": 2,
-            "rarity": "Common",
-            "category": "Consumable",
-            "equipType": "",
-            "isEquipped": false,
-            "isCombatItem": true
-        },
-        {
-            "id": "10",
-            "icon": "🔥",
-            "name": "Flame Aura",
-            "description": "A burning aura surrounding your portrait.",
-            "quantity": 1,
-            "rarity": "Legendary",
-            "category": "Cosmetic",
-            "equipType": "Effect",
-            "isEquipped": true,
-            "isCombatItem": false
-        },
-        {
-            "id": "11",
-            "icon": "🏵️",
-            "name": "Golden Frame",
-            "description": "A pure gold classic profile frame.",
-            "quantity": 1,
-            "rarity": "Rare",
-            "category": "Cosmetic",
-            "equipType": "Border",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "12",
-            "icon": "💎",
-            "name": "Diamond Frame",
-            "description": "Shining diamond-encrusted frame.",
-            "quantity": 1,
-            "rarity": "Epic",
-            "category": "Cosmetic",
-            "equipType": "Border",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "13",
-            "icon": "🟦",
-            "name": "Basic Blue",
-            "description": "A simple blue frame.",
-            "quantity": 1,
-            "rarity": "Common",
-            "category": "Cosmetic",
-            "equipType": "Border",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "14",
-            "icon": "🥷",
-            "name": "Ninja Avatar",
-            "description": "Silent but deadly vocabulary ninja.",
-            "quantity": 1,
-            "rarity": "Epic",
-            "category": "Cosmetic",
-            "equipType": "Avatar",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "15",
-            "icon": "🎫",
-            "name": "Gacha Ticket",
-            "description": "Use this to spin the lucky wheel.",
-            "quantity": 6,
-            "rarity": "Rare",
-            "category": "Consumable",
-            "equipType": "",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "4",
-            "icon": "🎁",
-            "name": "Mystery Box",
-            "description": "Contains random amount of coins or items.",
-            "quantity": 6,
-            "rarity": "Rare",
-            "category": "Consumable",
-            "equipType": "",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "5",
-            "icon": "🦊",
-            "name": "Foxy Avatar",
-            "description": "A cute fox avatar.",
-            "quantity": 1,
-            "rarity": "Epic",
-            "category": "Cosmetic",
-            "equipType": "Avatar",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "6",
-            "icon": "🔲",
-            "name": "Neon Border",
-            "description": "Cool glowing neon profile border.",
-            "quantity": 1,
-            "rarity": "Legendary",
-            "category": "Cosmetic",
-            "equipType": "Border",
-            "isEquipped": true,
-            "isCombatItem": false
-        },
-        {
-            "id": "7",
-            "icon": "🐻",
-            "name": "Bear Avatar",
-            "description": "A fierce but cuddly bear avatar.",
-            "quantity": 1,
-            "rarity": "Common",
-            "category": "Cosmetic",
-            "equipType": "Avatar",
-            "isEquipped": false,
-            "isCombatItem": false
-        },
-        {
-            "id": "8",
-            "icon": "🐉",
-            "name": "Dragon Avatar",
-            "description": "A legendary golden dragon.",
-            "quantity": 1,
-            "rarity": "Legendary",
-            "category": "Cosmetic",
-            "equipType": "Avatar",
-            "isEquipped": true,
-            "isCombatItem": false
-        },
-        {
-            "id": "9",
-            "icon": "✨",
-            "name": "Starry Trail",
-            "description": "Leaves a trail of stars when you win a battle.",
-            "quantity": 1,
-            "rarity": "Epic",
-            "category": "Cosmetic",
-            "equipType": "Effect",
-            "isEquipped": false,
-            "isCombatItem": false
-        }
-    ],
+    "achievements": [],
+    "inventory": [],
     "quests": [
         {
-            "id": "q3",
-            "title": "Win 3 Battles",
-            "description": "Play ranked or casual matches",
+            "id": "q5",
+            "title": "Win 5 Ranked Battles",
+            "description": "Show your skill in ranked matches",
             "currentProgress": 0,
-            "maxProgress": 3,
-            "rewardCoins": 100,
-            "rewardExp": 200,
+            "maxProgress": 5,
+            "rewardCoins": 300,
+            "rewardExp": 600,
             "isClaimed": false,
-            "questType": "WinBattle"
+            "questType": "WinRankedBattle"
         },
         {
             "id": "q6",
@@ -2507,15 +1652,26 @@
             "questType": "LearnWord"
         },
         {
-            "id": "q5",
-            "title": "Win 5 Ranked Battles",
-            "description": "Show your skill in ranked matches",
+            "id": "q10",
+            "title": "Complete 5 Sets",
+            "description": "Broaden your knowledge",
             "currentProgress": 0,
             "maxProgress": 5,
-            "rewardCoins": 300,
-            "rewardExp": 600,
+            "rewardCoins": 200,
+            "rewardExp": 400,
             "isClaimed": false,
-            "questType": "WinRankedBattle"
+            "questType": "CompleteSet"
+        },
+        {
+            "id": "q3",
+            "title": "Win 3 Battles",
+            "description": "Play ranked or casual matches",
+            "currentProgress": 0,
+            "maxProgress": 3,
+            "rewardCoins": 100,
+            "rewardExp": 200,
+            "isClaimed": false,
+            "questType": "WinBattle"
         },
         {
             "id": "q8",
@@ -2527,17 +1683,6 @@
             "rewardExp": 1000,
             "isClaimed": false,
             "questType": "WinRankedBattle"
-        },
-        {
-            "id": "q7",
-            "title": "Win 10 Battles",
-            "description": "You are unstoppable!",
-            "currentProgress": 0,
-            "maxProgress": 10,
-            "rewardCoins": 400,
-            "rewardExp": 800,
-            "isClaimed": false,
-            "questType": "WinBattle"
         }
     ],
     "questPool": [
@@ -2665,18 +1810,19 @@
             "id": "test_user_1",
             "token": "",
             "username": "user1",
+            "displayName": "RinnieV",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
-            "level": 12,
-            "exp": 3455,
-            "expNeeded": 1200,
-            "coins": 3270,
+            "level": 2,
+            "exp": 1520,
+            "expNeeded": 1000,
+            "coins": 2880,
             "rank": "SieuCap",
-            "rankPoints": 24560,
-            "wins": 38,
-            "totalGames": 55,
+            "rankPoints": 24550,
+            "wins": 37,
+            "totalGames": 53,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -2691,32 +1837,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": [
-                {
-                    "id": "avatar_equipped",
-                    "icon": "🐉",
-                    "name": "Equipped Avatar",
-                    "description": "",
-                    "quantity": 0,
-                    "rarity": "",
-                    "category": "Cosmetic",
-                    "equipType": "Avatar",
-                    "isEquipped": true,
-                    "isCombatItem": false
-                }
-            ]
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u2",
             "token": "",
             "username": "Faker",
+            "displayName": "Faker",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 25,
             "exp": 24500,
-            "expNeeded": 2500,
+            "expNeeded": 1000,
             "coins": 9999,
             "rank": "SieuCap",
             "rankPoints": 24500,
@@ -2736,19 +1872,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "test_admin_1",
             "token": "",
             "username": "admin",
+            "displayName": "admin",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
-            "level": 12,
+            "level": 1,
             "exp": 750,
-            "expNeeded": 1200,
+            "expNeeded": 1000,
             "coins": 2450,
             "rank": "SieuCap",
             "rankPoints": 24500,
@@ -2768,19 +1907,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u3",
             "token": "",
             "username": "Sophia",
+            "displayName": "Sophia",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 18,
             "exp": 17200,
-            "expNeeded": 1800,
+            "expNeeded": 1000,
             "coins": 500,
             "rank": "KimCuong",
             "rankPoints": 17200,
@@ -2800,19 +1942,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u4",
             "token": "",
             "username": "Oliver_Bot",
+            "displayName": "Oliver_Bot",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 12,
             "exp": 11500,
-            "expNeeded": 1200,
+            "expNeeded": 1000,
             "coins": 100,
             "rank": "KimCuong",
             "rankPoints": 11500,
@@ -2832,19 +1977,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u5",
             "token": "",
             "username": "Emma_Read",
+            "displayName": "Emma_Read",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 9,
             "exp": 8100,
-            "expNeeded": 900,
+            "expNeeded": 1000,
             "coins": 300,
             "rank": "BachKim",
             "rankPoints": 8100,
@@ -2864,19 +2012,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u6",
             "token": "",
             "username": "NoobMaster69",
+            "displayName": "NoobMaster69",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 5,
             "exp": 4200,
-            "expNeeded": 500,
+            "expNeeded": 1000,
             "coins": 0,
             "rank": "Vang",
             "rankPoints": 4200,
@@ -2896,19 +2047,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u7",
             "token": "",
             "username": "ProGamer",
+            "displayName": "ProGamer",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 3,
             "exp": 2100,
-            "expNeeded": 300,
+            "expNeeded": 1000,
             "coins": 0,
             "rank": "Bac",
             "rankPoints": 2100,
@@ -2928,19 +2082,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "u8",
             "token": "",
             "username": "SleepyCat",
+            "displayName": "SleepyCat",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 1,
             "exp": 500,
-            "expNeeded": 100,
+            "expNeeded": 1000,
             "coins": 0,
             "rank": "Dong",
             "rankPoints": 500,
@@ -2960,19 +2117,22 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": []
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         },
         {
             "id": "user_1779517369711udpu1",
             "token": "",
             "username": "nguyenne",
+            "displayName": "nguyenne",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
-            "level": 100,
-            "exp": 1880,
-            "expNeeded": 10000,
+            "level": 6,
+            "exp": 5000,
+            "expNeeded": 1000,
             "coins": 0,
             "rank": "Dong",
             "rankPoints": 100,
@@ -2992,20 +2152,44 @@
             "bestQuick10": 0,
             "bestTimeRush": 0,
             "shopHistory": [],
-            "inventory": [
-                {
-                    "id": "avatar_equipped",
-                    "icon": "🥷",
-                    "name": "Equipped Avatar",
-                    "description": "",
-                    "quantity": 0,
-                    "rarity": "",
-                    "category": "Cosmetic",
-                    "equipType": "Avatar",
-                    "isEquipped": true,
-                    "isCombatItem": false
-                }
-            ]
+            "inventory": [],
+            "quests": [],
+            "achievements": []
+        },
+        {
+            "id": "",
+            "token": "",
+            "username": "",
+            "displayName": "",
+            "email": "",
+            "password": "",
+            "role": "",
+            "status": "",
+            "level": 1,
+            "exp": 0,
+            "expNeeded": 1000,
+            "coins": 0,
+            "rank": "Dong",
+            "rankPoints": 0,
+            "wins": 0,
+            "totalGames": 0,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": [],
+            "quests": [],
+            "achievements": []
         }
     ]
 }

@@ -447,6 +447,13 @@ namespace VocabLearning.UI
         // Lưu thay đổi MockDatabase xuống file db.json và đồng bộ lên Node.js Backend SQL Server
         private void SaveJsonDatabase()
         {
+            CheckLevelUp();
+            if (_jsonDb != null && _jsonDb.currentUser != null)
+            {
+                _jsonDb.currentUser.inventory = _jsonDb.inventory;
+                _jsonDb.currentUser.quests = _jsonDb.quests;
+                _jsonDb.currentUser.achievements = _jsonDb.achievements;
+            }
             // 1. Luôn lưu dữ liệu cục bộ bền vững trên mọi thiết bị (Editor & Bản Build chạy thật)
             try
             {
@@ -577,5 +584,48 @@ namespace VocabLearning.UI
             int indexB = rankOrder.IndexOf(rankB);
             return indexA > indexB;
         }
+
+        public static int CalculateLevel(int totalExp)
+        {
+            if (totalExp <= 0) return 1;
+            return (totalExp / 1000) + 1;
+        }
+
+        public static int GetExpNeededForLevel(int level)
+        {
+            return 1000;
+        }
+
+        public static int GetCumulativeExpForLevel(int level)
+        {
+            if (level <= 1) return 0;
+            return (level - 1) * 1000;
+        }
+
+        public static void GetExpDetails(int totalExp, out int level, out int curLevelExp, out int nextLevelExpNeeded)
+        {
+            level = CalculateLevel(totalExp);
+            curLevelExp = totalExp >= 0 ? (totalExp % 1000) : 0;
+            nextLevelExpNeeded = 1000;
+        }
+
+        private void CheckLevelUp()
+        {
+            if (_jsonDb == null || _jsonDb.currentUser == null) return;
+            var user = _jsonDb.currentUser;
+
+            int targetLevel = CalculateLevel(user.exp);
+            if (user.level != targetLevel)
+            {
+                int oldLevel = user.level;
+                user.level = targetLevel;
+                if (oldLevel > 0 && targetLevel > oldLevel)
+                {
+                    Debug.Log($"🎉 CHÚC MỪNG! Bạn đã thăng cấp từ {oldLevel} lên cấp {user.level}!");
+                    SoundManager.PlayAchievement();
+                }
+            }
+        }
+
     }
 }

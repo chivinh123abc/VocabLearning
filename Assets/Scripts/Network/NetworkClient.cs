@@ -41,6 +41,20 @@ namespace VocabLearning.Network
             StartCoroutine(PostRequestCoroutine<VocabLearning.Data.UserJson>("/auth/register", jsonPayload, callback));
         }
 
+        // API Gửi mã OTP khôi phục mật khẩu
+        public void SendOTP(string email, NetworkCallback<ForgotPasswordResponse> callback)
+        {
+            string jsonPayload = $"{{\"email\":\"{email}\"}}";
+            StartCoroutine(PostRequestCoroutine<ForgotPasswordResponse>("/auth/forgot-password", jsonPayload, callback));
+        }
+
+        // API Xác thực OTP và đặt mật khẩu mới
+        public void ResetPassword(string email, string otp, string newPassword, NetworkCallback<ForgotPasswordResponse> callback)
+        {
+            string jsonPayload = $"{{\"email\":\"{email}\",\"otp\":\"{otp}\",\"newPassword\":\"{newPassword}\"}}";
+            StartCoroutine(PostRequestCoroutine<ForgotPasswordResponse>("/auth/reset-password", jsonPayload, callback));
+        }
+
         // API Đồng bộ Tiến trình (Save Game)
         public void SyncUserData(VocabLearning.Data.UserJson user, NetworkCallback<string> callback)
         {
@@ -48,10 +62,23 @@ namespace VocabLearning.Network
             StartCoroutine(PostRequestCoroutine<string>("/user/sync", jsonPayload, callback));
         }
 
+        // API Đổi tên hiển thị (Change Username)
+        public void ChangeUsername(string newUsername, NetworkCallback<ChangeUsernameResponse> callback)
+        {
+            string jsonPayload = $"{{\"newUsername\":\"{newUsername}\"}}";
+            StartCoroutine(PostRequestCoroutine<ChangeUsernameResponse>("/user/change-username", jsonPayload, callback));
+        }
+
         // API Lấy dữ liệu toàn cục tĩnh
         public void GetGlobals(NetworkCallback<GlobalsResponse> callback)
         {
             StartCoroutine(GetRequestCoroutine<GlobalsResponse>("/globals", callback));
+        }
+
+        // API Lấy Thông tin Tiến độ & Profile đầy đủ của User từ DB
+        public void GetUserProfile(NetworkCallback<UserProfileResponse> callback)
+        {
+            StartCoroutine(GetRequestCoroutine<UserProfileResponse>("/user/profile", callback));
         }
 
         // API Admin: Thêm từ vựng mới
@@ -243,4 +270,29 @@ namespace VocabLearning.Network
         public bool success;
         public System.Collections.Generic.List<VocabLearning.Data.UserJson> users;
     }
+
+    [System.Serializable]
+    public class UserProfileResponse
+    {
+        public bool success;
+        public string message;
+        public VocabLearning.Data.UserJson user;
+    }
+
+    [System.Serializable]
+    public class ChangeUsernameResponse
+    {
+        public bool success;
+        public string message;
+        public string username;
+        public string displayName;
+    }
+
+    [System.Serializable]
+    public class ForgotPasswordResponse
+    {
+        public bool success;
+        public string message;
+    }
 }
+

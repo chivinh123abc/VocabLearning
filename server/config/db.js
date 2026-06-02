@@ -117,11 +117,11 @@ async function initDatabase(forceRecreate = false) {
         CREATE TABLE [users] (
           [id] VARCHAR(50) PRIMARY KEY,
           [username] NVARCHAR(50) NOT NULL UNIQUE,
+          [displayName] NVARCHAR(50) NULL,
           [email] NVARCHAR(100) NULL UNIQUE,
           [password] VARCHAR(255) NOT NULL,
           [role] VARCHAR(20) NOT NULL DEFAULT 'user',
           [status] VARCHAR(20) NOT NULL DEFAULT 'active',
-          [level] INT NOT NULL DEFAULT 1,
           [exp] INT NOT NULL DEFAULT 0,
           [coins] INT NOT NULL DEFAULT 0,
           [rankPoints] INT NOT NULL DEFAULT 0,
@@ -139,6 +139,11 @@ async function initDatabase(forceRecreate = false) {
         IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('users') AND name = 'status')
         BEGIN
           ALTER TABLE [users] ADD [status] VARCHAR(20) NOT NULL DEFAULT 'active';
+        END
+        -- Tự động nâng cấp thêm cột [displayName] nếu chưa có
+        IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('users') AND name = 'displayName')
+        BEGIN
+          ALTER TABLE [users] ADD [displayName] NVARCHAR(50) NULL;
         END
       END
     `);

@@ -7,9 +7,18 @@
                     <ui:Label text="Admin Panel" class="header-title"/>
                     <ui:Label text="Quản lý hệ thống VocabLearning" class="header-subtitle"/>
                 </ui:VisualElement>
-                <ui:Button name="setting-btn" class="setting-btn">
-                    <ui:Label text="⚙" class="setting-icon"/>
-                </ui:Button>
+                <!-- Nhóm nút góc phải: Về Home + Đăng xuất -->
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <!-- Nút quay về màn hình chơi game (HomeScreen) -->
+                    <ui:Button name="BtnGoToHome" style="flex-direction: row; align-items: center; background-color: rgba(59,130,246,0.2); border-color: rgba(59,130,246,0.5); border-width: 1px; border-radius: 10px; padding: 6px 12px; margin-right: 8px; margin-top: 0; margin-bottom: 0; margin-left: 0;">
+                        <ui:Label text="←" style="color: #60A5FA; font-size: 16px; font-weight: bold; margin-right: 4px;"/>
+                        <ui:Label text="Home" style="color: #60A5FA; font-size: 13px; font-weight: bold;"/>
+                    </ui:Button>
+                    <!-- Nút đăng xuất -->
+                    <ui:Button name="setting-btn" style="flex-direction: row; align-items: center; background-color: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); border-width: 1px; border-radius: 10px; padding: 6px 10px; margin: 0;">
+                        <ui:Label text="🚪" style="font-size: 16px;"/>
+                    </ui:Button>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="stats-grid">
                 <ui:VisualElement class="stat-card">
@@ -59,24 +68,6 @@
                 <ui:VisualElement class="menu-content">
                     <ui:Label text="Quản Lý Bộ Từ Vựng" class="menu-title"/>
                     <ui:Label text="Tạo và thiết lập bộ từ vựng" class="menu-subtitle"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="btn-quest" class="menu-card">
-                <ui:VisualElement class="menu-icon teal">
-                    <ui:Label text="🎯" class="menu-icon-text"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="menu-content">
-                    <ui:Label text="Quản Lý Nhiệm Vụ" class="menu-title"/>
-                    <ui:Label text="Tạo và chỉnh sửa nhiệm vụ" class="menu-subtitle"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="btn-achievement" class="menu-card">
-                <ui:VisualElement class="menu-icon rose">
-                    <ui:Label text="🏆" class="menu-icon-text"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="menu-content">
-                    <ui:Label text="Quản Lý Thành Tựu" class="menu-title"/>
-                    <ui:Label text="Tạo và thiết lập mốc thành tựu" class="menu-subtitle"/>
                 </ui:VisualElement>
             </ui:Button>
             <ui:Button name="btn-item" class="menu-card">

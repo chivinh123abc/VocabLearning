@@ -62,6 +62,22 @@ namespace VocabLearning.UI
                 inputStatus.choices = new List<string> { "active", "banned" };
             }
 
+            // Tự động tính toán Level khi chỉnh sửa EXP trong Modal Admin
+            var inputExp = _root.Q<TextField>("input-exp");
+            var inputLevel = _root.Q<TextField>("input-level");
+            if (inputExp != null && inputLevel != null)
+            {
+                inputExp.RegisterValueChangedCallback(evt =>
+                {
+                    if (int.TryParse(evt.newValue, out int parsedExp) && parsedExp >= 0)
+                    {
+                        int calculatedLevel = CalculateLevel(parsedExp);
+                        inputLevel.value = calculatedLevel.ToString();
+                    }
+                });
+            }
+
+
             // Gán sự kiện cho các nút điều khiển trong modal
             var btnClose = _root.Q<Button>("btn-modal-close");
             if (btnClose != null) btnClose.clicked += CloseUserModal;
@@ -131,6 +147,7 @@ namespace VocabLearning.UI
                 bool matchesSearch = string.IsNullOrEmpty(searchQuery) ||
                                      user.id.ToLower().Contains(searchQuery) ||
                                      user.username.ToLower().Contains(searchQuery) ||
+                                     (!string.IsNullOrEmpty(user.displayName) && user.displayName.ToLower().Contains(searchQuery)) ||
                                      (!string.IsNullOrEmpty(user.email) && user.email.ToLower().Contains(searchQuery));
 
                 // Kiểm tra theo quyền hạn
@@ -179,7 +196,10 @@ namespace VocabLearning.UI
                 var nameRow = new VisualElement();
                 nameRow.AddToClassList("vocab-name-row");
 
-                var lblUsername = new Label(user.username);
+                string shownName = (string.IsNullOrEmpty(user.displayName) || user.displayName == user.username) 
+                    ? user.username 
+                    : $"{user.displayName} ({user.username})";
+                var lblUsername = new Label(shownName);
                 lblUsername.AddToClassList("vocab-word");
                 nameRow.Add(lblUsername);
 
@@ -314,7 +334,6 @@ namespace VocabLearning.UI
 
             string roleStr = GetInputValue("input-role");
             string statusStr = GetInputValue("input-status");
-            string levelStr = GetInputValue("input-level").Trim();
             string expStr = GetInputValue("input-exp").Trim();
             string coinsStr = GetInputValue("input-coins").Trim();
             string rpStr = GetInputValue("input-rankPoints").Trim();
@@ -327,16 +346,13 @@ namespace VocabLearning.UI
             }
 
             // 2. Kiểm tra định dạng số hợp lệ
-            if (!int.TryParse(levelStr, out int level) || level < 1)
-            {
-                ShowModalError("Cấp độ phải là số nguyên dương >= 1");
-                return;
-            }
             if (!int.TryParse(expStr, out int exp) || exp < 0)
             {
                 ShowModalError("EXP phải là số nguyên >= 0");
                 return;
             }
+            int level = CalculateLevel(exp); // Tự động tính toán Level từ EXP
+
             if (!int.TryParse(coinsStr, out int coins) || coins < 0)
             {
                 ShowModalError("Coins phải là số nguyên >= 0");
@@ -348,15 +364,13 @@ namespace VocabLearning.UI
                 return;
             }
 
-            // 3. Cập nhật offline cục bộ
+            // 3. Cập nhật tạm thời vào object đang chỉnh sửa (để UI phản hồi nhanh)
             _editingUser.role = roleStr;
             _editingUser.status = statusStr;
             _editingUser.level = level;
             _editingUser.exp = exp;
             _editingUser.coins = coins;
             _editingUser.rankPoints = rp;
-
-            Debug.Log($"[Admin Users] Cập nhật offline user {_editingUser.username}");
 
             // Nếu Admin tự chỉnh sửa chính mình, đồng bộ vào phiên đăng nhập hiện tại
             if (_editingUser.id == _jsonDb.currentUser.id)
@@ -369,25 +383,33 @@ namespace VocabLearning.UI
                 _jsonDb.currentUser.rankPoints = rp;
             }
 
-            // 4. Đồng bộ lên SQL Server qua REST API
-            VocabLearning.Network.NetworkClient.Instance.AdminUpdateUser(_editingUser, (success, msg, res) =>
+            // 4. Capture thông tin cần thiết TRƯỚC khi đóng modal
+            // (CloseUserModal() sẽ set _editingUser = null, nên phải lưu lại trước)
+            string editingUsername = _editingUser.username;
+            var userToSave = _editingUser; // giữ reference trước khi null hoá
+
+            // Đóng modal
+            CloseUserModal();
+
+            // 5. Đồng bộ lên SQL Server qua REST API, rồi RELOAD hoàn toàn từ DB
+            // (Đây là nguồn sự thật duy nhất — đảm bảo mọi thống kê như tổng bị khóa luôn chính xác)
+            VocabLearning.Network.NetworkClient.Instance.AdminUpdateUser(userToSave, (success, msg, res) =>
             {
                 if (success)
                 {
-                    Debug.Log($"[Admin Users - Network] Cập nhật thành công {_editingUser.username} trên SQL Server.");
+                    Debug.Log($"[Admin Users - Network] Cập nhật thành công {editingUsername} trên SQL Server.");
+                    // Tải lại toàn bộ danh sách từ DB để UI luôn phản ánh đúng thực tế
+                    FetchAllUsersFromServer();
+                    ShowAdminToast($"✅ Đã cập nhật tài khoản {editingUsername} thành công!");
                 }
                 else
                 {
-                    Debug.LogError($"[Admin Users - Network] Lỗi cập nhật {_editingUser.username}: {msg}");
+                    Debug.LogError($"[Admin Users - Network] Lỗi cập nhật {editingUsername}: {msg}");
+                    ShowAdminToast($"❌ Lỗi cập nhật: {msg}");
+                    // Nếu lỗi, vẫn reload để hoàn nguyên dữ liệu đúng từ DB
+                    FetchAllUsersFromServer();
                 }
             });
-
-            // Ghi thay đổi cục bộ bền vững
-            SaveJsonDatabase();
-
-            // Đóng Modal và làm tươi danh sách
-            CloseUserModal();
-            RefreshUserListUI();
         }
 
         private void DeleteUser(UserJson user)
@@ -401,28 +423,23 @@ namespace VocabLearning.UI
                 return;
             }
 
-            // 2. Xóa khỏi danh sách bộ nhớ cục bộ
-            _adminUserList.Remove(user);
-            Debug.Log($"[Admin Users] Đã xóa offline người chơi: {user.username}");
-
-            // 3. Gọi API xóa trực tiếp lên backend SQL Server
+            // 2. Gọi API xóa trực tiếp lên backend SQL Server, rồi RELOAD từ DB
+            string deletingUsername = user.username;
             VocabLearning.Network.NetworkClient.Instance.AdminDeleteUser(user.id, (success, msg, res) =>
             {
                 if (success)
                 {
-                    Debug.Log($"[Admin Users - Network] Đã xóa thành công {user.username} khỏi SQL Server.");
+                    Debug.Log($"[Admin Users - Network] Đã xóa thành công {deletingUsername} khỏi SQL Server.");
+                    ShowAdminToast($"🗑 Đã xóa tài khoản {deletingUsername}.");
                 }
                 else
                 {
-                    Debug.LogError($"[Admin Users - Network] Thất bại khi xóa {user.username}: {msg}");
+                    Debug.LogError($"[Admin Users - Network] Thất bại khi xóa {deletingUsername}: {msg}");
+                    ShowAdminToast($"❌ Lỗi xóa tài khoản: {msg}");
                 }
+                // Dù thành công hay thất bại, luôn reload để đảm bảo UI đồng bộ với DB
+                FetchAllUsersFromServer();
             });
-
-            // Ghi thay đổi offline bền vững
-            SaveJsonDatabase();
-
-            // Làm mới lại UI danh sách
-            RefreshUserListUI();
         }
     }
 }
