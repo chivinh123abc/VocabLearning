@@ -444,62 +444,6 @@ namespace VocabLearning.UI
             RefreshVocabList();
         }
 
-        // Lưu thay đổi MockDatabase xuống file db.json và đồng bộ lên Node.js Backend SQL Server
-        private void SaveJsonDatabase()
-        {
-            CheckLevelUp();
-            if (_jsonDb != null && _jsonDb.currentUser != null)
-            {
-                _jsonDb.currentUser.inventory = _jsonDb.inventory;
-                _jsonDb.currentUser.quests = _jsonDb.quests;
-                _jsonDb.currentUser.achievements = _jsonDb.achievements;
-            }
-            // 1. Luôn lưu dữ liệu cục bộ bền vững trên mọi thiết bị (Editor & Bản Build chạy thật)
-            try
-            {
-                string localSavePath = System.IO.Path.Combine(Application.persistentDataPath, "local_db.json");
-                string json = JsonUtility.ToJson(_jsonDb, true);
-                System.IO.File.WriteAllText(localSavePath, json);
-                Debug.Log($"[JSON DB - Persistent] Đã lưu tiến trình cục bộ thành công: {localSavePath}");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[JSON DB - Persistent] Lỗi lưu database cục bộ: {ex.Message}");
-            }
-
-#if UNITY_EDITOR
-            try
-            {
-                string path = System.IO.Path.Combine(Application.dataPath, "Resources/Mockdata/db.json");
-                string json = JsonUtility.ToJson(_jsonDb, true);
-                System.IO.File.WriteAllText(path, json);
-                UnityEditor.AssetDatabase.Refresh();
-                Debug.Log($"[JSON DB - Editor] Đã lưu database offline về file: {path}");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[JSON DB - Editor] Lỗi lưu database offline: {ex.Message}");
-            }
-#endif
-
-            // 2. Đồng bộ dữ liệu tiến trình người dùng lên SQL Server thông qua Node.js Backend API
-            if (_jsonDb != null && _jsonDb.currentUser != null && !string.IsNullOrEmpty(_jsonDb.currentUser.id))
-            {
-                Debug.Log($"[JSON DB - Network] Bắt đầu đồng bộ tiến trình game của người chơi '{_jsonDb.currentUser.username}' lên SQL Server...");
-                VocabLearning.Network.NetworkClient.Instance.SyncUserData(_jsonDb.currentUser, (success, message, responseJson) =>
-                {
-                    if (success)
-                    {
-                        Debug.Log($"[JSON DB - Network] Đồng bộ thành công tiến trình game của '{_jsonDb.currentUser.username}' lên SQL Server.");
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[JSON DB - Network] Thất bại khi đồng bộ dữ liệu game lên server: {message}");
-                    }
-                });
-            }
-        }
-
         // --- CÁC HÀM TIỆN ÍCH HỖ TRỢ (HELPERS) ---
 
         private string GetInputValue(string inputName)
@@ -584,48 +528,6 @@ namespace VocabLearning.UI
             int indexB = rankOrder.IndexOf(rankB);
             return indexA > indexB;
         }
-
-        public static int CalculateLevel(int totalExp)
-        {
-            if (totalExp <= 0) return 1;
-            return (totalExp / 1000) + 1;
-        }
-
-        public static int GetExpNeededForLevel(int level)
-        {
-            return 1000;
-        }
-
-        public static int GetCumulativeExpForLevel(int level)
-        {
-            if (level <= 1) return 0;
-            return (level - 1) * 1000;
-        }
-
-        public static void GetExpDetails(int totalExp, out int level, out int curLevelExp, out int nextLevelExpNeeded)
-        {
-            level = CalculateLevel(totalExp);
-            curLevelExp = totalExp >= 0 ? (totalExp % 1000) : 0;
-            nextLevelExpNeeded = 1000;
-        }
-
-        private void CheckLevelUp()
-        {
-            if (_jsonDb == null || _jsonDb.currentUser == null) return;
-            var user = _jsonDb.currentUser;
-
-            int targetLevel = CalculateLevel(user.exp);
-            if (user.level != targetLevel)
-            {
-                int oldLevel = user.level;
-                user.level = targetLevel;
-                if (oldLevel > 0 && targetLevel > oldLevel)
-                {
-                    Debug.Log($"🎉 CHÚC MỪNG! Bạn đã thăng cấp từ {oldLevel} lên cấp {user.level}!");
-                    SoundManager.PlayAchievement();
-                }
-            }
-        }
-
     }
 }
+

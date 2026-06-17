@@ -238,7 +238,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Tên đăng nhập đã tồn tại!' });
     }
 
-    const userId = 'user_' + Date.now() + Math.random().toString(36).substr(2, 5);
+    const userId = Date.now().toString() + Math.random().toString(36).substr(2, 5);
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     const transaction = new sql.Transaction(pool);

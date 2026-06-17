@@ -106,3 +106,4 @@ InitTestScene*.unity*
 # Backend (Node.js Server) ignores
 server/node_modules/
 server/.env
+.env
