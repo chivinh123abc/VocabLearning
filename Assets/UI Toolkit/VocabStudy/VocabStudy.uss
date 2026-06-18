@@ -690,17 +690,19 @@
     flex-grow: 1;
 }
 
-/* ─── HEADER (peach banner) ─── */
+/* ─── HEADER (indigo-blue gradient banner) ─── */
 .admin-header {
     height: 100px;
     border-radius: 20px;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(255, 195, 140);
-    margin-bottom: 18px;
+    background-color: rgb(59, 130, 246);
+    margin-bottom: 20px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Tăng độ ưu tiên để tránh bị đè bởi VocabManagement.uss .header-left */
@@ -719,7 +721,7 @@
 
 .header-subtitle {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
     margin-top: 4px;
 }
 
@@ -895,6 +897,9 @@
 
 .menu-content {
     flex-grow: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .menu-title {
@@ -902,11 +907,13 @@
     -unity-font-style: bold;
     color: white;
     margin-bottom: 4px;
+    -unity-text-align: middle-left;
 }
 
 .menu-subtitle {
     font-size: 12px;
     color: rgb(148, 163, 184);
+    -unity-text-align: middle-left;
 }
 
 
@@ -963,4 +970,46 @@
 
 .profile-name-input .unity-text-field__input:focus {
     border-color: rgb(59, 130, 246); /* Blue border highlight on focus */
+}
+
+/* ─── WORD SCRAMBLE MINIGAME ─── */
+.scramble-letter-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: rgb(30, 41, 59);
+    border-width: 1px;
+    border-color: rgb(51, 65, 85);
+    color: white;
+    font-size: 18px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin: 4px;
+    padding: 0;
+    transition-duration: 0.1s;
+    transition-property: scale, background-color;
+}
+
+.scramble-letter-btn:hover {
+    background-color: rgb(79, 70, 229);
+    scale: 1.08;
+}
+
+.scramble-letter-btn:active {
+    scale: 0.92;
+}
+
+.scramble-slot {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background-color: rgb(15, 23, 42);
+    border-width: 1.5px;
+    border-color: rgb(51, 65, 85);
+    color: rgb(245, 158, 11); /* Amber/Gold color */
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin: 4px;
+    padding: 0;
 }

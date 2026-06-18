@@ -167,6 +167,30 @@ namespace VocabLearning.Network
             StartCoroutine(PostRequestCoroutine<string>("/admin/words", jsonPayload, callback));
         }
 
+        // API Admin: Tải ảnh từ vựng lên Cloudinary qua Backend
+        public void UploadVocabImage(byte[] imageBytes, string fileName, NetworkCallback<UploadImageResponse> callback)
+        {
+            StartCoroutine(UploadImageCoroutine(imageBytes, fileName, callback));
+        }
+
+        private IEnumerator UploadImageCoroutine(byte[] imageBytes, string fileName, NetworkCallback<UploadImageResponse> callback)
+        {
+            WWWForm form = new WWWForm();
+            form.AddBinaryData("image", imageBytes, fileName, "image/jpeg");
+
+            using (UnityWebRequest request = UnityWebRequest.Post(BaseUrl + "/admin/words/upload-image", form))
+            {
+                if (!string.IsNullOrEmpty(JwtToken))
+                {
+                    request.SetRequestHeader("Authorization", "Bearer " + JwtToken);
+                }
+
+                yield return request.SendWebRequest();
+
+                ProcessResponse(request, callback);
+            }
+        }
+
         // API Admin: Sửa từ vựng
         public void AdminUpdateWord(VocabLearning.Data.WordJson word, NetworkCallback<string> callback)
         {
@@ -429,6 +453,14 @@ namespace VocabLearning.Network
     public class ForgotPasswordResponse
     {
         public bool success;
+        public string message;
+    }
+
+    [System.Serializable]
+    public class UploadImageResponse
+    {
+        public bool success;
+        public string imageUrl;
         public string message;
     }
 

@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
 
 namespace VocabLearning.UI
 {
@@ -283,7 +283,7 @@ namespace VocabLearning.UI
                                 _jsonDb.currentUser.displayName = res.displayName;
                                 lblName.text = res.displayName;
                                 SaveJsonDatabase(); // Lưu thay đổi offline
-                                
+
                                 if (btnEditName.parent != null) btnEditName.parent.style.display = DisplayStyle.Flex;
                                 editContainer.style.display = DisplayStyle.None;
                             }
@@ -477,38 +477,40 @@ namespace VocabLearning.UI
 
             // 2. Dialog Box
             VisualElement dialog = new VisualElement();
-            dialog.style.width = 320;
-            dialog.style.backgroundColor = new Color(0.07f, 0.11f, 0.19f); // Dark background
-            dialog.style.borderTopLeftRadius = 16;
-            dialog.style.borderTopRightRadius = 16;
-            dialog.style.borderBottomLeftRadius = 16;
-            dialog.style.borderBottomRightRadius = 16;
-            dialog.style.paddingTop = 24;
-            dialog.style.paddingBottom = 24;
-            dialog.style.paddingLeft = 24;
-            dialog.style.paddingRight = 24;
-            dialog.style.borderTopWidth = 1;
-            dialog.style.borderBottomWidth = 1;
-            dialog.style.borderLeftWidth = 1;
-            dialog.style.borderRightWidth = 1;
-            dialog.style.borderTopColor = new Color(1, 1, 1, 0.1f);
-            dialog.style.borderBottomColor = new Color(1, 1, 1, 0.1f);
-            dialog.style.borderLeftColor = new Color(1, 1, 1, 0.1f);
-            dialog.style.borderRightColor = new Color(1, 1, 1, 0.1f);
+            dialog.style.width = 460; // Increased from 320 to 460 to match and look premium
+            dialog.style.backgroundColor = new Color(0.08f, 0.12f, 0.22f); // Deep premium dark blue-gray
+            dialog.style.borderTopLeftRadius = 24;
+            dialog.style.borderTopRightRadius = 24;
+            dialog.style.borderBottomLeftRadius = 24;
+            dialog.style.borderBottomRightRadius = 24;
+            dialog.style.paddingTop = 32;
+            dialog.style.paddingBottom = 32;
+            dialog.style.paddingLeft = 32;
+            dialog.style.paddingRight = 32;
+            dialog.style.borderTopWidth = 1.5f;
+            dialog.style.borderBottomWidth = 1.5f;
+            dialog.style.borderLeftWidth = 1.5f;
+            dialog.style.borderRightWidth = 1.5f;
+            dialog.style.borderTopColor = new Color(0.18f, 0.35f, 0.64f, 0.6f); // Elegant glow outline
+            dialog.style.borderBottomColor = new Color(0.18f, 0.35f, 0.64f, 0.6f);
+            dialog.style.borderLeftColor = new Color(0.18f, 0.35f, 0.64f, 0.6f);
+            dialog.style.borderRightColor = new Color(0.18f, 0.35f, 0.64f, 0.6f);
 
             // 3. Content
             Label titleLbl = new Label(title);
-            titleLbl.style.fontSize = 20;
-            titleLbl.AddToClassList("font-bold");
+            titleLbl.style.fontSize = 24;
+            titleLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
+            titleLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
             titleLbl.style.color = Color.white;
-            titleLbl.style.marginBottom = 12;
+            titleLbl.style.marginBottom = 16;
             titleLbl.style.whiteSpace = WhiteSpace.Normal;
             dialog.Add(titleLbl);
 
             Label msgLbl = new Label(message);
-            msgLbl.style.fontSize = 14;
-            msgLbl.style.color = new Color(0.58f, 0.64f, 0.72f);
-            msgLbl.style.marginBottom = 24;
+            msgLbl.style.fontSize = 15;
+            msgLbl.style.unityTextAlign = TextAnchor.MiddleCenter;
+            msgLbl.style.color = new Color(0.70f, 0.76f, 0.85f);
+            msgLbl.style.marginBottom = 28;
             msgLbl.style.whiteSpace = WhiteSpace.Normal;
             dialog.Add(msgLbl);
 
@@ -521,7 +523,20 @@ namespace VocabLearning.UI
             btnCancel.text = "QUAY LẠI";
             btnCancel.AddToClassList("btn-secondary");
             btnCancel.style.flexGrow = 1;
-            btnCancel.style.marginRight = 6;
+            btnCancel.style.height = 48;
+            btnCancel.style.fontSize = 14;
+            btnCancel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            btnCancel.style.marginRight = 8;
+            btnCancel.style.backgroundColor = new StyleColor(new Color(0.15f, 0.20f, 0.30f)); // Premium slate blue
+            btnCancel.style.color = new Color(0.70f, 0.76f, 0.85f);
+            btnCancel.style.borderTopLeftRadius = 12;
+            btnCancel.style.borderTopRightRadius = 12;
+            btnCancel.style.borderBottomLeftRadius = 12;
+            btnCancel.style.borderBottomRightRadius = 12;
+            btnCancel.style.borderTopWidth = 0;
+            btnCancel.style.borderBottomWidth = 0;
+            btnCancel.style.borderLeftWidth = 0;
+            btnCancel.style.borderRightWidth = 0;
             btnCancel.clicked += () =>
             {
                 _root.Remove(overlay);
@@ -532,7 +547,20 @@ namespace VocabLearning.UI
             btnConfirm.text = "ĐỒNG Ý";
             btnConfirm.AddToClassList("btn-primary");
             btnConfirm.style.flexGrow = 1;
-            btnConfirm.style.marginLeft = 6;
+            btnConfirm.style.height = 48;
+            btnConfirm.style.fontSize = 14;
+            btnConfirm.style.unityFontStyleAndWeight = FontStyle.Bold;
+            btnConfirm.style.marginLeft = 8;
+            btnConfirm.style.backgroundColor = new StyleColor(new Color(0.12f, 0.53f, 0.90f)); // Premium Blue
+            btnConfirm.style.color = Color.white;
+            btnConfirm.style.borderTopLeftRadius = 12;
+            btnConfirm.style.borderTopRightRadius = 12;
+            btnConfirm.style.borderBottomLeftRadius = 12;
+            btnConfirm.style.borderBottomRightRadius = 12;
+            btnConfirm.style.borderTopWidth = 0;
+            btnConfirm.style.borderBottomWidth = 0;
+            btnConfirm.style.borderLeftWidth = 0;
+            btnConfirm.style.borderRightWidth = 0;
             btnConfirm.clicked += () =>
             {
                 _root.Remove(overlay);

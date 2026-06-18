@@ -1,4 +1,12 @@
 const { getPool, sql } = require('../config/db');
+const cloudinary = require('cloudinary').v2;
+
+// Cấu hình Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Thêm từ vựng mới (Admin)
 exports.addWord = async (req, res) => {
@@ -80,16 +88,41 @@ exports.deleteWord = async (req, res) => {
 
   try {
     const pool = await getPool();
-    const request = pool.request();
-    request.input('id', sql.VarChar, wordId);
 
-    const result = await request.query('DELETE FROM [words] WHERE [id] = @id');
+    // 1. Lấy thông tin từ vựng trước khi xóa để lấy imageUrl
+    const selectReq = pool.request();
+    selectReq.input('id', sql.VarChar, wordId);
+    const wordData = await selectReq.query('SELECT [imageUrl] FROM [words] WHERE [id] = @id');
+
+    if (wordData.recordset.length === 0) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy từ vựng để xóa!' });
+    }
+
+    const imageUrl = wordData.recordset[0].imageUrl;
+
+    // 2. Tiến hành xóa trong SQL Server
+    const deleteReq = pool.request();
+    deleteReq.input('id', sql.VarChar, wordId);
+    const result = await deleteReq.query('DELETE FROM [words] WHERE [id] = @id');
 
     if (result.rowsAffected[0] === 0) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy từ vựng để xóa!' });
     }
 
     console.log(`📝 Admin đã xóa từ vựng: ${wordId}`);
+
+    // 3. Tự động xóa ảnh trên Cloudinary nếu có liên kết
+    const publicId = getPublicIdFromUrl(imageUrl);
+    if (publicId) {
+      cloudinary.uploader.destroy(publicId, (error, destroyResult) => {
+        if (error) {
+          console.error(`🚨 Lỗi khi tự động xóa ảnh trên Cloudinary (Public ID: ${publicId}):`, error);
+        } else {
+          console.log(`🧹 Đã tự động xóa ảnh trên Cloudinary (Result: ${destroyResult.result}, Public ID: ${publicId})`);
+        }
+      });
+    }
+
     return res.json({ success: true, message: 'Xóa từ vựng thành công!' });
 
   } catch (err) {
@@ -113,7 +146,7 @@ exports.getAllUsers = async (req, res) => {
       displayName: u.displayName || u.username,
       level: Math.floor(u.exp / 1000) + 1
     }));
-    
+
     return res.json({ success: true, users: usersCalculated });
   } catch (err) {
     console.error('Lỗi khi Admin lấy danh sách user: ', err);
@@ -180,6 +213,59 @@ exports.deleteUser = async (req, res) => {
   } catch (err) {
     console.error('Lỗi khi Admin xóa user: ', err);
     return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi xóa người dùng!' });
+  }
+};
+
+// Tải ảnh lên Cloudinary từ bộ nhớ đệm (buffer)
+exports.uploadImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Vui lòng cung cấp file ảnh!' });
+    }
+
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: 'vocab_images' },
+      (error, result) => {
+        if (error) {
+          console.error('Lỗi khi tải ảnh lên Cloudinary: ', error);
+          return res.status(500).json({ success: false, message: 'Lỗi khi tải ảnh lên Cloudinary!' });
+        }
+        return res.status(200).json({
+          success: true,
+          imageUrl: result.secure_url
+        });
+      }
+    );
+
+    uploadStream.end(req.file.buffer);
+  } catch (err) {
+    console.error('Lỗi hệ thống khi tải ảnh: ', err);
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi xử lý upload ảnh!' });
+  }
+};
+
+// Hàm phụ trợ trích xuất public_id của Cloudinary từ URL ảnh
+const getPublicIdFromUrl = (url) => {
+  if (!url || !url.includes('cloudinary.com')) return null;
+  try {
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return null;
+
+    let path = parts[1];
+    const firstSlash = path.indexOf('/');
+    const firstSegment = path.substring(0, firstSlash);
+    if (firstSegment.startsWith('v') && /^\d+$/.test(firstSegment.substring(1))) {
+      path = path.substring(firstSlash + 1);
+    }
+
+    const lastDot = path.lastIndexOf('.');
+    if (lastDot !== -1) {
+      path = path.substring(0, lastDot);
+    }
+    return path;
+  } catch (err) {
+    console.error('Lỗi khi phân tích public_id từ Cloudinary URL: ', err);
+    return null;
   }
 };
 

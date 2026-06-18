@@ -22,6 +22,7 @@ namespace VocabLearning.UI
         public VisualTreeAsset SoloQuizScreenAsset;
         public VisualTreeAsset FriendScreenAsset;
         public VisualTreeAsset SettingScreenAsset;
+        public VisualTreeAsset WordScrambleScreenAsset;
 
         [Header("Remaining Features")]
         public VisualTreeAsset ShopScreenAsset;
@@ -200,6 +201,7 @@ namespace VocabLearning.UI
             else if (targetAsset == BattleGameplayScreenAsset) BindBattleGameplayEvents();
             else if (targetAsset == FriendScreenAsset) BindFriendEvents();
             else if (targetAsset == SoloQuizScreenAsset) BindSoloQuizEvents();
+            else if (targetAsset == WordScrambleScreenAsset) BindWordScrambleEvents();
             else if (targetAsset == ShopScreenAsset) BindShopEvents();
             else if (targetAsset == RankingScreenAsset) BindRankingEvents();
             else if (targetAsset == ProfileScreenAsset) BindProfileEvents();

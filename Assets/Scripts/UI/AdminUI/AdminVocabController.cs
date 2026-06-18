@@ -68,32 +68,33 @@ namespace VocabLearning.UI
                     string selectedPath = UnityEditor.EditorUtility.OpenFilePanel("Chọn ảnh từ máy", "", "png,jpg,jpeg,webp");
                     if (!string.IsNullOrEmpty(selectedPath))
                     {
-                        // Tạo thư mục lưu trữ ảnh Vocab nếu chưa tồn tại
-                        string vocabSpritesDir = System.IO.Path.Combine(Application.dataPath, "Sprites/Vocab");
-                        if (!System.IO.Directory.Exists(vocabSpritesDir))
-                        {
-                            System.IO.Directory.CreateDirectory(vocabSpritesDir);
-                        }
-
-                        // Sao chép tệp tin vào trong thư mục Assets/Sprites/Vocab với tên tệp là duy nhất (tránh ghi đè)
-                        string fileName = System.IO.Path.GetFileName(selectedPath);
-                        string uniqueFileName = System.DateTime.Now.ToString("yyyyMMdd_HHmmss_") + fileName;
-                        string destPath = System.IO.Path.Combine(vocabSpritesDir, uniqueFileName);
-
                         try
                         {
-                            System.IO.File.Copy(selectedPath, destPath, true);
-                            UnityEditor.AssetDatabase.Refresh();
+                            byte[] fileBytes = System.IO.File.ReadAllBytes(selectedPath);
+                            string fileName = System.IO.Path.GetFileName(selectedPath);
 
-                            string absoluteDestPath = System.IO.Path.GetFullPath(destPath);
-                            string fileUrl = "file://" + absoluteDestPath.Replace("\\", "/");
+                            // Hiển thị trạng thái đang tải lên
+                            SetInputValue("input-image", "Đang tải ảnh lên Cloudinary...");
 
-                            SetInputValue("input-image", fileUrl);
-                            Debug.Log($"[Admin Vocab] Đã nhập ảnh từ máy và lưu dạng file:// URL: {fileUrl}");
+                            VocabLearning.Network.NetworkClient.Instance.UploadVocabImage(fileBytes, fileName, (success, msg, res) =>
+                            {
+                                if (success && res != null)
+                                {
+                                    SetInputValue("input-image", res.imageUrl);
+                                    Debug.Log($"[Admin Vocab] Tải ảnh lên Cloudinary thành công: {res.imageUrl}");
+                                }
+                                else
+                                {
+                                    SetInputValue("input-image", "");
+                                    ShowModalError("Lỗi tải ảnh lên Cloudinary: " + msg);
+                                    Debug.LogError($"[Admin Vocab] Lỗi tải ảnh lên Cloudinary: {msg}");
+                                }
+                            });
                         }
                         catch (System.Exception ex)
                         {
-                            Debug.LogError($"[Admin Vocab] Lỗi sao chép tệp ảnh: {ex.Message}");
+                            ShowModalError("Lỗi đọc tệp ảnh: " + ex.Message);
+                            Debug.LogError($"[Admin Vocab] Lỗi đọc tệp ảnh: {ex.Message}");
                         }
                     }
 #else
@@ -377,10 +378,11 @@ namespace VocabLearning.UI
                 _currentEditingWord.imageSub = string.IsNullOrEmpty(subStr) ? $"Hint: {meaningStr}" : subStr;
                 Debug.Log($"[Admin Vocab] Đã cập nhật từ vựng cục bộ ID: {_currentEditingWord.id}");
 
+                string wordId = _currentEditingWord.id;
                 // Đồng bộ cập nhật lên SQL Server qua Express Backend
                 VocabLearning.Network.NetworkClient.Instance.AdminUpdateWord(_currentEditingWord, (success, msg, res) =>
                 {
-                    if (success) Debug.Log($"[Admin Vocab - Network] Đã cập nhật thành công từ ID {_currentEditingWord.id} trong SQL Server.");
+                    if (success) Debug.Log($"[Admin Vocab - Network] Đã cập nhật thành công từ ID {wordId} trong SQL Server.");
                     else Debug.LogError($"[Admin Vocab - Network] Thất bại khi sửa từ vựng trong SQL Server: {msg}");
                 });
             }

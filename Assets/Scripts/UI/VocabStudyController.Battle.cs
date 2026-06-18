@@ -1734,6 +1734,8 @@ namespace VocabLearning.UI
         {
             if (string.IsNullOrEmpty(url)) yield break;
 
+            Debug.Log($"[Battle] Đang tải ảnh từ URL: {url}");
+
             using (UnityEngine.Networking.UnityWebRequest uwr = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(url))
             {
                 yield return uwr.SendWebRequest();

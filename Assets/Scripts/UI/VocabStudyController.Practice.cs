@@ -427,6 +427,13 @@ namespace VocabLearning.UI
             Button quizBtn = _root.Q<Button>(className: "mode-btn-quiz");
             if (quizBtn != null) quizBtn.clicked += () => StartReviewQuiz();
 
+            // Nút Minigames
+            Button minigameBtn = _root.Q<Button>(className: "mode-btn-minigame");
+            if (minigameBtn != null)
+            {
+                minigameBtn.clicked += () => StartWordScrambleGame(_currentVocabSetWords);
+            }
+
             // Nút Back
             Button backBtn = _root.Q<Button>("BtnBack");
             if (backBtn != null)

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 namespace VocabLearning.UI
 {
@@ -113,14 +114,44 @@ namespace VocabLearning.UI
         {
             if (_jsonDb == null) return;
 
+            // 1. Cập nhật các giá trị từ cache ngoại tuyến trước để UI phản hồi ngay lập tức
+            UpdateAdminStatsUI();
+
+            // 2. Kéo danh sách người dùng mới nhất từ backend SQL Server để lấy số liệu thực tế
+            VocabLearning.Network.NetworkClient.Instance.AdminGetUsers((success, msg, data) =>
+            {
+                if (success && data != null && data.users != null)
+                {
+                    _jsonDb.registeredUsers = data.users;
+                    UpdateAdminStatsUI();
+                }
+                else
+                {
+                    Debug.LogWarning($"[Admin Dashboard] Không thể đồng bộ số lượng User thực tế từ server: {msg}");
+                }
+            });
+        }
+
+        private void UpdateAdminStatsUI()
+        {
+            if (_jsonDb == null) return;
+
+            // Tổng số người dùng thực tế từ DB
             int totalUsers = _jsonDb.registeredUsers?.Count ?? 0;
             SetAdminStatLabel("stat-users", totalUsers.ToString());
 
+            // Tổng số bộ từ vựng
             int totalVocab = _jsonDb.vocabSets?.Count ?? 0;
             SetAdminStatLabel("stat-vocab", totalVocab.ToString());
 
+            // Tổng số từ vựng
             int totalWords = _jsonDb.words?.Count ?? 0;
             SetAdminStatLabel("stat-questions", totalWords.ToString());
+
+            // Hoạt động hôm nay (tính theo số người dùng đã đăng nhập ngày hôm nay)
+            string today = System.DateTime.Now.ToString("yyyy-MM-dd");
+            int activeToday = _jsonDb.registeredUsers?.Count(u => u.weeklyLogin != null && u.weeklyLogin.loginDates != null && u.weeklyLogin.loginDates.Contains(today)) ?? 0;
+            SetAdminStatLabel("stat-active", activeToday.ToString());
         }
 
         private void SetAdminStatLabel(string labelName, string value)

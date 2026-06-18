@@ -1,7 +1,7 @@
 {
     "currentUser": {
         "id": "test_admin_1",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTcxMDMwNiwiZXhwIjoxNzg0MzAyMzA2fQ.YPr7HY7Pv0pU8meI33fuMO-vx9cPzIb3Y18far7HAv4",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTc4NjIwNSwiZXhwIjoxNzg0Mzc4MjA1fQ.YeokZMSnESPZG6-2XRVRE_cJbAmI_gOKFCmVayRMqQQ",
         "username": "admin",
         "displayName": "admin",
         "email": "admin@vocab.com",
@@ -9,88 +9,301 @@
         "role": "admin",
         "status": "active",
         "level": 2,
-        "exp": 1045,
+        "exp": 1055,
         "expNeeded": 1000,
-        "coins": 2700,
+        "coins": 2394,
         "rank": "SieuCap",
-        "rankPoints": 24580,
-        "wins": 39,
-        "totalGames": 58,
+        "rankPoints": 24500,
+        "wins": 34,
+        "totalGames": 52,
         "weeklyLogin": {
             "weekStartDate": "2026-06-15",
             "loginDates": [
-                "2026-06-17"
+                "2026-06-18"
             ],
             "isRewardClaimed": false
         },
-        "learnedSets": [],
+        "learnedSets": [
+            "2"
+        ],
         "savedSetLevels": [],
-        "setProgress": [],
-        "wordProgress": [],
+        "setProgress": [
+            {
+                "setId": "2",
+                "completedLevels": []
+            },
+            {
+                "setId": "4",
+                "completedLevels": []
+            }
+        ],
+        "wordProgress": [
+            {
+                "wordId": "w10",
+                "status": 2
+            },
+            {
+                "wordId": "w11",
+                "status": 2
+            },
+            {
+                "wordId": "w12",
+                "status": 2
+            },
+            {
+                "wordId": "w13",
+                "status": 2
+            },
+            {
+                "wordId": "w14",
+                "status": 2
+            },
+            {
+                "wordId": "w15",
+                "status": 2
+            },
+            {
+                "wordId": "w16",
+                "status": 2
+            },
+            {
+                "wordId": "w17",
+                "status": 1
+            },
+            {
+                "wordId": "w18",
+                "status": 1
+            },
+            {
+                "wordId": "w19",
+                "status": 2
+            },
+            {
+                "wordId": "w20",
+                "status": 1
+            },
+            {
+                "wordId": "w21",
+                "status": 1
+            },
+            {
+                "wordId": "w22",
+                "status": 1
+            },
+            {
+                "wordId": "w25",
+                "status": 1
+            },
+            {
+                "wordId": "w26",
+                "status": 1
+            },
+            {
+                "wordId": "w27",
+                "status": 1
+            },
+            {
+                "wordId": "w28",
+                "status": 1
+            },
+            {
+                "wordId": "w29",
+                "status": 1
+            },
+            {
+                "wordId": "w30",
+                "status": 1
+            },
+            {
+                "wordId": "w31",
+                "status": 1
+            },
+            {
+                "wordId": "w32",
+                "status": 1
+            },
+            {
+                "wordId": "w33",
+                "status": 2
+            },
+            {
+                "wordId": "w34",
+                "status": 2
+            },
+            {
+                "wordId": "w35",
+                "status": 2
+            },
+            {
+                "wordId": "w36",
+                "status": 2
+            },
+            {
+                "wordId": "w9",
+                "status": 1
+            }
+        ],
         "battleHistory": [
             {
-                "matchId": "f2af67db-d8f5-4de9-9ffa-c7b82e93bed2",
-                "date": "2026-06-17 22:32",
-                "isRanked": true,
+                "matchId": "a0639d76-0988-4aa9-853e-1251a99ad6e8",
+                "date": "2026-06-18 17:49",
+                "isRanked": false,
                 "isWin": false,
-                "opponentName": "user1",
+                "opponentName": "Smart Bot [AI]",
+                "playerFinalHP": 0,
+                "enemyFinalHP": 80,
+                "correctCount": 2,
+                "totalRounds": 12,
+                "rounds": [
+                    {
+                        "question": "Hint: Khung phát triển",
+                        "correctAnswer": "Framework",
+                        "playerAnswer": "",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778795/vocab_images/ach9zsm2amzmvvtruuzj.png",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Con thỏ",
+                        "correctAnswer": "Rabbit",
+                        "playerAnswer": "Bread",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777031/vocab_images/ijfqozqkhsgjflyuc6wl.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Milk",
+                        "correctAnswer": "Sữa",
+                        "playerAnswer": "Sữa",
+                        "imageUrl": "",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Customs",
+                        "correctAnswer": "Hải quan",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Liquidity",
+                        "correctAnswer": "Tính thanh khoản",
+                        "playerAnswer": "Tính thanh khoản",
+                        "imageUrl": "",
+                        "isCorrect": true,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Màu xanh dương",
+                        "correctAnswer": "Blue",
+                        "playerAnswer": "",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777986/vocab_images/ltstnercrnecrhz3jxzh.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Trí tuệ nhân tạo",
+                        "correctAnswer": "Artificial Intelligence",
+                        "playerAnswer": "Reservation",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778766/vocab_images/h9xgkiauyowtosqw2dag.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Một nghìn",
+                        "correctAnswer": "Thousand",
+                        "playerAnswer": "Airport",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778108/vocab_images/xziokgb3aavwy9qyriuq.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Depreciation",
+                        "correctAnswer": "Khấu hao tài sản",
+                        "playerAnswer": "",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Ubiquitous",
+                        "correctAnswer": "Có mặt khắp nơi, phổ biến",
+                        "playerAnswer": "Băng thông",
+                        "imageUrl": "",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Con cá",
+                        "correctAnswer": "Fish",
+                        "playerAnswer": "Repository",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777116/vocab_images/lr2js92bagxbg8rysway.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    },
+                    {
+                        "question": "Hint: Quả cam",
+                        "correctAnswer": "Orange",
+                        "playerAnswer": "",
+                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777801/vocab_images/fpumlx1ek2vmqhxxckx2.jpg",
+                        "isCorrect": false,
+                        "isTimeout": false
+                    }
+                ]
+            },
+            {
+                "matchId": "ec78ccd7-3bac-4408-868d-25363b178ef5",
+                "date": "2026-06-18 17:49",
+                "isRanked": false,
+                "isWin": false,
+                "opponentName": "Smart Bot [AI]",
                 "playerFinalHP": 0,
                 "enemyFinalHP": 100,
                 "correctCount": 0,
                 "totalRounds": 1,
                 "rounds": [
                     {
-                        "question": "Hint: Con ngựa",
-                        "correctAnswer": "Horse",
+                        "question": "Bread",
+                        "correctAnswer": "Bánh mì",
                         "playerAnswer": "",
-                        "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+                        "imageUrl": "",
                         "isCorrect": false,
-                        "isTimeout": true
+                        "isTimeout": false
                     }
                 ]
-            },
-            {
-                "matchId": "b471a751-3207-4d38-9b26-667caf74bb2d",
-                "date": "2026-06-17 22:32",
-                "isRanked": true,
-                "isWin": false,
-                "opponentName": "user1",
-                "playerFinalHP": 0,
-                "enemyFinalHP": 100,
-                "correctCount": 0,
-                "totalRounds": 0,
-                "rounds": []
-            },
-            {
-                "matchId": "c94010f8-7993-4bbb-9604-8fd4bd1cdc7e",
-                "date": "2026-06-17 22:06",
-                "isRanked": true,
-                "isWin": false,
-                "opponentName": "user1",
-                "playerFinalHP": 0,
-                "enemyFinalHP": 100,
-                "correctCount": 0,
-                "totalRounds": 0,
-                "rounds": []
-            },
-            {
-                "matchId": "ec8301d4-f82c-4d45-ab10-a1293bd8f2e9",
-                "date": "2026-06-17 22:06",
-                "isRanked": true,
-                "isWin": true,
-                "opponentName": "user1",
-                "playerFinalHP": 100,
-                "enemyFinalHP": 100,
-                "correctCount": 0,
-                "totalRounds": 0,
-                "rounds": []
             }
         ],
         "bestSurvivor": 0,
         "bestQuick10": 0,
         "bestTimeRush": 0,
-        "shopHistory": [],
-        "inventory": [],
+        "shopHistory": [
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-06-18 17:50"
+            },
+            {
+                "itemName": "Gacha Ticket",
+                "price": 100,
+                "date": "2026-06-18 17:50"
+            }
+        ],
+        "inventory": [
+            {
+                "id": "1",
+                "icon": "🎫",
+                "name": "Gacha Ticket",
+                "description": "Use this to spin the lucky wheel.",
+                "quantity": 2,
+                "rarity": "Rare",
+                "category": "Consumable",
+                "equipType": "",
+                "isEquipped": false,
+                "isCombatItem": false
+            }
+        ],
         "quests": [
             {
                 "id": "q10",
@@ -107,7 +320,7 @@
                 "id": "q3",
                 "title": "Win 3 Battles",
                 "description": "Play ranked or casual matches",
-                "currentProgress": 3,
+                "currentProgress": 0,
                 "maxProgress": 3,
                 "rewardCoins": 100,
                 "rewardExp": 200,
@@ -115,21 +328,10 @@
                 "questType": "WinBattle"
             },
             {
-                "id": "q5",
-                "title": "Win 5 Ranked Battles",
-                "description": "Show your skill in ranked matches",
-                "currentProgress": 4,
-                "maxProgress": 5,
-                "rewardCoins": 300,
-                "rewardExp": 600,
-                "isClaimed": false,
-                "questType": "WinRankedBattle"
-            },
-            {
                 "id": "q6",
                 "title": "Learn 20 words",
                 "description": "Dedication is key",
-                "currentProgress": 0,
+                "currentProgress": 20,
                 "maxProgress": 20,
                 "rewardCoins": 100,
                 "rewardExp": 200,
@@ -137,10 +339,21 @@
                 "questType": "LearnWord"
             },
             {
+                "id": "q7",
+                "title": "Win 10 Battles",
+                "description": "You are unstoppable!",
+                "currentProgress": 0,
+                "maxProgress": 10,
+                "rewardCoins": 400,
+                "rewardExp": 800,
+                "isClaimed": false,
+                "questType": "WinBattle"
+            },
+            {
                 "id": "q8",
                 "title": "Win 3 Ranked in a Row",
                 "description": "Arena master",
-                "currentProgress": 3,
+                "currentProgress": 0,
                 "maxProgress": 3,
                 "rewardCoins": 500,
                 "rewardExp": 1000,
@@ -150,7 +363,7 @@
         ],
         "achievements": []
     },
-    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTcxMDMwNiwiZXhwIjoxNzg0MzAyMzA2fQ.YPr7HY7Pv0pU8meI33fuMO-vx9cPzIb3Y18far7HAv4",
+    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTc4NjIwNSwiZXhwIjoxNzg0Mzc4MjA1fQ.YeokZMSnESPZG6-2XRVRE_cJbAmI_gOKFCmVayRMqQQ",
     "registeredUsers": [
         {
             "id": "test_user_1",
@@ -724,7 +937,7 @@
             "word": "Cat",
             "meaning": "Con mèo",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781776831/vocab_images/xn46kzlmuoqeivv91bdm.jpg",
             "imageSub": "Hint: Con mèo"
         },
         {
@@ -732,7 +945,7 @@
             "word": "Bird",
             "meaning": "Con chim",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781776866/vocab_images/ckob4ptgggb5berzqq5x.jpg",
             "imageSub": "Hint: Con chim"
         },
         {
@@ -740,7 +953,7 @@
             "word": "Elephant",
             "meaning": "Con voi",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781776988/vocab_images/lfnjdr1chzwejoccsin9.jpg",
             "imageSub": "Hint: Con voi"
         },
         {
@@ -748,7 +961,7 @@
             "word": "Tiger",
             "meaning": "Con hổ",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777012/vocab_images/wmlqxd8cjbawzkfitqip.jpg",
             "imageSub": "Hint: Con hổ"
         },
         {
@@ -756,7 +969,7 @@
             "word": "Rabbit",
             "meaning": "Con thỏ",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777031/vocab_images/ijfqozqkhsgjflyuc6wl.jpg",
             "imageSub": "Hint: Con thỏ"
         },
         {
@@ -764,7 +977,7 @@
             "word": "Fish",
             "meaning": "Con cá",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777116/vocab_images/lr2js92bagxbg8rysway.jpg",
             "imageSub": "Hint: Con cá"
         },
         {
@@ -772,7 +985,7 @@
             "word": "Horse",
             "meaning": "Con ngựa",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777141/vocab_images/lxq9b7hnzl4focl5illb.jpg",
             "imageSub": "Hint: Con ngựa"
         },
         {
@@ -780,7 +993,7 @@
             "word": "Apple",
             "meaning": "Quả táo",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777163/vocab_images/txes0za61vwmbm6xmd1e.jpg",
             "imageSub": "Hint: Quả táo"
         },
         {
@@ -788,7 +1001,7 @@
             "word": "Bread",
             "meaning": "Bánh mì",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777217/vocab_images/vjse8vwnwnhxixbcxnfd.webp",
             "imageSub": "Hint: Bánh mì"
         },
         {
@@ -796,7 +1009,7 @@
             "word": "Chicken",
             "meaning": "Thịt gà",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777237/vocab_images/zihm3gtzhb3dieoyutmk.jpg",
             "imageSub": "Hint: Thịt gà"
         },
         {
@@ -804,7 +1017,7 @@
             "word": "Rice",
             "meaning": "Cơm",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777258/vocab_images/w5fzf36yaiu2jxzdjtii.jpg",
             "imageSub": "Hint: Cơm"
         },
         {
@@ -812,7 +1025,7 @@
             "word": "Water",
             "meaning": "Nước",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777283/vocab_images/ft0joqzioexsw8qtpuzz.jpg",
             "imageSub": "Hint: Nước"
         },
         {
@@ -820,7 +1033,7 @@
             "word": "Orange",
             "meaning": "Quả cam",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777801/vocab_images/fpumlx1ek2vmqhxxckx2.jpg",
             "imageSub": "Hint: Quả cam"
         },
         {
@@ -828,7 +1041,7 @@
             "word": "Milk",
             "meaning": "Sữa",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777912/vocab_images/ur9z2wwlvtl5b1xq8whj.jpg",
             "imageSub": "Hint: Sữa"
         },
         {
@@ -836,7 +1049,7 @@
             "word": "Coffee",
             "meaning": "Cà phê",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777946/vocab_images/lak1ydlwsq4dxbjjivzu.jpg",
             "imageSub": "Hint: Cà phê"
         },
         {
@@ -844,7 +1057,7 @@
             "word": "Red",
             "meaning": "Màu đỏ",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777969/vocab_images/tnvf9i9ivnnwo47zsavz.png",
             "imageSub": "Hint: Màu đỏ"
         },
         {
@@ -852,7 +1065,7 @@
             "word": "Blue",
             "meaning": "Màu xanh dương",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781777986/vocab_images/ltstnercrnecrhz3jxzh.jpg",
             "imageSub": "Hint: Màu xanh dương"
         },
         {
@@ -860,7 +1073,7 @@
             "word": "Green",
             "meaning": "Màu xanh lá",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778002/vocab_images/rxwfhzpltrbhbuiudowx.png",
             "imageSub": "Hint: Màu xanh lá"
         },
         {
@@ -868,7 +1081,7 @@
             "word": "Yellow",
             "meaning": "Màu vàng",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778027/vocab_images/cvx6idr0cwzuoxszfskz.png",
             "imageSub": "Hint: Màu vàng"
         },
         {
@@ -876,7 +1089,7 @@
             "word": "Purple",
             "meaning": "Màu tím",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778045/vocab_images/qmrotbrueuts9ecabxia.png",
             "imageSub": "Hint: Màu tím"
         },
         {
@@ -884,7 +1097,7 @@
             "word": "Sorry",
             "meaning": "Xin lỗi",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778078/vocab_images/kx640q1wmczm157xmjxl.jpg",
             "imageSub": "Hint: Xin lỗi"
         },
         {
@@ -892,7 +1105,7 @@
             "word": "Hundred",
             "meaning": "Một trăm",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778094/vocab_images/laavp1vjm6vvkgbzysne.jpg",
             "imageSub": "Hint: Một trăm"
         },
         {
@@ -900,7 +1113,7 @@
             "word": "Thousand",
             "meaning": "Một nghìn",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778108/vocab_images/xziokgb3aavwy9qyriuq.jpg",
             "imageSub": "Hint: Một nghìn"
         },
         {
@@ -908,7 +1121,7 @@
             "word": "Million",
             "meaning": "Một triệu",
             "rankRequired": "Bac",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778123/vocab_images/sx3vrajxffg6okkduops.jpg",
             "imageSub": "Hint: Một triệu"
         },
         {
@@ -916,7 +1129,7 @@
             "word": "Airport",
             "meaning": "Sân bay",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778145/vocab_images/s8uximmommkufolbotim.jpg",
             "imageSub": "Hint: Sân bay"
         },
         {
@@ -924,7 +1137,7 @@
             "word": "Passport",
             "meaning": "Hộ chiếu",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778172/vocab_images/xz629exhtusgvvja1xbi.jpg",
             "imageSub": "Hint: Hộ chiếu"
         },
         {
@@ -932,7 +1145,7 @@
             "word": "Hotel",
             "meaning": "Khách sạn",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778189/vocab_images/mtbfawhf0vj2phncqstm.jpg",
             "imageSub": "Hint: Khách sạn"
         },
         {
@@ -940,7 +1153,7 @@
             "word": "Destination",
             "meaning": "Điểm đến",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778207/vocab_images/alx9xtswxaob92rfmxw5.jpg",
             "imageSub": "Hint: Điểm đến"
         },
         {
@@ -948,7 +1161,7 @@
             "word": "Luggage",
             "meaning": "Hành lý",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778221/vocab_images/yfk4bmq7jjenvwgf2amp.jpg",
             "imageSub": "Hint: Hành lý"
         },
         {
@@ -956,7 +1169,7 @@
             "word": "Reservation",
             "meaning": "Đặt chỗ trước",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778246/vocab_images/tnfdwklltvd4ctvwqicz.jpg",
             "imageSub": "Hint: Đặt chỗ trước"
         },
         {
@@ -964,7 +1177,7 @@
             "word": "Customs",
             "meaning": "Hải quan",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778263/vocab_images/rawpahzzzskb7amvup9l.jpg",
             "imageSub": "Hint: Hải quan"
         },
         {
@@ -972,7 +1185,7 @@
             "word": "Please",
             "meaning": "Làm ơn",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778349/vocab_images/gukiej6rfxf5csury6lp.jpg",
             "imageSub": "Hint: Làm ơn"
         },
         {
@@ -980,7 +1193,7 @@
             "word": "Departure",
             "meaning": "Khởi hành",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778467/vocab_images/m0eewj1ier7o7gw0egsj.jpg",
             "imageSub": "Hint: Khởi hành"
         },
         {
@@ -988,7 +1201,7 @@
             "word": "Shoulder",
             "meaning": "Vai",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778482/vocab_images/jf7ewa5zqoci3fyii6ct.jpg",
             "imageSub": "Hint: Vai"
         },
         {
@@ -996,7 +1209,7 @@
             "word": "Elbow",
             "meaning": "Khuỷu tay",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778500/vocab_images/ngzfo5adcrv42ljtnfue.jpg",
             "imageSub": "Hint: Khuỷu tay"
         },
         {
@@ -1004,7 +1217,7 @@
             "word": "Forehead",
             "meaning": "Trán",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778517/vocab_images/hcwa3c9xcqbbypxfyjkl.jpg",
             "imageSub": "Hint: Trán"
         },
         {
@@ -1012,7 +1225,7 @@
             "word": "Eyebrow",
             "meaning": "Lông mày",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778535/vocab_images/wune6lof7kjtmbbkdiur.jpg",
             "imageSub": "Hint: Lông mày"
         },
         {
@@ -1020,7 +1233,7 @@
             "word": "Eyelid",
             "meaning": "Mí mắt",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778564/vocab_images/yvqmsd9lioreojgieabh.jpg",
             "imageSub": "Hint: Mí mắt"
         },
         {
@@ -1028,7 +1241,7 @@
             "word": "Cheekbone",
             "meaning": "Xương gò má",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778580/vocab_images/hiljjijde013sm7ayh1v.jpg",
             "imageSub": "Hint: Xương gò má"
         },
         {
@@ -1036,7 +1249,7 @@
             "word": "Spine",
             "meaning": "Cột sống",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778646/vocab_images/q2qljrupu0s9dqclsmw4.jpg",
             "imageSub": "Hint: Cột sống"
         },
         {
@@ -1044,7 +1257,7 @@
             "word": "Calf",
             "meaning": "Bắp chân",
             "rankRequired": "Vang",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778668/vocab_images/kdwbgjlvw1lpju4xjt5r.jpg",
             "imageSub": "Hint: Bắp chân"
         },
         {
@@ -1052,7 +1265,7 @@
             "word": "Algorithm",
             "meaning": "Thuật toán",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778683/vocab_images/oerznhkscjyeyjnlzcch.png",
             "imageSub": "Hint: Thuật toán"
         },
         {
@@ -1060,7 +1273,7 @@
             "word": "Yes / No",
             "meaning": "Có / Không",
             "rankRequired": "Dong",
-            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260520_214016_Screenshot 2023-06-16 225711.png",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778712/vocab_images/lghrpbh4wjutwyafijvc.jpg",
             "imageSub": "Hint: Có / Không"
         },
         {
@@ -1068,7 +1281,7 @@
             "word": "Bandwidth",
             "meaning": "Băng thông",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778728/vocab_images/ieeltxtm4le5tcyudupi.jpg",
             "imageSub": "Hint: Băng thông"
         },
         {
@@ -1076,7 +1289,7 @@
             "word": "Encryption",
             "meaning": "Mã hóa",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778740/vocab_images/cqkbojnmd3cx7kcvugas.png",
             "imageSub": "Hint: Mã hóa"
         },
         {
@@ -1084,7 +1297,7 @@
             "word": "Artificial Intelligence",
             "meaning": "Trí tuệ nhân tạo",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778766/vocab_images/h9xgkiauyowtosqw2dag.jpg",
             "imageSub": "Hint: Trí tuệ nhân tạo"
         },
         {
@@ -1092,7 +1305,7 @@
             "word": "Database",
             "meaning": "Cơ sở dữ liệu",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778780/vocab_images/b2k64ezywy0c4srpjrbc.jpg",
             "imageSub": "Hint: Cơ sở dữ liệu"
         },
         {
@@ -1100,7 +1313,7 @@
             "word": "Framework",
             "meaning": "Khung phát triển",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778795/vocab_images/ach9zsm2amzmvvtruuzj.png",
             "imageSub": "Hint: Khung phát triển"
         },
         {
@@ -1108,7 +1321,7 @@
             "word": "Repository",
             "meaning": "Kho lưu trữ code",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778809/vocab_images/rj48abyivj12qasckfg4.jpg",
             "imageSub": "Hint: Kho lưu trữ code"
         },
         {
@@ -1116,7 +1329,7 @@
             "word": "Debugging",
             "meaning": "Gỡ lỗi chương trình",
             "rankRequired": "BachKim",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778829/vocab_images/hwtrgmvmbaf44sjrhs96.png",
             "imageSub": "Hint: Gỡ lỗi chương trình"
         },
         {
@@ -1124,7 +1337,7 @@
             "word": "Acquisition",
             "meaning": "Sự mua lại (công ty)",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778843/vocab_images/dulqovyul33q1k8qdwg0.png",
             "imageSub": "Hint: Sự mua lại (công ty)"
         },
         {
@@ -1132,7 +1345,7 @@
             "word": "Depreciation",
             "meaning": "Khấu hao tài sản",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778871/vocab_images/iotp7gahddjgjz0bycgx.jpg",
             "imageSub": "Hint: Khấu hao tài sản"
         },
         {
@@ -1140,7 +1353,7 @@
             "word": "Diversification",
             "meaning": "Đa dạng hóa đầu tư",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778895/vocab_images/cddfxzxsys1n6dcqfrmm.jpg",
             "imageSub": "Hint: Đa dạng hóa đầu tư"
         },
         {
@@ -1148,7 +1361,7 @@
             "word": "Good morning",
             "meaning": "Chào buổi sáng",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778917/vocab_images/d8xg4ay7ojqtnjb5xhff.jpg",
             "imageSub": "Hint: Chào buổi sáng"
         },
         {
@@ -1156,7 +1369,7 @@
             "word": "Fiscal",
             "meaning": "Thuộc về tài chính nhà nước",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778935/vocab_images/lhigzup5lo0etudxr6nw.jpg",
             "imageSub": "Hint: Thuộc về tài chính nhà nước"
         },
         {
@@ -1164,7 +1377,7 @@
             "word": "Liquidity",
             "meaning": "Tính thanh khoản",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778957/vocab_images/nfp38ir6ovndyxegf62x.jpg",
             "imageSub": "Hint: Tính thanh khoản"
         },
         {
@@ -1172,7 +1385,7 @@
             "word": "Monopoly",
             "meaning": "Độc quyền",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778982/vocab_images/oiasmcchoqhhfqwc504p.jpg",
             "imageSub": "Hint: Độc quyền"
         },
         {
@@ -1180,7 +1393,7 @@
             "word": "Procurement",
             "meaning": "Mua sắm / Thu mua",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779008/vocab_images/z99dkg9gtq9km2qoslun.jpg",
             "imageSub": "Hint: Mua sắm / Thu mua"
         },
         {
@@ -1188,7 +1401,7 @@
             "word": "Stakeholder",
             "meaning": "Các bên liên quan",
             "rankRequired": "KimCuong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779032/vocab_images/lepuwiswomcty5aakw9w.jpg",
             "imageSub": "Hint: Các bên liên quan"
         },
         {
@@ -1196,7 +1409,7 @@
             "word": "Ambiguous",
             "meaning": "Mơ hồ, không rõ ràng",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779055/vocab_images/kutteouhvkzi2ujpnyzg.jpg",
             "imageSub": "Hint: Mơ hồ, không rõ ràng"
         },
         {
@@ -1204,7 +1417,7 @@
             "word": "Exacerbate",
             "meaning": "Làm trầm trọng thêm",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779115/vocab_images/llfdylddxej9h8mf1jb5.jpg",
             "imageSub": "Hint: Làm trầm trọng thêm"
         },
         {
@@ -1212,7 +1425,7 @@
             "word": "Juxtaposition",
             "meaning": "Sự đặt cạnh nhau để so sánh",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779136/vocab_images/bjw33rwjn42qz6xipxg3.jpg",
             "imageSub": "Hint: Sự đặt cạnh nhau để so sánh"
         },
         {
@@ -1220,7 +1433,7 @@
             "word": "Ubiquitous",
             "meaning": "Có mặt khắp nơi, phổ biến",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779154/vocab_images/i1im9nlzcair4afkmyrr.png",
             "imageSub": "Hint: Có mặt khắp nơi, phổ biến"
         },
         {
@@ -1228,7 +1441,7 @@
             "word": "Paradox",
             "meaning": "Nghịch lý",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779171/vocab_images/qvqpdfco2axt1cn6uapp.jpg",
             "imageSub": "Hint: Nghịch lý"
         },
         {
@@ -1236,7 +1449,7 @@
             "word": "Good night",
             "meaning": "Chúc ngủ ngon",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779191/vocab_images/wnmec5ap8ia4pnbny5u9.jpg",
             "imageSub": "Hint: Chúc ngủ ngon"
         },
         {
@@ -1244,7 +1457,7 @@
             "word": "Ephemeral",
             "meaning": "Phù du, thoáng qua",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779204/vocab_images/talpjejok9vukrfktcb2.jpg",
             "imageSub": "Hint: Phù du, thoáng qua"
         },
         {
@@ -1252,7 +1465,7 @@
             "word": "Pragmatic",
             "meaning": "Thực dụng, thực tế",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779219/vocab_images/osbwrfzdq432bu3yf6fg.jpg",
             "imageSub": "Hint: Thực dụng, thực tế"
         },
         {
@@ -1260,7 +1473,7 @@
             "word": "Unprecedented",
             "meaning": "Chưa từng có tiền lệ",
             "rankRequired": "SieuCap",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779238/vocab_images/pzgcdjwp8qrtdevwvjtx.jpg",
             "imageSub": "Hint: Chưa từng có tiền lệ"
         },
         {
@@ -1268,7 +1481,7 @@
             "word": "thank",
             "meaning": "Cảm ơn",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779252/vocab_images/ckbtyvdzrb6npsrkkavb.jpg",
             "imageSub": "Hint: Cảm ơn"
         },
         {
@@ -1276,7 +1489,7 @@
             "word": "Goodbye",
             "meaning": "Tạm biệt",
             "rankRequired": "Dong",
-            "imageUrl": "https://i.pinimg.com/1200x/3e/e3/6f/3ee36faa81060dd362a50ca1ef49ac6e.jpg",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779265/vocab_images/fff7gttvln3aqae9tt3l.jpg",
             "imageSub": "Hint: Tạm biệt"
         },
         {
@@ -1284,7 +1497,7 @@
             "word": "Dog",
             "meaning": "Con chó",
             "rankRequired": "Dong",
-            "imageUrl": "file://D:/workspace/NCKH/VocabLearning/Assets/Sprites/Vocab/20260521_142645_Screenshot 2024-07-17 224700.png",
+            "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779280/vocab_images/hxu2vmdqxpjozkpv6bfn.jpg",
             "imageSub": "Hint: Con chó"
         }
     ],
@@ -1685,7 +1898,20 @@
         }
     ],
     "achievements": [],
-    "inventory": [],
+    "inventory": [
+        {
+            "id": "1",
+            "icon": "🎫",
+            "name": "Gacha Ticket",
+            "description": "Use this to spin the lucky wheel.",
+            "quantity": 2,
+            "rarity": "Rare",
+            "category": "Consumable",
+            "equipType": "",
+            "isEquipped": false,
+            "isCombatItem": false
+        }
+    ],
     "quests": [
         {
             "id": "q10",
@@ -1702,7 +1928,7 @@
             "id": "q3",
             "title": "Win 3 Battles",
             "description": "Play ranked or casual matches",
-            "currentProgress": 3,
+            "currentProgress": 0,
             "maxProgress": 3,
             "rewardCoins": 100,
             "rewardExp": 200,
@@ -1710,21 +1936,10 @@
             "questType": "WinBattle"
         },
         {
-            "id": "q5",
-            "title": "Win 5 Ranked Battles",
-            "description": "Show your skill in ranked matches",
-            "currentProgress": 4,
-            "maxProgress": 5,
-            "rewardCoins": 300,
-            "rewardExp": 600,
-            "isClaimed": false,
-            "questType": "WinRankedBattle"
-        },
-        {
             "id": "q6",
             "title": "Learn 20 words",
             "description": "Dedication is key",
-            "currentProgress": 0,
+            "currentProgress": 20,
             "maxProgress": 20,
             "rewardCoins": 100,
             "rewardExp": 200,
@@ -1732,10 +1947,21 @@
             "questType": "LearnWord"
         },
         {
+            "id": "q7",
+            "title": "Win 10 Battles",
+            "description": "You are unstoppable!",
+            "currentProgress": 0,
+            "maxProgress": 10,
+            "rewardCoins": 400,
+            "rewardExp": 800,
+            "isClaimed": false,
+            "questType": "WinBattle"
+        },
+        {
             "id": "q8",
             "title": "Win 3 Ranked in a Row",
             "description": "Arena master",
-            "currentProgress": 3,
+            "currentProgress": 0,
             "maxProgress": 3,
             "rewardCoins": 500,
             "rewardExp": 1000,
@@ -1865,22 +2091,22 @@
     ],
     "leaderboardUsers": [
         {
-            "id": "test_admin_1",
+            "id": "test_user_1",
             "token": "",
-            "username": "admin",
-            "displayName": "admin",
+            "username": "user1",
+            "displayName": "Cristiano ronaldo",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
-            "level": 1,
-            "exp": 965,
+            "level": 3,
+            "exp": 2240,
             "expNeeded": 1000,
-            "coins": 2650,
+            "coins": 3238,
             "rank": "SieuCap",
-            "rankPoints": 24585,
-            "wins": 38,
-            "totalGames": 55,
+            "rankPoints": 24550,
+            "wins": 37,
+            "totalGames": 54,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -1935,22 +2161,22 @@
             "achievements": []
         },
         {
-            "id": "test_user_1",
+            "id": "test_admin_1",
             "token": "",
-            "username": "user1",
-            "displayName": "user1",
+            "username": "admin",
+            "displayName": "admin",
             "email": "",
             "password": "",
             "role": "",
             "status": "",
             "level": 2,
-            "exp": 1450,
+            "exp": 1010,
             "expNeeded": 1000,
-            "coins": 2820,
+            "coins": 2370,
             "rank": "SieuCap",
-            "rankPoints": 24490,
-            "wins": 37,
-            "totalGames": 57,
+            "rankPoints": 24500,
+            "wins": 34,
+            "totalGames": 52,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
