@@ -214,7 +214,7 @@ async function seed() {
         u.battleHistory = [];
 
         const reqU = new sql.Request(transaction);
-        
+
         // Băm mật khẩu (Bcrypt) nếu có mật khẩu thô
         let hashedPassword = '';
         if (u.password) {
