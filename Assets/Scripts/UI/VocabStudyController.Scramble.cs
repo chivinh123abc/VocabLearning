@@ -27,9 +27,9 @@ namespace VocabLearning.UI
                 return;
             }
 
-            // Lọc các từ hợp lệ (không chứa khoảng trắng và chỉ có chữ cái)
+            // Lọc các từ hợp lệ (chỉ cần dài hơn 1 ký tự)
             _scrambleWordPool = sourceWords
-                .Where(w => !string.IsNullOrEmpty(w.word) && !w.word.Contains(" "))
+                .Where(w => !string.IsNullOrEmpty(w.word) && w.word.Trim().Length > 1)
                 .OrderBy(w => UnityEngine.Random.value)
                 .ToList();
 
@@ -133,19 +133,32 @@ namespace VocabLearning.UI
                 {
                     int index = i;
                     Button slot = new Button();
-                    slot.text = "_";
-                    slot.AddToClassList("scramble-slot");
-                    slot.clicked += () => HandleSlotClick(index);
+                    if (_scrambleTargetWord[i] == ' ')
+                    {
+                        slot.text = " ";
+                        slot.style.backgroundColor = new StyleColor(Color.clear);
+                        slot.style.borderTopWidth = 0;
+                        slot.style.borderBottomWidth = 0;
+                        slot.style.borderLeftWidth = 0;
+                        slot.style.borderRightWidth = 0;
+                        slot.style.width = 24;
+                        _scrambleSelectedButtons[index] = new Button(); // Pre-filled dummy
+                    }
+                    else
+                    {
+                        slot.text = "_";
+                        slot.AddToClassList("scramble-slot");
+                        slot.clicked += () => HandleSlotClick(index);
+                    }
                     resultContainer.Add(slot);
                     _scrambleSlots.Add(slot);
                 }
             }
 
-            // Tạo danh sách ký tự đã xáo trộn (Scrambled Letters)
-            List<char> letters = _scrambleTargetWord.ToList();
+            // Tạo danh sách ký tự đã xáo trộn (Scrambled Letters) - Bỏ qua dấu cách
+            List<char> letters = _scrambleTargetWord.Where(c => c != ' ').ToList();
 
             // Fisher-Yates Shuffle
-
             for (int i = letters.Count - 1; i > 0; i--)
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
@@ -154,8 +167,9 @@ namespace VocabLearning.UI
                 letters[j] = temp;
             }
 
-            // Nếu ngẫu nhiên xáo trộn trùng từ gốc (đặc biệt với từ ngắn), xáo trộn lại một lần nữa
-            if (new string(letters.ToArray()) == _scrambleTargetWord && letters.Count > 1)
+            // Nếu ngẫu nhiên xáo trộn trùng từ gốc (bỏ qua dấu cách), xáo trộn lại một lần nữa
+            string targetWithoutSpaces = _scrambleTargetWord.Replace(" ", "");
+            if (new string(letters.ToArray()) == targetWithoutSpaces && letters.Count > 1)
             {
                 char first = letters[0];
                 letters[0] = letters[1];
@@ -175,7 +189,6 @@ namespace VocabLearning.UI
                     btn.text = c.ToString();
                     btn.AddToClassList("scramble-letter-btn");
 
-
                     char capturedChar = c;
                     btn.clicked += () => HandleLetterClick(btn, capturedChar);
 
@@ -194,6 +207,7 @@ namespace VocabLearning.UI
             int emptyIndex = -1;
             for (int i = 0; i < _scrambleSelectedButtons.Length; i++)
             {
+                if (_scrambleTargetWord[i] == ' ') continue; // Skip space slots
                 if (_scrambleSelectedButtons[i] == null)
                 {
                     emptyIndex = i;
@@ -233,6 +247,7 @@ namespace VocabLearning.UI
         {
             if (_isScrambleChecking) return;
             if (index < 0 || index >= _scrambleSlots.Count) return;
+            if (_scrambleTargetWord[index] == ' ') return; // Bỏ qua dấu cách
 
             Button letterBtn = _scrambleSelectedButtons[index];
             if (letterBtn == null) return; // Ô này chưa được điền chữ
@@ -253,15 +268,29 @@ namespace VocabLearning.UI
 
             for (int i = 0; i < _scrambleSlots.Count; i++)
             {
-                _scrambleSlots[i].text = "_";
-                _scrambleSlots[i].style.color = new StyleColor(new Color(245f / 255f, 158f / 255f, 11f / 255f)); // Reset color to gold
+                if (_scrambleTargetWord[i] == ' ')
+                {
+                    _scrambleSlots[i].text = " ";
+                }
+                else
+                {
+                    _scrambleSlots[i].text = "_";
+                    _scrambleSlots[i].style.color = new StyleColor(new Color(245f / 255f, 158f / 255f, 11f / 255f)); // Reset color to gold
+                }
             }
 
             if (_scrambleSelectedButtons != null)
             {
                 for (int i = 0; i < _scrambleSelectedButtons.Length; i++)
                 {
-                    _scrambleSelectedButtons[i] = null;
+                    if (_scrambleTargetWord[i] == ' ')
+                    {
+                        _scrambleSelectedButtons[i] = new Button(); // Pre-filled space slot
+                    }
+                    else
+                    {
+                        _scrambleSelectedButtons[i] = null;
+                    }
                 }
             }
 
@@ -359,7 +388,7 @@ namespace VocabLearning.UI
                 UpdateAllCoinLabels();
             }
 
-            // Chuyển sang màn hình Result (Hoặc quay lại VocabDetail trực tiếp)
+            // Chuyển sang màn hình Result
             _lastBattleRecord = new VocabLearning.Data.BattleHistoryRecord
             {
                 opponentName = "Minigame: Word Scramble",
@@ -370,38 +399,11 @@ namespace VocabLearning.UI
                 rounds = new List<VocabLearning.Data.BattleRoundRecord>()
             };
 
-            // Tái sử dụng màn hình ResultScreenAsset để hiện điểm thưởng
+            _isScrambleMinigameResult = true;
+            _lastSessionCoins = coinsEarned;
+            _lastSessionExp = expEarned;
+
             LoadScreen(ResultScreenAsset);
-
-            // Ghi đè các nhãn trên màn hình Result để phù hợp với Minigame
-            VisualElement resOverlay = _root.Q<VisualElement>("ResultOverlay");
-            if (resOverlay != null) resOverlay.style.display = DisplayStyle.Flex;
-
-            Label titleLbl = _root.Q<Label>("ResultTitle");
-            if (titleLbl != null)
-            {
-                titleLbl.text = "MINIGAME FINISHED!";
-                titleLbl.style.color = new StyleColor(new Color(245f / 255f, 158f / 255f, 11f / 255f)); // Amber/Gold
-            }
-
-            Label subText = _root.Q<Label>("ResultSubtext");
-            if (subText != null) subText.text = $"Spelled Correctly: {_scrambleScore} / {Mathf.Min(10, _scrambleWordPool.Count)} words";
-
-            Label rewardsLbl = _root.Q<Label>("ResultExp");
-            if (rewardsLbl != null) rewardsLbl.text = $"+{expEarned} EXP / +{coinsEarned} Coins";
-
-            Label iconLbl = _root.Q<Label>("ResultIcon");
-            if (iconLbl != null) iconLbl.text = "🧩";
-
-            Button btnLeave = _root.Q<Button>("BtnLeaveBattle");
-            if (btnLeave != null)
-            {
-                btnLeave.clicked += () =>
-                {
-                    // Quay lại màn hình chi tiết bộ từ vựng
-                    LoadScreen(VocabDetailScreenAsset);
-                };
-            }
         }
     }
 }

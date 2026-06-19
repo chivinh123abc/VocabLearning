@@ -828,42 +828,87 @@ namespace VocabLearning.UI
             // Phát âm thanh chiến thắng / hoàn thành
             SoundManager.PlayAchievement();
 
-            // [NEW] Hiển thị thưởng đã tính toán
+            // Hiển thị thưởng đã tính toán
             Label lblCoins = _root.Q<Label>("LblRewardCoins");
             Label lblExp = _root.Q<Label>("LblRewardExp");
             if (lblCoins != null) lblCoins.text = "+" + _lastSessionCoins;
             if (lblExp != null) lblExp.text = "+" + _lastSessionExp;
 
-            // [NEW] Hiển thị số từ đã thuộc (Mastered)
+            Label lblTitle = _root.Q<Label>("LblResultTitle");
+            Label lblSubtitle = _root.Q<Label>("LblResultSubtitle");
             Label lblScore = _root.Q<Label>("LblResultScore");
-            if (lblScore != null && _currentVocabSetWords != null)
-            {
-                int masteredThisSession = (_sessionNewlyMasteredWords != null) ? _sessionNewlyMasteredWords.Count : 0;
-                lblScore.text = $"Mastered: {masteredThisSession} / {_currentVocabSetWords.Count} words";
-            }
 
             Button btnHome = _root.Q<Button>("BtnResultHome");
             if (btnHome != null) btnHome.clicked += () => LoadScreen(HomeScreenAsset);
 
             Button btnReplay = _root.Q<Button>("BtnResultReplay");
-            if (btnReplay != null) btnReplay.clicked += () =>
-            {
-                _practiceCurrentIndex = 0;
-                _practiceShowMeaning = false;
-                _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách khi chơi lại
-                LoadScreen(PracticeModeScreenAsset);
-            };
-
             Button btnContinue = _root.Q<Button>("BtnResultContinue");
-            if (btnContinue != null)
-            {
-                btnContinue.clicked += () => HandleContinue();
-            }
-
             Button btnBackToSet = _root.Q<Button>("BtnResultBackToSet");
-            if (btnBackToSet != null)
+
+            if (_isScrambleMinigameResult)
             {
-                btnBackToSet.clicked += () => LoadScreen(VocabDetailScreenAsset);
+                if (lblTitle != null) lblTitle.text = "MINIGAME FINISHED!";
+                if (lblSubtitle != null) lblSubtitle.text = "You've completed the Word Scramble minigame!";
+                if (lblScore != null)
+                {
+                    int totalCount = (_scrambleWordPool != null) ? Mathf.Min(10, _scrambleWordPool.Count) : 0;
+                    lblScore.text = $"Spelled: {_scrambleScore} / {totalCount} words";
+                }
+
+                if (btnContinue != null)
+                {
+                    btnContinue.text = "Back to Vocab Set";
+                    btnContinue.style.display = DisplayStyle.Flex;
+                    btnContinue.clicked += () => LoadScreen(VocabDetailScreenAsset);
+                }
+
+                if (btnBackToSet != null)
+                {
+                    btnBackToSet.style.display = DisplayStyle.None; // Hide Change Level button
+                }
+
+                if (btnReplay != null)
+                {
+                    btnReplay.clicked += () =>
+                    {
+                        StartWordScrambleGame(_currentVocabSetWords);
+                    };
+                }
+            }
+            else
+            {
+                if (lblTitle != null) lblTitle.text = "Excellent!";
+                if (lblSubtitle != null) lblSubtitle.text = "You've completed the Practice mode!";
+                if (lblScore != null && _currentVocabSetWords != null)
+                {
+                    int masteredThisSession = (_sessionNewlyMasteredWords != null) ? _sessionNewlyMasteredWords.Count : 0;
+                    lblScore.text = $"Mastered: {masteredThisSession} / {_currentVocabSetWords.Count} words";
+                }
+
+                if (btnContinue != null)
+                {
+                    btnContinue.text = "Continue Learning";
+                    btnContinue.style.display = DisplayStyle.Flex;
+                    btnContinue.clicked += () => HandleContinue();
+                }
+
+                if (btnBackToSet != null)
+                {
+                    btnBackToSet.text = "Change Level";
+                    btnBackToSet.style.display = DisplayStyle.Flex;
+                    btnBackToSet.clicked += () => LoadScreen(VocabDetailScreenAsset);
+                }
+
+                if (btnReplay != null)
+                {
+                    btnReplay.clicked += () =>
+                    {
+                        _practiceCurrentIndex = 0;
+                        _practiceShowMeaning = false;
+                        _sessionNewlyMasteredWords.Clear(); // Reset danh sách khi chơi lại
+                        LoadScreen(PracticeModeScreenAsset);
+                    };
+                }
             }
         }
 

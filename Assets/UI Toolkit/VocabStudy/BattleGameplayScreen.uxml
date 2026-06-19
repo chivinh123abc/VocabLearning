@@ -51,6 +51,10 @@
                 </ui:VisualElement>
                 <ui:Label name="BattleQuestionSub" text="" style="color: #F59E0B; font-size: 13px; margin-bottom: 8px; display: none; -unity-font-style: bold; white-space: normal;" />
 
+                <!-- Interactive Scramble Containers -->
+                <ui:VisualElement name="BattleScrambleResultContainer" style="flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; min-height: 48px; margin-bottom: 12px; display: none; width: 100%;" />
+                <ui:VisualElement name="BattleScrambleLettersContainer" style="flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: 12px; display: none; width: 100%;" />
+
                 <!-- Answer Grid -->
                 <ui:VisualElement name="BattleAnswerGrid" class="battle-answer-grid">
                     <ui:Button name="BtnAns0" text="Ans 1" class="battle-answer-btn" />

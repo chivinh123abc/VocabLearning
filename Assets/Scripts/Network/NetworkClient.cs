@@ -92,7 +92,7 @@ namespace VocabLearning.Network
                     string defaultContent = 
                         "# Cau hinh ket noi server LAN PvP cho game VocabLearning\n" +
                         "# Hay thay doi dia chi IP duoi day khop voi IP may chay server (backend)\n" +
-                        "ServerUrl=http://192.168.1.80:5000/api\n";
+                        "ServerUrl=http://localhost:5000/api\n";
                     System.IO.File.WriteAllText(configPath, defaultContent, System.Text.Encoding.UTF8);
                     Debug.Log($"[NetworkClient] Created default .env at: {configPath}");
                 }
