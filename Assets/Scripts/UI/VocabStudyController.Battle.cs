@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VocabLearning.UI
 {
@@ -111,7 +112,7 @@ namespace VocabLearning.UI
                 card.style.paddingTop = 12;
                 card.style.paddingBottom = 12;
 
-                // Badge WIN / LOSE
+                // Badge WIN / LOSE / DRAW
                 VisualElement badge = new VisualElement();
                 badge.style.width = 52;
                 badge.style.height = 52;
@@ -122,11 +123,20 @@ namespace VocabLearning.UI
                 badge.style.justifyContent = Justify.Center;
                 badge.style.alignItems = Align.Center;
                 badge.style.marginRight = 16;
-                badge.style.backgroundColor = record.isWin
-                    ? new StyleColor(new Color(0.06f, 0.44f, 0.31f))
-                    : new StyleColor(new Color(0.56f, 0.16f, 0.16f));
 
-                Label badgeLbl = new Label(record.isWin ? "W" : "L");
+                bool isDraw = (record.playerFinalHP == record.enemyFinalHP);
+                if (isDraw)
+                {
+                    badge.style.backgroundColor = new StyleColor(Color.gray);
+                }
+                else
+                {
+                    badge.style.backgroundColor = record.isWin
+                        ? new StyleColor(new Color(0.06f, 0.44f, 0.31f))
+                        : new StyleColor(new Color(0.56f, 0.16f, 0.16f));
+                }
+
+                Label badgeLbl = new Label(isDraw ? "D" : record.isWin ? "W" : "L");
                 badgeLbl.style.color = Color.white;
                 badgeLbl.style.fontSize = 22;
                 badgeLbl.style.unityFontStyleAndWeight = FontStyle.Bold;
@@ -170,7 +180,12 @@ namespace VocabLearning.UI
             detailOverlay.style.display = DisplayStyle.Flex;
 
             Label titleLbl = detailOverlay.Q<Label>("DetailTitle");
-            if (titleLbl != null) titleLbl.text = $"vs {record.opponentName} — {(record.isWin ? "Victory" : "Defeat")}";
+            if (titleLbl != null)
+            {
+                bool isDraw = (record.playerFinalHP == record.enemyFinalHP);
+                string outcomeText = isDraw ? "Draw" : (record.isWin ? "Victory" : "Defeat");
+                titleLbl.text = $"vs {record.opponentName} — {outcomeText}";
+            }
 
             Label statsLbl = detailOverlay.Q<Label>("DetailStats");
             if (statsLbl != null) statsLbl.text = $"{record.correctCount} / {record.totalRounds} đúng";
@@ -237,8 +252,23 @@ namespace VocabLearning.UI
             qLbl.style.marginBottom = 4;
             info.Add(qLbl);
 
+            // Look up the word in database to show both English word and meaning
+            string displayAnswer = round.correctAnswer;
+            if (_jsonDb != null && _jsonDb.words != null)
+            {
+                var foundWord = _jsonDb.words.Find(x => 
+                    (x.word != null && x.word.Equals(round.correctAnswer, System.StringComparison.OrdinalIgnoreCase)) ||
+                    (x.meaning != null && x.meaning.Equals(round.correctAnswer, System.StringComparison.OrdinalIgnoreCase))
+                );
+
+                if (foundWord != null)
+                {
+                    displayAnswer = $"{foundWord.word} — {foundWord.meaning}";
+                }
+            }
+
             // Always show correct answer
-            Label ansLbl = new Label($"Đáp án đúng: {round.correctAnswer}");
+            Label ansLbl = new Label($"Đáp án đúng: {displayAnswer}");
             ansLbl.style.color = round.isCorrect ? new StyleColor(new Color(0.40f, 0.93f, 0.60f)) : new StyleColor(new Color(0.93f, 0.40f, 0.40f));
             ansLbl.style.fontSize = 13;
             ansLbl.style.whiteSpace = WhiteSpace.Normal;
@@ -828,11 +858,44 @@ namespace VocabLearning.UI
             System.Collections.Generic.List<string> distractorPool = new System.Collections.Generic.List<string>();
 
             _isImageMode = false;
-            if (!string.IsNullOrEmpty(_battleCurrentWord.imageUrl))
+            _isScrambleMode = false;
+            _isInteractiveScramble = false;
+
+            bool hasImage = !string.IsNullOrEmpty(_battleCurrentWord.imageUrl);
+            bool canScramble = !string.IsNullOrEmpty(_battleCurrentWord.word) && _battleCurrentWord.word.Trim().Length > 1;
+
+            if (hasImage)
             {
-                // Quyết định chế độ hiển thị đồng bộ (Chẵn: hình ảnh, Lẻ: chữ)
-                _isImageMode = (roundIndex % 2 == 0);
+                if (canScramble)
+                {
+                    int mode = roundIndex % 4;
+                    if (mode == 0) _isImageMode = true;
+                    else if (mode == 2) { _isScrambleMode = true; _isInteractiveScramble = false; }
+                    else if (mode == 3) { _isScrambleMode = true; _isInteractiveScramble = true; }
+                }
+                else
+                {
+                    int mode = roundIndex % 2;
+                    if (mode == 0) _isImageMode = true;
+                }
             }
+            else
+            {
+                if (canScramble)
+                {
+                    int mode = roundIndex % 3;
+                    if (mode == 1) { _isScrambleMode = true; _isInteractiveScramble = false; }
+                    else if (mode == 2) { _isScrambleMode = true; _isInteractiveScramble = true; }
+                }
+            }
+
+            VisualElement resultContainer = _root.Q<VisualElement>("BattleScrambleResultContainer");
+            VisualElement lettersContainer = _root.Q<VisualElement>("BattleScrambleLettersContainer");
+            VisualElement answerGrid = _root.Q<VisualElement>("BattleAnswerGrid");
+
+            if (resultContainer != null) resultContainer.style.display = _isInteractiveScramble ? DisplayStyle.Flex : DisplayStyle.None;
+            if (lettersContainer != null) lettersContainer.style.display = _isInteractiveScramble ? DisplayStyle.Flex : DisplayStyle.None;
+            if (answerGrid != null) answerGrid.style.display = _isInteractiveScramble ? DisplayStyle.None : DisplayStyle.Flex;
 
             if (_isImageMode)
             {
@@ -854,6 +917,47 @@ namespace VocabLearning.UI
                 options.Add(_battleCurrentWord.word);
                 distractorPool.AddRange(_battleAllPoolWords);
                 distractorPool.Remove(_battleCurrentWord.word);
+            }
+            else if (_isScrambleMode)
+            {
+                if (qPrompt != null) qPrompt.text = "Unscramble this word:";
+                if (_isInteractiveScramble)
+                {
+                    if (qText != null)
+                    {
+                        qText.text = _battleCurrentWord.meaning;
+                        qText.style.display = DisplayStyle.Flex;
+                    }
+                    if (imgFrame != null)
+                    {
+                        imgFrame.style.display = hasImage ? DisplayStyle.Flex : DisplayStyle.None;
+                    }
+                    if (subText != null)
+                    {
+                        subText.text = _battleCurrentWord.imageSub;
+                        subText.style.display = (hasImage && !string.IsNullOrEmpty(_battleCurrentWord.imageSub)) ? DisplayStyle.Flex : DisplayStyle.None;
+                    }
+                    if (hasImage && imgElem != null)
+                    {
+                        imgElem.style.backgroundImage = null;
+                        StartCoroutine(DownloadAndSetImage(_battleCurrentWord.imageUrl, imgElem));
+                    }
+                    SetupBattleInteractiveScramble();
+                }
+                else
+                {
+                    if (qText != null)
+                    {
+                        qText.text = ScrambleWordDeterministic(_battleCurrentWord.word);
+                        qText.style.display = DisplayStyle.Flex;
+                    }
+                    if (imgFrame != null) imgFrame.style.display = DisplayStyle.None;
+                    if (subText != null) subText.style.display = DisplayStyle.None;
+
+                    options.Add(_battleCurrentWord.meaning);
+                    distractorPool.AddRange(_battleAllPoolMeanings);
+                    distractorPool.Remove(_battleCurrentWord.meaning);
+                }
             }
             else
             {
@@ -947,6 +1051,19 @@ namespace VocabLearning.UI
                 }
             }
 
+            if (_isInteractiveScramble)
+            {
+                foreach (var btn in _battleScrambleLetterButtons)
+                {
+                    btn.SetEnabled(false);
+                    btn.style.opacity = 0.5f;
+                }
+                foreach (var slot in _battleScrambleSlots)
+                {
+                    slot.SetEnabled(false);
+                }
+            }
+
             // Gửi đáp án và CHỜ cho đến khi cả hai người chơi hoàn thành lượt đấu này
             yield return StartCoroutine(SubmitLANAnswerCoroutine(ansText, timeSpent, roundIndex));
         }
@@ -955,33 +1072,65 @@ namespace VocabLearning.UI
         {
             if (_playerAnswered) return;
             _playerAnswered = true;
-            _playerAnswerText = answerText;
 
-            string correctAnswer = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            if (_isInteractiveScramble)
+            {
+                if (answerText.Equals(_battleCurrentWord.word, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    answerText = _battleCurrentWord.word;
+                }
+                _playerAnswerText = answerText;
+            }
+            else
+            {
+                _playerAnswerText = answerText;
+            }
+
+            string correctAnswer = (_isImageMode || (_isScrambleMode && _isInteractiveScramble)) ? _battleCurrentWord.word : _battleCurrentWord.meaning;
             bool isCorrect = (answerText == correctAnswer);
 
-            for (int i = 0; i < 4; i++)
+            if (_isInteractiveScramble)
             {
-                Button btn = _root.Q<Button>($"BtnAns{i}");
-                if (btn != null)
+                foreach (var btn in _battleScrambleLetterButtons)
                 {
                     btn.SetEnabled(false);
-                    if (btn.text == answerText)
+                    btn.style.opacity = 0.5f;
+                }
+                Color slotColor = isCorrect ? Color.green : Color.red;
+                foreach (var slot in _battleScrambleSlots)
+                {
+                    slot.SetEnabled(false);
+                    if (slot.text != " ")
                     {
-                        Color borderColor = isCorrect ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.93f, 0.26f, 0.26f);
-                        btn.style.borderTopColor = new StyleColor(borderColor);
-                        btn.style.borderBottomColor = new StyleColor(borderColor);
-                        btn.style.borderLeftColor = new StyleColor(borderColor);
-                        btn.style.borderRightColor = new StyleColor(borderColor);
-                        btn.style.borderTopWidth = 3;
-                        btn.style.borderBottomWidth = 3;
-                        btn.style.borderLeftWidth = 3;
-                        btn.style.borderRightWidth = 3;
-                        btn.style.opacity = 1f;
+                        slot.style.color = new StyleColor(slotColor);
                     }
-                    else
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Button btn = _root.Q<Button>($"BtnAns{i}");
+                    if (btn != null)
                     {
-                        btn.style.opacity = 0.5f;
+                        btn.SetEnabled(false);
+                        if (btn.text == answerText)
+                        {
+                            Color borderColor = isCorrect ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.93f, 0.26f, 0.26f);
+                            btn.style.borderTopColor = new StyleColor(borderColor);
+                            btn.style.borderBottomColor = new StyleColor(borderColor);
+                            btn.style.borderLeftColor = new StyleColor(borderColor);
+                            btn.style.borderRightColor = new StyleColor(borderColor);
+                            btn.style.borderTopWidth = 3;
+                            btn.style.borderBottomWidth = 3;
+                            btn.style.borderLeftWidth = 3;
+                            btn.style.borderRightWidth = 3;
+                            btn.style.opacity = 1f;
+                        }
+                        else
+                        {
+                            btn.style.opacity = 0.5f;
+                        }
                     }
                 }
             }
@@ -1030,7 +1179,19 @@ namespace VocabLearning.UI
                 submitDone = true;
             });
 
-            yield return new WaitUntil(() => submitDone);
+            while (!submitDone)
+            {
+                float startTime = Time.time;
+                yield return null;
+                float elapsed = Time.time - startTime;
+                if (_battleTimer > 0)
+                {
+                    _battleTimer -= elapsed;
+                    if (_battleTimer < 0) _battleTimer = 0;
+                    VisualElement fill = _root.Q<VisualElement>("TimerFill");
+                    if (fill != null) fill.style.width = Length.Percent((_battleTimer / 15f) * 100f);
+                }
+            }
 
             // Vòng lặp chờ cả 2 người chơi trả lời xong (đồng bộ từ server)
             bool bothAnswered = false;
@@ -1050,7 +1211,16 @@ namespace VocabLearning.UI
                     }
                 }
 
+                float startTime = Time.time;
                 yield return new WaitForSeconds(0.1f);
+                float elapsed = Time.time - startTime;
+                if (_battleTimer > 0)
+                {
+                    _battleTimer -= elapsed;
+                    if (_battleTimer < 0) _battleTimer = 0;
+                    VisualElement fill = _root.Q<VisualElement>("TimerFill");
+                    if (fill != null) fill.style.width = Length.Percent((_battleTimer / 15f) * 100f);
+                }
 
                 bool pollDone = false;
                 VocabLearning.Network.NetworkClient.Instance.GetRoomState(_pvpRoomId, (success, msg, res) =>
@@ -1075,10 +1245,11 @@ namespace VocabLearning.UI
                 UpdateBattleUI();
 
                  // Lưu lịch sử câu hỏi cục bộ
-                 string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+                 string correctAns = (_isImageMode || (_isScrambleMode && _isInteractiveScramble)) ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+                 string questionText = _isScrambleMode ? ScrambleWordDeterministic(_battleCurrentWord.word) : (_isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word);
                  var roundRecord = new VocabLearning.Data.BattleRoundRecord
                  {
-                     question = _isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word,
+                     question = questionText,
                      correctAnswer = correctAns,
                      playerAnswer = answerText,
                      imageUrl = _isImageMode ? _battleCurrentWord.imageUrl : null,
@@ -1174,8 +1345,8 @@ namespace VocabLearning.UI
             _battleTimer = 15f;
 
             // Thiết lập độ khó động của Bot AI dựa trên Rank Points của đối thủ (_battleEnemyData.rankPoints)
-            float minAiTimer = 4f;   // Thời gian dự phòng thấp nhất Bot có thể trả lời (tính theo giây còn lại)
-            float maxAiTimer = 12f;  // Thời gian dự phòng cao nhất Bot có thể trả lời
+            float minAiTimer = 1f;   // Thời gian dự phòng thấp nhất Bot có thể trả lời (tính theo giây còn lại)
+            float maxAiTimer = 9f;  // Thời gian dự phòng cao nhất Bot có thể trả lời
             float accuracy = 0.70f;  // Tỷ lệ chính xác mặc định
 
             if (_battleEnemyData != null)
@@ -1183,12 +1354,12 @@ namespace VocabLearning.UI
                 int points = _battleEnemyData.rankPoints;
 
                 // 1. TỐC ĐỘ PHẢN XẠ: Rank càng cao Bot phản xạ trả lời càng nhanh (tức là giây còn lại lúc trả lời càng nhiều)
-                if (points >= 20000)      { minAiTimer = 10.0f; maxAiTimer = 14.0f; } // Siêu Cấp: Cực nhanh (chỉ mất 1 - 5 giây để trả lời)
-                else if (points >= 10000) { minAiTimer = 8.5f;  maxAiTimer = 13.0f; } // Kim Cương: Rất nhanh (mất 2 - 6.5 giây)
-                else if (points >= 5000)  { minAiTimer = 7.5f;  maxAiTimer = 12.0f; } // Bạch Kim: Nhanh (mất 3 - 7.5 giây)
-                else if (points >= 2500)  { minAiTimer = 6.5f;  maxAiTimer = 11.0f; } // Vàng: Khá nhanh (mất 4 - 8.5 giây)
-                else if (points >= 1000)  { minAiTimer = 5.0f;  maxAiTimer = 10.0f; } // Bạc: Trung bình (mất 5 - 10 giây)
-                else                      { minAiTimer = 3.0f;  maxAiTimer = 8.0f;  } // Đồng: Khá chậm (mất 7 - 12 giây để suy nghĩ)
+                if (points >= 20000)      { minAiTimer = 7.0f; maxAiTimer = 11.0f; } // Siêu Cấp (mất 4 - 8 giây để trả lời)
+                else if (points >= 10000) { minAiTimer = 5.5f; maxAiTimer = 10.0f; } // Kim Cương (mất 5 - 9.5 giây)
+                else if (points >= 5000)  { minAiTimer = 4.5f; maxAiTimer = 9.0f;  } // Bạch Kim (mất 6 - 10.5 giây)
+                else if (points >= 2500)  { minAiTimer = 3.5f; maxAiTimer = 8.0f;  } // Vàng (mất 7 - 11.5 giây)
+                else if (points >= 1000)  { minAiTimer = 2.0f; maxAiTimer = 7.0f;  } // Bạc (mất 8 - 13 giây)
+                else                      { minAiTimer = 0.0f; maxAiTimer = 5.0f;  } // Đồng (mất 10 - 15 giây)
 
                 // 2. ĐỘ CHÍNH XÁC: Rank càng cao Bot học càng giỏi, tỉ lệ trả lời đúng càng lớn
                 if (points >= 20000)      accuracy = 0.95f; // Siêu Cấp: 95% trả lời đúng
@@ -1249,6 +1420,30 @@ namespace VocabLearning.UI
                 if (btn != null) { btn.SetEnabled(false); btn.style.opacity = 0.5f; }
             }
 
+            if (_isInteractiveScramble)
+            {
+                // Disable all scramble letters
+                foreach (var btn in _battleScrambleLetterButtons)
+                {
+                    btn.SetEnabled(false);
+                    btn.style.opacity = 0.5f;
+                }
+
+                // Show correct letters in slots, colored red (if player didn't successfully answer)
+                if (!_playerAnswered || _playerAnswerText != _battleCurrentWord.word)
+                {
+                    for (int i = 0; i < _battleScrambleSlots.Count; i++)
+                    {
+                        _battleScrambleSlots[i].SetEnabled(false);
+                        if (_battleScrambleTargetWord[i] != ' ')
+                        {
+                            _battleScrambleSlots[i].text = _battleScrambleTargetWord[i].ToString();
+                            _battleScrambleSlots[i].style.color = new StyleColor(Color.red);
+                        }
+                    }
+                }
+            }
+
             if (winner == "Player")
             {
                 _battleEnemyHP -= 10;
@@ -1278,7 +1473,7 @@ namespace VocabLearning.UI
             else
             {
                 // Timeout or both wrong
-                string correctAnswer = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+                string correctAnswer = (_isImageMode || (_isScrambleMode && _isInteractiveScramble)) ? _battleCurrentWord.word : _battleCurrentWord.meaning;
                 bool playerWrong = _playerAnswered && (_playerAnswerText != correctAnswer);
                 bool aiWrong = _aiAnswered && !_aiCorrect;
 
@@ -1310,11 +1505,12 @@ namespace VocabLearning.UI
             if (_battleEnemyHP < 0) _battleEnemyHP = 0;
 
             // --- Ghi lại kết quả câu hỏi này ---
-            string correctAns = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            string correctAns = (_isImageMode || (_isScrambleMode && _isInteractiveScramble)) ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            string questionText = _isScrambleMode ? ScrambleWordDeterministic(_battleCurrentWord.word) : (_isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word);
             bool isTimeoutRound = (_battleTimer <= 0f);
             var roundRecord = new VocabLearning.Data.BattleRoundRecord
             {
-                question = _isImageMode ? (_battleCurrentWord.imageSub ?? _battleCurrentWord.word) : _battleCurrentWord.word,
+                question = questionText,
                 correctAnswer = correctAns,
                 playerAnswer = _playerAnswered ? _playerAnswerText : "",
                 imageUrl = _isImageMode ? _battleCurrentWord.imageUrl : null,
@@ -1593,10 +1789,44 @@ namespace VocabLearning.UI
             System.Collections.Generic.List<string> distractorPool = new System.Collections.Generic.List<string>();
 
             _isImageMode = false;
-            if (!string.IsNullOrEmpty(_battleCurrentWord.imageUrl))
+            _isScrambleMode = false;
+            _isInteractiveScramble = false;
+
+            bool hasImage = !string.IsNullOrEmpty(_battleCurrentWord.imageUrl);
+            bool canScramble = !string.IsNullOrEmpty(_battleCurrentWord.word) && _battleCurrentWord.word.Trim().Length > 1;
+
+            System.Collections.Generic.List<int> availableModes = new System.Collections.Generic.List<int> { 0 }; // 0: Translate
+            if (hasImage) availableModes.Add(1); // 1: Image
+            if (canScramble)
             {
-                _isImageMode = (UnityEngine.Random.value > 0.5f); // 50% chance
+                availableModes.Add(2); // 2: Scramble MC
+                availableModes.Add(3); // 3: Scramble Interactive
             }
+
+            int chosenMode = availableModes[UnityEngine.Random.Range(0, availableModes.Count)];
+
+            if (chosenMode == 1)
+            {
+                _isImageMode = true;
+            }
+            else if (chosenMode == 2)
+            {
+                _isScrambleMode = true;
+                _isInteractiveScramble = false;
+            }
+            else if (chosenMode == 3)
+            {
+                _isScrambleMode = true;
+                _isInteractiveScramble = true;
+            }
+
+            VisualElement resultContainer = _root.Q<VisualElement>("BattleScrambleResultContainer");
+            VisualElement lettersContainer = _root.Q<VisualElement>("BattleScrambleLettersContainer");
+            VisualElement answerGrid = _root.Q<VisualElement>("BattleAnswerGrid");
+
+            if (resultContainer != null) resultContainer.style.display = _isInteractiveScramble ? DisplayStyle.Flex : DisplayStyle.None;
+            if (lettersContainer != null) lettersContainer.style.display = _isInteractiveScramble ? DisplayStyle.Flex : DisplayStyle.None;
+            if (answerGrid != null) answerGrid.style.display = _isInteractiveScramble ? DisplayStyle.None : DisplayStyle.Flex;
 
             if (_isImageMode)
             {
@@ -1618,6 +1848,47 @@ namespace VocabLearning.UI
                 options.Add(_battleCurrentWord.word);
                 distractorPool.AddRange(_battleAllPoolWords);
                 distractorPool.Remove(_battleCurrentWord.word);
+            }
+            else if (_isScrambleMode)
+            {
+                if (qPrompt != null) qPrompt.text = "Unscramble this word:";
+                if (_isInteractiveScramble)
+                {
+                    if (qText != null)
+                    {
+                        qText.text = _battleCurrentWord.meaning;
+                        qText.style.display = DisplayStyle.Flex;
+                    }
+                    if (imgFrame != null)
+                    {
+                        imgFrame.style.display = hasImage ? DisplayStyle.Flex : DisplayStyle.None;
+                    }
+                    if (subText != null)
+                    {
+                        subText.text = _battleCurrentWord.imageSub;
+                        subText.style.display = (hasImage && !string.IsNullOrEmpty(_battleCurrentWord.imageSub)) ? DisplayStyle.Flex : DisplayStyle.None;
+                    }
+                    if (hasImage && imgElem != null)
+                    {
+                        imgElem.style.backgroundImage = null; // Clear old
+                        StartCoroutine(DownloadAndSetImage(_battleCurrentWord.imageUrl, imgElem));
+                    }
+                    SetupBattleInteractiveScramble();
+                }
+                else
+                {
+                    if (qText != null)
+                    {
+                        qText.text = ScrambleWordDeterministic(_battleCurrentWord.word);
+                        qText.style.display = DisplayStyle.Flex;
+                    }
+                    if (imgFrame != null) imgFrame.style.display = DisplayStyle.None;
+                    if (subText != null) subText.style.display = DisplayStyle.None;
+
+                    options.Add(_battleCurrentWord.meaning);
+                    distractorPool.AddRange(_battleAllPoolMeanings);
+                    distractorPool.Remove(_battleCurrentWord.meaning);
+                }
             }
             else
             {
@@ -1681,34 +1952,66 @@ namespace VocabLearning.UI
         {
             if (_playerAnswered) return;
             _playerAnswered = true;
-            _playerAnswerText = answerText;
 
-            string correctAnswer = _isImageMode ? _battleCurrentWord.word : _battleCurrentWord.meaning;
+            if (_isInteractiveScramble)
+            {
+                if (answerText.Equals(_battleCurrentWord.word, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    answerText = _battleCurrentWord.word;
+                }
+                _playerAnswerText = answerText;
+            }
+            else
+            {
+                _playerAnswerText = answerText;
+            }
+
+            string correctAnswer = (_isImageMode || (_isScrambleMode && _isInteractiveScramble)) ? _battleCurrentWord.word : _battleCurrentWord.meaning;
             bool isCorrect = (answerText == correctAnswer);
 
-            // Visual feedback: Disable buttons and highlight the selected one
-            for (int i = 0; i < 4; i++)
+            if (_isInteractiveScramble)
             {
-                Button btn = _root.Q<Button>($"BtnAns{i}");
-                if (btn != null)
+                foreach (var btn in _battleScrambleLetterButtons)
                 {
                     btn.SetEnabled(false);
-                    if (btn.text == answerText)
+                    btn.style.opacity = 0.5f;
+                }
+                Color slotColor = isCorrect ? Color.green : Color.red;
+                foreach (var slot in _battleScrambleSlots)
+                {
+                    slot.SetEnabled(false);
+                    if (slot.text != " ")
                     {
-                        Color borderColor = isCorrect ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.93f, 0.26f, 0.26f); // Emerald or Red
-                        btn.style.borderTopColor = new StyleColor(borderColor);
-                        btn.style.borderBottomColor = new StyleColor(borderColor);
-                        btn.style.borderLeftColor = new StyleColor(borderColor);
-                        btn.style.borderRightColor = new StyleColor(borderColor);
-                        btn.style.borderTopWidth = 3;
-                        btn.style.borderBottomWidth = 3;
-                        btn.style.borderLeftWidth = 3;
-                        btn.style.borderRightWidth = 3;
-                        btn.style.opacity = 1f;
+                        slot.style.color = new StyleColor(slotColor);
                     }
-                    else
+                }
+            }
+            else
+            {
+                // Visual feedback: Disable buttons and highlight the selected one
+                for (int i = 0; i < 4; i++)
+                {
+                    Button btn = _root.Q<Button>($"BtnAns{i}");
+                    if (btn != null)
                     {
-                        btn.style.opacity = 0.5f;
+                        btn.SetEnabled(false);
+                        if (btn.text == answerText)
+                        {
+                            Color borderColor = isCorrect ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.93f, 0.26f, 0.26f); // Emerald or Red
+                            btn.style.borderTopColor = new StyleColor(borderColor);
+                            btn.style.borderBottomColor = new StyleColor(borderColor);
+                            btn.style.borderLeftColor = new StyleColor(borderColor);
+                            btn.style.borderRightColor = new StyleColor(borderColor);
+                            btn.style.borderTopWidth = 3;
+                            btn.style.borderBottomWidth = 3;
+                            btn.style.borderLeftWidth = 3;
+                            btn.style.borderRightWidth = 3;
+                            btn.style.opacity = 1f;
+                        }
+                        else
+                        {
+                            btn.style.opacity = 0.5f;
+                        }
                     }
                 }
             }
@@ -1775,7 +2078,20 @@ namespace VocabLearning.UI
             Label subtext = _root.Q<Label>("ResultSubtext");
             Label expText = _root.Q<Label>("ResultExp");
 
-            if (isWin)
+            bool isDraw = (_battlePlayerHP == _battleEnemyHP);
+
+            if (isDraw)
+            {
+                SoundManager.PlayGameOver();
+                if (title != null) { title.text = "DRAW"; title.style.color = new StyleColor(Color.gray); }
+                if (iconLbl != null) iconLbl.text = "🤝";
+
+                // Thưởng hòa
+                curUser.exp += 15;
+                if (subtext != null) subtext.text = _isRankedBattle ? "+0 Rank Points" : "Casual Match";
+                if (expText != null) expText.text = "+15 EXP (Draw)";
+            }
+            else if (isWin)
             {
                 curUser.wins++;
                 SoundManager.PlayWinBattle();
@@ -1816,8 +2132,6 @@ namespace VocabLearning.UI
                 }
 
                 AddQuestProgressByType("WinBattle", 1);
-                SaveJsonDatabase();
-                UpdateAllCoinLabels();
             }
             else
             {   
@@ -1842,6 +2156,9 @@ namespace VocabLearning.UI
                 }
             }
 
+            SaveJsonDatabase();
+            UpdateAllCoinLabels();
+
             // [NEW] Hiển thị điểm số X/Y
             Label lblScore = _root.Q<Label>("ResultScore");
             if (lblScore != null)
@@ -1861,7 +2178,7 @@ namespace VocabLearning.UI
                 matchId = System.Guid.NewGuid().ToString(),
                 date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm"),
                 isRanked = _isRankedBattle,
-                isWin = isWin,
+                isWin = isWin && !isDraw,
                 opponentName = opponentName,
                 playerFinalHP = _battlePlayerHP,
                 enemyFinalHP = _battleEnemyHP,
@@ -1875,7 +2192,6 @@ namespace VocabLearning.UI
             curUser.battleHistory.Insert(0, _lastBattleRecord); // Mới nhất lên đầu
             if (curUser.battleHistory.Count > 20) // Giới hạn 20 trận
                 curUser.battleHistory.RemoveAt(curUser.battleHistory.Count - 1);
-            // -----------------------------------
 
             // Hiện Summary trước, Result sau khi bấm nút
             ShowBattleSummaryOverlay(() =>
@@ -1905,7 +2221,18 @@ namespace VocabLearning.UI
             // Tiêu đề
             Label titleLbl = summaryOverlay.Q<Label>("SummaryTitle");
             if (titleLbl != null)
-                titleLbl.text = _lastBattleRecord.isWin ? "🏆 Battle Summary - Victory!" : "💀 Battle Summary - Defeat";
+            {
+                if (_lastBattleRecord.playerFinalHP == _lastBattleRecord.enemyFinalHP)
+                {
+                    titleLbl.text = "🤝 Battle Summary - Draw";
+                    titleLbl.style.color = new StyleColor(Color.gray);
+                }
+                else
+                {
+                    titleLbl.text = _lastBattleRecord.isWin ? "🏆 Battle Summary - Victory!" : "💀 Battle Summary - Defeat";
+                    titleLbl.style.color = new StyleColor(StyleKeyword.Null); // Reset color
+                }
+            }
 
             // Thống kê
             Label statsLbl = summaryOverlay.Q<Label>("SummaryStats");
@@ -1934,6 +2261,258 @@ namespace VocabLearning.UI
                     onContinue?.Invoke();
                 };
             }
+        }
+
+        private void SetupBattleInteractiveScramble()
+        {
+            _battleScrambleTargetWord = _battleCurrentWord.word.ToUpper().Trim();
+
+            VisualElement resultContainer = _root.Q<VisualElement>("BattleScrambleResultContainer");
+            if (resultContainer != null)
+            {
+                resultContainer.Clear();
+                _battleScrambleSlots.Clear();
+                _battleScrambleSelectedButtons = new Button[_battleScrambleTargetWord.Length];
+                for (int i = 0; i < _battleScrambleTargetWord.Length; i++)
+                {
+                    int index = i;
+                    Button slot = new Button();
+                    if (_battleScrambleTargetWord[i] == ' ')
+                    {
+                        slot.text = " ";
+                        slot.style.backgroundColor = new StyleColor(Color.clear);
+                        slot.style.borderTopWidth = 0;
+                        slot.style.borderBottomWidth = 0;
+                        slot.style.borderLeftWidth = 0;
+                        slot.style.borderRightWidth = 0;
+                        slot.style.width = 24;
+                        _battleScrambleSelectedButtons[index] = new Button(); // Pre-filled dummy
+                    }
+                    else
+                    {
+                        slot.text = "_";
+                        slot.AddToClassList("scramble-slot");
+                        slot.clicked += () => HandleBattleSlotClick(index);
+                    }
+                    resultContainer.Add(slot);
+                    _battleScrambleSlots.Add(slot);
+                }
+            }
+
+            List<char> letters = _battleScrambleTargetWord.Where(c => c != ' ').ToList();
+            int seed = _battleScrambleTargetWord.GetHashCode();
+            System.Random rng = new System.Random(seed);
+            for (int i = letters.Count - 1; i > 0; i--)
+            {
+                int j = rng.Next(0, i + 1);
+                char temp = letters[i];
+                letters[i] = letters[j];
+                letters[j] = temp;
+            }
+
+            string targetWithoutSpaces = _battleScrambleTargetWord.Replace(" ", "");
+            if (new string(letters.ToArray()) == targetWithoutSpaces && letters.Count > 1)
+            {
+                char first = letters[0];
+                letters[0] = letters[1];
+                letters[1] = first;
+            }
+
+            VisualElement lettersContainer = _root.Q<VisualElement>("BattleScrambleLettersContainer");
+            if (lettersContainer != null)
+            {
+                lettersContainer.Clear();
+                _battleScrambleLetterButtons.Clear();
+
+                foreach (char c in letters)
+                {
+                    Button btn = new Button();
+                    btn.text = c.ToString();
+                    btn.AddToClassList("scramble-letter-btn");
+
+                    char capturedChar = c;
+                    btn.clicked += () => HandleBattleLetterClick(btn, capturedChar);
+
+                    lettersContainer.Add(btn);
+                    _battleScrambleLetterButtons.Add(btn);
+                }
+            }
+        }
+
+        private void HandleBattleLetterClick(Button letterBtn, char character)
+        {
+            if (_playerAnswered || _isBattleScrambleChecking) return;
+
+            int emptyIndex = -1;
+            for (int i = 0; i < _battleScrambleSelectedButtons.Length; i++)
+            {
+                if (_battleScrambleTargetWord[i] == ' ') continue;
+                if (_battleScrambleSelectedButtons[i] == null)
+                {
+                    emptyIndex = i;
+                    break;
+                }
+            }
+
+            if (emptyIndex == -1) return;
+
+            _battleScrambleSelectedButtons[emptyIndex] = letterBtn;
+            _battleScrambleSlots[emptyIndex].text = character.ToString();
+
+            letterBtn.SetEnabled(false);
+            letterBtn.style.opacity = 0.3f;
+
+            bool allFilled = true;
+            for (int i = 0; i < _battleScrambleSelectedButtons.Length; i++)
+            {
+                if (_battleScrambleSelectedButtons[i] == null)
+                {
+                    allFilled = false;
+                    break;
+                }
+            }
+
+            if (allFilled)
+            {
+                string spelledText = "";
+                foreach (var slot in _battleScrambleSlots)
+                {
+                    spelledText += slot.text;
+                }
+
+                string correctAnswer = _battleCurrentWord.word.ToUpper().Trim();
+                bool isCorrect = spelledText.Equals(correctAnswer, System.StringComparison.OrdinalIgnoreCase);
+
+                if (isCorrect)
+                {
+                    if (_isRankedBattle)
+                    {
+                        OnLANBattleAnswer(_battleCurrentWord.word);
+                    }
+                    else
+                    {
+                        OnBattleAnswer(_battleCurrentWord.word);
+                    }
+                }
+                else
+                {
+                    StartCoroutine(BattleScrambleWrongCoroutine());
+                }
+            }
+        }
+
+        private void HandleBattleSlotClick(int index)
+        {
+            if (_playerAnswered || _isBattleScrambleChecking) return;
+            if (index < 0 || index >= _battleScrambleSlots.Count) return;
+            if (_battleScrambleTargetWord[index] == ' ') return;
+
+            Button letterBtn = _battleScrambleSelectedButtons[index];
+            if (letterBtn == null) return;
+
+            letterBtn.SetEnabled(true);
+            letterBtn.style.opacity = 1.0f;
+
+            _battleScrambleSelectedButtons[index] = null;
+            _battleScrambleSlots[index].text = "_";
+        }
+
+        private IEnumerator BattleScrambleWrongCoroutine()
+        {
+            _isBattleScrambleChecking = true;
+
+            // Play wrong sound
+            SoundManager.PlayWrong();
+
+            // Highlight slots in red
+            foreach (var slot in _battleScrambleSlots)
+            {
+                if (slot.text != " ")
+                {
+                    slot.style.color = new StyleColor(Color.red);
+                }
+                slot.SetEnabled(false);
+            }
+
+            // Disable all letter buttons
+            foreach (var btn in _battleScrambleLetterButtons)
+            {
+                btn.SetEnabled(false);
+            }
+
+            // Wait for 2 seconds
+            yield return new WaitForSeconds(2.0f);
+
+            _isBattleScrambleChecking = false;
+
+            // If the player hasn't already been marked answered (e.g. timeout or opponent answered first)
+            if (!_playerAnswered)
+            {
+                // Reset slots and letter buttons
+                for (int i = 0; i < _battleScrambleSlots.Count; i++)
+                {
+                    if (_battleScrambleTargetWord[i] == ' ')
+                    {
+                        _battleScrambleSlots[i].text = " ";
+                    }
+                    else
+                    {
+                        _battleScrambleSlots[i].text = "_";
+                        _battleScrambleSlots[i].style.color = new StyleColor(StyleKeyword.Null);
+                    }
+                    _battleScrambleSlots[i].SetEnabled(true);
+                }
+
+                if (_battleScrambleSelectedButtons != null)
+                {
+                    for (int i = 0; i < _battleScrambleSelectedButtons.Length; i++)
+                    {
+                        if (_battleScrambleTargetWord[i] == ' ')
+                        {
+                            _battleScrambleSelectedButtons[i] = new Button();
+                        }
+                        else
+                        {
+                            _battleScrambleSelectedButtons[i] = null;
+                        }
+                    }
+                }
+
+                foreach (var btn in _battleScrambleLetterButtons)
+                {
+                    btn.SetEnabled(true);
+                    btn.style.opacity = 1.0f;
+                }
+            }
+        }
+
+        private string ScrambleWordDeterministic(string word)
+        {
+            if (string.IsNullOrEmpty(word)) return "";
+            string[] parts = word.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+            System.Collections.Generic.List<string> scrambledParts = new System.Collections.Generic.List<string>();
+            foreach (var part in parts)
+            {
+                char[] chars = part.ToUpper().Trim().ToCharArray();
+                int seed = part.GetHashCode();
+                System.Random rng = new System.Random(seed);
+                for (int i = chars.Length - 1; i > 0; i--)
+                {
+                    int j = rng.Next(0, i + 1);
+                    char temp = chars[i];
+                    chars[i] = chars[j];
+                    chars[j] = temp;
+                }
+                string scrambled = new string(chars);
+                if (scrambled == part.ToUpper().Trim() && chars.Length > 1)
+                {
+                    char first = chars[0];
+                    chars[0] = chars[1];
+                    chars[1] = first;
+                }
+                scrambledParts.Add(string.Join(" / ", chars));
+            }
+            return string.Join("     ", scrambledParts);
         }
     }
 }

@@ -111,6 +111,14 @@ namespace VocabLearning.UI
         private System.Collections.Generic.List<string> _battleAllPoolWords = new System.Collections.Generic.List<string>();
         private int _battlePoolIndex = 0;
         private bool _isImageMode = false;
+        private bool _isScrambleMode = false;
+        private bool _isInteractiveScramble = false;
+        private bool _isBattleScrambleChecking = false;
+        private System.Collections.Generic.List<Button> _battleScrambleSlots = new System.Collections.Generic.List<Button>();
+        private System.Collections.Generic.List<Button> _battleScrambleLetterButtons = new System.Collections.Generic.List<Button>();
+        private Button[] _battleScrambleSelectedButtons;
+        private string _battleScrambleTargetWord = "";
+        private bool _isScrambleMinigameResult = false;
 
         // --- Current Study Set Words ---
         private System.Collections.Generic.List<VocabLearning.Data.WordJson> _currentVocabSetWords = new System.Collections.Generic.List<VocabLearning.Data.WordJson>();
@@ -168,6 +176,11 @@ namespace VocabLearning.UI
         private void LoadScreen(VisualTreeAsset newScreenAsset)
         {
             if (newScreenAsset == null) return;
+
+            if (newScreenAsset != ResultScreenAsset)
+            {
+                _isScrambleMinigameResult = false;
+            }
 
             // Chuyển nhạc nền phù hợp với màn hình
             if (newScreenAsset == BattleGameplayScreenAsset)
@@ -951,21 +964,6 @@ namespace VocabLearning.UI
             {
                 Debug.LogError($"[JSON DB - Persistent] Lỗi lưu database cục bộ: {ex.Message}");
             }
-
-#if UNITY_EDITOR
-            try
-            {
-                string path = System.IO.Path.Combine(Application.dataPath, "Resources/Mockdata/db.json");
-                string json = JsonUtility.ToJson(_jsonDb, true);
-                System.IO.File.WriteAllText(path, json);
-                UnityEditor.AssetDatabase.Refresh();
-                Debug.Log($"[JSON DB - Editor] Đã lưu database offline về file: {path}");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"[JSON DB - Editor] Lỗi lưu database offline: {ex.Message}");
-            }
-#endif
 
             // 2. Đồng bộ dữ liệu tiến trình người dùng lên SQL Server thông qua Node.js Backend API
             if (_jsonDb != null && _jsonDb.currentUser != null && !string.IsNullOrEmpty(_jsonDb.currentUser.id))

@@ -51,6 +51,7 @@ namespace VocabLearning.Editor
             controller.ResultScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ResultScreen.uxml");
             controller.AchievementScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AchievementScreen.uxml");
             controller.InventoryScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/InventoryScreen.uxml");
+            controller.WordScrambleScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/WordScrambleScreen.uxml");
 
             // Admin Features
             controller.AdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/adminScreen.uxml");
