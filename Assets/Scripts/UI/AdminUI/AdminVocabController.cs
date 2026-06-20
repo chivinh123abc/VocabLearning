@@ -219,7 +219,12 @@ namespace VocabLearning.UI
                 btnDelete.AddToClassList("btn-delete");
                 btnDelete.clicked += () =>
                 {
-                    DeleteWord(word);
+                    ShowConfirmationDialog(
+                        "Xóa Từ Vựng?",
+                        $"Bạn có chắc chắn muốn xóa từ vựng '{word.word}' không?",
+                        () => DeleteWord(word),
+                        null
+                    );
                 };
 
                 card.Add(thumb);

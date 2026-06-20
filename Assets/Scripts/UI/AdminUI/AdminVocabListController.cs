@@ -360,22 +360,22 @@ namespace VocabLearning.UI
             row.style.alignItems     = Align.Center;
             row.style.paddingTop     = 14; row.style.paddingBottom  = 14;
             row.style.paddingLeft    = 16; row.style.paddingRight   = 16;
-            row.style.marginBottom   = 6;
+            row.style.marginBottom   = 8;
             row.style.borderTopLeftRadius     = 16; row.style.borderTopRightRadius    = 16;
             row.style.borderBottomLeftRadius  = 16; row.style.borderBottomRightRadius = 16;
-            row.style.borderTopWidth    = 2; row.style.borderBottomWidth = 2;
-            row.style.borderLeftWidth   = 2; row.style.borderRightWidth  = 2;
+            row.style.borderTopWidth    = 1.5f; row.style.borderBottomWidth = 1.5f;
+            row.style.borderLeftWidth   = 1.5f; row.style.borderRightWidth  = 1.5f;
             ApplyPickerRowStyle(row, isSelected);
 
             // Checkbox emoji
             var checkbox = new Label(isSelected ? "☑" : "☐");
-            checkbox.style.fontSize       = 30;
+            checkbox.style.fontSize       = 34;
             checkbox.style.unityTextAlign = TextAnchor.MiddleCenter;
             checkbox.style.marginRight    = 16;
             checkbox.style.flexShrink     = 0;
             checkbox.style.color          = isSelected
                 ? new StyleColor(new Color(0.23f, 0.51f, 0.96f))
-                : new StyleColor(new Color(0.65f, 0.63f, 0.60f));
+                : new StyleColor(new Color(0.58f, 0.64f, 0.72f));
             checkbox.pickingMode = PickingMode.Ignore;
 
             // Info container
@@ -391,34 +391,51 @@ namespace VocabLearning.UI
             wordLine.pickingMode         = PickingMode.Ignore;
 
             var lblWord = new Label(word.word);
-            lblWord.style.fontSize                = 22;
+            lblWord.style.fontSize                = 26;
             lblWord.style.unityFontStyleAndWeight = FontStyle.Bold;
-            lblWord.style.color                   = new StyleColor(new Color(0.08f, 0.08f, 0.08f));
-            lblWord.style.marginRight             = 10;
+            lblWord.style.color                   = new StyleColor(Color.white);
+            lblWord.style.marginRight             = 12;
             lblWord.pickingMode                   = PickingMode.Ignore;
 
-            var lblRank = new Label(word.rankRequired ?? "");
-            lblRank.style.fontSize      = 16;
-            lblRank.style.color         = new StyleColor(new Color(0.55f, 0.43f, 0.18f));
-            lblRank.style.backgroundColor= new StyleColor(new Color(1.0f, 0.93f, 0.75f));
+            var lblRank = new Label(word.rankRequired ?? "Dong");
+            lblRank.style.fontSize      = 15;
+            lblRank.style.unityFontStyleAndWeight = FontStyle.Bold;
             lblRank.style.borderTopLeftRadius     = 10; lblRank.style.borderTopRightRadius    = 10;
             lblRank.style.borderBottomLeftRadius  = 10; lblRank.style.borderBottomRightRadius = 10;
             lblRank.style.paddingLeft   = 8; lblRank.style.paddingRight  = 8;
             lblRank.style.paddingTop    = 2; lblRank.style.paddingBottom = 2;
-            lblRank.style.unityFontStyleAndWeight = FontStyle.Bold;
             lblRank.pickingMode                   = PickingMode.Ignore;
+
+            string rankStr = word.rankRequired ?? "Dong";
+            Color tierColor = new Color(0.8f, 0.5f, 0.2f); // Default Bronze/Orange
+            if (rankStr.Equals("Bac", System.StringComparison.OrdinalIgnoreCase)) tierColor = new Color(0.75f, 0.75f, 0.75f);
+            else if (rankStr.Equals("Vang", System.StringComparison.OrdinalIgnoreCase)) tierColor = new Color(1.0f, 0.84f, 0.0f);
+            else if (rankStr.Equals("BachKim", System.StringComparison.OrdinalIgnoreCase)) tierColor = new Color(0.6f, 0.4f, 0.8f);
+            else if (rankStr.Equals("KimCuong", System.StringComparison.OrdinalIgnoreCase)) tierColor = new Color(0.12f, 0.8f, 0.98f);
+            else if (rankStr.Equals("SieuCap", System.StringComparison.OrdinalIgnoreCase)) tierColor = new Color(0.93f, 0.26f, 0.26f);
+
+            lblRank.style.color = new StyleColor(tierColor);
+            lblRank.style.backgroundColor = new StyleColor(new Color(tierColor.r, tierColor.g, tierColor.b, 0.12f));
+            lblRank.style.borderTopColor = new StyleColor(new Color(tierColor.r, tierColor.g, tierColor.b, 0.4f));
+            lblRank.style.borderBottomColor = new StyleColor(new Color(tierColor.r, tierColor.g, tierColor.b, 0.4f));
+            lblRank.style.borderLeftColor = new StyleColor(new Color(tierColor.r, tierColor.g, tierColor.b, 0.4f));
+            lblRank.style.borderRightColor = new StyleColor(new Color(tierColor.r, tierColor.g, tierColor.b, 0.4f));
+            lblRank.style.borderTopWidth = 1.5f;
+            lblRank.style.borderBottomWidth = 1.5f;
+            lblRank.style.borderLeftWidth = 1.5f;
+            lblRank.style.borderRightWidth = 1.5f;
 
             wordLine.Add(lblWord); wordLine.Add(lblRank);
 
             var lblMeaning = new Label(word.meaning);
-            lblMeaning.style.fontSize = 19;
-            lblMeaning.style.color    = new StyleColor(new Color(0.35f, 0.35f, 0.35f));
-            lblMeaning.style.marginTop= 3;
+            lblMeaning.style.fontSize = 21;
+            lblMeaning.style.color    = new StyleColor(new Color(0.70f, 0.76f, 0.85f));
+            lblMeaning.style.marginTop= 4;
             lblMeaning.pickingMode    = PickingMode.Ignore;
 
             var lblId = new Label($"ID: {word.id}");
-            lblId.style.fontSize = 16;
-            lblId.style.color    = new StyleColor(new Color(0.65f, 0.63f, 0.60f));
+            lblId.style.fontSize = 17;
+            lblId.style.color    = new StyleColor(new Color(0.58f, 0.64f, 0.72f));
             lblId.pickingMode    = PickingMode.Ignore;
 
             info.Add(wordLine); info.Add(lblMeaning); info.Add(lblId);
@@ -439,11 +456,11 @@ namespace VocabLearning.UI
         private void ApplyPickerRowStyle(Button row, bool isSelected)
         {
             row.style.backgroundColor = isSelected
-                ? new StyleColor(new Color(0.93f, 0.96f, 1.0f))
-                : new StyleColor(new Color(1f, 1f, 1f));
+                ? new StyleColor(new Color(0.23f, 0.51f, 0.96f, 0.15f))
+                : new StyleColor(new Color(0.12f, 0.16f, 0.23f));
             var borderColor = isSelected
                 ? new StyleColor(new Color(0.23f, 0.51f, 0.96f))
-                : new StyleColor(new Color(0.89f, 0.87f, 0.83f));
+                : new StyleColor(new Color(0.20f, 0.25f, 0.33f));
             row.style.borderTopColor    = borderColor; row.style.borderBottomColor = borderColor;
             row.style.borderLeftColor   = borderColor; row.style.borderRightColor  = borderColor;
         }

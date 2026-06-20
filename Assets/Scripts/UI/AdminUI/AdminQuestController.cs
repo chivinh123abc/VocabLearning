@@ -266,7 +266,15 @@ namespace VocabLearning.UI
                 var btnDelete = new Button();
                 btnDelete.text = "🗑";
                 btnDelete.AddToClassList("btn-delete");
-                btnDelete.clicked += () => DeleteQuest(quest);
+                btnDelete.clicked += () =>
+                {
+                    ShowConfirmationDialog(
+                        "Xóa Nhiệm Vụ?",
+                        $"Bạn có chắc chắn muốn xóa nhiệm vụ '{quest.title}' không?",
+                        () => DeleteQuest(quest),
+                        null
+                    );
+                };
 
                 card.Add(thumb);
                 card.Add(info);

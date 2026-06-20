@@ -1,10 +1,10 @@
 /* ============================================================
-   VocabManagement.uss  â€”  Admin sub-screens (User, Vocab, Questâ€¦)
-   Designed for 1080Ă—1920 logical resolution (PanelSettings ref)
+   VocabManagement.uss    Admin sub-screens (User, Vocab, Quest)
+   Designed for 10801920 logical resolution (PanelSettings ref)
    Clean, Premium Compact Light Mode matching the original design
    ============================================================ */
 
-/* â”€â”€â”€ ROOT â”€â”€â”€ */
+/*  ROOT  */
 .root {
     position: absolute;
     left: 0;
@@ -16,7 +16,7 @@
 }
 
 
-/* â”€â”€â”€ HEADER (luxury gold border on left) â”€â”€â”€ */
+/*  HEADER (luxury gold border on left)  */
 .header {
     flex-direction: row;
     align-items: center;
@@ -108,7 +108,7 @@
     scale: 1.06;
 }
 
-/* â”€â”€â”€ SEARCH BAR â”€â”€â”€ */
+/*  SEARCH BAR  */
 .search-bar {
     flex-direction: row;
     align-items: center;
@@ -140,7 +140,10 @@
     height: 36px;
 }
 
-.search-field > .unity-base-field__input {
+.search-field > .unity-base-field__input,
+.search-field .unity-base-field__input,
+.search-field .unity-text-field__input,
+.search-field .unity-base-text-field__input {
     border-top-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
@@ -152,7 +155,6 @@
 }
 
 
-/* â”€â”€â”€ FILTER DROPDOWNS â”€â”€â”€ */
 .filter-rank {
     width: 110px;
     height: 36px;
@@ -168,7 +170,9 @@
     background-color: rgba(0, 0, 0, 0);
 }
 
-.filter-rank > .unity-base-field__input {
+.filter-rank > .unity-base-field__input,
+.filter-rank .unity-base-field__input,
+.filter-rank .unity-base-popup-field__input {
     background-color: rgba(0, 0, 0, 0);
     border-top-width: 0;
     border-bottom-width: 0;
@@ -180,7 +184,7 @@
 }
 
 
-/* ─── STATS ROW (Horizontal single row layout) ─── */
+/*  STATS ROW (Horizontal single row layout)  */
 .stats-row {
     flex-direction: row;
     flex-wrap: nowrap;
@@ -219,7 +223,7 @@
     width: 100%;
 }
 
-/* â”€â”€â”€ COUNT LABEL â”€â”€â”€ */
+
 .vocab-count-label {
     font-size: 15px;
     color: rgb(148, 163, 184);
@@ -227,7 +231,7 @@
     margin: 4px 20px 8px 20px;
 }
 
-/* â”€â”€â”€ VOCAB / USER LIST â”€â”€â”€ */
+
 .vocab-list {
     flex-grow: 1;
     padding: 0 20px 20px 20px;
@@ -253,7 +257,7 @@
     height: 0;
 }
 
-/* â”€â”€â”€ VOCAB / USER CARD â”€â”€â”€ */
+
 .vocab-card {
     flex-direction: row;
     align-items: center;
@@ -272,7 +276,7 @@
     scale: 1.01;
 }
 
-/* â”€â”€â”€ AVATAR / THUMBNAIL â”€â”€â”€ */
+
 .vocab-thumbnail {
     width: 56px;
     height: 56px;
@@ -281,7 +285,7 @@
     flex-shrink: 0;
 }
 
-/* â”€â”€â”€ CARD INFO â”€â”€â”€ */
+
 .vocab-info {
     flex-direction: column;
     flex-grow: 1;
@@ -341,7 +345,7 @@
 }
 
 
-/* â”€â”€â”€ ACTION BUTTONS â”€â”€â”€ */
+
 .btn-delete {
     width: 36px;
     height: 36px;
@@ -365,7 +369,7 @@
     scale: 1.1;
 }
 
-/* â”€â”€â”€ MODAL OVERLAY â”€â”€â”€ */
+
 .modal-overlay {
     position: absolute;
     top: 0;
@@ -423,7 +427,7 @@
     scale: 1.15;
 }
 
-/* â”€â”€â”€ MODAL FORM SCROLL â”€â”€â”€ */
+
 .modal-form-scroll {
     max-height: 450px;
     margin-bottom: 16px;
@@ -445,7 +449,7 @@
     height: 0;
 }
 
-/* â”€â”€â”€ FORM GROUPS â”€â”€â”€ */
+
 .form-group {
     margin-bottom: 14px;
 }
@@ -471,7 +475,10 @@
     padding: 0;
 }
 
-.form-input > .unity-base-field__input {
+.form-input > .unity-base-field__input,
+.form-input .unity-base-field__input,
+.form-input .unity-text-field__input,
+.form-input .unity-base-text-field__input {
     background-color: rgba(0, 0, 0, 0);
     border-top-width: 0;
     border-bottom-width: 0;
@@ -505,7 +512,9 @@
     padding: 0;
 }
 
-.form-dropdown > .unity-base-field__input {
+.form-dropdown > .unity-base-field__input,
+.form-dropdown .unity-base-field__input,
+.form-dropdown .unity-base-popup-field__input {
     background-color: rgba(0, 0, 0, 0);
     border-top-width: 0;
     border-bottom-width: 0;
@@ -526,7 +535,7 @@
     background-color: rgb(30, 41, 59);
 }
 
-/* â”€â”€â”€ FORM LAYOUT â”€â”€â”€ */
+
 .form-row {
     flex-direction: row;
     margin-bottom: 10px;
@@ -536,7 +545,6 @@
     flex-direction: column;
 }
 
-/* â”€â”€â”€ MODAL ERROR â”€â”€â”€ */
 .modal-error-msg {
     color: rgb(215, 45, 45);
     font-size: 14px;
@@ -545,7 +553,7 @@
     -unity-font-style: bold;
 }
 
-/* â”€â”€â”€ MODAL FOOTER â”€â”€â”€ */
+
 .modal-footer {
     flex-direction: row;
     justify-content: flex-end;
@@ -558,10 +566,11 @@
     border-bottom-width: 0;
     border-left-width: 0;
     border-right-width: 0;
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin-right: 10px;
-    font-size: 14px;
+    border-radius: 14px;
+    height: 52px;
+    padding: 0 28px;
+    margin-right: 12px;
+    font-size: 18px;
     color: white;
     -unity-font-style: bold;
     transition-property: background-color, scale;
@@ -579,9 +588,10 @@
     border-bottom-width: 0;
     border-left-width: 0;
     border-right-width: 0;
-    border-radius: 10px;
-    padding: 10px 24px;
-    font-size: 14px;
+    border-radius: 14px;
+    height: 52px;
+    padding: 0 32px;
+    font-size: 18px;
     color: white;
     -unity-font-style: bold;
     transition-property: background-color, scale;
@@ -593,7 +603,7 @@
     scale: 1.03;
 }
 
-/* â”€â”€â”€ CHOOSE IMAGE BUTTON â”€â”€â”€ */
+
 .btn-choose-image {
     height: 44px;
     border-radius: 10px;
@@ -614,4 +624,177 @@
     background-color: rgb(71, 85, 105);
     scale: 1.02;
 }
+
+        
+#picker-search {
+    background-color: rgba(0, 0, 0, 0) !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    border-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    position: relative !important;
+}
+
+#picker-search * {
+    background-color: rgba(0, 0, 0, 0) !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    border-width: 0 !important;
+    font-size: 24px !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#picker-search .unity-base-field__label,
+#picker-search .unity-text-field__label {
+    display: none !important;
+}
+
+#picker-filter-rank {
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+#picker-filter-rank * {
+    background-color: rgba(0, 0, 0, 0) !important;
+    border-top-width: 0 !important;
+    border-bottom-width: 0 !important;
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    border-width: 0 !important;
+    font-size: 24px !important;
+    color: white !important;
+}
+
+#picker-filter-rank .unity-base-field__label,
+#picker-filter-rank .unity-text-field__label {
+    display: none !important;
+}
+
+
+/* --- WORD PICKER MODAL PREMIUM STYLES --- */
+.picker-container {
+    width: 100%;
+    background-color: rgb(30, 41, 59);
+    border-radius: 32px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    flex-direction: column;
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.08);
+    height: 85%;
+    max-height: 85%;
+    position: relative;
+}
+
+.picker-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 28px;
+    padding-bottom: 20px;
+    padding-left: 32px;
+    padding-right: 32px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.picker-header-text {
+    flex-direction: column;
+}
+
+.picker-selected-subtitle {
+    font-size: 20px;
+    color: rgb(148, 163, 184);
+    margin-top: 4px;
+}
+
+.picker-search-bar {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 16px;
+    margin-bottom: 12px;
+    margin-left: 24px;
+    margin-right: 24px;
+    background-color: rgb(15, 23, 42);
+    border-radius: 18px;
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.08);
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 66px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.picker-search-input {
+    flex-grow: 1;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 24px;
+    height: 52px;
+    color: white;
+    position: relative;
+}
+
+.picker-filter-row {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 0;
+    padding-bottom: 0;
+    flex-direction: row;
+    position: relative;
+    height: 62px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.picker-filter-dropdown {
+    flex-grow: 1;
+    background-color: rgb(15, 23, 42);
+    border-radius: 18px;
+    border-width: 1.5px;
+    border-color: rgba(255, 255, 255, 0.08);
+    font-size: 20px;
+    height: 100%;
+    color: white;
+    position: relative;
+}
+
+.picker-scrollview {
+    flex-grow: 1;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 0;
+    padding-bottom: 16px;
+}
+
+.picker-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 28px;
+    padding-left: 32px;
+    padding-right: 32px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+
+
 
