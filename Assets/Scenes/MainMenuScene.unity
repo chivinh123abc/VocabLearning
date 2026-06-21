@@ -160,6 +160,7 @@ MonoBehaviour:
   SoloQuizScreenAsset: {fileID: 9197481963319205126, guid: 6dc88c7d70ada16438befb1cf1142d0a, type: 3}
   FriendScreenAsset: {fileID: 9197481963319205126, guid: 0c0bc65c7bad91d429ccd47e4012d850, type: 3}
   SettingScreenAsset: {fileID: 9197481963319205126, guid: ad961308e5b3e154e96eb63e623111cd, type: 3}
+  WordScrambleScreenAsset: {fileID: 9197481963319205126, guid: a1e31418d476dd94dbd6bb973ffb7763, type: 3}
   ShopScreenAsset: {fileID: 9197481963319205126, guid: 09c9a4c8865d7ff4195e58f57e4cd625, type: 3}
   RankingScreenAsset: {fileID: 9197481963319205126, guid: 5d3923df1ad46be4e9b1df1dc68d5473, type: 3}
   ProfileScreenAsset: {fileID: 9197481963319205126, guid: ac09a2c085a890842b60898e8e5ce51f, type: 3}

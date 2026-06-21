@@ -25,6 +25,7 @@ namespace VocabLearning.Data
         public string id;
         public string token; // Token bảo mật tạm thời phục vụ kết nối
         public string username;
+        public string displayName;
         public string email;
         public string password; // Mật khẩu đăng nhập
         public string role; // users hoac admin
@@ -51,6 +52,8 @@ namespace VocabLearning.Data
 
         public List<ShopPurchaseRecord> shopHistory = new List<ShopPurchaseRecord>();
         public List<InventoryItemJson> inventory = new List<InventoryItemJson>(); // NEW: Đồng bộ kho đồ lên SQL Server
+        public List<QuestJson> quests = new List<QuestJson>();
+        public List<AchievementJson> achievements = new List<AchievementJson>();
     }
 
     [System.Serializable]

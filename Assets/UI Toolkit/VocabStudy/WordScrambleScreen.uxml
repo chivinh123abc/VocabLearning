@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <!-- Include Stylesheet -->
+    <ui:Style src="VocabStudy.uss" />
+
+    <ui:VisualElement class="screen-container" style="background-color: #0F172A;">
+        
+        <!-- Header -->
+        <ui:VisualElement style="background-color: #F59E0B; padding: 24px; padding-bottom: 32px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; flex-direction: row; align-items: center;">
+            <ui:Button name="BtnCloseScramble" text="← Back" style="width: 80px; height: 36px; border-radius: 10px; background-color: rgba(255,255,255,0.2); border-width: 0; justify-content: center; align-items: center; margin-right: 16px; margin-left: 0; margin-top: 0; margin-bottom: 0; color: white; -unity-font-style: bold; font-size: 14px;" />
+            <ui:Label text="Word Scramble" class="font-bold" style="font-size: 28px; color: white;" />
+        </ui:VisualElement>
+
+        <ui:ScrollView style="flex-grow: 1; padding: 24px;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
+            
+            <!-- Progress & Score -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <ui:Label name="ScrambleProgressText" text="Word: 1/10" style="color: #94A3B8; font-size: 16px; -unity-font-style: bold;" />
+                <ui:Label name="ScrambleScoreText" text="Score: 0" style="color: #F59E0B; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <!-- ProgressBar -->
+            <ui:VisualElement style="height: 6px; background-color: #334155; border-radius: 3px; margin-bottom: 24px; overflow: hidden;">
+                <ui:VisualElement name="ScrambleProgressBar" style="height: 100%; width: 0%; background-color: #F59E0B;" />
+            </ui:VisualElement>
+
+            <!-- Prompt & Image Hint -->
+            <ui:VisualElement style="align-items: center; justify-content: center; margin-bottom: 20px;">
+                <ui:Label name="ScrambleMeaningText" text="Nghĩa của từ" class="font-bold" style="font-size: 24px; color: white; -unity-text-align: middle-center; margin-bottom: 16px; white-space: normal;" />
+                
+                <!-- Image Hint Frame -->
+                <ui:VisualElement name="ScrambleImageFrame" style="width: 200px; height: 150px; background-color: #1E293B; border-radius: 16px; border-width: 2px; border-color: #334155; overflow: hidden; justify-content: center; align-items: center; display: none;">
+                    <ui:VisualElement name="ScrambleQuestionImage" style="flex-grow: 1; width: 100%; height: 100%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Result Slot Row -->
+            <ui:VisualElement name="ScrambleResultContainer" style="flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; min-height: 60px; margin-bottom: 30px;" />
+
+            <!-- Input Row of Scrambled Letters -->
+            <ui:VisualElement name="ScrambleLettersContainer" style="flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; margin-bottom: 30px;" />
+
+            <!-- Actions -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+                <ui:Button name="BtnResetScramble" text="Reset" style="flex-grow: 1; height: 46px; background-color: #334155; border-width: 0; border-radius: 12px; color: white; -unity-font-style: bold; font-size: 15px; margin-right: 8px;" />
+                <ui:Button name="BtnSkipScramble" text="Skip" style="flex-grow: 1; height: 46px; background-color: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); border-width: 1px; border-radius: 12px; color: #EF4444; -unity-font-style: bold; font-size: 15px;" />
+            </ui:VisualElement>
+
+        </ui:ScrollView>
+
+    </ui:VisualElement>
+</ui:UXML>

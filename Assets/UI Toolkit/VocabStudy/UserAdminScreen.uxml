@@ -105,8 +105,8 @@
                     <!-- Cấp độ + EXP -->
                     <ui:VisualElement class="form-row" style="margin-bottom: 22px;">
                         <ui:VisualElement class="form-col" style="flex-grow: 1; margin-right: 14px;">
-                            <ui:Label text="Cấp độ *" class="form-label"/>
-                            <ui:TextField name="input-level" class="form-input"/>
+                            <ui:Label text="Cấp độ (Tính từ EXP)" class="form-label"/>
+                            <ui:TextField name="input-level" class="form-input" readonly="true" style="opacity: 0.7;"/>
                         </ui:VisualElement>
                         <ui:VisualElement class="form-col" style="flex-grow: 1;">
                             <ui:Label text="EXP *" class="form-label"/>

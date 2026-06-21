@@ -78,6 +78,9 @@ namespace VocabLearning.UI
                         if (success && responseData != null && responseData.username != null)
                         {
                             _jsonDb.currentUser = responseData; // Ghi đè toàn bộ profile đã chuẩn hóa từ SQL Server
+                            if (responseData.quests != null) _jsonDb.quests = responseData.quests;
+                            if (responseData.achievements != null) _jsonDb.achievements = responseData.achievements;
+                            CheckLevelUp();
                             _jsonDb.jwtToken = responseData.token; // Lưu token vào db cục bộ để duy trì phiên
                             VocabLearning.Network.NetworkClient.Instance.JwtToken = responseData.token; // Đồng bộ token tới Client mạng
                             if (responseData.inventory != null)
@@ -85,21 +88,19 @@ namespace VocabLearning.UI
                                 _jsonDb.inventory = responseData.inventory; // Đồng bộ kho đồ từ DB lên UI
                             }
  
-                            // Phân quyền
-                            if (responseData.role == "admin" && AdminScreenAsset != null)
+                            // Chạy kiểm tra nhiệm vụ và điểm danh sau khi đăng nhập thành công
+                            CheckDailyQuests();
+                            CheckWeeklyLogin();
+
+                            if (responseData.role == "admin")
                             {
-                                Debug.Log("[Auth - Network] Đăng nhập Admin thành công.");
-                                LoadScreen(AdminScreenAsset);
+                                Debug.Log("[Auth - Network] Đăng nhập Admin thành công. Vào màn hình Home với quyền Admin.");
                             }
                             else
                             {
-                                // Chạy kiểm tra nhiệm vụ và điểm danh sau khi đăng nhập thành công
-                                CheckDailyQuests();
-                                CheckWeeklyLogin();
- 
                                 Debug.Log("[Auth - Network] Đăng nhập User thành công. Tiến trình tải hoàn tất.");
-                                LoadScreen(HomeScreenAsset);
                             }
+                            LoadScreen(HomeScreenAsset);
                         }
                         else
                         {
@@ -185,13 +186,51 @@ namespace VocabLearning.UI
                 btnSendOTP.clicked += () =>
                 {
                     HideMessages();
-                    string email = inputForgotEmail?.value;
+                    string email = inputForgotEmail?.value?.Trim();
                     if (string.IsNullOrEmpty(email))
                     {
-                        if (lblError != null) { lblError.text = "Please enter your email first to receive OTP!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Vui lòng nhập email đăng ký tài khoản của bạn!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
-                    if (lblSuccess != null) { lblSuccess.text = "OTP Code has been sent to your email!"; lblSuccess.style.display = DisplayStyle.Flex; }
+
+                    btnSendOTP.SetEnabled(false);
+                    btnSendOTP.text = "Sending...";
+                    if (lblSuccess != null) { lblSuccess.text = "Đang gửi OTP..."; lblSuccess.style.display = DisplayStyle.Flex; }
+
+                    VocabLearning.Network.NetworkClient.Instance.SendOTP(email, (success, msg, res) =>
+                    {
+                        HideMessages();
+                        if (success && res != null && res.success)
+                        {
+                            if (lblSuccess != null) { lblSuccess.text = "Mã OTP đã được gửi thành công đến hòm thư của bạn!"; lblSuccess.style.display = DisplayStyle.Flex; }
+                            
+                            // Bắt đầu đếm ngược 60s
+                            int countdown = 60;
+                            btnSendOTP.text = $"{countdown}s";
+                            
+                            var timer = btnSendOTP.schedule.Execute(() =>
+                            {
+                                countdown--;
+                                if (countdown <= 0)
+                                {
+                                    btnSendOTP.text = "Gửi OTP";
+                                    btnSendOTP.SetEnabled(true);
+                                }
+                                else
+                                {
+                                    btnSendOTP.text = $"{countdown}s";
+                                }
+                            });
+                            timer.Every(1000);
+                            timer.Until(() => countdown <= 0);
+                        }
+                        else
+                        {
+                            btnSendOTP.SetEnabled(true);
+                            btnSendOTP.text = "Gửi OTP";
+                            if (lblError != null) { lblError.text = string.IsNullOrEmpty(msg) ? "Gửi mã OTP thất bại!" : msg; lblError.style.display = DisplayStyle.Flex; }
+                        }
+                    });
                 };
             }
 
@@ -220,35 +259,57 @@ namespace VocabLearning.UI
                 btnRecover.clicked += () =>
                 {
                     HideMessages();
-                    string email = inputForgotEmail?.value;
-                    string otp = inputForgotOTP?.value;
-                    string newPass = inputForgotNewPassword?.value;
-                    string confirmPass = inputForgotConfirmPassword?.value;
+                    string email = inputForgotEmail?.value?.Trim();
+                    string otp = inputForgotOTP?.value?.Trim();
+                    string newPass = inputForgotNewPassword?.value?.Trim();
+                    string confirmPass = inputForgotConfirmPassword?.value?.Trim();
 
                     if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(otp) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass))
                     {
-                        if (lblError != null) { lblError.text = "Please fill in all fields!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Vui lòng nhập đầy đủ các trường thông tin!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
 
                     if (newPass != confirmPass)
                     {
-                        if (lblError != null) { lblError.text = "Passwords do not match!"; lblError.style.display = DisplayStyle.Flex; }
+                        if (lblError != null) { lblError.text = "Mật khẩu xác nhận không khớp!"; lblError.style.display = DisplayStyle.Flex; }
                         return;
                     }
 
-                    // Dummy UI response cho tính năng reset mật khẩu
-                    if (lblSuccess != null)
+                    if (newPass.Length < 4)
                     {
-                        lblSuccess.text = "Your password has been successfully reset! You can now login.";
-                        lblSuccess.style.display = DisplayStyle.Flex;
+                        if (lblError != null) { lblError.text = "Mật khẩu phải dài tối thiểu 4 ký tự!"; lblError.style.display = DisplayStyle.Flex; }
+                        return;
                     }
 
-                    // Xóa trắng form sau khi thành công
-                    if (inputForgotEmail != null) inputForgotEmail.value = "";
-                    if (inputForgotOTP != null) inputForgotOTP.value = "";
-                    if (inputForgotNewPassword != null) inputForgotNewPassword.value = "";
-                    if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.value = "";
+                    btnRecover.SetEnabled(false);
+                    if (lblSuccess != null) { lblSuccess.text = "Đang xác thực và đặt lại mật khẩu..."; lblSuccess.style.display = DisplayStyle.Flex; }
+
+                    VocabLearning.Network.NetworkClient.Instance.ResetPassword(email, otp, newPass, (success, msg, res) =>
+                    {
+                        btnRecover.SetEnabled(true);
+                        HideMessages();
+                        if (success && res != null && res.success)
+                        {
+                            if (lblSuccess != null) { lblSuccess.text = "Đặt lại mật khẩu thành công! Vui lòng đăng nhập."; lblSuccess.style.display = DisplayStyle.Flex; }
+                            
+                            // Xóa trắng form sau khi thành công
+                            if (inputForgotEmail != null) inputForgotEmail.value = "";
+                            if (inputForgotOTP != null) inputForgotOTP.value = "";
+                            if (inputForgotNewPassword != null) inputForgotNewPassword.value = "";
+                            if (inputForgotConfirmPassword != null) inputForgotConfirmPassword.value = "";
+
+                            // Tự động chuyển về login sau 2 giây
+                            btnRecover.schedule.Execute(() =>
+                            {
+                                SwitchPanel(panelLogin);
+                            }).StartingIn(2000);
+                        }
+                        else
+                        {
+                            if (lblError != null) { lblError.text = string.IsNullOrEmpty(msg) ? "Đặt lại mật khẩu thất bại!" : msg; lblError.style.display = DisplayStyle.Flex; }
+                        }
+                    });
                 };
             }
         }

@@ -205,8 +205,16 @@ async function seed() {
       const insertedEmails = new Set();
 
       for (const [username, u] of allUsersMap.entries()) {
+        // Để reset hoàn toàn tiến độ học tập trên DB khi chạy db:setup:
+        u.learnedSets = [];
+        u.savedSetLevels = [];
+        u.setProgress = [];
+        u.wordProgress = [];
+        u.shopHistory = [];
+        u.battleHistory = [];
+
         const reqU = new sql.Request(transaction);
-        
+
         // Băm mật khẩu (Bcrypt) nếu có mật khẩu thô
         let hashedPassword = '';
         if (u.password) {
@@ -227,10 +235,10 @@ async function seed() {
 
         reqU.input('id', sql.VarChar, u.id);
         reqU.input('username', sql.NVarChar, u.username);
+        reqU.input('displayName', sql.NVarChar, u.displayName || u.username);
         reqU.input('email', sql.NVarChar, userEmail);
         reqU.input('password', sql.VarChar, hashedPassword);
         reqU.input('role', sql.VarChar, u.role || 'user');
-        reqU.input('level', sql.Int, u.level || 1);
         reqU.input('exp', sql.Int, u.exp || 0);
         reqU.input('coins', sql.Int, u.coins || 0);
         reqU.input('rankPoints', sql.Int, u.rankPoints || 0);
@@ -248,11 +256,11 @@ async function seed() {
 
         await reqU.query(`
           INSERT INTO [users] (
-            [id], [username], [email], [password], [role], [level], [exp], [coins], 
+            [id], [username], [displayName], [email], [password], [role], [exp], [coins], 
             [rankPoints], [wins], [totalGames], 
             [weekStartDate], [isRewardClaimed], [loginDates]
           ) VALUES (
-            @id, @username, @email, @password, @role, @level, @exp, @coins, 
+            @id, @username, @displayName, @email, @password, @role, @exp, @coins, 
             @rankPoints, @wins, @totalGames, 
             @weekStart, @claimed, @loginDates
           )
@@ -453,13 +461,14 @@ async function seed() {
           const reqQ = new sql.Request(transaction);
           reqQ.input('userId', sql.VarChar, currentUserId);
           reqQ.input('questId', sql.VarChar, q.id);
-          reqQ.input('prog', sql.Int, q.currentProgress);
-          reqQ.input('claimed', sql.Bit, q.isClaimed ? 1 : 0);
+          reqQ.input('prog', sql.Int, 0); // Reset progress về 0 khi khởi tạo DB
+          reqQ.input('claimed', sql.Bit, 0); // Reset claimed về false khi khởi tạo DB
 
           await reqQ.query(`
             INSERT INTO [user_quests] ([userId], [questId], [currentProgress], [isClaimed])
             VALUES (@userId, @questId, @prog, @claimed)
           `);
+
         }
       }
 
@@ -473,14 +482,15 @@ async function seed() {
           const reqUa = new sql.Request(transaction);
           reqUa.input('userId', sql.VarChar, currentUserId);
           reqUa.input('achId', sql.VarChar, ach.id);
-          reqUa.input('prog', sql.Int, ach.currentProgress);
-          reqUa.input('isU', sql.Bit, ach.isUnlocked ? 1 : 0);
-          reqUa.input('uDate', sql.NVarChar, ach.unlockDate || '');
+          reqUa.input('prog', sql.Int, 0); // Reset progress về 0 khi khởi tạo DB
+          reqUa.input('isU', sql.Bit, 0); // Reset trạng thái mở khóa về false khi khởi tạo DB
+          reqUa.input('uDate', sql.NVarChar, ''); // Reset ngày mở khóa khi khởi tạo DB
 
           await reqUa.query(`
             INSERT INTO [user_achievements] ([userId], [achievementId], [currentProgress], [isUnlocked], [unlockDate])
             VALUES (@userId, @achId, @prog, @isU, @uDate)
           `);
+
         }
       }
 

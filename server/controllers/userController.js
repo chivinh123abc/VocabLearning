@@ -1,4 +1,5 @@
 const { getPool, sql } = require('../config/db');
+const authController = require('./authController');
 
 // Đồng bộ trạng thái chơi (Save Game)
 exports.syncUserData = async (req, res) => {
@@ -23,7 +24,6 @@ exports.syncUserData = async (req, res) => {
       // 1. Cập nhật thông số cơ bản của User & Weekly Login trực tiếp
       const updateUReq = new sql.Request(transaction);
       updateUReq.input('id', sql.VarChar, user.id);
-      updateUReq.input('level', sql.Int, user.level);
       updateUReq.input('exp', sql.Int, user.exp);
       updateUReq.input('coins', sql.Int, user.coins);
       updateUReq.input('rankPoints', sql.Int, user.rankPoints || 0);
@@ -41,8 +41,7 @@ exports.syncUserData = async (req, res) => {
 
       await updateUReq.query(`
         UPDATE [users]
-        SET [level] = @level,
-            [exp] = @exp,
+        SET [exp] = @exp,
             [coins] = @coins,
             [rankPoints] = @rankPoints,
             [wins] = @wins,
@@ -298,3 +297,61 @@ exports.syncUserData = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi đồng bộ dữ liệu!' });
   }
 };
+
+// Lấy thông tin chi tiết đầy đủ của người chơi từ DB
+exports.getUserProfile = async (req, res) => {
+  try {
+    const pool = await getPool();
+    const fullProfile = await authController.getUserFullProfile(pool, req.user.id);
+    if (!fullProfile) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy thông tin tài khoản!' });
+    }
+    return res.json({
+      success: true,
+      user: fullProfile
+    });
+  } catch (err) {
+    console.error('Lỗi khi lấy thông tin người chơi: ', err);
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi lấy thông tin!' });
+  }
+};
+
+// Cho phép người dùng tự đổi tên hiển thị (username)
+exports.changeUsername = async (req, res) => {
+  const { newUsername } = req.body; // newUsername in payload holds the requested display name
+  const userId = req.user.id;
+
+  if (!newUsername || !newUsername.trim()) {
+    return res.status(400).json({ success: false, message: 'Tên mới không được để trống!' });
+  }
+
+  const cleanDisplayName = newUsername.trim();
+
+  // Validate length/format basic
+  if (cleanDisplayName.length < 3 || cleanDisplayName.length > 20) {
+    return res.status(400).json({ success: false, message: 'Tên phải dài từ 3 đến 20 ký tự!' });
+  }
+
+  try {
+    const pool = await getPool();
+
+    // Cập nhật tên hiển thị mới và lấy username
+    const updateReq = pool.request();
+    updateReq.input('newDisplayName', sql.NVarChar, cleanDisplayName);
+    updateReq.input('userId', sql.VarChar, userId);
+    const result = await updateReq.query(`
+      UPDATE [users] SET [displayName] = @newDisplayName WHERE [id] = @userId;
+      SELECT [username] FROM [users] WHERE [id] = @userId;
+    `);
+
+    const username = result.recordset[0]?.username || '';
+
+    console.log(`👤 Người dùng ID ${userId} đã đổi tên hiển thị thành '${cleanDisplayName}'`);
+    return res.json({ success: true, message: 'Đổi tên hiển thị thành công!', username: username, displayName: cleanDisplayName });
+
+  } catch (err) {
+    console.error('Lỗi khi đổi tên hiển thị: ', err);
+    return res.status(500).json({ success: false, message: 'Lỗi máy chủ khi đổi tên hiển thị!' });
+  }
+};
+

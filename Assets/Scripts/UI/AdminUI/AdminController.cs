@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Linq;
 
 namespace VocabLearning.UI
 {
@@ -10,7 +11,19 @@ namespace VocabLearning.UI
             // Header subtitle: hiển thị tên admin
             var lblSubtitle = _root.Q<Label>(className: "header-subtitle");
             if (lblSubtitle != null && _jsonDb?.currentUser != null)
-                lblSubtitle.text = $"Xin chào, {_jsonDb.currentUser.username}";
+                lblSubtitle.text = $"Xin chào, {(string.IsNullOrEmpty(_jsonDb.currentUser.displayName) ? _jsonDb.currentUser.username : _jsonDb.currentUser.displayName)}";
+
+            // Nút "Về HomeScreen" (⬅) - Admin quay lại màn hình User
+            // Ưu tiên tìm nút tên "BtnGoToHome", nếu không có thì dùng "setting-btn"
+            var goHomeBtn = _root.Q<Button>("BtnGoToHome");
+            if (goHomeBtn != null)
+            {
+                goHomeBtn.clicked += () =>
+                {
+                    Debug.Log("[Admin] Về màn hình Home của User.");
+                    LoadScreen(HomeScreenAsset);
+                };
+            }
 
             // Nút Setting (⚙) = Đăng xuất, tên trong UXML: "setting-btn"
             var settingBtn = _root.Q<Button>("setting-btn");
@@ -80,43 +93,6 @@ namespace VocabLearning.UI
             }
 
 
-            // btn-quest (Nhiệm vụ)
-            var questBtn = _root.Q<Button>("btn-quest");
-            if (questBtn != null)
-            {
-                questBtn.clicked += () =>
-                {
-                    if (QuestAdminScreenAsset != null)
-                    {
-                        Debug.Log("[Admin] Mở màn hình Quản lý Nhiệm vụ");
-                        LoadScreen(QuestAdminScreenAsset);
-                    }
-                    else
-                    {
-                        ShowAdminToast("QuestAdminScreenAsset chưa được gán!");
-                    }
-                };
-            }
-
-            // btn-achievement (Thành tựu)
-            var achBtn = _root.Q<Button>("btn-achievement");
-            if (achBtn != null)
-            {
-                achBtn.clicked += () =>
-                {
-                    if (AchievementAdminScreenAsset != null)
-                    {
-                        Debug.Log("[Admin] Mở màn hình Quản lý Thành tựu");
-                        LoadScreen(AchievementAdminScreenAsset);
-                    }
-                    else
-                    {
-                        ShowAdminToast("AchievementAdminScreenAsset chưa được gán!");
-                    }
-                };
-            }
-
-            // btn-item
             var itemBtn = _root.Q<Button>("btn-item");
             if (itemBtn != null)
             {
@@ -138,14 +114,44 @@ namespace VocabLearning.UI
         {
             if (_jsonDb == null) return;
 
+            // 1. Cập nhật các giá trị từ cache ngoại tuyến trước để UI phản hồi ngay lập tức
+            UpdateAdminStatsUI();
+
+            // 2. Kéo danh sách người dùng mới nhất từ backend SQL Server để lấy số liệu thực tế
+            VocabLearning.Network.NetworkClient.Instance.AdminGetUsers((success, msg, data) =>
+            {
+                if (success && data != null && data.users != null)
+                {
+                    _jsonDb.registeredUsers = data.users;
+                    UpdateAdminStatsUI();
+                }
+                else
+                {
+                    Debug.LogWarning($"[Admin Dashboard] Không thể đồng bộ số lượng User thực tế từ server: {msg}");
+                }
+            });
+        }
+
+        private void UpdateAdminStatsUI()
+        {
+            if (_jsonDb == null) return;
+
+            // Tổng số người dùng thực tế từ DB
             int totalUsers = _jsonDb.registeredUsers?.Count ?? 0;
             SetAdminStatLabel("stat-users", totalUsers.ToString());
 
+            // Tổng số bộ từ vựng
             int totalVocab = _jsonDb.vocabSets?.Count ?? 0;
             SetAdminStatLabel("stat-vocab", totalVocab.ToString());
 
+            // Tổng số từ vựng
             int totalWords = _jsonDb.words?.Count ?? 0;
             SetAdminStatLabel("stat-questions", totalWords.ToString());
+
+            // Hoạt động hôm nay (tính theo số người dùng đã đăng nhập ngày hôm nay)
+            string today = System.DateTime.Now.ToString("yyyy-MM-dd");
+            int activeToday = _jsonDb.registeredUsers?.Count(u => u.weeklyLogin != null && u.weeklyLogin.loginDates != null && u.weeklyLogin.loginDates.Contains(today)) ?? 0;
+            SetAdminStatLabel("stat-active", activeToday.ToString());
         }
 
         private void SetAdminStatLabel(string labelName, string value)
@@ -161,14 +167,11 @@ namespace VocabLearning.UI
         {
             const string toastName = "admin-toast";
 
-            // Tìm container "admin-root" — VisualElement ngoài cùng trong adminScreen.uxml
-            var container = _root.Q<VisualElement>(className: "admin-root");
-            if (container == null)
-            {
-                // Fallback: lấy con đầu tiên của _root (chính là admin-root)
-                container = _root.childCount > 0 ? _root[0] : _root;
-                Debug.LogWarning("[AdminToast] Không tìm thấy .admin-root, dùng fallback: " + container?.name);
-            }
+            // Tìm container phù hợp — ưu tiên ".admin-root" (adminScreen.uxml),
+            // rồi đến ".root" (UserAdminScreen, VocabAdmin... các sub-screen khác)
+            var container = _root.Q<VisualElement>(className: "admin-root")
+                         ?? _root.Q<VisualElement>(className: "root")
+                         ?? (_root.childCount > 0 ? _root[0] : _root);
 
             var toast = container.Q<Label>(toastName);
             if (toast == null)

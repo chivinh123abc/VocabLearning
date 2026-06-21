@@ -95,7 +95,13 @@ namespace VocabLearning.UI
             {
                 btnLogout.clicked += () => {
                     _settingsOverlay.style.display = DisplayStyle.None;
-                    if (_jsonDb != null) _jsonDb.currentUser = null; 
+                    if (_jsonDb != null)
+                    {
+                        _jsonDb.currentUser = null;
+                        _jsonDb.jwtToken = null;
+                    }
+                    VocabLearning.Network.NetworkClient.Instance.JwtToken = null;
+                    SaveJsonDatabase();
                     LoadScreen(AuthScreenAsset); 
                 };
             }

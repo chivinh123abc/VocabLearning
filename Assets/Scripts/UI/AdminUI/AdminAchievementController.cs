@@ -147,7 +147,15 @@ namespace VocabLearning.UI
                 var btnDelete = new Button();
                 btnDelete.text = "🗑";
                 btnDelete.AddToClassList("btn-delete");
-                btnDelete.clicked += () => DeleteAchievement(ach);
+                btnDelete.clicked += () =>
+                {
+                    ShowConfirmationDialog(
+                        "Xóa Thành Tựu?",
+                        $"Bạn có chắc chắn muốn xóa thành tựu '{ach.title}' không?",
+                        () => DeleteAchievement(ach),
+                        null
+                    );
+                };
 
                 card.Add(thumb);
                 card.Add(info);
