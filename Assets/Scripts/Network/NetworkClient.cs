@@ -110,27 +110,32 @@ namespace VocabLearning.Network
         // API Đăng nhập
         public void Login(string username, string password, NetworkCallback<VocabLearning.Data.UserJson> callback)
         {
-            StartCoroutine(PostRequestCoroutine<VocabLearning.Data.UserJson>("/auth/login", $"{{\"username\":\"{username}\",\"password\":\"{password}\"}}", callback));
+            LoginPayload payload = new LoginPayload { username = username, password = password };
+            string jsonPayload = JsonUtility.ToJson(payload);
+            StartCoroutine(PostRequestCoroutine<VocabLearning.Data.UserJson>("/auth/login", jsonPayload, callback));
         }
 
         // API Đăng ký
         public void Register(string username, string email, string password, NetworkCallback<VocabLearning.Data.UserJson> callback)
         {
-            string jsonPayload = $"{{\"username\":\"{username}\",\"email\":\"{email}\",\"password\":\"{password}\"}}";
+            RegisterPayload payload = new RegisterPayload { username = username, email = email, password = password };
+            string jsonPayload = JsonUtility.ToJson(payload);
             StartCoroutine(PostRequestCoroutine<VocabLearning.Data.UserJson>("/auth/register", jsonPayload, callback));
         }
 
         // API Gửi mã OTP khôi phục mật khẩu
         public void SendOTP(string email, NetworkCallback<ForgotPasswordResponse> callback)
         {
-            string jsonPayload = $"{{\"email\":\"{email}\"}}";
+            SendOTPPayload payload = new SendOTPPayload { email = email };
+            string jsonPayload = JsonUtility.ToJson(payload);
             StartCoroutine(PostRequestCoroutine<ForgotPasswordResponse>("/auth/forgot-password", jsonPayload, callback));
         }
 
         // API Xác thực OTP và đặt mật khẩu mới
         public void ResetPassword(string email, string otp, string newPassword, NetworkCallback<ForgotPasswordResponse> callback)
         {
-            string jsonPayload = $"{{\"email\":\"{email}\",\"otp\":\"{otp}\",\"newPassword\":\"{newPassword}\"}}";
+            ResetPasswordPayload payload = new ResetPasswordPayload { email = email, otp = otp, newPassword = newPassword };
+            string jsonPayload = JsonUtility.ToJson(payload);
             StartCoroutine(PostRequestCoroutine<ForgotPasswordResponse>("/auth/reset-password", jsonPayload, callback));
         }
 
@@ -144,7 +149,8 @@ namespace VocabLearning.Network
         // API Đổi tên hiển thị (Change Username)
         public void ChangeUsername(string newUsername, NetworkCallback<ChangeUsernameResponse> callback)
         {
-            string jsonPayload = $"{{\"newUsername\":\"{newUsername}\"}}";
+            ChangeUsernamePayload payload = new ChangeUsernamePayload { newUsername = newUsername };
+            string jsonPayload = JsonUtility.ToJson(payload);
             StartCoroutine(PostRequestCoroutine<ChangeUsernameResponse>("/user/change-username", jsonPayload, callback));
         }
 
@@ -532,6 +538,41 @@ namespace VocabLearning.Network
     public class LeaveRoomPayload
     {
         public string userId;
+    }
+
+    [System.Serializable]
+    public class LoginPayload
+    {
+        public string username;
+        public string password;
+    }
+
+    [System.Serializable]
+    public class RegisterPayload
+    {
+        public string username;
+        public string email;
+        public string password;
+    }
+
+    [System.Serializable]
+    public class SendOTPPayload
+    {
+        public string email;
+    }
+
+    [System.Serializable]
+    public class ResetPasswordPayload
+    {
+        public string email;
+        public string otp;
+        public string newPassword;
+    }
+
+    [System.Serializable]
+    public class ChangeUsernamePayload
+    {
+        public string newUsername;
     }
 }
 

@@ -44,12 +44,10 @@ async function seed() {
         DELETE FROM [user_word_progress];
         DELETE FROM [user_set_completed_levels];
         DELETE FROM [user_set_progress];
-        DELETE FROM [user_saved_set_levels];
         DELETE FROM [vocab_set_level_words];
-        DELETE FROM [vocab_set_levels];
-        DELETE FROM [vocab_set_words];
         DELETE FROM [vocab_sets];
         DELETE FROM [words];
+        DELETE FROM [user_login_dates];
         DELETE FROM [user_solo_records];
         DELETE FROM [users];
       `);
@@ -86,30 +84,9 @@ async function seed() {
           VALUES (@id, @title, @description, @category, @difficulty, @rankRequired)
         `);
 
-        // N-N: vocab_set_words
-        if (set.wordIds && set.wordIds.length > 0) {
-          for (const wordId of set.wordIds) {
-            const reqLink = new sql.Request(transaction);
-            reqLink.input('setId', sql.VarChar, set.id);
-            reqLink.input('wordId', sql.VarChar, wordId);
-            await reqLink.query(`
-              INSERT INTO [vocab_set_words] ([setId], [wordId])
-              VALUES (@setId, @wordId)
-            `);
-          }
-        }
-
-        // Levels & Level Words
+        // Gộp: Chỉ INSERT vào vocab_set_level_words (không cần vocab_set_words và vocab_set_levels riêng)
         if (set.levels && set.levels.length > 0) {
           for (const lvl of set.levels) {
-            const reqLvl = new sql.Request(transaction);
-            reqLvl.input('setId', sql.VarChar, set.id);
-            reqLvl.input('diff', sql.NVarChar, lvl.difficulty);
-            await reqLvl.query(`
-              INSERT INTO [vocab_set_levels] ([setId], [difficulty])
-              VALUES (@setId, @diff)
-            `);
-
             if (lvl.wordIds && lvl.wordIds.length > 0) {
               for (const wordId of lvl.wordIds) {
                 const reqLvlWord = new sql.Request(transaction);
@@ -122,6 +99,19 @@ async function seed() {
                 `);
               }
             }
+          }
+        } else if (set.wordIds && set.wordIds.length > 0) {
+          // Set không có levels riêng → gán tất cả vào 1 level mặc định = set.difficulty
+          const defaultDiff = set.difficulty || 'Easy';
+          for (const wordId of set.wordIds) {
+            const reqLvlWord = new sql.Request(transaction);
+            reqLvlWord.input('setId', sql.VarChar, set.id);
+            reqLvlWord.input('diff', sql.NVarChar, defaultDiff);
+            reqLvlWord.input('wordId', sql.VarChar, wordId);
+            await reqLvlWord.query(`
+              INSERT INTO [vocab_set_level_words] ([setId], [difficulty], [wordId])
+              VALUES (@setId, @diff, @wordId)
+            `);
           }
         }
       }
@@ -244,26 +234,33 @@ async function seed() {
         reqU.input('wins', sql.Int, u.wins || 0);
         reqU.input('totalGames', sql.Int, u.totalGames || 0);
 
-        // Nạp trực tiếp Weekly Login
         const weekStartDate = u.weeklyLogin?.weekStartDate || '';
         const isRewardClaimed = u.weeklyLogin?.isRewardClaimed ? 1 : 0;
-        const loginDatesStr = (u.weeklyLogin?.loginDates || []).join(',');
-
         reqU.input('weekStart', sql.VarChar, weekStartDate);
         reqU.input('claimed', sql.Bit, isRewardClaimed);
-        reqU.input('loginDates', sql.NVarChar, loginDatesStr);
 
         await reqU.query(`
           INSERT INTO [users] (
             [id], [username], [displayName], [email], [password], [role], [exp], [coins], 
             [rankPoints], [wins], [totalGames], 
-            [weekStartDate], [isRewardClaimed], [loginDates]
+            [weekStartDate], [isRewardClaimed]
           ) VALUES (
             @id, @username, @displayName, @email, @password, @role, @exp, @coins, 
             @rankPoints, @wins, @totalGames, 
-            @weekStart, @claimed, @loginDates
+            @weekStart, @claimed
           )
         `);
+
+        // Nạp loginDates vào bảng user_login_dates (chuẩn hóa 1NF)
+        const loginDates = u.weeklyLogin?.loginDates || [];
+        for (const dateStr of loginDates) {
+          const reqLogin = new sql.Request(transaction);
+          reqLogin.input('userId', sql.VarChar, u.id);
+          reqLogin.input('loginDate', sql.VarChar, dateStr);
+          await reqLogin.query(`
+            INSERT INTO [user_login_dates] ([userId], [loginDate]) VALUES (@userId, @loginDate)
+          `);
+        }
 
         // Nạp điểm kỷ lục vào bảng user_solo_records [NEW]
         const reqUsrRecord = new sql.Request(transaction);
@@ -300,13 +297,16 @@ async function seed() {
               console.warn(`⚠️ Bỏ qua savedSetLevel cho Set '${s.setId}' của user '${u.username}' do Set không tồn tại.`);
               continue;
             }
+            // Gộp vào user_set_progress: nếu đã có row thì UPDATE, nếu chưa thì INSERT
             const reqSsl = new sql.Request(transaction);
             reqSsl.input('userId', sql.VarChar, u.id);
             reqSsl.input('setId', sql.VarChar, s.setId);
             reqSsl.input('level', sql.NVarChar, s.level);
             await reqSsl.query(`
-              INSERT INTO [user_saved_set_levels] ([userId], [setId], [level])
-              VALUES (@userId, @setId, @level)
+              IF EXISTS (SELECT 1 FROM [user_set_progress] WHERE [userId] = @userId AND [setId] = @setId)
+                UPDATE [user_set_progress] SET [currentLevel] = @level WHERE [userId] = @userId AND [setId] = @setId
+              ELSE
+                INSERT INTO [user_set_progress] ([userId], [setId], [status], [currentLevel]) VALUES (@userId, @setId, 'learning', @level)
             `);
           }
         }
@@ -424,27 +424,21 @@ async function seed() {
       const currentUserId = dbData.currentUser.id; // "test_user_1"
       console.log(`🎒 Nạp Kho đồ, Nhiệm vụ và Tiến trình thành tựu của Tài khoản mẫu (${currentUserId})...`);
 
-      // Inventory
+      // Inventory (chuẩn hóa 2NF: chỉ lưu userId, itemId + trạng thái)
       if (dbData.inventory && dbData.inventory.length > 0) {
         for (const item of dbData.inventory) {
           const reqInv = new sql.Request(transaction);
           reqInv.input('userId', sql.VarChar, currentUserId);
           reqInv.input('itemId', sql.VarChar, item.id);
-          reqInv.input('icon', sql.NVarChar, item.icon || '');
-          reqInv.input('name', sql.NVarChar, item.name);
-          reqInv.input('desc', sql.NVarChar, item.description || '');
           reqInv.input('qty', sql.Int, item.quantity || 1);
-          reqInv.input('rarity', sql.NVarChar, item.rarity || 'Common');
-          reqInv.input('cat', sql.NVarChar, item.category || 'Cosmetic');
-          reqInv.input('eq', sql.NVarChar, item.equipType || '');
           reqInv.input('isEq', sql.Bit, item.isEquipped ? 1 : 0);
           reqInv.input('isCbt', sql.Bit, item.isCombatItem ? 1 : 0);
 
           await reqInv.query(`
             INSERT INTO [user_inventory] (
-              [userId], [itemId], [icon], [name], [description], [quantity], [rarity], [category], [equipType], [isEquipped], [isCombatItem]
+              [userId], [itemId], [quantity], [isEquipped], [isCombatItem]
             ) VALUES (
-              @userId, @itemId, @icon, @name, @desc, @qty, @rarity, @cat, @eq, @isEq, @isCbt
+              @userId, @itemId, @qty, @isEq, @isCbt
             )
           `);
         }

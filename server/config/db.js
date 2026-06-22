@@ -110,7 +110,7 @@ async function initDatabase(forceRecreate = false) {
     await transaction.begin();
     console.log('🏗️ Đang tạo cấu trúc bảng (nếu chưa có)...');
 
-    // 1. Bảng users
+    // 1. Bảng users (Đã tách loginDates ra bảng riêng user_login_dates)
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'users')
       BEGIN
@@ -128,19 +128,17 @@ async function initDatabase(forceRecreate = false) {
           [wins] INT NOT NULL DEFAULT 0,
           [totalGames] INT NOT NULL DEFAULT 0,
           [weekStartDate] VARCHAR(20) NULL,
-          [isRewardClaimed] BIT NOT NULL DEFAULT 0,
-          [loginDates] NVARCHAR(MAX) NOT NULL DEFAULT ''
+          [isRewardClaimed] BIT NOT NULL DEFAULT 0
         );
         CREATE INDEX idx_users_username ON [users]([username]);
+        CREATE INDEX idx_users_email ON [users]([email]);
       END
       ELSE
       BEGIN
-        -- Tự động nâng cấp thêm cột [status] nếu bảng đã tồn tại từ trước (tránh lỗi xung đột CSDL cũ)
         IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('users') AND name = 'status')
         BEGIN
           ALTER TABLE [users] ADD [status] VARCHAR(20) NOT NULL DEFAULT 'active';
         END
-        -- Tự động nâng cấp thêm cột [displayName] nếu chưa có
         IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('users') AND name = 'displayName')
         BEGIN
           ALTER TABLE [users] ADD [displayName] NVARCHAR(50) NULL;
@@ -148,7 +146,7 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 2. Bảng user_solo_records [NEW]
+    // 2. Bảng user_solo_records (Kỷ lục Solo Quiz, quan hệ 1:1 extension với users)
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_solo_records')
       BEGIN
@@ -161,20 +159,24 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // Tự động dọn dẹp bảng user_weekly_login, user_login_dates và user_learned_sets cũ nếu còn tồn tại
+    // 3. Bảng user_login_dates (Tách từ cột loginDates cũ, chuẩn hóa 1NF)
+    await transaction.request().query(`
+      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_login_dates')
+      BEGIN
+        CREATE TABLE [user_login_dates] (
+          [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
+          [loginDate] VARCHAR(10) NOT NULL,
+          PRIMARY KEY ([userId], [loginDate])
+        );
+      END
+    `);
+
+    // Tự động dọn dẹp bảng cũ nếu còn tồn tại
     await transaction.request().query(`
       IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_weekly_login')
-      BEGIN
         DROP TABLE [user_weekly_login];
-      END
-      IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_login_dates')
-      BEGIN
-        DROP TABLE [user_login_dates];
-      END
       IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_learned_sets')
-      BEGIN
         DROP TABLE [user_learned_sets];
-      END
     `);
 
     // 4. Bảng words (Từ vựng trung tâm)
@@ -207,31 +209,10 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 6. Bảng vocab_set_words (N-N giữa vocab_sets và words)
-    await transaction.request().query(`
-      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'vocab_set_words')
-      BEGIN
-        CREATE TABLE [vocab_set_words] (
-          [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
-          [wordId] VARCHAR(20) FOREIGN KEY REFERENCES [words]([id]) ON DELETE CASCADE,
-          PRIMARY KEY ([setId], [wordId])
-        );
-      END
-    `);
-
-    // 7. Bảng vocab_set_levels (Lưu trữ thông tin chia level của Set)
-    await transaction.request().query(`
-      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'vocab_set_levels')
-      BEGIN
-        CREATE TABLE [vocab_set_levels] (
-          [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
-          [difficulty] NVARCHAR(20) NOT NULL,
-          PRIMARY KEY ([setId], [difficulty])
-        );
-      END
-    `);
-
-    // 8. Bảng vocab_set_level_words (Quan hệ N-N liên kết level của set với words)
+    // 6. Bảng vocab_set_level_words (Gộp từ 3 bảng cũ: vocab_set_words + vocab_set_levels + vocab_set_level_words)
+    // - Lấy tất cả wordIds của set:  SELECT DISTINCT [wordId] FROM vocab_set_level_words WHERE setId = ?
+    // - Lấy danh sách levels:        SELECT DISTINCT [difficulty] FROM vocab_set_level_words WHERE setId = ?
+    // - Lấy từ theo level:           SELECT [wordId] FROM vocab_set_level_words WHERE setId = ? AND difficulty = ?
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'vocab_set_level_words')
       BEGIN
@@ -244,22 +225,18 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 9. Bảng user_learned_sets đã được gộp vào user_set_progress (Bỏ qua tạo bảng này)
-
-    // 10. Bảng user_saved_set_levels
+    // Dọn bảng cũ đã gộp (vocab_set_words, vocab_set_levels)
     await transaction.request().query(`
-      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_saved_set_levels')
-      BEGIN
-        CREATE TABLE [user_saved_set_levels] (
-          [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
-          [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
-          [level] NVARCHAR(20) NOT NULL,
-          PRIMARY KEY ([userId], [setId])
-        );
-      END
+      IF EXISTS (SELECT * FROM sys.tables WHERE name = 'vocab_set_words')
+        DROP TABLE [vocab_set_words];
+      IF EXISTS (SELECT * FROM sys.tables WHERE name = 'vocab_set_levels')
+        DROP TABLE [vocab_set_levels];
     `);
 
-    // 11. Bảng user_set_progress (Lưu tiến độ học bộ từ vựng, gộp cả user_learned_sets qua cột status)
+    // 9. Bảng user_learned_sets đã được gộp vào user_set_progress (Bỏ qua tạo bảng này)
+    // 10. Bảng user_saved_set_levels đã được gộp vào user_set_progress (cột currentLevel)
+
+    // 11. Bảng user_set_progress (Lưu tiến độ học bộ từ vựng, gộp cả saved_set_levels qua cột currentLevel)
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_set_progress')
       BEGIN
@@ -267,6 +244,7 @@ async function initDatabase(forceRecreate = false) {
           [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
           [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
           [status] VARCHAR(20) NOT NULL DEFAULT 'learning',
+          [currentLevel] NVARCHAR(20) NULL,
           PRIMARY KEY ([userId], [setId])
         );
       END
@@ -275,6 +253,10 @@ async function initDatabase(forceRecreate = false) {
         IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('user_set_progress') AND name = 'status')
         BEGIN
           ALTER TABLE [user_set_progress] ADD [status] VARCHAR(20) NOT NULL DEFAULT 'learning';
+        END
+        IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('user_set_progress') AND name = 'currentLevel')
+        BEGIN
+          ALTER TABLE [user_set_progress] ADD [currentLevel] NVARCHAR(20) NULL;
         END
       END
     `);
@@ -352,20 +334,14 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 17. Bảng user_inventory (Kho đồ của User)
+    // 17. Bảng user_inventory (Chuẩn hóa 2NF: chỉ lưu userId, itemId + trạng thái. Metadata lấy từ shop_items qua JOIN)
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_inventory')
       BEGIN
         CREATE TABLE [user_inventory] (
           [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
-          [itemId] VARCHAR(50) NOT NULL,
-          [icon] NVARCHAR(20) NULL,
-          [name] NVARCHAR(100) NOT NULL,
-          [description] NVARCHAR(255) NULL,
+          [itemId] VARCHAR(50) FOREIGN KEY REFERENCES [shop_items]([id]) ON DELETE CASCADE,
           [quantity] INT NOT NULL DEFAULT 1,
-          [rarity] NVARCHAR(20) NULL,
-          [category] NVARCHAR(20) NULL,
-          [equipType] NVARCHAR(20) NULL,
           [isEquipped] BIT NOT NULL DEFAULT 0,
           [isCombatItem] BIT NOT NULL DEFAULT 0,
           PRIMARY KEY ([userId], [itemId])

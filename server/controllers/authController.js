@@ -37,9 +37,9 @@ async function getUserFullProfile(pool, userId) {
   const soloResult = await req.query('SELECT * FROM [user_solo_records] WHERE [userId] = @userId');
   const solo = soloResult.recordset[0] || { bestSurvivor: 0, bestQuick10: 0, bestTimeRush: 0 };
 
-  // 2. Tách chuỗi loginDates từ DB thành mảng JSON
-  const loginDatesStr = user.loginDates || '';
-  const loginDates = loginDatesStr ? loginDatesStr.split(',') : [];
+  // 2. Lấy loginDates từ bảng user_login_dates (chuẩn hóa 1NF)
+  const loginDatesResult = await req.query('SELECT [loginDate] FROM [user_login_dates] WHERE [userId] = @userId');
+  const loginDates = loginDatesResult.recordset.map(r => r.loginDate);
   const weeklyLogin = {
     weekStartDate: user.weekStartDate || "",
     isRewardClaimed: !!user.isRewardClaimed,
@@ -47,16 +47,17 @@ async function getUserFullProfile(pool, userId) {
   };
 
   // 3 & 5. Set Progress & Learned Sets (Lấy từ bảng user_set_progress gộp chung)
-  const progressResult = await req.query('SELECT [setId], [status] FROM [user_set_progress] WHERE [userId] = @userId');
+  const progressResult = await req.query('SELECT [setId], [status], [currentLevel] FROM [user_set_progress] WHERE [userId] = @userId');
   
   // Tách thành learnedSets (những bộ đã học xong)
   const learnedSets = progressResult.recordset
     .filter(r => r.status === 'completed')
     .map(r => r.setId);
 
-  // 4. Saved Set Levels
-  const savedLvlResult = await req.query('SELECT [setId], [level] FROM [user_saved_set_levels] WHERE [userId] = @userId');
-  const savedSetLevels = savedLvlResult.recordset.map(r => ({ setId: r.setId, level: r.level }));
+  // 4. Saved Set Levels (giờ lấy từ cột currentLevel trong user_set_progress)
+  const savedSetLevels = progressResult.recordset
+    .filter(r => r.currentLevel)
+    .map(r => ({ setId: r.setId, level: r.currentLevel }));
 
   // Tách thành setProgress (những bộ đang học dở)
   const setProgress = [];
@@ -108,8 +109,14 @@ async function getUserFullProfile(pool, userId) {
     });
   }
 
-  // 9. Inventory
-  const inventoryResult = await req.query('SELECT [itemId] as id, [icon], [name], [description], [quantity], [rarity], [category], [equipType], [isEquipped], [isCombatItem] FROM [user_inventory] WHERE [userId] = @userId');
+  // 9. Inventory (JOIN với shop_items để lấy metadata — chuẩn hóa 2NF)
+  const inventoryResult = await req.query(`
+    SELECT ui.[itemId] as id, si.[icon], si.[name], si.[description], ui.[quantity], 
+           si.[rarity], si.[category], si.[equipType], ui.[isEquipped], ui.[isCombatItem]
+    FROM [user_inventory] ui
+    INNER JOIN [shop_items] si ON ui.[itemId] = si.[id]
+    WHERE ui.[userId] = @userId
+  `);
   const inventory = inventoryResult.recordset;
 
   // 10. Quests
@@ -262,11 +269,11 @@ exports.register = async (req, res) => {
         INSERT INTO [users] (
           [id], [username], [displayName], [email], [password], [role], [exp], [coins], 
           [rankPoints], [wins], [totalGames],
-          [weekStartDate], [isRewardClaimed], [loginDates]
+          [weekStartDate], [isRewardClaimed]
         ) VALUES (
           @id, @username, @username, @email, @password, 'user', 0, 500, 
           0, 0, 0,
-          @today, 0, ''
+          @today, 0
         )
       `);
 

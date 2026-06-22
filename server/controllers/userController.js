@@ -30,14 +30,12 @@ exports.syncUserData = async (req, res) => {
       updateUReq.input('wins', sql.Int, user.wins || 0);
       updateUReq.input('totalGames', sql.Int, user.totalGames || 0);
 
-      // Cột của Weekly Login gộp trực tiếp
+      // Cột của Weekly Login
       const weekStartDate = user.weeklyLogin?.weekStartDate || '';
       const isRewardClaimed = user.weeklyLogin?.isRewardClaimed ? 1 : 0;
-      const loginDatesStr = (user.weeklyLogin?.loginDates || []).join(',');
 
       updateUReq.input('weekStart', sql.VarChar, weekStartDate);
       updateUReq.input('claimed', sql.Bit, isRewardClaimed);
-      updateUReq.input('loginDates', sql.NVarChar, loginDatesStr);
 
       await updateUReq.query(`
         UPDATE [users]
@@ -47,10 +45,21 @@ exports.syncUserData = async (req, res) => {
             [wins] = @wins,
             [totalGames] = @totalGames,
             [weekStartDate] = @weekStart,
-            [isRewardClaimed] = @claimed,
-            [loginDates] = @loginDates
+            [isRewardClaimed] = @claimed
         WHERE [id] = @id
       `);
+
+      // 1a. Đồng bộ loginDates vào bảng user_login_dates (chuẩn hóa 1NF)
+      const delLogin = new sql.Request(transaction);
+      delLogin.input('userId', sql.VarChar, user.id);
+      await delLogin.query('DELETE FROM [user_login_dates] WHERE [userId] = @userId');
+      const loginDates = user.weeklyLogin?.loginDates || [];
+      for (const dateStr of loginDates) {
+        const addLogin = new sql.Request(transaction);
+        addLogin.input('userId', sql.VarChar, user.id);
+        addLogin.input('loginDate', sql.VarChar, dateStr);
+        await addLogin.query('INSERT INTO [user_login_dates] ([userId], [loginDate]) VALUES (@userId, @loginDate)');
+      }
 
       // 1b. Cập nhật điểm kỷ lục vào bảng user_solo_records [NEW] (Sử dụng UPSERT)
       const updateSoloReq = new sql.Request(transaction);
@@ -96,18 +105,19 @@ exports.syncUserData = async (req, res) => {
         }
       }
 
-      // 4. Đồng bộ Saved Set Levels
+      // 4. Đồng bộ Saved Set Levels (gộp vào user_set_progress.currentLevel)
       if (user.savedSetLevels) {
-        const delSsl = new sql.Request(transaction);
-        delSsl.input('userId', sql.VarChar, user.id);
-        await delSsl.query('DELETE FROM [user_saved_set_levels] WHERE [userId] = @userId');
-
         for (const s of user.savedSetLevels) {
           const addSsl = new sql.Request(transaction);
           addSsl.input('userId', sql.VarChar, user.id);
           addSsl.input('setId', sql.VarChar, s.setId);
           addSsl.input('lvl', sql.NVarChar, s.level);
-          await addSsl.query('INSERT INTO [user_saved_set_levels] ([userId], [setId], [level]) VALUES (@userId, @setId, @lvl)');
+          await addSsl.query(`
+            IF EXISTS (SELECT 1 FROM [user_set_progress] WHERE [userId] = @userId AND [setId] = @setId)
+              UPDATE [user_set_progress] SET [currentLevel] = @lvl WHERE [userId] = @userId AND [setId] = @setId
+            ELSE
+              INSERT INTO [user_set_progress] ([userId], [setId], [status], [currentLevel]) VALUES (@userId, @setId, 'learning', @lvl)
+          `);
         }
       }
 
@@ -217,7 +227,7 @@ exports.syncUserData = async (req, res) => {
         }
       }
 
-      // 9. Đồng bộ Inventory
+      // 9. Đồng bộ Inventory (chuẩn hóa 2NF: chỉ lưu userId, itemId + trạng thái)
       if (user.inventory) {
         const delInv = new sql.Request(transaction);
         delInv.input('userId', sql.VarChar, user.id);
@@ -227,21 +237,15 @@ exports.syncUserData = async (req, res) => {
           const addInv = new sql.Request(transaction);
           addInv.input('userId', sql.VarChar, user.id);
           addInv.input('itemId', sql.VarChar, item.id);
-          addInv.input('icon', sql.NVarChar, item.icon || '');
-          addInv.input('name', sql.NVarChar, item.name);
-          addInv.input('desc', sql.NVarChar, item.description || '');
           addInv.input('qty', sql.Int, item.quantity || 1);
-          addInv.input('rarity', sql.NVarChar, item.rarity || 'Common');
-          addInv.input('cat', sql.NVarChar, item.category || 'Cosmetic');
-          addInv.input('eq', sql.NVarChar, item.equipType || '');
           addInv.input('isEq', sql.Bit, item.isEquipped ? 1 : 0);
           addInv.input('isCbt', sql.Bit, item.isCombatItem ? 1 : 0);
 
           await addInv.query(`
             INSERT INTO [user_inventory] (
-              [userId], [itemId], [icon], [name], [description], [quantity], [rarity], [category], [equipType], [isEquipped], [isCombatItem]
+              [userId], [itemId], [quantity], [isEquipped], [isCombatItem]
             ) VALUES (
-              @userId, @itemId, @icon, @name, @desc, @qty, @rarity, @cat, @eq, @isEq, @isCbt
+              @userId, @itemId, @qty, @isEq, @isCbt
             )
           `);
         }

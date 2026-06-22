@@ -664,6 +664,7 @@ namespace VocabLearning.UI
                 _lastSessionExp += 50;
             }
 
+            // Kiểm tra hoàn thành TẤT CẢ level → đánh dấu learned
             bool allDone = true;
             if (_currentVocabSet.levels != null && _currentVocabSet.levels.Count > 0)
             {
@@ -672,7 +673,9 @@ namespace VocabLearning.UI
                     if (!progress.completedLevels.Contains(lv.difficulty)) { allDone = false; break; }
                 }
             }
-            if (allDone)
+
+            // Tăng quest "CompleteSet" khi hoàn thành practice cho set (lướt hết thẻ)
+            // Không yêu cầu phải mastered tất cả từ
             {
                 if (user.learnedSets == null) user.learnedSets = new List<string>();
                 if (!user.learnedSets.Contains(_currentVocabSet.id))
@@ -680,12 +683,6 @@ namespace VocabLearning.UI
                     user.learnedSets.Add(_currentVocabSet.id);
                     AddQuestProgressByType("CompleteSet", 1);
                 }
-            }
-            // Chỉ cần học được ít nhất 1 từ thì cũng đưa vào Learned Sets
-            else if (_sessionNewlyMasteredWords.Count > 0)
-            {
-                if (user.learnedSets == null) user.learnedSets = new List<string>();
-                if (!user.learnedSets.Contains(_currentVocabSet.id)) user.learnedSets.Add(_currentVocabSet.id);
             }
 
             if (_lastSessionCoins > 0)

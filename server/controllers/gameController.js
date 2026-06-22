@@ -18,12 +18,12 @@ exports.getGlobals = async (req, res) => {
       const linkReq = pool.request();
       linkReq.input('setId', sql.VarChar, set.id);
       
-      // Lấy danh sách wordIds
-      const wordsLinkResult = await linkReq.query('SELECT [wordId] FROM [vocab_set_words] WHERE [setId] = @setId');
+      // Lấy danh sách wordIds (từ bảng gộp vocab_set_level_words)
+      const wordsLinkResult = await linkReq.query('SELECT DISTINCT [wordId] FROM [vocab_set_level_words] WHERE [setId] = @setId');
       const wordIds = wordsLinkResult.recordset.map(r => r.wordId);
 
-      // Lấy thông tin Levels
-      const levelsResult = await linkReq.query('SELECT [difficulty] FROM [vocab_set_levels] WHERE [setId] = @setId');
+      // Lấy thông tin Levels (DISTINCT từ bảng gộp)
+      const levelsResult = await linkReq.query('SELECT DISTINCT [difficulty] FROM [vocab_set_level_words] WHERE [setId] = @setId');
       const levels = [];
       for (const lvl of levelsResult.recordset) {
         const lvlReq = pool.request();
@@ -68,9 +68,10 @@ exports.getGlobals = async (req, res) => {
         ISNULL(sr.[bestSurvivor], 0) AS [bestSurvivor],
         ISNULL(sr.[bestQuick10], 0) AS [bestQuick10],
         ISNULL(sr.[bestTimeRush], 0) AS [bestTimeRush],
-        (SELECT TOP 1 ui.[icon] 
+        (SELECT TOP 1 si.[icon] 
          FROM [user_inventory] ui 
-         WHERE ui.[userId] = u.[id] AND ui.[equipType] = 'Avatar' AND ui.[isEquipped] = 1) AS [equippedAvatarIcon]
+         INNER JOIN [shop_items] si ON ui.[itemId] = si.[id]
+         WHERE ui.[userId] = u.[id] AND si.[equipType] = 'Avatar' AND ui.[isEquipped] = 1) AS [equippedAvatarIcon]
       FROM [users] u
       LEFT JOIN [user_solo_records] sr ON u.[id] = sr.[userId]
       ORDER BY u.[rankPoints] DESC, u.[exp] DESC
@@ -119,13 +120,31 @@ exports.getGlobals = async (req, res) => {
 
 // Quản lý matchmaking và phòng đấu LAN
 let matchmakingQueue = []; // [{ userId, username, rankPoints, avatar, matchedRoomId, polledAt }]
-let activeRooms = {}; // { roomId: { roomId, players: [{ userId, username, rankPoints, hp, answered, isCorrect, answerTime, answerText, avatar }], wordPool, currentRoundIndex, status, winnerId } }
+let activeRooms = {}; // { roomId: { roomId, players, wordPool, currentRoundIndex, status, winnerId, finishedAt } }
 
 // Dọn dẹp hàng chờ hết hạn (quá 5 giây không poll)
 const cleanMatchmakingQueue = () => {
   const now = Date.now();
   matchmakingQueue = matchmakingQueue.filter(p => (now - p.polledAt < 5000) || p.matchedRoomId);
 };
+
+// [PERF-02] Dọn dẹp phòng đấu đã kết thúc quá 2 phút để tránh rò rỉ bộ nhớ
+const ROOM_TTL_MS = 2 * 60 * 1000; // 2 phút
+const cleanFinishedRooms = () => {
+  const now = Date.now();
+  let cleaned = 0;
+  for (const roomId of Object.keys(activeRooms)) {
+    const room = activeRooms[roomId];
+    if (room.status === 'finished' && room.finishedAt && (now - room.finishedAt > ROOM_TTL_MS)) {
+      delete activeRooms[roomId];
+      cleaned++;
+    }
+  }
+  if (cleaned > 0) {
+    console.log(`🧹 [LAN Battle] Đã dọn dẹp ${cleaned} phòng đấu đã kết thúc. Còn lại: ${Object.keys(activeRooms).length} phòng.`);
+  }
+};
+setInterval(cleanFinishedRooms, 30 * 1000); // Kiểm tra mỗi 30 giây
 
 // Đăng ký ghép trận
 exports.matchmake = async (req, res) => {
@@ -356,6 +375,7 @@ exports.submitAnswer = async (req, res) => {
       // Kiểm tra kết thúc trận đấu (Kết thúc khi có ít nhất 1 người chơi HP <= 0, hoặc hết sạch bộ câu hỏi dự phòng)
       if (p1.hp <= 0 || p2.hp <= 0 || room.currentRoundIndex >= room.wordPool.length - 1) {
         room.status = 'finished';
+        room.finishedAt = Date.now();
         if (p1.hp > p2.hp) {
           room.winnerId = p1.userId;
         } else if (p2.hp > p1.hp) {
@@ -415,6 +435,7 @@ exports.leaveRoom = async (req, res) => {
 
     if (room.status !== 'finished') {
       room.status = 'finished';
+      room.finishedAt = Date.now();
       const fleeingPlayer = room.players.find(p => p.userId === userId);
       const otherPlayer = room.players.find(p => p.userId !== userId);
 

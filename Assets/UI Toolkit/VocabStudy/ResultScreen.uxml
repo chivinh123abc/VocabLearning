@@ -13,7 +13,7 @@
         <ui:ScrollView style="flex-grow: 1;" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden">
             <ui:VisualElement style="flex-grow: 1; justify-content: center; padding: 24px;">
                 <!-- Khung bao bọc nội dung -->
-                <ui:VisualElement class="content-container" style="flex-direction: column; align-self: stretch;">
+                <ui:VisualElement class="content-container" style="flex-direction: column; align-self: center; width: 100%;">
 
             <!-- Trophy Icon -->
             <ui:VisualElement style="margin-bottom: 32px; align-self: center; align-items: center;">

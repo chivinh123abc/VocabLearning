@@ -19,16 +19,15 @@ async function exportDb() {
     }));
     console.log(`🔤 Trích xuất ${words.length} từ vựng.`);
 
-    // 2. Lấy Vocab Sets & Links
+    // 2. Lấy Vocab Sets & Links (gộp từ vocab_set_level_words)
     const setsRes = await pool.request().query('SELECT * FROM [vocab_sets]');
-    const setWordsRes = await pool.request().query('SELECT * FROM [vocab_set_words]');
     const setLvlWordsRes = await pool.request().query('SELECT * FROM [vocab_set_level_words]');
 
-    // Nhóm wordIds theo setId
+    // Nhóm wordIds theo setId (DISTINCT)
     const setWordsMap = {};
-    setWordsRes.recordset.forEach(row => {
-      if (!setWordsMap[row.setId]) setWordsMap[row.setId] = [];
-      setWordsMap[row.setId].push(row.wordId);
+    setLvlWordsRes.recordset.forEach(row => {
+      if (!setWordsMap[row.setId]) setWordsMap[row.setId] = new Set();
+      setWordsMap[row.setId].add(row.wordId);
     });
 
     // Nhóm level wordIds theo setId và difficulty
@@ -40,7 +39,7 @@ async function exportDb() {
     });
 
     const vocabSets = setsRes.recordset.map(s => {
-      const wordIds = setWordsMap[s.id] || [];
+      const wordIds = setWordsMap[s.id] ? [...setWordsMap[s.id]] : [];
       const levelsMap = setLvlWordsMap[s.id] || {};
       const levels = Object.keys(levelsMap).map(diff => ({
         difficulty: diff,
@@ -102,16 +101,21 @@ async function exportDb() {
     // 6. Lấy thông tin Users
     const usersRes = await pool.request().query('SELECT * FROM [users]');
     const soloRes = await pool.request().query('SELECT * FROM [user_solo_records]');
-    const savedLvlRes = await pool.request().query('SELECT * FROM [user_saved_set_levels]');
     const setProgRes = await pool.request().query('SELECT * FROM [user_set_progress]');
     const setCompLvlRes = await pool.request().query('SELECT * FROM [user_set_completed_levels]');
     const wordProgRes = await pool.request().query('SELECT * FROM [user_word_progress]');
     const shopHistRes = await pool.request().query('SELECT * FROM [user_shop_history]');
     const battleHistRes = await pool.request().query('SELECT * FROM [user_battle_history]');
     const roundsRes = await pool.request().query('SELECT * FROM [battle_rounds]');
-    const inventoryRes = await pool.request().query('SELECT * FROM [user_inventory]');
+    const inventoryRes = await pool.request().query(`
+      SELECT ui.[userId], ui.[itemId], si.[icon], si.[name], si.[description], ui.[quantity], 
+             si.[rarity], si.[category], si.[equipType], ui.[isEquipped], ui.[isCombatItem]
+      FROM [user_inventory] ui
+      INNER JOIN [shop_items] si ON ui.[itemId] = si.[id]
+    `);
     const userQuestsRes = await pool.request().query('SELECT * FROM [user_quests]');
     const userAchRes = await pool.request().query('SELECT * FROM [user_achievements]');
+    const loginDatesRes = await pool.request().query('SELECT * FROM [user_login_dates]');
 
     // Ánh xạ dữ liệu phụ trợ
     const soloMap = {};
@@ -126,9 +130,11 @@ async function exportDb() {
     });
 
     const savedLvlMap = {};
-    savedLvlRes.recordset.forEach(r => {
-      if (!savedLvlMap[r.userId]) savedLvlMap[r.userId] = [];
-      savedLvlMap[r.userId].push({ setId: r.setId, level: r.level });
+    setProgRes.recordset.forEach(r => {
+      if (r.currentLevel) {
+        if (!savedLvlMap[r.userId]) savedLvlMap[r.userId] = [];
+        savedLvlMap[r.userId].push({ setId: r.setId, level: r.currentLevel });
+      }
     });
 
     const completedLvlsMap = {}; // { userId: { setId: [levels] } }
@@ -214,6 +220,13 @@ async function exportDb() {
       });
     });
 
+    // loginDates map (từ bảng user_login_dates)
+    const loginDatesMap = {};
+    loginDatesRes.recordset.forEach(r => {
+      if (!loginDatesMap[r.userId]) loginDatesMap[r.userId] = [];
+      loginDatesMap[r.userId].push(r.loginDate);
+    });
+
     const userQuestsMap = {};
     const staticQuestsMap = {};
     questPool.forEach(q => { staticQuestsMap[q.id] = q; });
@@ -247,7 +260,7 @@ async function exportDb() {
 
     const mapUserJson = (u) => {
       const solo = soloMap[u.id] || {};
-      const loginDates = u.loginDates ? u.loginDates.split(',') : [];
+      const loginDates = loginDatesMap[u.id] || [];
 
       return {
         id: u.id,

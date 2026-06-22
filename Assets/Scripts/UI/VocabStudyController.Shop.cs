@@ -139,7 +139,7 @@ namespace VocabLearning.UI
                 bool isOwned = false;
                 if (item.category == "Cosmetic" && _jsonDb.inventory != null)
                 {
-                    isOwned = _jsonDb.inventory.Exists(inv => inv.name == item.name);
+                    isOwned = _jsonDb.inventory.Exists(inv => inv.id == item.id);
                 }
 
                 if (isOwned)
@@ -234,7 +234,7 @@ namespace VocabLearning.UI
                 });
 
                 // Kiểm tra xem đã có trong kho chưa
-                var invItem = _jsonDb.inventory.Find(i => i.name == item.name);
+                var invItem = _jsonDb.inventory.Find(i => i.id == item.id);
                 if (invItem != null)
                 {
                     if (invItem.category == "Consumable")
@@ -245,10 +245,9 @@ namespace VocabLearning.UI
                 else
                 {
                     // Tạo mới
-                    string newId = (_jsonDb.inventory.Count + 1).ToString();
                     _jsonDb.inventory.Add(new VocabLearning.Data.InventoryItemJson()
                     {
-                        id = newId,
+                        id = item.id, // Dùng ID từ shop_items để khớp FK
                         icon = item.icon,
                         name = item.name,
                         description = item.description,
