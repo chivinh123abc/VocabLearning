@@ -1,7 +1,7 @@
 {
     "currentUser": {
         "id": "test_admin_1",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTk3NjQyMSwiZXhwIjoxNzg0NTY4NDIxfQ.PRbvxAT7x9HcLxeF3W5q530Objebo1qufTW8DbzaQzI",
+        "token": "",
         "username": "admin",
         "displayName": "admin",
         "email": "admin@vocab.com",
@@ -9,98 +9,23 @@
         "role": "admin",
         "status": "active",
         "level": 2,
-        "exp": 1030,
+        "exp": 1020,
         "expNeeded": 1000,
         "coins": 2370,
         "rank": "SieuCap",
         "rankPoints": 24500,
         "wins": 34,
-        "totalGames": 54,
+        "totalGames": 53,
         "weeklyLogin": {
-            "weekStartDate": "2026-06-15",
-            "loginDates": [
-                "2026-06-19",
-                "2026-06-21"
-            ],
+            "weekStartDate": "",
+            "loginDates": [],
             "isRewardClaimed": false
         },
         "learnedSets": [],
-        "savedSetLevels": [
-            {
-                "setId": "10",
-                "level": "Hard"
-            }
-        ],
+        "savedSetLevels": [],
         "setProgress": [],
         "wordProgress": [],
-        "battleHistory": [
-            {
-                "matchId": "3b7bc2ce-0ac8-40fe-9401-c605c3373989",
-                "date": "2026-06-21 01:01",
-                "isRanked": false,
-                "isWin": false,
-                "opponentName": "Smart Bot [AI]",
-                "playerFinalHP": 0,
-                "enemyFinalHP": 90,
-                "correctCount": 1,
-                "totalRounds": 4,
-                "rounds": [
-                    {
-                        "question": "Hint: Các bên liên quan",
-                        "correctAnswer": "Stakeholder",
-                        "playerAnswer": "Shoulder",
-                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779032/vocab_images/lepuwiswomcty5aakw9w.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Nghịch lý",
-                        "correctAnswer": "Paradox",
-                        "playerAnswer": "Elephant",
-                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781779171/vocab_images/qvqpdfco2axt1cn6uapp.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Xương gò má",
-                        "correctAnswer": "Cheekbone",
-                        "playerAnswer": "Cheekbone",
-                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778580/vocab_images/hiljjijde013sm7ayh1v.jpg",
-                        "isCorrect": true,
-                        "isTimeout": false
-                    },
-                    {
-                        "question": "Hint: Bắp chân",
-                        "correctAnswer": "Calf",
-                        "playerAnswer": "",
-                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778668/vocab_images/kdwbgjlvw1lpju4xjt5r.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    }
-                ]
-            },
-            {
-                "matchId": "de19d855-83f0-4165-a7d7-e235e7433645",
-                "date": "2026-06-21 00:29",
-                "isRanked": false,
-                "isWin": false,
-                "opponentName": "Smart Bot [AI]",
-                "playerFinalHP": 0,
-                "enemyFinalHP": 100,
-                "correctCount": 0,
-                "totalRounds": 1,
-                "rounds": [
-                    {
-                        "question": "Hint: Vai",
-                        "correctAnswer": "Shoulder",
-                        "playerAnswer": "Airport",
-                        "imageUrl": "https://res.cloudinary.com/dyjk0dra0/image/upload/v1781778482/vocab_images/jf7ewa5zqoci3fyii6ct.jpg",
-                        "isCorrect": false,
-                        "isTimeout": false
-                    }
-                ]
-            }
-        ],
+        "battleHistory": [],
         "bestSurvivor": 0,
         "bestQuick10": 0,
         "bestTimeRush": 0,
@@ -121,17 +46,6 @@
         ],
         "quests": [
             {
-                "id": "q5",
-                "title": "Win 5 Ranked Battles",
-                "description": "Show your skill in ranked matches",
-                "currentProgress": 0,
-                "maxProgress": 5,
-                "rewardCoins": 300,
-                "rewardExp": 600,
-                "isClaimed": false,
-                "questType": "WinRankedBattle"
-            },
-            {
                 "id": "q10",
                 "title": "Complete 5 Sets",
                 "description": "Broaden your knowledge",
@@ -141,6 +55,17 @@
                 "rewardExp": 400,
                 "isClaimed": false,
                 "questType": "CompleteSet"
+            },
+            {
+                "id": "q5",
+                "title": "Win 5 Ranked Battles",
+                "description": "Show your skill in ranked matches",
+                "currentProgress": 0,
+                "maxProgress": 5,
+                "rewardCoins": 300,
+                "rewardExp": 600,
+                "isClaimed": false,
+                "questType": "WinRankedBattle"
             },
             {
                 "id": "q6",
@@ -154,17 +79,6 @@
                 "questType": "LearnWord"
             },
             {
-                "id": "q8",
-                "title": "Win 3 Ranked in a Row",
-                "description": "Arena master",
-                "currentProgress": 0,
-                "maxProgress": 3,
-                "rewardCoins": 500,
-                "rewardExp": 1000,
-                "isClaimed": false,
-                "questType": "WinRankedBattle"
-            },
-            {
                 "id": "q7",
                 "title": "Win 10 Battles",
                 "description": "You are unstoppable!",
@@ -174,6 +88,17 @@
                 "rewardExp": 800,
                 "isClaimed": false,
                 "questType": "WinBattle"
+            },
+            {
+                "id": "q8",
+                "title": "Win 3 Ranked in a Row",
+                "description": "Arena master",
+                "currentProgress": 0,
+                "maxProgress": 3,
+                "rewardCoins": 500,
+                "rewardExp": 1000,
+                "isClaimed": false,
+                "questType": "WinRankedBattle"
             }
         ],
         "achievements": []
@@ -181,57 +106,22 @@
     "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3RfYWRtaW5fMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4MTk3NjQyMSwiZXhwIjoxNzg0NTY4NDIxfQ.PRbvxAT7x9HcLxeF3W5q530Objebo1qufTW8DbzaQzI",
     "registeredUsers": [
         {
-            "id": "test_admin_1",
+            "id": "test_user_1",
             "token": "",
-            "username": "admin",
-            "displayName": "admin",
-            "email": "admin@vocab.com",
-            "password": "",
-            "role": "admin",
-            "status": "active",
-            "level": 2,
-            "exp": 1020,
-            "expNeeded": 0,
-            "coins": 2370,
-            "rank": "",
-            "rankPoints": 24500,
-            "wins": 34,
-            "totalGames": 53,
-            "weeklyLogin": {
-                "weekStartDate": "",
-                "loginDates": [],
-                "isRewardClaimed": false
-            },
-            "learnedSets": [],
-            "savedSetLevels": [],
-            "setProgress": [],
-            "wordProgress": [],
-            "battleHistory": [],
-            "bestSurvivor": 0,
-            "bestQuick10": 0,
-            "bestTimeRush": 0,
-            "shopHistory": [],
-            "inventory": [],
-            "quests": [],
-            "achievements": []
-        },
-        {
-            "id": "u5",
-            "token": "",
-            "username": "Emma_Read",
-            "displayName": "Emma_Read",
-            "email": "Emma_Read@vocab.com",
+            "username": "user1",
+            "displayName": "Cristiano ronaldo",
+            "email": "hero@vocab.com",
             "password": "",
             "role": "user",
             "status": "active",
-            "level": 9,
-            "exp": 8100,
-            "expNeeded": 0,
-            "coins": 300,
-            "rank": "",
-            "rankPoints": 8100,
-            "wins": 30,
-            "totalGames": 40,
+            "level": 3,
+            "exp": 2430,
+            "expNeeded": 1000,
+            "coins": 3330,
+            "rank": "SieuCap",
+            "rankPoints": 24550,
+            "wins": 37,
+            "totalGames": 54,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -261,9 +151,9 @@
             "status": "active",
             "level": 25,
             "exp": 24500,
-            "expNeeded": 0,
+            "expNeeded": 1000,
             "coins": 9999,
-            "rank": "",
+            "rank": "SieuCap",
             "rankPoints": 24500,
             "wins": 150,
             "totalGames": 160,
@@ -286,57 +176,22 @@
             "achievements": []
         },
         {
-            "id": "user_1779517369711udpu1",
+            "id": "u3",
             "token": "",
-            "username": "nguyenne",
-            "displayName": "nguyenne",
-            "email": "nguyenne@vocab.com",
+            "username": "Sophia",
+            "displayName": "Sophia",
+            "email": "Sophia@vocab.com",
             "password": "",
             "role": "user",
             "status": "active",
-            "level": 6,
-            "exp": 5000,
-            "expNeeded": 0,
-            "coins": 0,
-            "rank": "",
-            "rankPoints": 100,
-            "wins": 4,
-            "totalGames": 4,
-            "weeklyLogin": {
-                "weekStartDate": "",
-                "loginDates": [],
-                "isRewardClaimed": false
-            },
-            "learnedSets": [],
-            "savedSetLevels": [],
-            "setProgress": [],
-            "wordProgress": [],
-            "battleHistory": [],
-            "bestSurvivor": 0,
-            "bestQuick10": 0,
-            "bestTimeRush": 0,
-            "shopHistory": [],
-            "inventory": [],
-            "quests": [],
-            "achievements": []
-        },
-        {
-            "id": "u6",
-            "token": "",
-            "username": "NoobMaster69",
-            "displayName": "NoobMaster69",
-            "email": "NoobMaster69@vocab.com",
-            "password": "",
-            "role": "user",
-            "status": "active",
-            "level": 5,
-            "exp": 4200,
-            "expNeeded": 0,
-            "coins": 0,
-            "rank": "",
-            "rankPoints": 4200,
-            "wins": 12,
-            "totalGames": 25,
+            "level": 18,
+            "exp": 17200,
+            "expNeeded": 1000,
+            "coins": 500,
+            "rank": "Vang",
+            "rankPoints": 17200,
+            "wins": 78,
+            "totalGames": 100,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -366,12 +221,82 @@
             "status": "active",
             "level": 12,
             "exp": 11500,
-            "expNeeded": 0,
+            "expNeeded": 1000,
             "coins": 100,
-            "rank": "",
+            "rank": "Bac",
             "rankPoints": 11500,
             "wins": 45,
             "totalGames": 55,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": [],
+            "quests": [],
+            "achievements": []
+        },
+        {
+            "id": "u5",
+            "token": "",
+            "username": "Emma_Read",
+            "displayName": "Emma_Read",
+            "email": "Emma_Read@vocab.com",
+            "password": "",
+            "role": "user",
+            "status": "active",
+            "level": 9,
+            "exp": 8100,
+            "expNeeded": 1000,
+            "coins": 300,
+            "rank": "Bac",
+            "rankPoints": 8100,
+            "wins": 30,
+            "totalGames": 40,
+            "weeklyLogin": {
+                "weekStartDate": "",
+                "loginDates": [],
+                "isRewardClaimed": false
+            },
+            "learnedSets": [],
+            "savedSetLevels": [],
+            "setProgress": [],
+            "wordProgress": [],
+            "battleHistory": [],
+            "bestSurvivor": 0,
+            "bestQuick10": 0,
+            "bestTimeRush": 0,
+            "shopHistory": [],
+            "inventory": [],
+            "quests": [],
+            "achievements": []
+        },
+        {
+            "id": "u6",
+            "token": "",
+            "username": "NoobMaster69",
+            "displayName": "NoobMaster69",
+            "email": "NoobMaster69@vocab.com",
+            "password": "",
+            "role": "user",
+            "status": "active",
+            "level": 5,
+            "exp": 4200,
+            "expNeeded": 1000,
+            "coins": 0,
+            "rank": "Dong",
+            "rankPoints": 4200,
+            "wins": 12,
+            "totalGames": 25,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -401,9 +326,9 @@
             "status": "active",
             "level": 3,
             "exp": 2100,
-            "expNeeded": 0,
+            "expNeeded": 1000,
             "coins": 0,
-            "rank": "",
+            "rank": "Dong",
             "rankPoints": 2100,
             "wins": 5,
             "totalGames": 10,
@@ -436,9 +361,9 @@
             "status": "active",
             "level": 1,
             "exp": 500,
-            "expNeeded": 0,
+            "expNeeded": 1000,
             "coins": 0,
-            "rank": "",
+            "rank": "Dong",
             "rankPoints": 500,
             "wins": 1,
             "totalGames": 2,
@@ -461,57 +386,22 @@
             "achievements": []
         },
         {
-            "id": "u3",
+            "id": "user_1779517369711udpu1",
             "token": "",
-            "username": "Sophia",
-            "displayName": "Sophia",
-            "email": "Sophia@vocab.com",
+            "username": "nguyenne",
+            "displayName": "nguyenne",
+            "email": "nguyenne@vocab.com",
             "password": "",
             "role": "user",
             "status": "active",
-            "level": 18,
-            "exp": 17200,
-            "expNeeded": 0,
-            "coins": 500,
-            "rank": "",
-            "rankPoints": 17200,
-            "wins": 78,
-            "totalGames": 100,
-            "weeklyLogin": {
-                "weekStartDate": "",
-                "loginDates": [],
-                "isRewardClaimed": false
-            },
-            "learnedSets": [],
-            "savedSetLevels": [],
-            "setProgress": [],
-            "wordProgress": [],
-            "battleHistory": [],
-            "bestSurvivor": 0,
-            "bestQuick10": 0,
-            "bestTimeRush": 0,
-            "shopHistory": [],
-            "inventory": [],
-            "quests": [],
-            "achievements": []
-        },
-        {
-            "id": "test_user_1",
-            "token": "",
-            "username": "user1",
-            "displayName": "Cristiano ronaldo",
-            "email": "hero@vocab.com",
-            "password": "",
-            "role": "user",
-            "status": "active",
-            "level": 3,
-            "exp": 2430,
-            "expNeeded": 0,
-            "coins": 3330,
-            "rank": "",
-            "rankPoints": 24550,
-            "wins": 37,
-            "totalGames": 54,
+            "level": 6,
+            "exp": 5000,
+            "expNeeded": 1000,
+            "coins": 0,
+            "rank": "Dong",
+            "rankPoints": 100,
+            "wins": 4,
+            "totalGames": 4,
             "weeklyLogin": {
                 "weekStartDate": "",
                 "loginDates": [],
@@ -1127,21 +1017,21 @@
                     ]
                 },
                 {
-                    "difficulty": "Medium",
-                    "wordIds": [
-                        "w33",
-                        "w34",
-                        "w49",
-                        "w50"
-                    ]
-                },
-                {
                     "difficulty": "Hard",
                     "wordIds": [
                         "w57",
                         "w58",
                         "w65",
                         "w66"
+                    ]
+                },
+                {
+                    "difficulty": "Medium",
+                    "wordIds": [
+                        "w33",
+                        "w34",
+                        "w49",
+                        "w50"
                     ]
                 }
             ]
@@ -1179,21 +1069,21 @@
                     ]
                 },
                 {
-                    "difficulty": "Medium",
-                    "wordIds": [
-                        "w35",
-                        "w36",
-                        "w37",
-                        "w38"
-                    ]
-                },
-                {
                     "difficulty": "Hard",
                     "wordIds": [
                         "w59",
                         "w60",
                         "w61",
                         "w62"
+                    ]
+                },
+                {
+                    "difficulty": "Medium",
+                    "wordIds": [
+                        "w35",
+                        "w36",
+                        "w37",
+                        "w38"
                     ]
                 }
             ]
@@ -1288,7 +1178,7 @@
             "id": "4",
             "title": "Colors & Numbers",
             "description": "Master colors and numbers in English",
-            "wordCount": 8,
+            "wordCount": 7,
             "category": "English",
             "difficulty": "Easy",
             "rankRequired": "Bac",
@@ -1504,17 +1394,6 @@
     ],
     "quests": [
         {
-            "id": "q5",
-            "title": "Win 5 Ranked Battles",
-            "description": "Show your skill in ranked matches",
-            "currentProgress": 0,
-            "maxProgress": 5,
-            "rewardCoins": 300,
-            "rewardExp": 600,
-            "isClaimed": false,
-            "questType": "WinRankedBattle"
-        },
-        {
             "id": "q10",
             "title": "Complete 5 Sets",
             "description": "Broaden your knowledge",
@@ -1524,6 +1403,17 @@
             "rewardExp": 400,
             "isClaimed": false,
             "questType": "CompleteSet"
+        },
+        {
+            "id": "q5",
+            "title": "Win 5 Ranked Battles",
+            "description": "Show your skill in ranked matches",
+            "currentProgress": 0,
+            "maxProgress": 5,
+            "rewardCoins": 300,
+            "rewardExp": 600,
+            "isClaimed": false,
+            "questType": "WinRankedBattle"
         },
         {
             "id": "q6",
@@ -1537,17 +1427,6 @@
             "questType": "LearnWord"
         },
         {
-            "id": "q8",
-            "title": "Win 3 Ranked in a Row",
-            "description": "Arena master",
-            "currentProgress": 0,
-            "maxProgress": 3,
-            "rewardCoins": 500,
-            "rewardExp": 1000,
-            "isClaimed": false,
-            "questType": "WinRankedBattle"
-        },
-        {
             "id": "q7",
             "title": "Win 10 Battles",
             "description": "You are unstoppable!",
@@ -1557,6 +1436,17 @@
             "rewardExp": 800,
             "isClaimed": false,
             "questType": "WinBattle"
+        },
+        {
+            "id": "q8",
+            "title": "Win 3 Ranked in a Row",
+            "description": "Arena master",
+            "currentProgress": 0,
+            "maxProgress": 3,
+            "rewardCoins": 500,
+            "rewardExp": 1000,
+            "isClaimed": false,
+            "questType": "WinRankedBattle"
         }
     ],
     "questPool": [
@@ -1564,66 +1454,54 @@
             "id": "q10",
             "title": "Complete 5 Sets",
             "description": "Broaden your knowledge",
-            "currentProgress": 0,
             "maxProgress": 5,
             "rewardCoins": 200,
             "rewardExp": 400,
-            "isClaimed": false,
             "questType": "CompleteSet"
         },
         {
             "id": "q3",
             "title": "Win 3 Battles",
             "description": "Play ranked or casual matches",
-            "currentProgress": 0,
             "maxProgress": 3,
             "rewardCoins": 100,
             "rewardExp": 200,
-            "isClaimed": false,
             "questType": "WinBattle"
         },
         {
             "id": "q5",
             "title": "Win 5 Ranked Battles",
             "description": "Show your skill in ranked matches",
-            "currentProgress": 0,
             "maxProgress": 5,
             "rewardCoins": 300,
             "rewardExp": 600,
-            "isClaimed": false,
             "questType": "WinRankedBattle"
         },
         {
             "id": "q6",
             "title": "Learn 20 words",
             "description": "Dedication is key",
-            "currentProgress": 0,
             "maxProgress": 20,
             "rewardCoins": 100,
             "rewardExp": 200,
-            "isClaimed": false,
             "questType": "LearnWord"
         },
         {
             "id": "q7",
             "title": "Win 10 Battles",
             "description": "You are unstoppable!",
-            "currentProgress": 0,
             "maxProgress": 10,
             "rewardCoins": 400,
             "rewardExp": 800,
-            "isClaimed": false,
             "questType": "WinBattle"
         },
         {
             "id": "q8",
             "title": "Win 3 Ranked in a Row",
             "description": "Arena master",
-            "currentProgress": 0,
             "maxProgress": 3,
             "rewardCoins": 500,
             "rewardExp": 1000,
-            "isClaimed": false,
             "questType": "WinRankedBattle"
         }
     ],

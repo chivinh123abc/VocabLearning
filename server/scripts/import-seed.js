@@ -45,7 +45,6 @@ async function seed() {
         DELETE FROM [user_set_completed_levels];
         DELETE FROM [user_set_progress];
         DELETE FROM [user_saved_set_levels];
-        DELETE FROM [user_learned_sets];
         DELETE FROM [vocab_set_level_words];
         DELETE FROM [vocab_set_levels];
         DELETE FROM [vocab_set_words];
@@ -277,7 +276,7 @@ async function seed() {
           VALUES (@userId, @bestSurvivor, @bestQuick10, @bestTimeRush)
         `);
 
-        // Learned Sets
+        // Learned Sets (Được chèn vào user_set_progress với status = 'completed')
         if (u.learnedSets && u.learnedSets.length > 0) {
           for (const setId of u.learnedSets) {
             if (!validSetIds.has(setId)) {
@@ -288,8 +287,8 @@ async function seed() {
             reqLs.input('userId', sql.VarChar, u.id);
             reqLs.input('setId', sql.VarChar, setId);
             await reqLs.query(`
-              INSERT INTO [user_learned_sets] ([userId], [setId])
-              VALUES (@userId, @setId)
+              INSERT INTO [user_set_progress] ([userId], [setId], [status])
+              VALUES (@userId, @setId, 'completed')
             `);
           }
         }
@@ -312,7 +311,7 @@ async function seed() {
           }
         }
 
-        // Set Progress & Completed Levels
+        // Set Progress & Completed Levels (Được chèn vào user_set_progress với status = 'learning')
         if (u.setProgress && u.setProgress.length > 0) {
           for (const p of u.setProgress) {
             if (!validSetIds.has(p.setId)) {
@@ -323,8 +322,8 @@ async function seed() {
             reqSp.input('userId', sql.VarChar, u.id);
             reqSp.input('setId', sql.VarChar, p.setId);
             await reqSp.query(`
-              INSERT INTO [user_set_progress] ([userId], [setId])
-              VALUES (@userId, @setId)
+              INSERT INTO [user_set_progress] ([userId], [setId], [status])
+              VALUES (@userId, @setId, 'learning')
             `);
 
             if (p.completedLevels && p.completedLevels.length > 0) {

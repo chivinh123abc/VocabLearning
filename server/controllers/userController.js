@@ -75,17 +75,24 @@ exports.syncUserData = async (req, res) => {
         END
       `);
 
+      // Xóa tiến độ học và cấp độ hoàn thành cũ trước khi đồng bộ
+      const delCl = new sql.Request(transaction);
+      delCl.input('userId', sql.VarChar, user.id);
+      await delCl.query('DELETE FROM [user_set_completed_levels] WHERE [userId] = @userId');
+      await delCl.query('DELETE FROM [user_set_progress] WHERE [userId] = @userId');
+
+      const processedSetIds = new Set();
+
       // 3. Đồng bộ Learned Sets
       if (user.learnedSets) {
-        const delLs = new sql.Request(transaction);
-        delLs.input('userId', sql.VarChar, user.id);
-        await delLs.query('DELETE FROM [user_learned_sets] WHERE [userId] = @userId');
-
         for (const setId of user.learnedSets) {
+          if (processedSetIds.has(setId)) continue;
+          processedSetIds.add(setId);
+
           const addLs = new sql.Request(transaction);
           addLs.input('userId', sql.VarChar, user.id);
           addLs.input('setId', sql.VarChar, setId);
-          await addLs.query('INSERT INTO [user_learned_sets] ([userId], [setId]) VALUES (@userId, @setId)');
+          await addLs.query('INSERT INTO [user_set_progress] ([userId], [setId], [status]) VALUES (@userId, @setId, \'completed\')');
         }
       }
 
@@ -106,17 +113,14 @@ exports.syncUserData = async (req, res) => {
 
       // 5. Đồng bộ Set Progress & Completed Levels
       if (user.setProgress) {
-        // Xóa hoàn thành level cũ
-        const delCl = new sql.Request(transaction);
-        delCl.input('userId', sql.VarChar, user.id);
-        await delCl.query('DELETE FROM [user_set_completed_levels] WHERE [userId] = @userId');
-        await delCl.query('DELETE FROM [user_set_progress] WHERE [userId] = @userId');
-
         for (const p of user.setProgress) {
+          if (processedSetIds.has(p.setId)) continue;
+          processedSetIds.add(p.setId);
+
           const addSp = new sql.Request(transaction);
           addSp.input('userId', sql.VarChar, user.id);
           addSp.input('setId', sql.VarChar, p.setId);
-          await addSp.query('INSERT INTO [user_set_progress] ([userId], [setId]) VALUES (@userId, @setId)');
+          await addSp.query('INSERT INTO [user_set_progress] ([userId], [setId], [status]) VALUES (@userId, @setId, \'learning\')');
 
           if (p.completedLevels && p.completedLevels.length > 0) {
             for (const lvl of p.completedLevels) {

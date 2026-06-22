@@ -161,7 +161,7 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // Tự động dọn dẹp bảng user_weekly_login và user_login_dates cũ nếu còn tồn tại
+    // Tự động dọn dẹp bảng user_weekly_login, user_login_dates và user_learned_sets cũ nếu còn tồn tại
     await transaction.request().query(`
       IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_weekly_login')
       BEGIN
@@ -170,6 +170,10 @@ async function initDatabase(forceRecreate = false) {
       IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_login_dates')
       BEGIN
         DROP TABLE [user_login_dates];
+      END
+      IF EXISTS (SELECT * FROM sys.tables WHERE name = 'user_learned_sets')
+      BEGIN
+        DROP TABLE [user_learned_sets];
       END
     `);
 
@@ -240,17 +244,7 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 9. Bảng user_learned_sets
-    await transaction.request().query(`
-      IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_learned_sets')
-      BEGIN
-        CREATE TABLE [user_learned_sets] (
-          [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
-          [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
-          PRIMARY KEY ([userId], [setId])
-        );
-      END
-    `);
+    // 9. Bảng user_learned_sets đã được gộp vào user_set_progress (Bỏ qua tạo bảng này)
 
     // 10. Bảng user_saved_set_levels
     await transaction.request().query(`
@@ -265,15 +259,23 @@ async function initDatabase(forceRecreate = false) {
       END
     `);
 
-    // 11. Bảng user_set_progress
+    // 11. Bảng user_set_progress (Lưu tiến độ học bộ từ vựng, gộp cả user_learned_sets qua cột status)
     await transaction.request().query(`
       IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'user_set_progress')
       BEGIN
         CREATE TABLE [user_set_progress] (
           [userId] VARCHAR(50) FOREIGN KEY REFERENCES [users]([id]) ON DELETE CASCADE,
           [setId] VARCHAR(20) FOREIGN KEY REFERENCES [vocab_sets]([id]) ON DELETE CASCADE,
+          [status] VARCHAR(20) NOT NULL DEFAULT 'learning',
           PRIMARY KEY ([userId], [setId])
         );
+      END
+      ELSE
+      BEGIN
+        IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('user_set_progress') AND name = 'status')
+        BEGIN
+          ALTER TABLE [user_set_progress] ADD [status] VARCHAR(20) NOT NULL DEFAULT 'learning';
+        END
       END
     `);
 

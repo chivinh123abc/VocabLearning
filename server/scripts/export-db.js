@@ -102,7 +102,6 @@ async function exportDb() {
     // 6. Lấy thông tin Users
     const usersRes = await pool.request().query('SELECT * FROM [users]');
     const soloRes = await pool.request().query('SELECT * FROM [user_solo_records]');
-    const learnedSetsRes = await pool.request().query('SELECT * FROM [user_learned_sets]');
     const savedLvlRes = await pool.request().query('SELECT * FROM [user_saved_set_levels]');
     const setProgRes = await pool.request().query('SELECT * FROM [user_set_progress]');
     const setCompLvlRes = await pool.request().query('SELECT * FROM [user_set_completed_levels]');
@@ -119,9 +118,11 @@ async function exportDb() {
     soloRes.recordset.forEach(r => { soloMap[r.userId] = r; });
 
     const learnedSetsMap = {};
-    learnedSetsRes.recordset.forEach(r => {
-      if (!learnedSetsMap[r.userId]) learnedSetsMap[r.userId] = [];
-      learnedSetsMap[r.userId].push(r.setId);
+    setProgRes.recordset.forEach(r => {
+      if (r.status === 'completed') {
+        if (!learnedSetsMap[r.userId]) learnedSetsMap[r.userId] = [];
+        learnedSetsMap[r.userId].push(r.setId);
+      }
     });
 
     const savedLvlMap = {};
@@ -139,12 +140,14 @@ async function exportDb() {
 
     const setProgMap = {};
     setProgRes.recordset.forEach(r => {
-      if (!setProgMap[r.userId]) setProgMap[r.userId] = [];
-      const completedLevels = (completedLvlsMap[r.userId] && completedLvlsMap[r.userId][r.setId]) || [];
-      setProgMap[r.userId].push({
-        setId: r.setId,
-        completedLevels
-      });
+      if (r.status === 'learning') {
+        if (!setProgMap[r.userId]) setProgMap[r.userId] = [];
+        const completedLevels = (completedLvlsMap[r.userId] && completedLvlsMap[r.userId][r.setId]) || [];
+        setProgMap[r.userId].push({
+          setId: r.setId,
+          completedLevels
+        });
+      }
     });
 
     const wordProgMap = {};

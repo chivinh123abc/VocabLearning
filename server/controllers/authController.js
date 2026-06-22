@@ -46,18 +46,22 @@ async function getUserFullProfile(pool, userId) {
     loginDates: loginDates
   };
 
-  // 3. Learned Sets
-  const learnedResult = await req.query('SELECT [setId] FROM [user_learned_sets] WHERE [userId] = @userId');
-  const learnedSets = learnedResult.recordset.map(r => r.setId);
+  // 3 & 5. Set Progress & Learned Sets (Lấy từ bảng user_set_progress gộp chung)
+  const progressResult = await req.query('SELECT [setId], [status] FROM [user_set_progress] WHERE [userId] = @userId');
+  
+  // Tách thành learnedSets (những bộ đã học xong)
+  const learnedSets = progressResult.recordset
+    .filter(r => r.status === 'completed')
+    .map(r => r.setId);
 
   // 4. Saved Set Levels
   const savedLvlResult = await req.query('SELECT [setId], [level] FROM [user_saved_set_levels] WHERE [userId] = @userId');
   const savedSetLevels = savedLvlResult.recordset.map(r => ({ setId: r.setId, level: r.level }));
 
-  // 5. Set Progress & Completed Levels
-  const progressResult = await req.query('SELECT [setId] FROM [user_set_progress] WHERE [userId] = @userId');
+  // Tách thành setProgress (những bộ đang học dở)
   const setProgress = [];
-  for (const p of progressResult.recordset) {
+  const learningSets = progressResult.recordset.filter(r => r.status === 'learning');
+  for (const p of learningSets) {
     const compReq = pool.request();
     compReq.input('userId', sql.VarChar, userId);
     compReq.input('setId', sql.VarChar, p.setId);
