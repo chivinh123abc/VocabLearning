@@ -6,19 +6,6 @@ namespace VocabLearning.UI
 {
     public partial class VocabStudyController
     {
-        private void BindFriendEvents()
-        {
-            Button backBtn = _root.Q<Button>("BtnBack");
-            if (backBtn != null) backBtn.clicked += () => LoadScreen(HomeScreenAsset);
-
-            // -- Thanh Tìm kiếm Bạn Bè --
-            TextField searchBox = _root.Q<TextField>(className: "search-input");
-            if (searchBox != null)
-            {
-                SetupPlaceholder(searchBox, "Search friends...");
-            }
-        }
-
         private void BindRankingEvents()
         {
             BindBottomNav();

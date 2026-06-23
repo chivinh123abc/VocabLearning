@@ -2114,7 +2114,7 @@ namespace VocabLearning.UI
                         if (rewardBox != null) rewardBox.style.display = DisplayStyle.Flex;
                     }
 
-                    AddQuestProgressByType("WinRankedBattle", 1);
+                    AddQuestProgressByType("WinRanked", 1);
 
                     if (subtext != null) subtext.text = "+25 Rank Points";
                     if (expText != null) expText.text = "+50 EXP / +50 Coins";

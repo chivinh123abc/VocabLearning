@@ -43,7 +43,6 @@ namespace VocabLearning.Editor
             controller.BattleLoadoutScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/BattleLoadoutScreen.uxml");
             controller.BattleGameplayScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/BattleGameplayScreen.uxml");
             controller.SoloQuizScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/SoloQuizScreen.uxml");
-            controller.FriendScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/FriendScreen.uxml");
             controller.SettingScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/SettingScreen.uxml");
             controller.ShopScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/ShopScreen.uxml");
             controller.RankingScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/RankingScreen.uxml");
@@ -62,7 +61,7 @@ namespace VocabLearning.Editor
 
 
             // Cập nhật db.json (Nếu cấu trúc dùng thẻ OverrideJsonDb thì gán, nếu dùng Resources thì bỏ qua bước này hoặc gán)
-            controller.OverrideJsonDb = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/Mockdata/db.json");
+            controller.OverrideJsonDb = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/GameData/db.json");
 
             // Tự động khởi tạo EventSystem nếu Scene chưa có (tránh lỗi không click được button)
             if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)

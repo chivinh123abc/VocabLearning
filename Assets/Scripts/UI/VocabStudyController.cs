@@ -20,7 +20,6 @@ namespace VocabLearning.UI
         public VisualTreeAsset BattleLoadoutScreenAsset;
         public VisualTreeAsset BattleGameplayScreenAsset;
         public VisualTreeAsset SoloQuizScreenAsset;
-        public VisualTreeAsset FriendScreenAsset;
         public VisualTreeAsset SettingScreenAsset;
         public VisualTreeAsset WordScrambleScreenAsset;
 
@@ -46,7 +45,7 @@ namespace VocabLearning.UI
         private UIDocument _doc;
         private VisualElement _root;
 
-        private VocabLearning.Data.MockDatabase _jsonDb;
+        private VocabLearning.Data.GameDatabase _jsonDb;
         private VocabLearning.Data.VocabSetJson _currentVocabSet;
 
         // --- STATE DÀNH CHO PRACTICE SCREEN ---
@@ -67,6 +66,11 @@ namespace VocabLearning.UI
         private List<string> _sessionNewlyMasteredWords = new List<string>(); // NEW: Track words mastered in CURRENT session
         private int _lastSessionCoins = 0;
         private int _lastSessionExp = 0;
+
+        // --- STATE DÀNH CHO HOME PAGING ---
+        private int _homeCurrentPage = 0;
+        private const int HOME_PAGE_SIZE = 6;
+        private string _homeSearchKeyword = "";
 
         // --- STATE DÀNH CHO BATTLE HISTORY ---
         private List<VocabLearning.Data.BattleRoundRecord> _currentBattleRounds = new List<VocabLearning.Data.BattleRoundRecord>();
@@ -212,7 +216,6 @@ namespace VocabLearning.UI
             else if (targetAsset == BattleScreenAsset) BindBattleEvents();
             else if (targetAsset == BattleLoadoutScreenAsset) BindBattleLoadoutEvents();
             else if (targetAsset == BattleGameplayScreenAsset) BindBattleGameplayEvents();
-            else if (targetAsset == FriendScreenAsset) BindFriendEvents();
             else if (targetAsset == SoloQuizScreenAsset) BindSoloQuizEvents();
             else if (targetAsset == WordScrambleScreenAsset) BindWordScrambleEvents();
             else if (targetAsset == ShopScreenAsset) BindShopEvents();
@@ -292,7 +295,7 @@ namespace VocabLearning.UI
                 try
                 {
                     string fileContent = System.IO.File.ReadAllText(localSavePath);
-                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(fileContent);
+                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.GameDatabase>(fileContent);
                     if (_jsonDb != null)
                     {
                         loadedFromLocalFile = true;
@@ -309,10 +312,10 @@ namespace VocabLearning.UI
             // 2. Fallback tải từ Resources (Chế độ mặc định lần đầu hoặc lỗi)
             if (!loadedFromLocalFile)
             {
-                TextAsset jsonAsset = OverrideJsonDb != null ? OverrideJsonDb : Resources.Load<TextAsset>("Mockdata/db");
+                TextAsset jsonAsset = OverrideJsonDb != null ? OverrideJsonDb : Resources.Load<TextAsset>("GameData/db");
                 if (jsonAsset != null)
                 {
-                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.MockDatabase>(jsonAsset.text);
+                    _jsonDb = JsonUtility.FromJson<VocabLearning.Data.GameDatabase>(jsonAsset.text);
                     if (_jsonDb != null)
                     {
                         VocabLearning.Network.NetworkClient.Instance.JwtToken = _jsonDb.jwtToken; // Nạp lại token đã lưu từ tệp đĩa fallback
@@ -321,8 +324,8 @@ namespace VocabLearning.UI
                 }
                 else
                 {
-                    Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/Mockdata/db.json để làm dữ liệu offline dự phòng.");
-                    _jsonDb = new VocabLearning.Data.MockDatabase();
+                    Debug.LogWarning("[JSON DB] Không tìm thấy file Resources/GameData/db.json để làm dữ liệu offline dự phòng.");
+                    _jsonDb = new VocabLearning.Data.GameDatabase();
                 }
             }
 
@@ -448,11 +451,21 @@ namespace VocabLearning.UI
             for (int i = 0; i < countToPick; i++)
             {
                 int randomIndex = UnityEngine.Random.Range(0, pool.Count);
-                var q = pool[randomIndex];
+                var src = pool[randomIndex];
 
-                // Quan trọng: Phải reset trạng thái khi chọn nhiệm vụ mới cho ngày hôm nay
-                q.currentProgress = 0;
-                q.isClaimed = false;
+                // Deep copy để không mutate object gốc trong questPool
+                var q = new VocabLearning.Data.QuestJson
+                {
+                    id = src.id,
+                    title = src.title,
+                    description = src.description,
+                    questType = src.questType,
+                    maxProgress = src.maxProgress,
+                    rewardCoins = src.rewardCoins,
+                    rewardExp = src.rewardExp,
+                    currentProgress = 0,
+                    isClaimed = false
+                };
 
                 selected.Add(q);
                 pool.RemoveAt(randomIndex);
@@ -624,221 +637,22 @@ namespace VocabLearning.UI
             Button actionSoloQuiz = _root.Q<Button>("ActionSoloQuiz");
             if (actionSoloQuiz != null) actionSoloQuiz.clicked += () => LoadScreen(SoloQuizScreenAsset);
 
-            // -- Đổ dữ liệu Featured và Danh Sách Vocab Sets --
+            // -- Đổ dữ liệu Vocab Sets với Phân trang --
             if (_jsonDb != null && _jsonDb.vocabSets != null && _jsonDb.vocabSets.Count > 0)
             {
-                // Featured Set (Lấy bộ đầu tiên)
-                var featuredSet = _jsonDb.vocabSets[0];
-                Label lblFeaturedTitle = _root.Q<Label>("LblFeaturedTitle");
-                if (lblFeaturedTitle != null) lblFeaturedTitle.text = featuredSet.title;
+                _homeCurrentPage = 0;
+                _homeSearchKeyword = "";
 
-                Label lblFeaturedCount = _root.Q<Label>("LblFeaturedCount");
-                if (lblFeaturedCount != null)
-                {
-                    int wc = (featuredSet.wordCount > 0) ? featuredSet.wordCount : (featuredSet.wordIds != null ? featuredSet.wordIds.Count : 0);
-                    lblFeaturedCount.text = $"{wc} words";
-                }
+                Button btnPrevPage = _root.Q<Button>("BtnPrevPage");
+                if (btnPrevPage != null) btnPrevPage.clicked += () => { _homeCurrentPage--; RenderVocabSetPage(); };
 
-                Button startFeatured = _root.Q<Button>("BtnStartFeatured");
-                if (startFeatured != null) startFeatured.clicked += () =>
-                {
-                    _currentVocabSet = featuredSet;
-                    LoadScreen(VocabDetailScreenAsset);
-                };
+                Button btnNextPage = _root.Q<Button>("BtnNextPage");
+                if (btnNextPage != null) btnNextPage.clicked += () => { _homeCurrentPage++; RenderVocabSetPage(); };
 
-                VisualElement featuredCard = _root.Q<VisualElement>("VocabSetFeaturedCard");
-                if (featuredCard != null) featuredCard.RegisterCallback<ClickEvent>(evt =>
-                {
-                    // Tránh trigger 2 lần nếu click trúng nút Start Learning nằm bên trong
-                    if (evt.target == startFeatured) return;
-                    _currentVocabSet = featuredSet;
-                    LoadScreen(VocabDetailScreenAsset);
-                });
-
-                // Đổ Data All Vocab Sets
-                VisualElement listContainer = _root.Q<VisualElement>("VocabListContainer");
-                if (listContainer != null)
-                {
-                    listContainer.Clear();
-                    foreach (var set in _jsonDb.vocabSets)
-                    {
-                        VisualElement btnItem = new VisualElement();
-                        btnItem.AddToClassList("card");
-                        btnItem.style.marginRight = 24;
-                        btnItem.style.marginLeft = 24;
-                        btnItem.style.marginBottom = 12;
-                        btnItem.style.flexDirection = FlexDirection.Row;
-                        btnItem.style.paddingTop = 16;
-                        btnItem.style.paddingBottom = 16;
-                        btnItem.style.paddingLeft = 16;
-                        btnItem.style.paddingRight = 16;
-                        btnItem.style.alignItems = Align.FlexStart;
-                        btnItem.style.justifyContent = Justify.FlexStart;
-                        btnItem.style.borderBottomWidth = 1;
-                        btnItem.style.borderTopWidth = 1;
-                        btnItem.style.borderLeftWidth = 1;
-                        btnItem.style.borderRightWidth = 1;
-
-                        // Hành động khi nhấn vào list item (Thẻ)
-                        var capturedSet = set; // Prevent closure issue
-                        btnItem.RegisterCallback<ClickEvent>(evt =>
-                        {
-                            _currentVocabSet = capturedSet;
-                            LoadScreen(VocabDetailScreenAsset);
-                        });
-
-                        // Icon màu sắc
-                        VisualElement iconBox = new VisualElement();
-                        iconBox.style.width = 64;
-                        iconBox.style.height = 64;
-                        iconBox.style.backgroundColor = new StyleColor(new Color(0.55f, 0.36f, 0.96f)); // #8B5CF6 random
-                        iconBox.style.borderTopLeftRadius = 12;
-                        iconBox.style.borderTopRightRadius = 12;
-                        iconBox.style.borderBottomLeftRadius = 12;
-                        iconBox.style.borderBottomRightRadius = 12;
-                        iconBox.style.marginRight = 16;
-                        iconBox.style.flexShrink = 0;
-                        btnItem.Add(iconBox);
-
-                        VisualElement textGroup = new VisualElement();
-                        textGroup.style.flexGrow = 1;
-                        textGroup.style.alignItems = Align.FlexStart;
-
-                        Label titleLbl = new Label(set.title);
-                        titleLbl.AddToClassList("font-bold");
-                        titleLbl.AddToClassList("text-lg");
-                        titleLbl.style.color = Color.white;
-                        titleLbl.style.marginBottom = 4;
-                        textGroup.Add(titleLbl);
-
-                        Label descLbl = new Label(set.description);
-                        descLbl.AddToClassList("text-muted");
-                        descLbl.style.marginBottom = 8;
-                        descLbl.style.whiteSpace = WhiteSpace.Normal;
-                        textGroup.Add(descLbl);
-
-                        VisualElement tagsGroup = new VisualElement();
-                        tagsGroup.style.flexDirection = FlexDirection.Row;
-
-                        // [MODIFIED] Logic hiển thị Label Cấp độ và Số từ phù hợp với hệ thống mới
-                        string displayDiff = set.difficulty;
-                        string displayCountText = $"{(set.wordCount > 0 ? set.wordCount : (set.wordIds != null ? set.wordIds.Count : 0))} words";
-
-                        if (set.levels != null && set.levels.Count > 1)
-                        {
-                            displayDiff = "Multi-Level";
-                            displayCountText = $"{set.levels.Count} Levels";
-                        }
-                        else if (set.levels != null && set.levels.Count == 1)
-                        {
-                            displayDiff = set.levels[0].difficulty;
-                            displayCountText = $"{set.levels[0].wordIds.Count} words";
-                        }
-
-                        Label countLbl = new Label(displayCountText);
-                        countLbl.style.backgroundColor = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 0.2f)); // rgba(59, 130, 246, 0.2)
-                        countLbl.style.color = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 1f));
-                        countLbl.style.paddingTop = 4;
-                        countLbl.style.paddingBottom = 4;
-                        countLbl.style.paddingLeft = 8;
-                        countLbl.style.paddingRight = 8;
-                        countLbl.style.borderTopLeftRadius = 8;
-                        countLbl.style.borderTopRightRadius = 8;
-                        countLbl.style.borderBottomLeftRadius = 8;
-                        countLbl.style.borderBottomRightRadius = 8;
-                        countLbl.style.fontSize = 12;
-                        countLbl.style.marginRight = 8;
-                        tagsGroup.Add(countLbl);
-
-                        Label diffLbl = new Label(displayDiff);
-                        Color diffColor = new Color(0.55f, 0.36f, 0.96f); // Default Purple/Multi-Level
-                        string diffLower = (displayDiff ?? "").ToLower().Trim();
-                        if (diffLower == "easy" || diffLower == "dễ" || diffLower == "de") 
-                            diffColor = new Color(0.10f, 0.73f, 0.51f); // Emerald
-                        else if (diffLower == "medium" || diffLower == "trung bình" || diffLower == "trung binh" || diffLower == "normal") 
-                            diffColor = new Color(0.23f, 0.51f, 0.96f); // Blue
-                        else if (diffLower == "hard" || diffLower == "khó" || diffLower == "kho") 
-                            diffColor = new Color(0.93f, 0.26f, 0.26f); // Red
-
-                        diffLbl.style.backgroundColor = new StyleColor(new Color(diffColor.r, diffColor.g, diffColor.b, 0.2f));
-                        diffLbl.style.color = new StyleColor(new Color(diffColor.r, diffColor.g, diffColor.b, 1f));
-                        diffLbl.style.paddingTop = 4;
-                        diffLbl.style.paddingBottom = 4;
-                        diffLbl.style.paddingLeft = 8;
-                        diffLbl.style.paddingRight = 8;
-                        diffLbl.style.borderTopLeftRadius = 8;
-                        diffLbl.style.borderTopRightRadius = 8;
-                        diffLbl.style.borderBottomLeftRadius = 8;
-                        diffLbl.style.borderBottomRightRadius = 8;
-                        diffLbl.style.fontSize = 12;
-                        diffLbl.style.marginRight = 8; // Thêm margin right để đẹp hơn
-                        tagsGroup.Add(diffLbl);
-
-                        // [MODIFIED] Tính toán tiến độ dựa trên số từ "Đã nhớ" (Mastered)
-                        if (_jsonDb.currentUser != null)
-                        {
-                            var user = _jsonDb.currentUser;
-                            int masteredCount = 0;
-                            int totalWords = (set.wordIds != null) ? set.wordIds.Count : 0;
-
-                            // Đếm số từ trong bộ này đã đạt status = 2 (Mastered)
-                            if (user.wordProgress != null && set.wordIds != null)
-                            {
-                                foreach (var wordId in set.wordIds)
-                                {
-                                    var p = user.wordProgress.Find(x => x.wordId == wordId);
-                                    if (p != null && p.status == 2) masteredCount++;
-                                }
-                            }
-
-                            if (masteredCount > 0)
-                            {
-                                bool isFullyMastered = (totalWords > 0 && masteredCount >= totalWords);
-                                string progressText = isFullyMastered ? "✔ Hoàn thành" : $"✔ {masteredCount}/{totalWords} từ";
-                                Color badgeColor = isFullyMastered ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.96f, 0.62f, 0.04f); // Emerald or Gold
-
-                                Label progressBadge = new Label(progressText);
-                                progressBadge.style.backgroundColor = new StyleColor(new Color(badgeColor.r, badgeColor.g, badgeColor.b, 0.2f));
-                                progressBadge.style.color = new StyleColor(badgeColor);
-                                progressBadge.style.paddingTop = 4;
-                                progressBadge.style.paddingBottom = 4;
-                                progressBadge.style.paddingLeft = 8;
-                                progressBadge.style.paddingRight = 8;
-                                progressBadge.style.borderTopLeftRadius = 8;
-                                progressBadge.style.borderTopRightRadius = 8;
-                                progressBadge.style.borderBottomLeftRadius = 8;
-                                progressBadge.style.borderBottomRightRadius = 8;
-                                progressBadge.style.fontSize = 12;
-                                tagsGroup.Add(progressBadge);
-                            }
-                            else if (totalWords > 0)
-                            {
-                                // Show Pending if zero mastered words
-                                Label pendingBadge = new Label("Chưa học");
-                                pendingBadge.style.backgroundColor = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 0.2f)); // Slate-400 tint
-                                pendingBadge.style.color = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 1f));
-                                pendingBadge.style.paddingTop = 4;
-                                pendingBadge.style.paddingBottom = 4;
-                                pendingBadge.style.paddingLeft = 8;
-                                pendingBadge.style.paddingRight = 8;
-                                pendingBadge.style.borderTopLeftRadius = 8;
-                                pendingBadge.style.borderTopRightRadius = 8;
-                                pendingBadge.style.borderBottomLeftRadius = 8;
-                                pendingBadge.style.borderBottomRightRadius = 8;
-                                pendingBadge.style.fontSize = 12;
-                                tagsGroup.Add(pendingBadge);
-                            }
-                        }
-
-                        textGroup.Add(tagsGroup);
-                        btnItem.Add(textGroup);
-
-                        listContainer.Add(btnItem);
-                    }
-                }
+                RenderVocabSetPage();
             }
 
-            // -- Thanh Tìm kiếm --
+            // -- Thanh Tìm kiếm (Lọc + Phân trang) --
             TextField searchBox = _root.Q<TextField>(className: "search-input");
             if (searchBox != null)
             {
@@ -846,12 +660,239 @@ namespace VocabLearning.UI
 
                 searchBox.RegisterValueChangedCallback(evt =>
                 {
-                    if (evt.newValue != "Search vocabulary sets..." && !string.IsNullOrEmpty(evt.newValue))
-                    {
-                        Debug.Log($"HomeScreen: Đang tìm kiếm -> {evt.newValue}");
-                    }
+                    string keyword = evt.newValue;
+                    if (keyword == "Search vocabulary sets...") keyword = "";
+                    _homeSearchKeyword = string.IsNullOrWhiteSpace(keyword) ? "" : keyword;
+                    _homeCurrentPage = 0;
+                    RenderVocabSetPage();
                 });
             }
+
+        }
+
+        // --- RENDER DANH SÁCH VOCAB SETS THEO TRANG ---
+        private void RenderVocabSetPage()
+        {
+            VisualElement listContainer = _root.Q<VisualElement>("VocabListContainer");
+            if (listContainer == null || _jsonDb == null || _jsonDb.vocabSets == null) return;
+
+            listContainer.Clear();
+
+            // 1. Lọc theo từ khóa tìm kiếm
+            List<VocabLearning.Data.VocabSetJson> filteredSets;
+            if (!string.IsNullOrEmpty(_homeSearchKeyword))
+            {
+                string kw = _homeSearchKeyword.ToLower().Trim();
+                filteredSets = _jsonDb.vocabSets.FindAll(s =>
+                    (!string.IsNullOrEmpty(s.title) && s.title.ToLower().Contains(kw)) ||
+                    (!string.IsNullOrEmpty(s.description) && s.description.ToLower().Contains(kw)) ||
+                    (!string.IsNullOrEmpty(s.difficulty) && s.difficulty.ToLower().Contains(kw)) ||
+                    (!string.IsNullOrEmpty(s.category) && s.category.ToLower().Contains(kw))
+                );
+            }
+            else
+            {
+                filteredSets = new List<VocabLearning.Data.VocabSetJson>(_jsonDb.vocabSets);
+            }
+
+            // 2. Tính phân trang
+            int totalItems = filteredSets.Count;
+            int totalPages = Mathf.Max(1, Mathf.CeilToInt((float)totalItems / HOME_PAGE_SIZE));
+            if (_homeCurrentPage >= totalPages) _homeCurrentPage = totalPages - 1;
+            if (_homeCurrentPage < 0) _homeCurrentPage = 0;
+
+            int startIdx = _homeCurrentPage * HOME_PAGE_SIZE;
+            int endIdx = Mathf.Min(startIdx + HOME_PAGE_SIZE, totalItems);
+
+            // 3. Render danh sách cho trang hiện tại
+            for (int i = startIdx; i < endIdx; i++)
+            {
+                var set = filteredSets[i];
+
+                VisualElement btnItem = new VisualElement();
+                btnItem.AddToClassList("card");
+                btnItem.style.marginRight = 24;
+                btnItem.style.marginLeft = 24;
+                btnItem.style.marginBottom = 12;
+                btnItem.style.flexDirection = FlexDirection.Row;
+                btnItem.style.paddingTop = 16;
+                btnItem.style.paddingBottom = 16;
+                btnItem.style.paddingLeft = 16;
+                btnItem.style.paddingRight = 16;
+                btnItem.style.alignItems = Align.FlexStart;
+                btnItem.style.justifyContent = Justify.FlexStart;
+                btnItem.style.borderBottomWidth = 1;
+                btnItem.style.borderTopWidth = 1;
+                btnItem.style.borderLeftWidth = 1;
+                btnItem.style.borderRightWidth = 1;
+
+                var capturedSet = set;
+                btnItem.RegisterCallback<ClickEvent>(evt =>
+                {
+                    _currentVocabSet = capturedSet;
+                    LoadScreen(VocabDetailScreenAsset);
+                });
+
+                // Icon màu sắc
+                VisualElement iconBox = new VisualElement();
+                iconBox.style.width = 64;
+                iconBox.style.height = 64;
+                iconBox.style.backgroundColor = new StyleColor(new Color(0.55f, 0.36f, 0.96f));
+                iconBox.style.borderTopLeftRadius = 12;
+                iconBox.style.borderTopRightRadius = 12;
+                iconBox.style.borderBottomLeftRadius = 12;
+                iconBox.style.borderBottomRightRadius = 12;
+                iconBox.style.marginRight = 16;
+                iconBox.style.flexShrink = 0;
+                btnItem.Add(iconBox);
+
+                VisualElement textGroup = new VisualElement();
+                textGroup.style.flexGrow = 1;
+                textGroup.style.alignItems = Align.FlexStart;
+
+                Label titleLbl = new Label(set.title);
+                titleLbl.AddToClassList("font-bold");
+                titleLbl.AddToClassList("text-lg");
+                titleLbl.style.color = Color.white;
+                titleLbl.style.marginBottom = 4;
+                textGroup.Add(titleLbl);
+
+                Label descLbl = new Label(set.description);
+                descLbl.AddToClassList("text-muted");
+                descLbl.style.marginBottom = 8;
+                descLbl.style.whiteSpace = WhiteSpace.Normal;
+                textGroup.Add(descLbl);
+
+                VisualElement tagsGroup = new VisualElement();
+                tagsGroup.style.flexDirection = FlexDirection.Row;
+
+                string displayDiff = set.difficulty;
+                string displayCountText = $"{(set.wordCount > 0 ? set.wordCount : (set.wordIds != null ? set.wordIds.Count : 0))} words";
+
+                if (set.levels != null && set.levels.Count > 1)
+                {
+                    displayDiff = "Multi-Level";
+                    displayCountText = $"{set.levels.Count} Levels";
+                }
+                else if (set.levels != null && set.levels.Count == 1)
+                {
+                    displayDiff = set.levels[0].difficulty;
+                    displayCountText = $"{set.levels[0].wordIds.Count} words";
+                }
+
+                Label countLbl = new Label(displayCountText);
+                countLbl.style.backgroundColor = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 0.2f));
+                countLbl.style.color = new StyleColor(new Color(0.23f, 0.51f, 0.96f, 1f));
+                countLbl.style.paddingTop = 4;
+                countLbl.style.paddingBottom = 4;
+                countLbl.style.paddingLeft = 8;
+                countLbl.style.paddingRight = 8;
+                countLbl.style.borderTopLeftRadius = 8;
+                countLbl.style.borderTopRightRadius = 8;
+                countLbl.style.borderBottomLeftRadius = 8;
+                countLbl.style.borderBottomRightRadius = 8;
+                countLbl.style.fontSize = 12;
+                countLbl.style.marginRight = 8;
+                tagsGroup.Add(countLbl);
+
+                Label diffLbl = new Label(displayDiff);
+                Color diffColor = new Color(0.55f, 0.36f, 0.96f);
+                string diffLower = (displayDiff ?? "").ToLower().Trim();
+                if (diffLower == "easy" || diffLower == "dễ" || diffLower == "de")
+                    diffColor = new Color(0.10f, 0.73f, 0.51f);
+                else if (diffLower == "medium" || diffLower == "trung bình" || diffLower == "trung binh" || diffLower == "normal")
+                    diffColor = new Color(0.23f, 0.51f, 0.96f);
+                else if (diffLower == "hard" || diffLower == "khó" || diffLower == "kho")
+                    diffColor = new Color(0.93f, 0.26f, 0.26f);
+
+                diffLbl.style.backgroundColor = new StyleColor(new Color(diffColor.r, diffColor.g, diffColor.b, 0.2f));
+                diffLbl.style.color = new StyleColor(new Color(diffColor.r, diffColor.g, diffColor.b, 1f));
+                diffLbl.style.paddingTop = 4;
+                diffLbl.style.paddingBottom = 4;
+                diffLbl.style.paddingLeft = 8;
+                diffLbl.style.paddingRight = 8;
+                diffLbl.style.borderTopLeftRadius = 8;
+                diffLbl.style.borderTopRightRadius = 8;
+                diffLbl.style.borderBottomLeftRadius = 8;
+                diffLbl.style.borderBottomRightRadius = 8;
+                diffLbl.style.fontSize = 12;
+                diffLbl.style.marginRight = 8;
+                tagsGroup.Add(diffLbl);
+
+                // Tính toán tiến độ Mastered
+                if (_jsonDb.currentUser != null)
+                {
+                    var user = _jsonDb.currentUser;
+                    int masteredCount = 0;
+                    int totalWords = (set.wordIds != null) ? set.wordIds.Count : 0;
+
+                    if (user.wordProgress != null && set.wordIds != null)
+                    {
+                        foreach (var wordId in set.wordIds)
+                        {
+                            var p = user.wordProgress.Find(x => x.wordId == wordId);
+                            if (p != null && p.status == 2) masteredCount++;
+                        }
+                    }
+
+                    if (masteredCount > 0)
+                    {
+                        bool isFullyMastered = (totalWords > 0 && masteredCount >= totalWords);
+                        string progressText = isFullyMastered ? "✔ Hoàn thành" : $"✔ {masteredCount}/{totalWords} từ";
+                        Color badgeColor = isFullyMastered ? new Color(0.06f, 0.73f, 0.51f) : new Color(0.96f, 0.62f, 0.04f);
+
+                        Label progressBadge = new Label(progressText);
+                        progressBadge.style.backgroundColor = new StyleColor(new Color(badgeColor.r, badgeColor.g, badgeColor.b, 0.2f));
+                        progressBadge.style.color = new StyleColor(badgeColor);
+                        progressBadge.style.paddingTop = 4;
+                        progressBadge.style.paddingBottom = 4;
+                        progressBadge.style.paddingLeft = 8;
+                        progressBadge.style.paddingRight = 8;
+                        progressBadge.style.borderTopLeftRadius = 8;
+                        progressBadge.style.borderTopRightRadius = 8;
+                        progressBadge.style.borderBottomLeftRadius = 8;
+                        progressBadge.style.borderBottomRightRadius = 8;
+                        progressBadge.style.fontSize = 12;
+                        tagsGroup.Add(progressBadge);
+                    }
+                    else if (totalWords > 0)
+                    {
+                        Label pendingBadge = new Label("Chưa học");
+                        pendingBadge.style.backgroundColor = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 0.2f));
+                        pendingBadge.style.color = new StyleColor(new Color(0.58f, 0.64f, 0.72f, 1f));
+                        pendingBadge.style.paddingTop = 4;
+                        pendingBadge.style.paddingBottom = 4;
+                        pendingBadge.style.paddingLeft = 8;
+                        pendingBadge.style.paddingRight = 8;
+                        pendingBadge.style.borderTopLeftRadius = 8;
+                        pendingBadge.style.borderTopRightRadius = 8;
+                        pendingBadge.style.borderBottomLeftRadius = 8;
+                        pendingBadge.style.borderBottomRightRadius = 8;
+                        pendingBadge.style.fontSize = 12;
+                        tagsGroup.Add(pendingBadge);
+                    }
+                }
+
+                textGroup.Add(tagsGroup);
+                btnItem.Add(textGroup);
+                listContainer.Add(btnItem);
+            }
+
+            // 4. Cập nhật UI phân trang
+            Label pageInfo = _root.Q<Label>("LblPageInfo");
+            if (pageInfo != null)
+            {
+                if (totalItems == 0)
+                    pageInfo.text = "Không tìm thấy";
+                else
+                    pageInfo.text = $"Trang {_homeCurrentPage + 1} / {totalPages}";
+            }
+
+            Button prevBtn = _root.Q<Button>("BtnPrevPage");
+            if (prevBtn != null) prevBtn.SetEnabled(_homeCurrentPage > 0);
+
+            Button nextBtn = _root.Q<Button>("BtnNextPage");
+            if (nextBtn != null) nextBtn.SetEnabled(_homeCurrentPage < totalPages - 1);
         }
 
         private VocabLearning.Data.VocabSetJson FindVocabSetById(string id)

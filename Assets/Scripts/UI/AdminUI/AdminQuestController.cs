@@ -48,7 +48,7 @@ namespace VocabLearning.UI
             var filterType = _root.Q<DropdownField>("filter-type");
             if (filterType != null)
             {
-                filterType.choices = new List<string> { "Tất cả", "LearnWord", "WinBattle", "ScorePerfect", "WinRanked", "CollectCoin", "LoginDay", "PracticeSession" };
+                filterType.choices = new List<string> { "Tất cả", "LearnWord", "WinBattle", "ScorePerfect", "WinRanked", "CollectCoin", "PerfectPractice", "CompleteSet", "LoginDay", "PracticeSession" };
                 filterType.value = "Tất cả";
                 filterType.RegisterValueChangedCallback(evt =>
                 {
@@ -60,7 +60,7 @@ namespace VocabLearning.UI
             var inputType = _root.Q<DropdownField>("input-type");
             if (inputType != null)
             {
-                inputType.choices = new List<string> { "LearnWord", "WinBattle", "ScorePerfect", "WinRanked", "CollectCoin", "LoginDay", "PracticeSession" };
+                inputType.choices = new List<string> { "LearnWord", "WinBattle", "ScorePerfect", "WinRanked", "CollectCoin", "PerfectPractice", "CompleteSet", "LoginDay", "PracticeSession" };
             }
 
             var inputLocation = _root.Q<DropdownField>("input-location");

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace VocabLearning.Data
 {
     [System.Serializable]
-    public class MockDatabase
+    public class GameDatabase
     {
         public UserJson currentUser;
         public string jwtToken; // Mã JWT Token xác thực từ server
@@ -27,7 +27,6 @@ namespace VocabLearning.Data
         public string username;
         public string displayName;
         public string email;
-        public string password; // Mật khẩu đăng nhập
         public string role; // users hoac admin
         public string status; // Trạng thái tài khoản: active, banned
         public int level;
