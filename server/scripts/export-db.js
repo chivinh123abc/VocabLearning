@@ -315,7 +315,7 @@ async function exportDb() {
       currentUser = mapUserJson(usersRes.recordset[0]);
     }
 
-    const dbJsonPath = path.join(__dirname, '../../Assets/Resources/Mockdata/db.json');
+    const dbJsonPath = path.join(__dirname, '../../Assets/Resources/GameData/db.json');
     let dbData = {};
     if (fs.existsSync(dbJsonPath)) {
       dbData = JSON.parse(fs.readFileSync(dbJsonPath, 'utf8'));

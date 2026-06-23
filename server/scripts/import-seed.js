@@ -12,7 +12,7 @@ async function seed() {
     console.log('📖 Đang đọc dữ liệu giả lập từ db.json...');
 
     // Đường dẫn tới db.json của Unity
-    const dbJsonPath = path.join(__dirname, '../../Assets/Resources/Mockdata/db.json');
+    const dbJsonPath = path.join(__dirname, '../../Assets/Resources/GameData/db.json');
     if (!fs.existsSync(dbJsonPath)) {
       throw new Error(`🚨 Lỗi: Không tìm thấy file db.json tại đường dẫn: ${dbJsonPath}`);
     }
@@ -185,7 +185,8 @@ async function seed() {
           }
         }
       }
-      if (dbData.currentUser && !allUsersMap.has(dbData.currentUser.username)) {
+      if (dbData.currentUser) {
+        // Luôn ghi đè để đảm bảo role admin được giữ nguyên từ currentUser
         allUsersMap.set(dbData.currentUser.username, dbData.currentUser);
       }
 

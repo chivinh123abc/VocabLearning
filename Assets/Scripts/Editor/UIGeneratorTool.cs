@@ -58,6 +58,7 @@ namespace VocabLearning.Editor
             controller.QuestAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/QuestAdminScreen.uxml");
             controller.VocabListAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/VocabListAdminScreen.uxml");
             controller.AchievementAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/AchievementAdminScreen.uxml");
+            controller.UserAdminScreenAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI Toolkit/VocabStudy/UserAdminScreen.uxml");
 
 
             // Cập nhật db.json (Nếu cấu trúc dùng thẻ OverrideJsonDb thì gán, nếu dùng Resources thì bỏ qua bước này hoặc gán)
