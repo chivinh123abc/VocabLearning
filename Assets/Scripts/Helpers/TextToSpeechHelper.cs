@@ -12,7 +12,19 @@ namespace VocabLearning.Helpers
     public class TextToSpeechHelper : MonoBehaviour
     {
         private static TextToSpeechHelper _instance;
-        public static TextToSpeechHelper Instance => _instance;
+        public static TextToSpeechHelper Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("TextToSpeechHelper");
+                    _instance = go.AddComponent<TextToSpeechHelper>();
+                    DontDestroyOnLoad(go);
+                }
+                return _instance;
+            }
+        }
 
         private AudioSource _audioSource;
 
@@ -22,11 +34,14 @@ namespace VocabLearning.Helpers
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-                _audioSource = gameObject.AddComponent<AudioSource>();
-                _audioSource.playOnAwake = false;
+                if (_audioSource == null)
+                {
+                    _audioSource = gameObject.AddComponent<AudioSource>();
+                    _audioSource.playOnAwake = false;
+                }
                 Debug.Log("[TTS] TextToSpeechHelper initialized.");
             }
-            else
+            else if (_instance != this)
             {
                 Destroy(gameObject);
             }
@@ -45,6 +60,7 @@ namespace VocabLearning.Helpers
             string encoded = UnityWebRequest.EscapeURL(text);
             string url = $"https://translate.google.com/translate_tts?ie=UTF-8&q={encoded}&tl=en-us&client=tw-ob";
 
+            Debug.Log($"[TTS] Đang gửi yêu cầu phát âm cho từ: '{text}'...");
             using UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG);
             // Phải đặt User-Agent, nếu không Google sẽ từ chối
             request.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
@@ -55,16 +71,28 @@ namespace VocabLearning.Helpers
             if (request.result == UnityWebRequest.Result.Success)
             {
                 AudioClip clip = DownloadHandlerAudioClip.GetContent(request);
-                if (clip != null && _audioSource != null)
+                if (clip != null)
                 {
-                    _audioSource.Stop();
-                    _audioSource.clip = clip;
-                    _audioSource.Play();
+                    if (_audioSource != null)
+                    {
+                        Debug.Log($"[TTS] Tải thành công phát âm cho: '{text}'. Đang phát âm thanh...");
+                        _audioSource.Stop();
+                        _audioSource.clip = clip;
+                        _audioSource.Play();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[TTS] Không tìm thấy AudioSource để phát âm thanh!");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[TTS] Không thể tạo AudioClip từ dữ liệu tải về cho: '{text}'");
                 }
             }
             else
             {
-                Debug.LogWarning($"[TTS] Không tải được audio: {request.error} | URL: {url}");
+                Debug.LogWarning($"[TTS] Lỗi tải audio từ Google TTS: {request.error} | URL: {url}");
             }
         }
     }

@@ -397,6 +397,27 @@ namespace VocabLearning.UI
                         }
 
                         wordCard.Add(textContainer);
+
+                        // Thêm nút phát âm (Speak Button) [NEW]
+                        Button btnSpeak = new Button();
+                        btnSpeak.text = "🔊";
+                        btnSpeak.style.fontSize = 18;
+                        btnSpeak.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0));
+                        btnSpeak.style.borderTopWidth = 0;
+                        btnSpeak.style.borderBottomWidth = 0;
+                        btnSpeak.style.borderLeftWidth = 0;
+                        btnSpeak.style.borderRightWidth = 0;
+                        btnSpeak.style.color = new StyleColor(new Color(0.23f, 0.51f, 0.96f)); // Màu xanh dương
+                        btnSpeak.style.paddingLeft = 8;
+                        btnSpeak.style.paddingRight = 8;
+                        btnSpeak.style.alignSelf = Align.Center;
+                        btnSpeak.clicked += () =>
+                        {
+                            if (VocabLearning.Helpers.TextToSpeechHelper.Instance != null)
+                                VocabLearning.Helpers.TextToSpeechHelper.Instance.Speak(wordData.word);
+                        };
+                        wordCard.Add(btnSpeak);
+
                         wordsContainer.Add(wordCard);
                         count++;
                     }
@@ -494,6 +515,20 @@ namespace VocabLearning.UI
             VisualElement flashcard = _root.Q<VisualElement>("FlashcardContainer");
             Button btnPrev = _root.Q<Button>("BtnPracticePrev");
             Button btnNext = _root.Q<Button>("BtnPracticeNext");
+            Button btnSpeak = _root.Q<Button>("BtnPracticeSpeak");
+
+            if (btnSpeak != null)
+            {
+                btnSpeak.clicked += () =>
+                {
+                    if (_currentVocabSetWords != null && _practiceCurrentIndex < _currentVocabSetWords.Count)
+                    {
+                        var word = _currentVocabSetWords[_practiceCurrentIndex];
+                        if (VocabLearning.Helpers.TextToSpeechHelper.Instance != null)
+                            VocabLearning.Helpers.TextToSpeechHelper.Instance.Speak(word.word);
+                    }
+                };
+            }
 
             // Logic khi bấm vào thẻ để mở đáp án
             if (flashcard != null)
