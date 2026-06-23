@@ -78,6 +78,8 @@ namespace VocabLearning.Helpers
                         Debug.Log($"[TTS] Tải thành công phát âm cho: '{text}'. Đang phát âm thanh...");
                         _audioSource.Stop();
                         _audioSource.clip = clip;
+                        // Đồng bộ âm lượng với SFX Volume cài đặt của SoundManager
+                        _audioSource.volume = SoundManager.GetVolume();
                         _audioSource.Play();
                     }
                     else

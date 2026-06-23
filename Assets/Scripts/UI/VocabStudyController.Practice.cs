@@ -36,6 +36,7 @@ namespace VocabLearning.UI
         {
             _currentSelectedLevel = level;
             _sessionNewlyMasteredWords.Clear();
+            _sessionNewlyStudiedWords.Clear();
 
             // Save to database
             if (_jsonDb.currentUser != null)
@@ -267,7 +268,18 @@ namespace VocabLearning.UI
                 titleLbl.style.marginBottom = 4;
                 infoBox.Add(titleLbl);
 
-                Label countLbl = new Label($"{(vocabSet.wordCount > 0 ? vocabSet.wordCount : (vocabSet.wordIds != null ? vocabSet.wordIds.Count : 0))} words - Đã hoàn thành");
+                int studiedCount = 0;
+                int totalInSet = (vocabSet.wordIds != null) ? vocabSet.wordIds.Count : 0;
+                if (user != null && user.wordProgress != null && vocabSet.wordIds != null)
+                {
+                    foreach (var wId in vocabSet.wordIds)
+                    {
+                        var p = user.wordProgress.Find(x => x.wordId == wId);
+                        if (p != null && p.status >= 1) studiedCount++;
+                    }
+                }
+                string statusText = (studiedCount >= totalInSet) ? "Đã hoàn thành" : $"Đang học ({studiedCount}/{totalInSet} từ)";
+                Label countLbl = new Label($"{(vocabSet.wordCount > 0 ? vocabSet.wordCount : totalInSet)} words - {statusText}");
                 countLbl.style.color = new StyleColor(new Color(0.6f, 0.64f, 0.71f));
                 infoBox.Add(countLbl);
 
@@ -435,6 +447,7 @@ namespace VocabLearning.UI
                         _practiceCurrentIndex = 0;
                         _practiceShowMeaning = false;
                         _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách mỗi khi vào Practice mới
+                        _sessionNewlyStudiedWords.Clear();
                         LoadScreen(PracticeModeScreenAsset);
                     }
                     else
@@ -594,6 +607,15 @@ namespace VocabLearning.UI
 
                 var progress = user.wordProgress.Find(p => p.wordId == word.id);
 
+                // Ghi nhận nếu từ này là từ mới học (chưa từng học hoặc đang học dở nhưng chưa thành thạo)
+                if (progress == null || progress.status == 0)
+                {
+                    if (!_sessionNewlyStudiedWords.Contains(word.id))
+                    {
+                        _sessionNewlyStudiedWords.Add(word.id);
+                    }
+                }
+
                 // [NEW] Chỉ ghi nhận nếu từ này CHƯA từng được Mastered trước đó
                 if (progress == null || progress.status != 2)
                 {
@@ -612,6 +634,14 @@ namespace VocabLearning.UI
                 {
                     progress.status = 2;
                 }
+
+                // [NEW/FIX] Chỉ cần học 1 từ thì tính bộ từ này là ĐÃ HỌC
+                if (user.learnedSets == null) user.learnedSets = new List<string>();
+                if (!user.learnedSets.Contains(_currentVocabSet.id))
+                {
+                    user.learnedSets.Add(_currentVocabSet.id);
+                    AddQuestProgressByType("CompleteSet", 1);
+                }
             }
         }
 
@@ -623,15 +653,34 @@ namespace VocabLearning.UI
             // Đánh dấu từ hiện tại là "Đã học" (status = 1) nếu chưa có status nào khác
             if (_jsonDb.currentUser != null)
             {
+                var user = _jsonDb.currentUser;
                 var word = _currentVocabSetWords[_practiceCurrentIndex];
-                var progress = _jsonDb.currentUser.wordProgress.Find(p => p.wordId == word.id);
+                var progress = user.wordProgress.Find(p => p.wordId == word.id);
+
+                // Ghi nhận nếu từ này là từ mới học (chưa từng học hoặc bằng 0)
+                if (progress == null || progress.status == 0)
+                {
+                    if (!_sessionNewlyStudiedWords.Contains(word.id))
+                    {
+                        _sessionNewlyStudiedWords.Add(word.id);
+                    }
+                }
+
                 if (progress == null)
                 {
-                    _jsonDb.currentUser.wordProgress.Add(new VocabLearning.Data.UserWordProgressJson { wordId = word.id, status = 1 });
+                    user.wordProgress.Add(new VocabLearning.Data.UserWordProgressJson { wordId = word.id, status = 1 });
                 }
                 else if (progress.status == 0)
                 {
                     progress.status = 1;
+                }
+
+                // [NEW/FIX] Chỉ cần học 1 từ thì tính bộ từ này là ĐÃ HỌC
+                if (user.learnedSets == null) user.learnedSets = new List<string>();
+                if (!user.learnedSets.Contains(_currentVocabSet.id))
+                {
+                    user.learnedSets.Add(_currentVocabSet.id);
+                    AddQuestProgressByType("CompleteSet", 1);
                 }
             }
 
@@ -675,8 +724,8 @@ namespace VocabLearning.UI
             if (user == null) return;
 
             // [NEW] Tính toán thưởng cuối bài dựa trên số từ mới học được
-            _lastSessionCoins = _sessionNewlyMasteredWords.Count * 10; // 10 coin mỗi từ mới
-            _lastSessionExp = _sessionNewlyMasteredWords.Count * 20;  // 20 exp mỗi từ mới
+            _lastSessionCoins = _sessionNewlyStudiedWords.Count * 10; // 10 coin mỗi từ mới học
+            _lastSessionExp = _sessionNewlyStudiedWords.Count * 20;  // 20 exp mỗi từ mới học
 
             user.coins += _lastSessionCoins;
             user.exp += _lastSessionExp;
@@ -938,6 +987,7 @@ namespace VocabLearning.UI
                         _practiceCurrentIndex = 0;
                         _practiceShowMeaning = false;
                         _sessionNewlyMasteredWords.Clear(); // Reset danh sách khi chơi lại
+                        _sessionNewlyStudiedWords.Clear();
                         LoadScreen(PracticeModeScreenAsset);
                     };
                 }
@@ -959,6 +1009,7 @@ namespace VocabLearning.UI
                     _practiceCurrentIndex = 0;
                     _practiceShowMeaning = false;
                     _sessionNewlyMasteredWords.Clear(); // [FIX] Reset danh sách khi tiếp tục level mới
+                    _sessionNewlyStudiedWords.Clear();
                     ResolveSetWords(_currentVocabSet);
                     LoadScreen(PracticeModeScreenAsset);
                     return;

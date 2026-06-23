@@ -19,6 +19,11 @@ public class SoundManager : MonoBehaviour
         if(instance == null){
             instance = this;
             audioSource = GetComponent<AudioSource>();
+            
+            // Tải âm lượng đã lưu từ PlayerPrefs (mặc định là 1.0)
+            float savedVol = PlayerPrefs.GetFloat("SFX_Volume", 1f);
+            audioSource.volume = savedVol;
+            
             DontDestroyOnLoad(gameObject);
         }
         else{
@@ -87,7 +92,12 @@ public class SoundManager : MonoBehaviour
 
     public static void SetVolume(float vol)
     {
-        if (instance != null) instance.audioSource.volume = vol;
+        if (instance != null)
+        {
+            instance.audioSource.volume = vol;
+            PlayerPrefs.SetFloat("SFX_Volume", vol);
+            PlayerPrefs.Save();
+        }
     }
 
     public static void SetMute(bool mute)

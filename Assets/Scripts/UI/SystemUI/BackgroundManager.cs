@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
 {
@@ -35,7 +35,11 @@ public class BackgroundMusic : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = false;
+
+        // Tải âm lượng từ PlayerPrefs (mặc định 0.4f)
+        volume = PlayerPrefs.GetFloat("BGM_Volume", 0.4f);
         audioSource.volume = volume;
+
         PlayBGM();
     }
 
@@ -119,6 +123,8 @@ public class BackgroundMusic : MonoBehaviour
         if (instance == null) return;
         instance.volume = vol;
         instance.audioSource.volume = vol;
+        PlayerPrefs.SetFloat("BGM_Volume", vol);
+        PlayerPrefs.Save();
     }
 
     public static void SetMute(bool mute)

@@ -64,6 +64,7 @@ namespace VocabLearning.UI
         // --- STATE DÀNH CHO DETAIL SCREEN ---
         private string _currentSelectedLevel = "Easy";
         private List<string> _sessionNewlyMasteredWords = new List<string>(); // NEW: Track words mastered in CURRENT session
+        private List<string> _sessionNewlyStudiedWords = new List<string>(); // NEW: Track words newly studied in CURRENT session
         private int _lastSessionCoins = 0;
         private int _lastSessionExp = 0;
 
